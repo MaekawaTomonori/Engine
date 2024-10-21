@@ -13,6 +13,7 @@
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 
+class Heap;
 class WinApp;
 using namespace Microsoft::WRL;
 
@@ -30,29 +31,29 @@ private://Variables
 	//DebugLayer
     ComPtr<ID3D12Debug1> debugController_;
 
-	////Command
-	//ComPtr<ID3D12CommandAllocator> cAllocator_;
-	//ComPtr<ID3D12GraphicsCommandList> cList_;
-	//ComPtr<ID3D12CommandQueue> cQueue_;
+	//Command
+	ComPtr<ID3D12CommandAllocator> commandAllocator_;
+	ComPtr<ID3D12GraphicsCommandList> commandList_;
+	ComPtr<ID3D12CommandQueue> commandQueue_;
 
-	////SwapChain
-	//ComPtr<IDXGISwapChain4> swapChain_ = nullptr;
-	//std::array<ComPtr<ID3D12Resource>, 2> swapChainBuffers_;
+	//SwapChain
+	ComPtr<IDXGISwapChain4> swapChain_ = nullptr;
+	std::array<ComPtr<ID3D12Resource>, 2> swapChainBuffers_;
 
-	////RenderTargetView
-	//std::shared_ptr<Heap> rtvHeap_;
-	//D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[2] {};
+	//RenderTargetView
+	std::shared_ptr<Heap> rtvHeap_;
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[2] {};
 
-	////Barrier
-	//D3D12_RESOURCE_BARRIER barrier_ {};
+	//Barrier
+	D3D12_RESOURCE_BARRIER barrier_ {};
 
-	////Fence
-	//ComPtr<ID3D12Fence> fence_;
-	//uint32_t fenceValue_ = 0;
+	//Fence
+	ComPtr<ID3D12Fence> fence_;
+	uint32_t fenceValue_ = 0;
 
-	////Mainにおいている。場所は要検討。
-	////DebugLayer
-	////std::shared_ptr<D3DResourceLeakChecker> leakChecker_;
+	//Mainにおいている。場所は要検討。
+	//DebugLayer
+	//std::shared_ptr<D3DResourceLeakChecker> leakChecker_;
 
 	////DXC
 	//ComPtr<IDxcUtils> dxcUtils_;
@@ -79,10 +80,9 @@ public://Methods
 	~DirectXCommon();
 	bool Initialize(const std::shared_ptr<WinApp>& winApp);
 
-	//void PreDraw();
-	//void PostDraw();
+	void PreDraw();
+	void PostDraw();
 
-	//void EndFrame();
 
 	static ID3D12Resource* CreateBufferResource(ID3D12Device* device, size_t sizeInBytes);
 
@@ -90,7 +90,7 @@ public://Methods
 		return device_.Get();
 	}
 	/*ID3D12GraphicsCommandList* GetCommandList() const {
-		return cList_.Get();
+		return commandList_.Get();
 	}
 	size_t GetBackBufferCount() const {
 		return swapChainBuffers_.size();
@@ -104,15 +104,16 @@ private://Methods
 	void CreateDebugLayer();
 	void CreateFactory();
 	void CreateDevice();
-	/*void CreateCommand();
+	void CreateCommand();
 	void CreateSwapChain(HWND hwnd, int width, int height);
 	void CreateFence();
-	void CreateDxc();
-	void CompileShaders();
-	void CreateGraphicsPipeline();
-	void SettingGraphicsInfo();
-	void CreateShaderResourceView();
-
-	void WaitForCommandQueue();*/
+	//void CreateDxc();
+	//void CompileShaders();
+	//void CreateGraphicsPipeline();
+	//void SettingGraphicsInfo();
+	//void CreateShaderResourceView();
+	
+	void WaitForCommandQueue();
+	void EndFrame();
 };
 

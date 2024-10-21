@@ -11,17 +11,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\sysFrame\DirectX\DirectXCommon.cpp" />
+    <ClCompile Include="src\sysFrame\DirectX\Heap\Heap.cpp" />
+    <ClCompile Include="src\sysFrame\DirectX\DirectXCommon.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Source\sysFrame\Application\WinApp.cpp" />
-    <ClCompile Include="Source\sysFrame\System\System.cpp" />
-    <ClCompile Include="Source\sysFrame\System\Window\Window.cpp" />
+    <ClCompile Include="src\sysFrame\Application\WinApp.cpp" />
+    <ClCompile Include="src\sysFrame\System\System.cpp" />
+    <ClCompile Include="src\sysFrame\System\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\sysFrame\DirectX\DirectXCommon.h" />
-    <ClInclude Include="Source\sysFrame\Application\WinApp.h" />
-    <ClInclude Include="Source\sysFrame\System\System.h" />
-    <ClInclude Include="Source\sysFrame\System\Window\Window.h" />
+    <ClInclude Include="src\sysFrame\DirectX\Heap\Heap.h" />
+    <ClInclude Include="src\sysFrame\DirectX\DirectXCommon.h" />
+    <ClInclude Include="src\sysFrame\Application\WinApp.h" />
+    <ClInclude Include="src\sysFrame\System\System.h" />
+    <ClInclude Include="src\sysFrame\System\Window\Window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -67,7 +69,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source;$(ProjectDir)Source\sysFrame;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)src\sysFrame;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

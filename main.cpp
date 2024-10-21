@@ -14,7 +14,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
     //MainLoop
     while (app->ProcessMessage()){
-	    
+        //Update
+
+        //Draw
+        dxCommon->PreDraw();
+
+        dxCommon->PostDraw();
     }
 
 	return 0;

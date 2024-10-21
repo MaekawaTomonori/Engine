@@ -2,6 +2,8 @@
 #include <memory>
 #include <string>
 
+#include "DirectX/DirectXCommon.h"
+
 class DirectXCommon;
 class Window;
 
@@ -16,5 +18,6 @@ public: //Functions
 	void Initialize(const std::string& title);
 	bool ProcessMessage() const;
 
+    HWND GetWindowHandle() const;
 };
 

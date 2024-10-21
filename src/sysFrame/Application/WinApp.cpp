@@ -24,3 +24,7 @@ void WinApp::Initialize(const std::string& title) {
 bool WinApp::ProcessMessage() const {
     return window_->ProcessMessage();
 }
+
+HWND WinApp::GetWindowHandle() const {
+	return window_->GetWindowHandle();
+}
