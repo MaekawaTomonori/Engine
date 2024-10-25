@@ -95,6 +95,9 @@
     <ClInclude Include="src\sysFrame\System\Math\VertexData.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="src\sysFrame\System\Math\Material.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="assets\Shaders\Object3d.VS.hlsl" />

@@ -29,6 +29,7 @@
     <ClInclude Include="src\sysFrame\DirectX\Pipeline\GraphicsPipeline.h" />
     <ClInclude Include="src\sysFrame\DirectX\Shader\Shader.h" />
     <ClInclude Include="src\sysFrame\Object\Object.h" />
+    <ClInclude Include="src\sysFrame\System\Math\Material.h" />
     <ClInclude Include="src\sysFrame\System\Math\MathUtils.h" />
     <ClInclude Include="src\sysFrame\System\Math\Matrix.h" />
     <ClInclude Include="src\sysFrame\System\Math\Transform.h" />

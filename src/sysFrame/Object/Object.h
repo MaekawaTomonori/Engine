@@ -9,8 +9,9 @@
 #pragma comment(lib, "rpcrt4.lib")
 #pragma comment(lib, "d3d12.lib")
 
-struct TransformationMatrix;
+struct VertexData;
 struct Material;
+struct TransformationMatrix;
 
 static Transform CameraTransform = {
 	{1,1,1},
@@ -55,10 +56,15 @@ protected:
 	ComPtr<ID3D12Resource> vertexResource_;
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_{};
 
+    ComPtr<ID3D12Resource> materialResource_;
+
 	ComPtr<ID3D12Resource> transformationMatrixResource_;
+
 	ComPtr<ID3D12Resource> indexResource_;
 
 	///ResourceにMappingするためのモノたち
+	//VertexData
+    VertexData* vertexData_ = nullptr;
 	//Material
 	Material* material_ = nullptr;
 	TransformationMatrix* transformationMatrix_ = nullptr;
