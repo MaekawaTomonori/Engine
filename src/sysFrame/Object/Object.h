@@ -5,21 +5,17 @@
 
 #include "DirectX/DirectXCommon.h"
 #include "System/Math/Transform.h"
+#include "System/Math/WorldTransform.h"
 
 #pragma comment(lib, "rpcrt4.lib")
 #pragma comment(lib, "d3d12.lib")
 
+class Camera;
 struct VertexData;
 struct Material;
 struct TransformationMatrix;
 
-static Transform CameraTransform = {
-	{1,1,1},
-	{0,0,0},
-	{0,0,-5}
-};
-
-//抽象クラス
+//抽象クラス 3D
 class Object{
 public:
 	Object(DirectXCommon* dxCommon) {
@@ -39,6 +35,10 @@ public:
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 
+    void SetCamera(Camera* camera) {
+        camera_ = camera;
+    }
+
 protected:
 	//借り物 DirectXの情報をもらう
 	DirectXCommon* dxCommon_ = nullptr;
@@ -49,8 +49,6 @@ protected:
 	//UUID
 	std::string uuid_{};
 
-	//Transform
-	Transform transform_ {};
 
 	///Resource類
 	ComPtr<ID3D12Resource> vertexResource_;
@@ -58,7 +56,7 @@ protected:
 
     ComPtr<ID3D12Resource> materialResource_;
 
-	ComPtr<ID3D12Resource> transformationMatrixResource_;
+	std::shared_ptr<WorldTransform> worldTransform_;
 
 	ComPtr<ID3D12Resource> indexResource_;
 
@@ -67,7 +65,8 @@ protected:
     VertexData* vertexData_ = nullptr;
 	//Material
 	Material* material_ = nullptr;
-	TransformationMatrix* transformationMatrix_ = nullptr;
 
+	//カメラ情報 @Nullable
+    Camera* camera_ = nullptr;
 };
 

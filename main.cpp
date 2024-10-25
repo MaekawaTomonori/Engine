@@ -16,9 +16,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     std::unique_ptr<Triangle> triangle = std::make_unique<Triangle>(dxCommon.get());
     triangle->Initialize();
 
+    std::shared_ptr<Camera> camera = std::make_shared<Camera>();
+    camera->Initialize();
+
+    triangle->SetCamera(camera.get());
+
     //MainLoop
     while (winApp->ProcessMessage()){
         //Update
+
+        triangle->Update();
 
         //Draw
         dxCommon->PreDraw();

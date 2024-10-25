@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sysFrame\Object\Camera\Camera.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Heap\Heap.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\DirectXCommon.cpp" />
     <ClCompile Include="main.cpp" />
@@ -21,8 +22,10 @@
     <ClCompile Include="src\sysFrame\System\System.cpp" />
     <ClCompile Include="src\sysFrame\System\Window\Window.cpp" />
     <ClCompile Include="src\sysFrame\Object\Triangle.cpp" />
+    <ClCompile Include="src\sysFrame\System\Math\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sysFrame\Object\Camera\Camera.h" />
     <ClInclude Include="src\sysFrame\DirectX\Heap\Heap.h" />
     <ClInclude Include="src\sysFrame\DirectX\DirectXCommon.h" />
     <ClInclude Include="src\sysFrame\Application\WinApp.h" />
@@ -33,6 +36,7 @@
     <ClInclude Include="src\sysFrame\System\Math\MathUtils.h" />
     <ClInclude Include="src\sysFrame\System\Math\Matrix.h" />
     <ClInclude Include="src\sysFrame\System\Math\Transform.h" />
+    <ClInclude Include="src\sysFrame\System\Math\TransformationMatrix.h" />
     <ClInclude Include="src\sysFrame\System\Math\Vector2.h" />
     <ClInclude Include="src\sysFrame\System\Math\Vector3.h" />
     <ClInclude Include="src\sysFrame\System\Math\Vector4.h" />
@@ -40,6 +44,7 @@
     <ClInclude Include="src\sysFrame\System\Window\Window.h" />
     <ClInclude Include="src\sysFrame\Object\Triangle.h" />
     <ClInclude Include="src\sysFrame\System\Math\VertexData.h" />
+    <ClInclude Include="src\sysFrame\System\Math\WorldTransform.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="assets\Shaders\Object3d.PS.hlsl">

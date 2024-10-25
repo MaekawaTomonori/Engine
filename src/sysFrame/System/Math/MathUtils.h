@@ -4,6 +4,8 @@
 #include "Matrix.h"
 #include "Vector3.h"
 
+struct Transform;
+
 namespace MathUtils{
     const float F_PI = 3.14159265358979323846264338327950288f;
     const double PI = 3.14159265358979323846264338327950288;
@@ -36,6 +38,7 @@ namespace MathUtils{
         Matrix4x4 MakeRotateX(float rad);
         Matrix4x4 MakeRotateY(float rad);
         Matrix4x4 MakeRotateZ(float rad);
+        Matrix4x4 MakeAffineMatrix(const ::Transform& transform);
         Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
 
         Matrix4x4 MakeOrthogonalMatrix(float left, float right, float top, float bottom, float znear, float zfar);

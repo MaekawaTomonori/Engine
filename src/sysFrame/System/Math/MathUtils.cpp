@@ -1,6 +1,7 @@
 #include "MathUtils.h"
 
 #include <cassert>
+#include "Transform.h"
 
 Matrix3x3 MathUtils::Matrix::MakeIdentity3x3() {
     return Matrix3x3 {
@@ -77,6 +78,10 @@ Matrix4x4 MathUtils::Matrix::MakeRotateZ(const float rad) {
         0, 0, 1, 0,
         0, 0, 0, 1
     };
+}
+
+Matrix4x4 MathUtils::Matrix::MakeAffineMatrix(const ::Transform& transform) {
+    return MakeAffineMatrix(transform.scale, transform.rotate, transform.translate);
 }
 
 Matrix4x4 MathUtils::Matrix::MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
