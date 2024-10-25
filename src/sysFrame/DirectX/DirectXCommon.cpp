@@ -4,6 +4,8 @@
 
 #include "Application/WinApp.h"
 #include "Heap/Heap.h"
+#include "Pipeline/GraphicsPipeline.h"
+#include "Shader/Shader.h"
 #include "System/System.h"
 
 bool DirectXCommon::Initialize(const std::shared_ptr<WinApp>& winApp) {
@@ -15,10 +17,9 @@ bool DirectXCommon::Initialize(const std::shared_ptr<WinApp>& winApp) {
     CreateCommand();
     CreateSwapChain(winApp_->GetWindowHandle(), WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT);
     CreateFence();
-    //CreateDxc();
-    //CompileShaders();
-    //CreateGraphicsPipeline();
-    //SettingGraphicsInfo();
+    CompileShader();
+    CreateGraphicsPipeline();
+    SettingGraphicsInfo();
     //CreateShaderResourceView();
     return true;
 }
@@ -39,11 +40,11 @@ void DirectXCommon::PreDraw() {
     float color[4] = {0.1f, 0.25f, 0.5f, 1.0f};
     commandList_->ClearRenderTargetView(rtvHandles_[backBufferIndex], color, 0, nullptr);
 
-    //commandList_->RSSetViewports(1, &viewport_);
-    //commandList_->RSSetScissorRects(1, &scissorRect_);
+    commandList_->RSSetViewports(1, &viewport_);
+    commandList_->RSSetScissorRects(1, &scissorRect_);
 
-    ////DrawCall PSO
-    //graphicsPipeline_->DrawCall(commandList_.Get());
+    //DrawCall PSO
+    graphicsPipeline_->DrawCall(commandList_.Get());
 }
 
 void DirectXCommon::PostDraw() {
@@ -76,30 +77,29 @@ void DirectXCommon::EndFrame() {
 }
 
 ID3D12Resource* DirectXCommon::CreateBufferResource(ID3D12Device* device, size_t sizeInBytes) {
-    D3D12_HEAP_PROPERTIES uploadHeapProperties {};
-    uploadHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
+    D3D12_HEAP_PROPERTIES properties {};
+    properties.Type = D3D12_HEAP_TYPE_UPLOAD;
 
     //resource setting
-    D3D12_RESOURCE_DESC materialResourceDesc {};
-    materialResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-    materialResourceDesc.Width = sizeInBytes;
-    materialResourceDesc.Height = 1;
-    materialResourceDesc.DepthOrArraySize = 1;
-    materialResourceDesc.MipLevels = 1;
-    materialResourceDesc.SampleDesc.Count = 1;
-    materialResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+    D3D12_RESOURCE_DESC desc {};
+    desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+    desc.Width = sizeInBytes;
+    desc.Height = 1;
+    desc.DepthOrArraySize = 1;
+    desc.MipLevels = 1;
+    desc.SampleDesc.Count = 1;
+    desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-    ID3D12Resource* materialResource = nullptr;
+    ID3D12Resource* resource = nullptr;
 
-    #ifdef _DEBUG
+#ifdef _DEBUG
     HRESULT hR =
-        #endif
-
-        device->CreateCommittedResource(&uploadHeapProperties, D3D12_HEAP_FLAG_NONE, &materialResourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&materialResource));
+#endif
+        device->CreateCommittedResource(&properties, D3D12_HEAP_FLAG_NONE, &desc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&resource));
 
     assert(SUCCEEDED(hR));
 
-    return materialResource;
+    return resource;
 }
 
 DirectXCommon::~DirectXCommon() {
@@ -243,42 +243,31 @@ void DirectXCommon::CreateFence() {
     assert(SUCCEEDED(hr));
 }
 
-//void DirectXCommon::CreateDxc() {
-//    HRESULT hr = S_OK;
-//    hr = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils_));
-//    assert(SUCCEEDED(hr));
-//    hr = DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxcCompiler_));
-//    assert(SUCCEEDED(hr));
-//
-//    hr = dxcUtils_->CreateDefaultIncludeHandler(&includeHandler_);
-//    assert(SUCCEEDED(hr));
-//}
-//
-//void DirectXCommon::CompileShaders() {
-//    vertexShader_.Attach(Shader::Compile(L"Assets/Shaders/", L"Object3d.VS.hlsl", L"vs_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get()));
-//    pixelShader_.Attach(Shader::Compile(L"Assets/Shaders/", L"Object3d.PS.hlsl", L"ps_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get()));
-//}
-//
-//void DirectXCommon::CreateGraphicsPipeline() {
-//    graphicsPipeline_ = std::make_shared<GraphicsPipeline>();
-//    graphicsPipeline_->Create(device_.Get(), vertexShader_.Get(), pixelShader_.Get());
-//}
-//
-//void DirectXCommon::SettingGraphicsInfo() {
-//    viewport_.Width = CLIENT_WIDTH;
-//    viewport_.Height = CLIENT_HEIGHT;
-//
-//    viewport_.TopLeftX = 0;
-//    viewport_.TopLeftY = 0;
-//    viewport_.MinDepth = 0;
-//    viewport_.MaxDepth = 1.f;
-//
-//    scissorRect_.left = 0;
-//    scissorRect_.right = CLIENT_WIDTH;
-//    scissorRect_.top = 0;
-//    scissorRect_.bottom = CLIENT_HEIGHT;
-//}
-//
+void DirectXCommon::CompileShader() {
+    shader_ = std::make_shared<Shader>();
+    shader_->Create();
+}
+
+void DirectXCommon::CreateGraphicsPipeline() {
+    graphicsPipeline_ = std::make_shared<GraphicsPipeline>();
+    graphicsPipeline_->Create(device_.Get(), shader_->GetVertexShader(), shader_->GetPixelShader());
+}
+
+void DirectXCommon::SettingGraphicsInfo() {
+    viewport_.Width = WinApp::CLIENT_WIDTH;
+    viewport_.Height = WinApp::CLIENT_HEIGHT;
+
+    viewport_.TopLeftX = 0;
+    viewport_.TopLeftY = 0;
+    viewport_.MinDepth = 0;
+    viewport_.MaxDepth = 1.f;
+
+    scissorRect_.left = 0;
+    scissorRect_.right = WinApp::CLIENT_WIDTH;
+    scissorRect_.top = 0;
+    scissorRect_.bottom = WinApp::CLIENT_HEIGHT;
+}
+
 //void DirectXCommon::CreateShaderResourceView() {
 //    srv_ = std::make_shared<Heap>();
 //    srv_->Create(device_.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 128, true);

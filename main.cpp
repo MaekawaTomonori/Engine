@@ -1,23 +1,29 @@
-#include <cstdint>
-#include <Windows.h>
-
 #include "Application/WinApp.h"
 #include "DirectX/DirectXCommon.h"
 
+
+#include "Object/Triangle.h"
+
+
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
-    std::shared_ptr<WinApp> app = std::make_shared<WinApp>();
+    std::shared_ptr<WinApp> winApp = std::make_shared<WinApp>();
     std::shared_ptr<DirectXCommon> dxCommon = std::make_shared<DirectXCommon>();
 
-    app->Initialize("Engine");
+    winApp->Initialize("Engine");
 
-    dxCommon->Initialize(app);
+    dxCommon->Initialize(winApp);
+
+    std::unique_ptr<Triangle> triangle = std::make_unique<Triangle>(dxCommon.get());
+    triangle->Initialize();
 
     //MainLoop
-    while (app->ProcessMessage()){
+    while (winApp->ProcessMessage()){
         //Update
 
         //Draw
         dxCommon->PreDraw();
+
+        triangle->Draw();
 
         dxCommon->PostDraw();
     }

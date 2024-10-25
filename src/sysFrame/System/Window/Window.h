@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <string>
-#include <windows.h>
+#include <Windows.h>
 
 class Window{
 	HWND hWnd_;

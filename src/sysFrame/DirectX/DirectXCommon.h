@@ -6,13 +6,14 @@
 
 #include <d3d12.h>
 #include <dxgi1_6.h>
-#include <dxcapi.h>
 #include <wrl.h>
-
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 
+class GraphicsPipeline;
+class Shader;
+//class GraphicsPipeline;
 class Heap;
 class WinApp;
 using namespace Microsoft::WRL;
@@ -55,23 +56,17 @@ private://Variables
 	//DebugLayer
 	//std::shared_ptr<D3DResourceLeakChecker> leakChecker_;
 
-	////DXC
-	//ComPtr<IDxcUtils> dxcUtils_;
-	//ComPtr<IDxcCompiler3> dxcCompiler_;
-	//ComPtr<IDxcIncludeHandler> includeHandler_;
+	//Shader
+    std::shared_ptr<Shader> shader_;
 
-	////Shader
-	//ComPtr<IDxcBlob> vertexShader_;
-	//ComPtr<IDxcBlob> pixelShader_;
+	//GraphicsPipeline
+	std::shared_ptr<GraphicsPipeline> graphicsPipeline_;
 
-	////GraphicsPipeline
-	//std::shared_ptr<GraphicsPipeline> graphicsPipeline_;
+	//Viewport
+	D3D12_VIEWPORT viewport_ {};
 
-	////Viewport
-	//D3D12_VIEWPORT viewport_ {};
-
-	////scissor
-	//D3D12_RECT scissorRect_ {};
+	//scissor
+	D3D12_RECT scissorRect_ {};
 
 	////ShaderResourceView
 	//std::shared_ptr<Heap> srv_;
@@ -83,19 +78,18 @@ public://Methods
 	void PreDraw();
 	void PostDraw();
 
-
 	static ID3D12Resource* CreateBufferResource(ID3D12Device* device, size_t sizeInBytes);
 
 	ID3D12Device* GetDevice() const {
 		return device_.Get();
 	}
-	/*ID3D12GraphicsCommandList* GetCommandList() const {
+	ID3D12GraphicsCommandList* GetCommandList() const {
 		return commandList_.Get();
 	}
 	size_t GetBackBufferCount() const {
 		return swapChainBuffers_.size();
 	}
-	Heap* GetSrv() const {
+	/*Heap* GetSrv() const {
 		return srv_.get();
 	}*/
 
@@ -107,10 +101,9 @@ private://Methods
 	void CreateCommand();
 	void CreateSwapChain(HWND hwnd, int width, int height);
 	void CreateFence();
-	//void CreateDxc();
-	//void CompileShaders();
-	//void CreateGraphicsPipeline();
-	//void SettingGraphicsInfo();
+	void CompileShader();
+	void CreateGraphicsPipeline();
+	void SettingGraphicsInfo();
 	//void CreateShaderResourceView();
 	
 	void WaitForCommandQueue();

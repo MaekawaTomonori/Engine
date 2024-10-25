@@ -15,15 +15,44 @@
     <ClCompile Include="src\sysFrame\DirectX\DirectXCommon.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\sysFrame\Application\WinApp.cpp" />
+    <ClCompile Include="src\sysFrame\DirectX\Pipeline\GraphicsPipeline.cpp" />
+    <ClCompile Include="src\sysFrame\DirectX\Shader\Shader.cpp" />
+    <ClCompile Include="src\sysFrame\System\Math\MathUtils.cpp" />
     <ClCompile Include="src\sysFrame\System\System.cpp" />
     <ClCompile Include="src\sysFrame\System\Window\Window.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sysFrame\DirectX\Heap\Heap.h" />
     <ClInclude Include="src\sysFrame\DirectX\DirectXCommon.h" />
     <ClInclude Include="src\sysFrame\Application\WinApp.h" />
+    <ClInclude Include="src\sysFrame\DirectX\Pipeline\GraphicsPipeline.h" />
+    <ClInclude Include="src\sysFrame\DirectX\Shader\Shader.h" />
+    <ClInclude Include="src\sysFrame\Object\Object.h" />
+    <ClInclude Include="src\sysFrame\System\Math\MathUtils.h" />
+    <ClInclude Include="src\sysFrame\System\Math\Matrix.h" />
+    <ClInclude Include="src\sysFrame\System\Math\Transform.h" />
+    <ClInclude Include="src\sysFrame\System\Math\Vector2.h" />
+    <ClInclude Include="src\sysFrame\System\Math\Vector3.h" />
+    <ClInclude Include="src\sysFrame\System\Math\Vector4.h" />
     <ClInclude Include="src\sysFrame\System\System.h" />
     <ClInclude Include="src\sysFrame\System\Window\Window.h" />
+    <ClInclude Include="src\sysFrame\Object\Triangle.h" />
+    <ClInclude Include="src\sysFrame\System\Math\VertexData.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="assets\Shaders\Object3d.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="assets\Shaders\Object3d.VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -77,6 +106,11 @@
       <AdditionalOptions>/ignore:4049 /ignore:4098 %(AdditionalOptions)</AdditionalOptions>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
+copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -97,6 +131,11 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
+copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
