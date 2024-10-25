@@ -2,7 +2,13 @@
 
 #include "System/System.h"
 
+
+#include "imgui/imgui_impl_win32.h"
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 LRESULT CALLBACK Window::WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+    if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam)) return true;
+
 	switch (msg){
 	case WM_DESTROY:
 		PostQuitMessage(0);
@@ -16,8 +22,7 @@ Window::~Window() {
 	CloseWindow(hWnd_);
 }
 
-bool Window::Create(int clientWidth, int clientHeight, const std::wstring& titleName,
-					const std::wstring& windowClassName) {
+bool Window::Create(int clientWidth, int clientHeight, const std::wstring& titleName, const std::wstring& windowClassName) {
 	HINSTANCE hInstance = GetModuleHandle(0);
 
 	//window class. 

@@ -12,12 +12,6 @@ void WinApp::Initialize(const std::string& title) {
         assert(0 && "Window Creation Failed");
         return;
     }
-
-    /*dxCommon_ = DirectXCommon::Instance();
-    if (!dxCommon_->Initialize(window_->GetWindowHandle(), width, height)) {
-        assert(0 && "DirectXCommon Creation Failed");
-        return;
-    }*/
 }
 
 [[nodiscard]]

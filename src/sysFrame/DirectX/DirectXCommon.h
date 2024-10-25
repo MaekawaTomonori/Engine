@@ -68,9 +68,6 @@ private://Variables
 	//scissor
 	D3D12_RECT scissorRect_ {};
 
-	////ShaderResourceView
-	//std::shared_ptr<Heap> srv_;
-
 public://Methods
 	~DirectXCommon();
 	bool Initialize(const std::shared_ptr<WinApp>& winApp);
@@ -89,9 +86,6 @@ public://Methods
 	size_t GetBackBufferCount() const {
 		return swapChainBuffers_.size();
 	}
-	/*Heap* GetSrv() const {
-		return srv_.get();
-	}*/
 
 private://Methods
 

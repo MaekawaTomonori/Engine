@@ -3,6 +3,7 @@
 
 
 #include "Object/Triangle.h"
+#include "System/ImGui/ImGuiManager.h"
 
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -12,6 +13,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     winApp->Initialize("Engine");
 
     dxCommon->Initialize(winApp);
+
+    std::shared_ptr<ImGuiManager> imguiManager = std::make_shared<ImGuiManager>(winApp.get(), dxCommon.get());
+    imguiManager->Initialize();
 
     std::unique_ptr<Triangle> triangle = std::make_unique<Triangle>(dxCommon.get());
     triangle->Initialize();
@@ -24,14 +28,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     //MainLoop
     while (winApp->ProcessMessage()){
         //Update
+        imguiManager->Begin();
 
         triangle->Update();
+
+        imguiManager->End();
 
         //Draw
         dxCommon->PreDraw();
 
         triangle->Draw();
 
+
+        imguiManager->Draw();
         dxCommon->PostDraw();
     }
 

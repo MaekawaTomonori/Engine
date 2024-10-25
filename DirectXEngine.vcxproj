@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sysFrame\System\ImGui\ImGuiManager.cpp" />
     <ClCompile Include="src\externals\imgui\imgui.cpp" />
     <ClCompile Include="src\externals\imgui\imgui_demo.cpp" />
     <ClCompile Include="src\externals\imgui\imgui_draw.cpp" />
@@ -32,6 +33,7 @@
     <ClCompile Include="src\sysFrame\System\Math\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sysFrame\System\ImGui\ImGuiManager.h" />
     <ClInclude Include="src\externals\imgui\imconfig.h" />
     <ClInclude Include="src\externals\imgui\imgui.h" />
     <ClInclude Include="src\externals\imgui\imgui_impl_dx12.h" />
