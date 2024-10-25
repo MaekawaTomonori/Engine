@@ -11,6 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\externals\imgui\imgui.cpp" />
+    <ClCompile Include="src\externals\imgui\imgui_demo.cpp" />
+    <ClCompile Include="src\externals\imgui\imgui_draw.cpp" />
+    <ClCompile Include="src\externals\imgui\imgui_impl_dx12.cpp" />
+    <ClCompile Include="src\externals\imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="src\externals\imgui\imgui_tables.cpp" />
+    <ClCompile Include="src\externals\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\sysFrame\Object\Camera\Camera.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Heap\Heap.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\DirectXCommon.cpp" />
@@ -25,6 +32,14 @@
     <ClCompile Include="src\sysFrame\System\Math\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\externals\imgui\imconfig.h" />
+    <ClInclude Include="src\externals\imgui\imgui.h" />
+    <ClInclude Include="src\externals\imgui\imgui_impl_dx12.h" />
+    <ClInclude Include="src\externals\imgui\imgui_impl_win32.h" />
+    <ClInclude Include="src\externals\imgui\imgui_internal.h" />
+    <ClInclude Include="src\externals\imgui\imstb_rectpack.h" />
+    <ClInclude Include="src\externals\imgui\imstb_textedit.h" />
+    <ClInclude Include="src\externals\imgui\imstb_truetype.h" />
     <ClInclude Include="src\sysFrame\Object\Camera\Camera.h" />
     <ClInclude Include="src\sysFrame\DirectX\Heap\Heap.h" />
     <ClInclude Include="src\sysFrame\DirectX\DirectXCommon.h" />
@@ -59,6 +74,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\externals\imgui\LICENSE.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -104,7 +122,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)src\sysFrame;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\sysFrame;$(ProjectDir)src;$(ProjectDir)src\externals</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -130,6 +148,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\sysFrame;$(ProjectDir)src;$(ProjectDir)src\externals</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
