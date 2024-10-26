@@ -1,5 +1,6 @@
 #include "Triangle.h"
 
+#include "imgui/imgui.h"
 #include "System/Math/Material.h"
 #include "System/Math/MathUtils.h"
 #include "System/Math/TransformationMatrix.h"
@@ -36,6 +37,10 @@ void Triangle::Update() {
     if (camera_)worldTransform_->SetCamera(camera_);
 
     worldTransform_->transform_.rotate.y += 0.03f;
+
+    ImGui::Begin("Triangle");
+    ImGui::DragFloat3("Pos : ", &worldTransform_->transform_.translate.x, 0.01f);
+    ImGui::End();
 
     worldTransform_->Update();
 }

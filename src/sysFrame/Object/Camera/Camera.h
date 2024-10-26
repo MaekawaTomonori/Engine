@@ -12,6 +12,7 @@ class Camera{
 
 public:
 	void Initialize();
+    void Update();
 	Matrix4x4 GetViewProjection() const;
 };
 

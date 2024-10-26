@@ -1,9 +1,8 @@
 #include "Application/WinApp.h"
 #include "DirectX/DirectXCommon.h"
-
+#include "System/ImGui/ImGuiManager.h"
 
 #include "Object/Triangle.h"
-#include "System/ImGui/ImGuiManager.h"
 
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -30,6 +29,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         //Update
         imguiManager->Begin();
 
+        camera->Update();
         triangle->Update();
 
         imguiManager->End();
