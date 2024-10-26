@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include <memory>
-#include <vector>
 #include <d3d12.h>
 
 #include "DirectX/DirectXCommon.h"

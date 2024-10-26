@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sysFrame\DirectX\Util\D3DResourceLeakChecker.cpp" />
     <ClCompile Include="src\sysFrame\System\ImGui\ImGuiManager.cpp" />
     <ClCompile Include="src\externals\imgui\imgui.cpp" />
     <ClCompile Include="src\externals\imgui\imgui_demo.cpp" />
@@ -33,6 +34,7 @@
     <ClCompile Include="src\sysFrame\System\Math\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sysFrame\DirectX\Util\D3DResourceLeakChecker.h" />
     <ClInclude Include="src\sysFrame\System\ImGui\ImGuiManager.h" />
     <ClInclude Include="src\externals\imgui\imconfig.h" />
     <ClInclude Include="src\externals\imgui\imgui.h" />
@@ -79,6 +81,11 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\externals\imgui\LICENSE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="src\externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
+      <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

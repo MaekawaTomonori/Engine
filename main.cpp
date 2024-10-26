@@ -1,11 +1,14 @@
 #include "Application/WinApp.h"
 #include "DirectX/DirectXCommon.h"
+#include "DirectX/Util/D3DResourceLeakChecker.h"
 #include "System/ImGui/ImGuiManager.h"
 
 #include "Object/Triangle.h"
 
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+    std::shared_ptr<D3DResourceLeakChecker> leakChecker;
+
     std::shared_ptr<WinApp> winApp = std::make_shared<WinApp>();
     std::shared_ptr<DirectXCommon> dxCommon = std::make_shared<DirectXCommon>();
 

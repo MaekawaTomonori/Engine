@@ -11,11 +11,11 @@
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 
+class WinApp;
 class GraphicsPipeline;
 class Shader;
-//class GraphicsPipeline;
 class Heap;
-class WinApp;
+
 using namespace Microsoft::WRL;
 
 class DirectXCommon{
@@ -53,7 +53,6 @@ private://Variables
 	uint32_t fenceValue_ = 0;
 
 	//Mainにおいている。場所は要検討。
-	//DebugLayer
 	//std::shared_ptr<D3DResourceLeakChecker> leakChecker_;
 
 	//Shader
