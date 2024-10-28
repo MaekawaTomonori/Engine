@@ -17,7 +17,7 @@ class Heap{
 public:
 	bool Create(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE type, uint32_t useCount, bool shaderVisible);
 
-    ID3D12DescriptorHeap* GetHeap() const {
+    ID3D12DescriptorHeap* GetDescriptorHeap() const {
         return heap_.Get();
     }
 

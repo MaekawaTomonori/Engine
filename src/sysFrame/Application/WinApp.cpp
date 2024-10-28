@@ -5,6 +5,7 @@
 
 #include "System/System.h"
 #include "System/Window/Window.h"
+#include "DirectX/Heap/SRVManager.h"
 
 void WinApp::Initialize(const std::string& title) {
     window_ = std::make_shared<Window>();

@@ -11,6 +11,7 @@
 bool DirectXCommon::Initialize(const std::shared_ptr<WinApp>& winApp) {
     winApp_ = winApp;
 
+    CoInitializeEx(0, COINIT_MULTITHREADED);
     CreateDebugLayer();
     CreateFactory();
     CreateDevice();
@@ -103,6 +104,7 @@ ID3D12Resource* DirectXCommon::CreateBufferResource(ID3D12Device* device, size_t
 }
 
 DirectXCommon::~DirectXCommon() {
+    CoUninitialize();
 }
 
 void DirectXCommon::CreateDebugLayer() {

@@ -32,6 +32,8 @@
     <ClCompile Include="src\sysFrame\System\Window\Window.cpp" />
     <ClCompile Include="src\sysFrame\Object\Triangle.cpp" />
     <ClCompile Include="src\sysFrame\System\Math\WorldTransform.cpp" />
+    <ClCompile Include="src\sysFrame\DirectX\Heap\SRVManager.cpp" />
+    <ClCompile Include="src\sysFrame\DirectX\Texture\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sysFrame\DirectX\Util\D3DResourceLeakChecker.h" />
@@ -64,6 +66,8 @@
     <ClInclude Include="src\sysFrame\Object\Triangle.h" />
     <ClInclude Include="src\sysFrame\System\Math\VertexData.h" />
     <ClInclude Include="src\sysFrame\System\Math\WorldTransform.h" />
+    <ClInclude Include="src\sysFrame\DirectX\Heap\SRVManager.h" />
+    <ClInclude Include="src\sysFrame\DirectX\Texture\TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="assets\Shaders\Object3d.PS.hlsl">
@@ -86,6 +90,11 @@
     <ProjectReference Include="src\externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
       <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\Shaders\Object3d.hlsli">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </None>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

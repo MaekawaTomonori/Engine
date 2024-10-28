@@ -1,6 +1,5 @@
 #include "GraphicsPipeline.h"
 
-#include <d3d12.h>
 #include <format>
 
 #include "DirectX/DirectXCommon.h"
@@ -22,6 +21,13 @@ void GraphicsPipeline::DrawCall(ID3D12GraphicsCommandList* commandList) const {
     commandList->SetPipelineState(graphicsPipelineState_.Get());
 }
 
+void GraphicsPipeline::DescriptorRange() {
+    descriptorRange_[0].BaseShaderRegister = 0;
+    descriptorRange_[0].NumDescriptors = 1;
+    descriptorRange_[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+    descriptorRange_[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+}
+
 void GraphicsPipeline::CreateRootSignature(ID3D12Device* device) {
     HRESULT hr = S_OK;
 
@@ -38,9 +44,22 @@ void GraphicsPipeline::CreateRootSignature(ID3D12Device* device) {
     rootParamerters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
     rootParamerters_[1].Descriptor.ShaderRegister = 0;
 
-    //set
+    DescriptorRange();
+
+    //DescriptorTable
+    rootParamerters_[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+    rootParamerters_[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+    rootParamerters_[2].DescriptorTable.pDescriptorRanges = descriptorRange_;
+    rootParamerters_[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_);
+
+	//set
     descriptionRootSignature.pParameters = rootParamerters_;
     descriptionRootSignature.NumParameters = _countof(rootParamerters_);
+
+    //StaticSampler
+    CreateSampler();
+    descriptionRootSignature.pStaticSamplers = staticSamplers_;
+    descriptionRootSignature.NumStaticSamplers = _countof(staticSamplers_);
 
     //Serialize
     ComPtr<ID3DBlob> signatureBlob;
@@ -64,6 +83,11 @@ void GraphicsPipeline::CreateInputLayout() {
     inputElementDescs_[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
     inputElementDescs_[0].InputSlot = 0;
 
+    inputElementDescs_[1].SemanticName = "TEXCOORD";
+    inputElementDescs_[1].SemanticIndex = 0;
+    inputElementDescs_[1].Format = DXGI_FORMAT_R32G32_FLOAT;
+    inputElementDescs_[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
     //System::Debug::Log(std::format(L"InputElementSlot : {}\n", inputElementDescs_[0].InputSlot));
 
 	inputLayoutDesc_.pInputElementDescs = inputElementDescs_;
@@ -77,6 +101,17 @@ void GraphicsPipeline::CreateBlendState() {
 void GraphicsPipeline::CreateRasterizerState() {
     rasterizerDesc_.CullMode = D3D12_CULL_MODE_BACK;
     rasterizerDesc_.FillMode = D3D12_FILL_MODE_SOLID;
+}
+
+void GraphicsPipeline::CreateSampler() {
+    staticSamplers_[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+    staticSamplers_[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+    staticSamplers_[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+    staticSamplers_[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+    staticSamplers_[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+    staticSamplers_[0].MaxLOD = D3D12_FLOAT32_MAX;
+    staticSamplers_[0].ShaderRegister = 0;
+    staticSamplers_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 }
 
 void GraphicsPipeline::CreatePSO(ID3D12Device* device) {

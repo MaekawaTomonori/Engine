@@ -1,8 +1,7 @@
 ﻿#pragma once
+#include <Windows.h>
 #include <memory>
 #include <string>
-
-#include "DirectX/DirectXCommon.h"
 
 class DirectXCommon;
 class Window;

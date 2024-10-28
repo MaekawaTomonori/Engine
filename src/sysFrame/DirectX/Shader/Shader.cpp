@@ -48,6 +48,7 @@ IDxcBlob* Shader::Compile(const std::wstring& directoryPath, const std::wstring&
         filePath.c_str(), //対象のhlslファイル名
         L"-E", L"main", //EntryPoint
         L"-T", profile, //ShaderProfile
+        L"-I", directoryPath.c_str(), //IncludePath
         L"-Zi", L"-Qembed_debug", //DebugInfo
         L"-Od", //最適化を外す
         L"-Zpr", //メモリレイアウトは行優先

@@ -3,6 +3,7 @@
 
 #include "DirectX/Heap/Heap.h"
 
+class SRVManager;
 class WinApp;
 class DirectXCommon;
 
@@ -15,11 +16,12 @@ class ImGuiManager{
     //借りもの
     WinApp* winApp_ = nullptr;
     DirectXCommon* dxCommon_ = nullptr;
+    SRVManager* srvManager_ = nullptr;
 
-    std::shared_ptr<Heap> srv_;
+    uint32_t srvIndex_ = 0;
 
 public:
-	ImGuiManager(WinApp* winApp, DirectXCommon* dxCommon) :winApp_(winApp), dxCommon_(dxCommon) {}
+	ImGuiManager(WinApp* winApp, DirectXCommon* dxCommon, SRVManager* srvManager) :winApp_(winApp), dxCommon_(dxCommon), srvManager_(srvManager) {}
     ~ImGuiManager();
 	void Initialize();
 

@@ -3,6 +3,8 @@
 #include <memory>
 
 #include "Application/WinApp.h"
+#include "DirectX/DirectXCommon.h"
+#include "DirectX/Heap/SRVManager.h"
 
 ImGuiManager::~ImGuiManager() {
     ImGui_ImplDX12_Shutdown();
@@ -11,8 +13,7 @@ ImGuiManager::~ImGuiManager() {
 }
 
 void ImGuiManager::Initialize() {
-    srv_ = std::make_shared<Heap>();
-    srv_->Create(dxCommon_->GetDevice(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 1, true);
+    srvIndex_ = srvManager_->Allocate();
 
     ImGui::CreateContext();
     ImGui::StyleColorsDark();
@@ -23,9 +24,9 @@ void ImGuiManager::Initialize() {
         dxCommon_->GetDevice(),
         static_cast<int>(dxCommon_->GetBackBufferCount()),
         DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
-        srv_->GetHeap(),
-        srv_->GetCPUHandle(0),
-        srv_->GetGPUHandle(0)
+        srvManager_->GetHeap()->GetDescriptorHeap(),
+        srvManager_->GetHeap()->GetCPUHandle(srvIndex_),
+        srvManager_->GetHeap()->GetGPUHandle(srvIndex_)
     );
 
 }
@@ -43,7 +44,7 @@ void ImGuiManager::End() {
 void ImGuiManager::Draw() {
     ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
-    ID3D12DescriptorHeap* ppHeaps[] = {srv_->GetHeap()};
+    ID3D12DescriptorHeap* ppHeaps[] = {srvManager_->GetHeap()->GetDescriptorHeap()};
     commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
     ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList);

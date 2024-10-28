@@ -48,6 +48,7 @@ protected:
 	//UUID
 	std::string uuid_{};
 
+	uint32_t textureIndex = 0;
 
 	///Resource類
 	ComPtr<ID3D12Resource> vertexResource_;

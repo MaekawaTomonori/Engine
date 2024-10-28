@@ -1,5 +1,6 @@
 #include "Triangle.h"
 
+#include "DirectX/Texture/TextureManager.h"
 #include "imgui/imgui.h"
 #include "System/Math/Material.h"
 #include "System/Math/MathUtils.h"
@@ -31,6 +32,8 @@ void Triangle::Initialize() {
         {0,0,0},
         {0,0,0}
     };
+
+    textureIndex = TextureManager::GetInstance()->GetTextureIndexByFilePath("uvChecker.png");
 }
 
 void Triangle::Update() {
@@ -50,6 +53,7 @@ void Triangle::Draw() {
     commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     commandList_->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
     commandList_->SetGraphicsRootConstantBufferView(1, worldTransform_->GetGPUVirtualAddress());
+    commandList_->SetGraphicsRootDescriptorTable(2, TextureManager::GetInstance()->GetGPUHandle(textureIndex));
 
     commandList_->DrawInstanced(3, 1, 0, 0);
 }
