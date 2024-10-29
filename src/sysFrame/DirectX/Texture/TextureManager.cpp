@@ -118,12 +118,33 @@ void TextureManager::Load(const std::string& fileName) {
 
     DirectX::ScratchImage img = LoadTexture(fileName);
 
+    texture.metadata = img.GetMetadata();
     texture.resource = CreateTextureResource(img.GetMetadata());
     texture.intermediateResource = UploadTextureData(texture.resource.Get(), img);
 
     texture.srvIndex = srvManager_->Allocate();
-    texture.cpuHandle = srvManager_->GetHeap()->GetCPUHandle(texture.srvIndex);
-    texture.gpuHandle = srvManager_->GetHeap()->GetGPUHandle(texture.srvIndex);
+    texture.cpuHandle = srvManager_->GetCPUHandle(texture.srvIndex);
+    texture.gpuHandle = srvManager_->GetGPUHandle(texture.srvIndex);
+
+    srvManager_->CreateSRVforTexture2D(texture.srvIndex, texture.resource.Get(), texture.metadata.format, static_cast<UINT>(texture.metadata.mipLevels));
+}
+
+const DirectX::TexMetadata& TextureManager::GetTextureMetadata(const std::string& fileName) const {
+    if (textures_.contains(fileName)){
+        return textures_.at(fileName).metadata;
+	}
+
+    assert(0);
+    return textures_.at("").metadata;
+}
+
+uint32_t TextureManager::GetSrvIndex(const std::string& fileName) const {
+    if (textures_.contains(fileName)){
+        return textures_.at(fileName).srvIndex;
+    }
+
+    assert(0);
+    return 0;
 }
 
 uint32_t TextureManager::GetTextureIndexByFilePath(const std::string& path) const {
@@ -133,6 +154,15 @@ uint32_t TextureManager::GetTextureIndexByFilePath(const std::string& path) cons
 
     assert(0);
     return 0;
+}
+
+D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::GetGPUHandle(const std::string& fileName) const {
+    if (textures_.contains(fileName)){
+        return textures_.at(fileName).gpuHandle;
+    }
+
+    assert(0);
+    return {};
 }
 
 D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::GetGPUHandle(const uint32_t index) const {

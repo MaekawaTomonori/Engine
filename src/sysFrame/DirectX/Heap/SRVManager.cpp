@@ -51,11 +51,16 @@ void SRVManager::SetGraphicsRootDescriptorTable(UINT rootParameterIndex, uint32_
     dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(rootParameterIndex, heap_->GetGPUHandle(srvIndex));
 }
 
-//ID3D12DescriptorHeap* SRVManager::GetDescriptorHeap() const {
-//	return heap_->GetDescriptorHeap();
-//}
+ID3D12DescriptorHeap* SRVManager::GetDescriptorHeap() const {
+	return heap_->GetDescriptorHeap();
+}
 
-//D3D12_GPU_DESCRIPTOR_HANDLE SRVManager::GetGPUHandle(uint32_t index) const {
-//    assert(index <= useIndex_);
-//    return heap_->GetGPUHandle(index);
-//}
+D3D12_CPU_DESCRIPTOR_HANDLE SRVManager::GetCPUHandle(uint32_t index) const {
+    assert(index <= useIndex_);
+    return heap_->GetCPUHandle(index);
+}
+
+D3D12_GPU_DESCRIPTOR_HANDLE SRVManager::GetGPUHandle(uint32_t index) const {
+    assert(index <= useIndex_);
+    return heap_->GetGPUHandle(index);
+}
