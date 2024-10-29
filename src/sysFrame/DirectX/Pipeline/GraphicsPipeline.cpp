@@ -1,19 +1,24 @@
 #include "GraphicsPipeline.h"
 
 #include <format>
+#include <memory>
 
+#include "Application/WinApp.h"
 #include "DirectX/DirectXCommon.h"
+#include "DirectX/Heap/Heap.h"
 #include "System/System.h"
 
 void GraphicsPipeline::Create(ID3D12Device* device, IDxcBlob* vs, IDxcBlob* ps) {
-    CreateRootSignature(device);
+    device_ = device;
+
+    CreateRootSignature();
     CreateInputLayout();
     CreateBlendState();
     CreateRasterizerState();
     vertexShaderBlob_.Attach(vs);
     pixelShaderBlob_.Attach(ps);
 
-    CreatePSO(device);
+    CreatePSO();
 }
 
 void GraphicsPipeline::DrawCall(ID3D12GraphicsCommandList* commandList) const {
@@ -28,7 +33,7 @@ void GraphicsPipeline::DescriptorRange() {
     descriptorRange_[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 }
 
-void GraphicsPipeline::CreateRootSignature(ID3D12Device* device) {
+void GraphicsPipeline::CreateRootSignature() {
     HRESULT hr = S_OK;
 
     D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature {};
@@ -72,7 +77,7 @@ void GraphicsPipeline::CreateRootSignature(ID3D12Device* device) {
         assert(false);
     }
 
-    hr = device->CreateRootSignature(0, signatureBlob->GetBufferPointer(), signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature_));
+    hr = device_->CreateRootSignature(0, signatureBlob->GetBufferPointer(), signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature_));
     assert(SUCCEEDED(hr));
 }
 
@@ -114,7 +119,13 @@ void GraphicsPipeline::CreateSampler() {
     staticSamplers_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 }
 
-void GraphicsPipeline::CreatePSO(ID3D12Device* device) {
+void GraphicsPipeline::CreateDepthStencil() {
+    depthStencilDesc_.DepthEnable = true;
+    depthStencilDesc_.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+    depthStencilDesc_.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+}
+
+void GraphicsPipeline::CreatePSO() {
     D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc {};
     graphicsPipelineStateDesc.pRootSignature = rootSignature_.Get();
     graphicsPipelineStateDesc.InputLayout = inputLayoutDesc_;
@@ -122,6 +133,8 @@ void GraphicsPipeline::CreatePSO(ID3D12Device* device) {
     graphicsPipelineStateDesc.VS = {vertexShaderBlob_->GetBufferPointer(), vertexShaderBlob_->GetBufferSize()};
     graphicsPipelineStateDesc.RasterizerState = rasterizerDesc_;
     graphicsPipelineStateDesc.PS = {pixelShaderBlob_->GetBufferPointer(), pixelShaderBlob_->GetBufferSize()};
+    graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc_;
+    graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
     graphicsPipelineStateDesc.NumRenderTargets = 1;
     graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
@@ -130,6 +143,6 @@ void GraphicsPipeline::CreatePSO(ID3D12Device* device) {
     graphicsPipelineStateDesc.SampleDesc.Count = 1;
     graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
 
-    HRESULT hr = device->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(&graphicsPipelineState_));
+    HRESULT hr = device_->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(&graphicsPipelineState_));
     assert(SUCCEEDED(hr));
 }

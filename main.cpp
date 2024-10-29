@@ -32,14 +32,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
     textureManager->Load("uvChecker.png");
 
-
-    std::unique_ptr<Triangle> triangle = std::make_unique<Triangle>(dxCommon.get());
-    triangle->Initialize();
-
     std::shared_ptr<Camera> camera = std::make_shared<Camera>();
     camera->Initialize();
 
-    triangle->SetCamera(camera.get());
 
     //MainLoop
     while (winApp->ProcessMessage()){
@@ -48,7 +43,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         ImGui::ShowDemoWindow();
 
         camera->Update();
-        triangle->Update();
 
         imguiManager->End();
 
@@ -56,7 +50,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         dxCommon->PreDraw();
         srvManager->PreDraw();
 
-        triangle->Draw();
 
 
         imguiManager->Draw();

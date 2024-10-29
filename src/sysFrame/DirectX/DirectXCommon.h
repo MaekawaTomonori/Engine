@@ -45,6 +45,11 @@ private://Variables
 	std::shared_ptr<Heap> rtvHeap_;
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[2] {};
 
+	//DSV
+	Microsoft::WRL::ComPtr<ID3D12Resource> depthStencilResource_;
+	std::shared_ptr<Heap> dsvHeap_;
+	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc_ {};
+
 	//Barrier
 	D3D12_RESOURCE_BARRIER barrier_ {};
 
@@ -75,6 +80,7 @@ public://Methods
 	void PostDraw();
 
 	static ID3D12Resource* CreateBufferResource(ID3D12Device* device, size_t sizeInBytes);
+    static ID3D12Resource* CreateDepthStencilTextureResource(ID3D12Device* device, int32_t width, int32_t height);
 
 	ID3D12Device* GetDevice() const {
 		return device_.Get();
@@ -98,6 +104,7 @@ private://Methods
 	void CreateGraphicsPipeline();
 	void SettingGraphicsInfo();
 	//void CreateShaderResourceView();
+	void CreateDepthStencilView();
 	
 	void WaitForCommandQueue();
 	void EndFrame();

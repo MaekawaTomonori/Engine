@@ -21,6 +21,7 @@ bool DirectXCommon::Initialize(const std::shared_ptr<WinApp>& winApp) {
     CompileShader();
     CreateGraphicsPipeline();
     SettingGraphicsInfo();
+    CreateDepthStencilView();
     //CreateShaderResourceView();
     return true;
 }
@@ -36,10 +37,12 @@ void DirectXCommon::PreDraw() {
 
     commandList_->ResourceBarrier(1, &barrier_);
 
-    commandList_->OMSetRenderTargets(1, &rtvHandles_[backBufferIndex], false, nullptr);
+    D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap_->GetCPUHandle(0);
+    commandList_->OMSetRenderTargets(1, &rtvHandles_[backBufferIndex], false, &dsvHandle);
 
     float color[4] = {0.1f, 0.25f, 0.5f, 1.0f};
     commandList_->ClearRenderTargetView(rtvHandles_[backBufferIndex], color, 0, nullptr);
+    commandList_->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.f, 0, 0, nullptr);
 
     commandList_->RSSetViewports(1, &viewport_);
     commandList_->RSSetScissorRects(1, &scissorRect_);
@@ -99,6 +102,31 @@ ID3D12Resource* DirectXCommon::CreateBufferResource(ID3D12Device* device, size_t
         device->CreateCommittedResource(&properties, D3D12_HEAP_FLAG_NONE, &desc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&resource));
 
     assert(SUCCEEDED(hR));
+
+    return resource;
+}
+
+ID3D12Resource* DirectXCommon::CreateDepthStencilTextureResource(ID3D12Device* device, int32_t width, int32_t height) {
+    D3D12_RESOURCE_DESC desc {};
+    desc.Width = width;
+    desc.Height = height;
+    desc.MipLevels = 1;
+    desc.DepthOrArraySize = 1;
+    desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+    desc.SampleDesc.Count = 1;
+    desc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+    desc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+
+    D3D12_HEAP_PROPERTIES properties {};
+    properties.Type = D3D12_HEAP_TYPE_DEFAULT;
+
+    D3D12_CLEAR_VALUE clearValue {};
+    clearValue.DepthStencil.Depth = 1.f;
+    clearValue.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+
+    ID3D12Resource* resource = nullptr;
+    HRESULT hr = device->CreateCommittedResource(&properties, D3D12_HEAP_FLAG_NONE, &desc, D3D12_RESOURCE_STATE_DEPTH_WRITE, &clearValue, IID_PPV_ARGS(&resource));
+    assert(SUCCEEDED(hr));
 
     return resource;
 }
@@ -268,6 +296,18 @@ void DirectXCommon::SettingGraphicsInfo() {
     scissorRect_.right = WinApp::CLIENT_WIDTH;
     scissorRect_.top = 0;
     scissorRect_.bottom = WinApp::CLIENT_HEIGHT;
+}
+
+void DirectXCommon::CreateDepthStencilView() {
+    depthStencilResource_.Attach(DirectXCommon::CreateDepthStencilTextureResource(device_.Get(), WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT));
+
+    dsvHeap_ = std::make_shared<Heap>();
+    dsvHeap_->Create(device_.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 1, false);
+
+    dsvDesc_.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+    dsvDesc_.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+
+    device_->CreateDepthStencilView(depthStencilResource_.Get(), &dsvDesc_, dsvHeap_->GetCPUHandle(0));
 }
 
 //void DirectXCommon::CreateShaderResourceView() {
