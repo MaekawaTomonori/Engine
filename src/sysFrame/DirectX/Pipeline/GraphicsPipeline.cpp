@@ -21,6 +21,18 @@ void GraphicsPipeline::Create(ID3D12Device* device, IDxcBlob* vs, IDxcBlob* ps) 
     CreatePSO();
 }
 
+void GraphicsPipeline::Create2D(ID3D12Device* device) {
+    device_ = device;
+
+    CreateRootSignature();
+
+
+    D3D12_GRAPHICS_PIPELINE_STATE_DESC desc {};
+    desc.pRootSignature = rootSignature_.Get();
+    HRESULT hr = device_->CreateGraphicsPipelineState(&desc, IID_PPV_ARGS(&graphicsPipelineState_));
+    assert(SUCCEEDED(hr));
+}
+
 void GraphicsPipeline::DrawCall(ID3D12GraphicsCommandList* commandList) const {
     commandList->SetGraphicsRootSignature(rootSignature_.Get());
     commandList->SetPipelineState(graphicsPipelineState_.Get());

@@ -3,16 +3,15 @@
 #include <d3d12.h>
 
 #include "DirectX/DirectXCommon.h"
+#include "System/Math/Material.h"
 #include "System/Math/Transform.h"
+#include "System/Math/VertexData.h"
 #include "System/Math/WorldTransform.h"
 
 #pragma comment(lib, "rpcrt4.lib")
 #pragma comment(lib, "d3d12.lib")
 
 class Camera;
-struct VertexData;
-struct Material;
-struct TransformationMatrix;
 
 //抽象クラス 3D
 class Object{
@@ -51,20 +50,23 @@ protected:
 	uint32_t textureIndex = 0;
 
 	///Resource類
+	
+	//VertexData
 	ComPtr<ID3D12Resource> vertexResource_;
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_{};
-
-    ComPtr<ID3D12Resource> materialResource_;
-
-	std::shared_ptr<WorldTransform> worldTransform_;
-
-	ComPtr<ID3D12Resource> indexResource_;
-
-	///ResourceにMappingするためのモノたち
-	//VertexData
     VertexData* vertexData_ = nullptr;
+
+	//Index
+	ComPtr<ID3D12Resource> indexResource_;
+    D3D12_INDEX_BUFFER_VIEW indexBufferView_ {};
+    uint32_t* indexData_ = nullptr;
+
 	//Material
+    ComPtr<ID3D12Resource> materialResource_;
 	Material* material_ = nullptr;
+
+    //WorldTransform
+	std::shared_ptr<WorldTransform> worldTransform_;
 
 	//カメラ情報 @Nullable
     Camera* camera_ = nullptr;

@@ -22,7 +22,7 @@ class DirectXCommon{
 
 private://Variables
 	//WinApp借り物
-	std::shared_ptr<WinApp> winApp_ = nullptr;
+	WinApp* winApp_ = nullptr;
 
 	//Factory
     ComPtr<IDXGIFactory7> factory_ = nullptr;
@@ -74,7 +74,7 @@ private://Variables
 
 public://Methods
 	~DirectXCommon();
-	bool Initialize(const std::shared_ptr<WinApp>& winApp);
+	bool Initialize(WinApp* winApp);
 
 	void PreDraw();
 	void PostDraw();
@@ -88,6 +88,9 @@ public://Methods
 	ID3D12GraphicsCommandList* GetCommandList() const {
 		return commandList_.Get();
 	}
+    Shader* GetShader() const {
+        return shader_.get();
+    }
 	size_t GetBackBufferCount() const {
 		return swapChainBuffers_.size();
 	}

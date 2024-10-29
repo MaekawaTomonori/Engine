@@ -8,7 +8,7 @@
 #include "Shader/Shader.h"
 #include "System/System.h"
 
-bool DirectXCommon::Initialize(const std::shared_ptr<WinApp>& winApp) {
+bool DirectXCommon::Initialize(WinApp* winApp) {
     winApp_ = winApp;
 
     CoInitializeEx(0, COINIT_MULTITHREADED);

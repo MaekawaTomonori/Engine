@@ -1,3 +1,4 @@
+#include "Sprite.h"
 #include "Application/WinApp.h"
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/SRVManager.h"
@@ -6,6 +7,7 @@
 #include "System/ImGui/ImGuiManager.h"
 
 #include "Object/Triangle.h"
+#include "Object/Sprite/SpriteBase.h"
 
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -17,16 +19,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     std::shared_ptr<SRVManager> srvManager = std::make_shared<SRVManager>();
     std::shared_ptr<ImGuiManager> imguiManager = std::make_shared<ImGuiManager>(winApp.get(), dxCommon.get(), srvManager.get());
     std::shared_ptr<TextureManager> textureManager = TextureManager::GetInstance();
+    std::shared_ptr<SpriteBase> spriteBase = std::make_shared<SpriteBase>(dxCommon.get());
+
 
     winApp->Initialize("Engine");
 
-    dxCommon->Initialize(winApp);
+    dxCommon->Initialize(winApp.get());
 
     srvManager->Initialize(dxCommon.get());
 
     imguiManager->Initialize();
 
     textureManager->Initialize(dxCommon.get(), srvManager.get());
+
+    spriteBase->Initialize();
 
     //UserInit
 
@@ -35,6 +41,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     std::shared_ptr<Camera> camera = std::make_shared<Camera>();
     camera->Initialize();
 
+    std::shared_ptr<Sprite> sprite = std::make_shared<Sprite>(dxCommon.get(), spriteBase.get());
+    sprite->Initialize();
 
     //MainLoop
     while (winApp->ProcessMessage()){
@@ -44,13 +52,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
         camera->Update();
 
+        sprite->Update();
+
         imguiManager->End();
 
         //Draw
-        dxCommon->PreDraw();
         srvManager->PreDraw();
+        dxCommon->PreDraw();
 
+        spriteBase->PreDraw();
 
+        sprite->Draw();
 
         imguiManager->Draw();
         dxCommon->PostDraw();

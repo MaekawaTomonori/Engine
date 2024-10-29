@@ -10,6 +10,7 @@ class DirectXCommon;
 class GraphicsPipeline{
 public:
 	void Create(ID3D12Device* device, IDxcBlob* vs, IDxcBlob* ps);
+	void Create2D(ID3D12Device* device);
 
 	void DrawCall(ID3D12GraphicsCommandList* commandList) const;
 

@@ -13,7 +13,6 @@ class WorldTransform{
     DirectXCommon* dxCommon_ = nullptr;
 	Camera* camera_ = nullptr;
 
-
     //Resource
     Microsoft::WRL::ComPtr<ID3D12Resource> resource_;
 
@@ -30,6 +29,10 @@ public: //Methods
 
     D3D12_GPU_VIRTUAL_ADDRESS GetGPUVirtualAddress() const {
         return resource_->GetGPUVirtualAddress();
+    }
+
+    void SetWVP(const Matrix4x4& m) const {
+        matrix_->wvp = m;
     }
 
     void SetCamera(Camera* camera) {
