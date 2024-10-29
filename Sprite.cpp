@@ -18,10 +18,10 @@ void Sprite::Initialize() {
 
     vertexResource_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
 
-    vertexData_[0].position = {0, 360, 0, 1};
+    vertexData_[0].position = {0, 1.f, 0, 1};
     vertexData_[1].position = {0, 0, 0, 1};
-    vertexData_[2].position = {640, 360, 0, 1};
-    vertexData_[3].position = {640, 0, 0, 1};
+    vertexData_[2].position = {1.f, 1.f, 0, 1};
+    vertexData_[3].position = {1.f, 0, 0, 1};
 
     vertexData_[0].texcoord = {0, 1};
     vertexData_[1].texcoord = {0, 0};
@@ -61,9 +61,15 @@ void Sprite::Initialize() {
 
 void Sprite::Update() {
     ImGui::Begin("Sprite");
-    ImGui::DragFloat3("Pos : ", &worldTransform_->transform_.translate.x, 0.01f);
-    ImGui::DragFloat3("Scale : ", &worldTransform_->transform_.scale.x, 0.01f);
+    ImGui::DragFloat3("Pos : ", &position.x, 0.01f);
+    ImGui::DragFloat3("Scale : ", &size.x, 0.01f);
+    ImGui::DragFloat("Rotation : ", &rotation, 0.01f);
+    ImGui::ColorEdit4("Color", &material_->color.x);
     ImGui::End();
+
+    worldTransform_->transform_ .translate= {position.x, position.y, 0};
+    worldTransform_->transform_.rotate = {0, 0, rotation};
+    worldTransform_->transform_.scale = {size.x, size.y, 1};
 
     Matrix4x4 worldM = MathUtils::Matrix::MakeAffineMatrix(worldTransform_->transform_);
     Matrix4x4 viewProjection = MathUtils::Matrix::MakeIdentity() * MathUtils::Matrix::MakeOrthogonalMatrix(0, WinApp::CLIENT_WIDTH, 0, WinApp::CLIENT_HEIGHT, 0, 100.f);

@@ -14,7 +14,7 @@ class SRVManager{
     uint32_t descriptorSize = 0;
     uint32_t useIndex_ = 0;
 
-    std::shared_ptr<Heap> heap_;
+    //std::shared_ptr<Heap> heap_;
 
 public:
 	void Initialize(DirectXCommon* dxCommon);
@@ -31,10 +31,12 @@ public:
         return kMaxSRVCount <= useIndex_;
     }
 
-    Heap* GetHeap() const {
+    /*Heap* GetHeap() const {
         return heap_.get();
-    }
+    }*/
 
-    ID3D12DescriptorHeap* GetDescriptorHeap() const;
+    //ID3D12DescriptorHeap* GetDescriptorHeap() const;
+
+    D3D12_GPU_DESCRIPTOR_HANDLE GetGPUHandle(uint32_t index) const;
 };
 

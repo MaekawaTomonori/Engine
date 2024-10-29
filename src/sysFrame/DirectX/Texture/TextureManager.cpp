@@ -1,5 +1,7 @@
 #include "TextureManager.h"
 
+#include <format>
+
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/Heap.h"
 #include "DirectX/Heap/SRVManager.h"
@@ -135,6 +137,6 @@ uint32_t TextureManager::GetTextureIndexByFilePath(const std::string& path) cons
 
 D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::GetGPUHandle(const uint32_t index) const {
     assert(index <= textures_.size());
-
-	return srvManager_->GetHeap()->GetGPUHandle(index);
+    System::Log(std::format("TextureManager::GetGPUHandle: index {}", index));
+	return srvManager_->GetGPUHandle(index);
 }
