@@ -2,12 +2,19 @@
 
 #include <memory>
 
+#include "imgui/imgui.h"
+
 #include "Application/WinApp.h"
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Texture/TextureManager.h"
-#include "imgui/imgui.h"
 #include "System/Math/Material.h"
 #include "System/Math/MathUtils.h"
+
+void Sprite::AdjustTextureSize() {
+    const DirectX::TexMetadata& metadata = TextureManager::GetInstance()->GetTextureMetadata(texturePath);
+    texSize = {static_cast<float>(metadata.width), static_cast<float>(metadata.height)};
+    size = texSize;
+}
 
 void Sprite::Initialize() {
     //VertexData
@@ -57,19 +64,64 @@ void Sprite::Initialize() {
         {0,0,0},
         {0,0,0}
     };
+
+    size = {100, 100};
+
+    AdjustTextureSize();
+}
+
+void Sprite::Initialize(const std::string& texture) {
+    texturePath = texture;
+    Initialize();
 }
 
 void Sprite::Update() {
     ImGui::Begin("Sprite");
-    ImGui::DragFloat3("Pos : ", &position.x, 0.01f);
-    ImGui::DragFloat3("Scale : ", &size.x, 0.01f);
+    ImGui::DragFloat3("Pos : ", &position.x, 0.1f);
+    ImGui::DragFloat3("Scale : ", &size.x, 0.1f);
     ImGui::DragFloat("Rotation : ", &rotation, 0.01f);
     ImGui::ColorEdit4("Color", &material_->color.x);
     ImGui::End();
 
+#pragma region Vertex position
     worldTransform_->transform_ .translate= {position.x, position.y, 0};
     worldTransform_->transform_.rotate = {0, 0, rotation};
     worldTransform_->transform_.scale = {size.x, size.y, 1};
+
+    float left = 0.f - anchorPoint.x;
+    float right = 1.f - anchorPoint.x;
+    float top = 0 - anchorPoint.y;
+    float bottom = 1.f - anchorPoint.y;
+
+    if(flipX){
+        left = -left;
+        right = -right;
+    }
+
+    if (flipY){
+        top = -top;
+        bottom = -bottom;
+    }
+
+    vertexData_[0].position = {left, bottom, 0, 1};
+    vertexData_[1].position = {left, top, 0, 1};
+    vertexData_[2].position = {right, bottom, 0, 1};
+    vertexData_[3].position = {right, top, 0, 1};
+
+#pragma endregion
+
+#pragma region Vertex texcoord
+    const DirectX::TexMetadata& metadata = TextureManager::GetInstance()->GetTextureMetadata(texturePath);
+    float texLeft = leftTop.x / metadata.width;
+    float texRight = (leftTop.x + texSize.x) / metadata.width;
+    float texTop = leftTop.y / metadata.height;
+    float texBottom = (leftTop.y + texSize.y) / metadata.height;
+
+    vertexData_[0].texcoord = {texLeft, texBottom};
+    vertexData_[1].texcoord = {texLeft, texTop};
+    vertexData_[2].texcoord = {texRight, texBottom};
+    vertexData_[3].texcoord = {texRight, texTop};
+#pragma endregion
 
     Matrix4x4 worldM = MathUtils::Matrix::MakeAffineMatrix(worldTransform_->transform_);
     Matrix4x4 viewProjection = MathUtils::Matrix::MakeIdentity() * MathUtils::Matrix::MakeOrthogonalMatrix(0, WinApp::CLIENT_WIDTH, 0, WinApp::CLIENT_HEIGHT, 0, 100.f);
@@ -83,7 +135,7 @@ void Sprite::Draw() {
     commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     commandList_->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
     commandList_->SetGraphicsRootConstantBufferView(1, worldTransform_->GetGPUVirtualAddress());
-    commandList_->SetGraphicsRootDescriptorTable(2, TextureManager::GetInstance()->GetGPUHandle(textureIndex));
+    commandList_->SetGraphicsRootDescriptorTable(2, TextureManager::GetInstance()->GetGPUHandle(texturePath));
 
     commandList_->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }

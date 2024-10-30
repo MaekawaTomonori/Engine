@@ -47,7 +47,7 @@ protected:
 	//UUID
 	std::string uuid_{};
 
-	uint32_t textureIndex = 1;
+	std::string texturePath;
 
 	///Resource類
 	

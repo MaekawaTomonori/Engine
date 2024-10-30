@@ -42,7 +42,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     camera->Initialize();
 
     std::shared_ptr<Sprite> sprite = std::make_shared<Sprite>(dxCommon.get(), spriteBase.get());
-    sprite->Initialize();
+    sprite->Initialize("uvChecker.png");
 
     //MainLoop
     while (winApp->ProcessMessage()){
