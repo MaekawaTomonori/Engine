@@ -11,8 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sysFrame\DirectX\ObjectCommon\ModelCommon.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Model\Model.cpp" />
     <ClCompile Include="src\sysFrame\Object\Sprite\Sprite.cpp" />
-    <ClCompile Include="src\sysFrame\Object\Sprite\SpriteBase.cpp" />
+    <ClCompile Include="src\sysFrame\DirectX\ObjectCommon\SpriteCommon.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Util\D3DResourceLeakChecker.cpp" />
     <ClCompile Include="src\sysFrame\System\ImGui\ImGuiManager.cpp" />
     <ClCompile Include="src\externals\imgui\imgui.cpp" />
@@ -38,8 +40,10 @@
     <ClCompile Include="src\sysFrame\DirectX\Texture\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sysFrame\DirectX\ObjectCommon\ModelCommon.h" />
+    <ClInclude Include="src\sysFrame\Object\Model\Model.h" />
     <ClInclude Include="src\sysFrame\Object\Sprite\Sprite.h" />
-    <ClInclude Include="src\sysFrame\Object\Sprite\SpriteBase.h" />
+    <ClInclude Include="src\sysFrame\DirectX\ObjectCommon\SpriteCommon.h" />
     <ClInclude Include="src\sysFrame\DirectX\Util\D3DResourceLeakChecker.h" />
     <ClInclude Include="src\sysFrame\System\ImGui\ImGuiManager.h" />
     <ClInclude Include="src\externals\imgui\imconfig.h" />

@@ -8,6 +8,7 @@
 #include "Object/Sprite/SpriteBase.h"
 
 #include "Object/Triangle.h"
+#include "Object/Model/ModelBase.h"
 #include "Object/Sprite/Sprite.h"
 
 
@@ -20,7 +21,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     std::shared_ptr<SRVManager> srvManager = std::make_shared<SRVManager>();
     std::shared_ptr<ImGuiManager> imguiManager = std::make_shared<ImGuiManager>(winApp.get(), dxCommon.get(), srvManager.get());
     std::shared_ptr<TextureManager> textureManager = TextureManager::GetInstance();
-    std::shared_ptr<SpriteBase> spriteBase = std::make_shared<SpriteBase>(dxCommon.get());
+    std::shared_ptr<SpriteCommon> spriteBase = std::make_shared<SpriteCommon>(dxCommon.get());
+    std::shared_ptr<ModelBase> modelBase = std::make_shared<ModelBase>(dxCommon.get());
 
 
     winApp->Initialize("Engine");
@@ -34,6 +36,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     textureManager->Initialize(dxCommon.get(), srvManager.get());
 
     spriteBase->Initialize();
+    modelBase->Initialize();
 
     //UserInit
 
@@ -57,6 +60,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         //Draw
         srvManager->PreDraw();
         dxCommon->PreDraw();
+
+        modelBase->PreDraw();
 
         spriteBase->PreDraw();
 

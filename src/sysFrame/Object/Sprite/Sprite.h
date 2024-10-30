@@ -1,9 +1,9 @@
 ﻿#pragma once
 #include "Object/Object.h"
-class SpriteBase;
+class SpriteCommon;
 
 class Sprite : public Object{
-    SpriteBase* spriteBase_ = nullptr;
+    SpriteCommon* spriteBase_ = nullptr;
 
     Vector2 position {0,0};
     Vector2 size {1,1};
@@ -20,7 +20,7 @@ private:
 	void AdjustTextureSize();
 
 public:
-	Sprite(DirectXCommon* dxCommon, SpriteBase* spriteBase) :Object(dxCommon), spriteBase_(spriteBase) {}
+	Sprite(DirectXCommon* dxCommon, SpriteCommon* spriteBase) :Object(dxCommon), spriteBase_(spriteBase) {}
 
     void Initialize() override;
     void Initialize(const std::string& texture);

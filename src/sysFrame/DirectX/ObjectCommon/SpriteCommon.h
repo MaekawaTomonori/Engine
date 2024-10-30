@@ -1,9 +1,10 @@
 ﻿#pragma once
 #include <memory>
-class GraphicsPipeline;
-class DirectXCommon;
 
-class SpriteBase{
+class DirectXCommon;
+class GraphicsPipeline;
+
+class SpriteCommon{
 	DirectXCommon* dxCommon_ = nullptr;
 
     std::shared_ptr<GraphicsPipeline> pipeline_;
@@ -12,7 +13,7 @@ private://Methods
 	void CreatePipeline();
 
 public:
-	SpriteBase(DirectXCommon* dxCommon) : dxCommon_(dxCommon) {}
+	SpriteCommon(DirectXCommon* dxCommon) : dxCommon_(dxCommon) {}
 	void Initialize();
     void PreDraw() const;
 
