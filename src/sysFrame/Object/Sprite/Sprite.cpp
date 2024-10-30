@@ -77,10 +77,14 @@ void Sprite::Initialize(const std::string& texture) {
 
 void Sprite::Update() {
     ImGui::Begin("Sprite");
-    ImGui::DragFloat3("Pos : ", &position.x, 0.1f);
-    ImGui::DragFloat3("Scale : ", &size.x, 0.1f);
-    ImGui::DragFloat("Rotation : ", &rotation, 0.01f);
-    ImGui::ColorEdit4("Color", &material_->color.x);
+    if (ImGui::TreeNode(uuid_.c_str())){
+        ImGui::DragFloat2("Pos : ", &position.x, 0.1f);
+        ImGui::DragFloat2("Scale : ", &size.x, 0.1f);
+        ImGui::DragFloat("Rotation : ", &rotation, 0.01f);
+        ImGui::ColorEdit4("Color", &material_->color.x);
+
+        ImGui::TreePop();
+    }
     ImGui::End();
 
 #pragma region Vertex position

@@ -1,13 +1,14 @@
-#include "Sprite.h"
+
 #include "Application/WinApp.h"
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/SRVManager.h"
 #include "DirectX/Texture/TextureManager.h"
 #include "DirectX/Util/D3DResourceLeakChecker.h"
 #include "System/ImGui/ImGuiManager.h"
+#include "Object/Sprite/SpriteBase.h"
 
 #include "Object/Triangle.h"
-#include "Object/Sprite/SpriteBase.h"
+#include "Object/Sprite/Sprite.h"
 
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -37,12 +38,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     //UserInit
 
     textureManager->Load("uvChecker.png");
+    textureManager->Load("monsterBall.png");
 
     std::shared_ptr<Camera> camera = std::make_shared<Camera>();
     camera->Initialize();
 
-    std::shared_ptr<Sprite> sprite = std::make_shared<Sprite>(dxCommon.get(), spriteBase.get());
-    sprite->Initialize("uvChecker.png");
 
     //MainLoop
     while (winApp->ProcessMessage()){
@@ -52,8 +52,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
         camera->Update();
 
-        sprite->Update();
-
         imguiManager->End();
 
         //Draw
@@ -61,8 +59,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         dxCommon->PreDraw();
 
         spriteBase->PreDraw();
-
-        sprite->Draw();
 
         imguiManager->Draw();
         dxCommon->PostDraw();

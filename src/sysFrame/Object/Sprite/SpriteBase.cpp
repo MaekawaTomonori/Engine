@@ -18,4 +18,5 @@ void SpriteBase::Initialize() {
 
 void SpriteBase::PreDraw() const {
     pipeline_->DrawCall(dxCommon_->GetCommandList());
+    dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
