@@ -10,16 +10,18 @@ void Camera::Initialize() {
         {0,0,0},
         {0,0,-5}
     };
+    aspectRatio_ = static_cast<float>(WinApp::CLIENT_WIDTH) / static_cast<float>(WinApp::CLIENT_HEIGHT);
 }
 
 void Camera::Update() {
     ImGui::Begin("Camera");
     ImGui::DragFloat3("Pos : ", &transform_.translate.x, 0.01f);
     ImGui::End();
+
+	viewMatrix = MathUtils::Matrix::MakeAffineMatrix(transform_).Inverse();
+	projectionMatrix = MathUtils::Matrix::MakePerspectiveFovMatrix(fov_, aspectRatio_, near_, farZ_);
 }
 
 Matrix4x4 Camera::GetViewProjection() const {
-    Matrix4x4 view = MathUtils::Matrix::MakeAffineMatrix(transform_).Inverse();
-    Matrix4x4 projection = MathUtils::Matrix::MakePerspectiveFovMatrix(fov_, static_cast<float>(WinApp::CLIENT_WIDTH) / static_cast<float>(WinApp::CLIENT_HEIGHT) , near_, farZ_);
-    return view * projection;
+    return viewMatrix * projectionMatrix;
 }
