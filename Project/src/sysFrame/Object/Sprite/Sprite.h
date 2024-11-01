@@ -28,6 +28,10 @@ public:
 	Sprite(DirectXCommon* dxCommon, SpriteCommon* spriteBase) :Object(dxCommon), spriteBase_(spriteBase) {}
 
     void Initialize() override;
+    void Initialize(const std::string& texture) override {
+        texturePath = texture;
+        Initialize();
+    }
     void Update() override;
     void Draw() override;
 

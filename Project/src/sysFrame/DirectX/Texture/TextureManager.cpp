@@ -108,15 +108,25 @@ void TextureManager::Initialize(DirectXCommon* dxCommon, SRVManager* srvManager)
 }
 
 void TextureManager::Load(const std::string& fileName) {
-    if (textures_.contains(fileName)){
+    std::string name;
+    size_t pos = fileName.find_last_of('/');
+    if (pos != std::string::npos){
+    	name = fileName.substr(pos + 1);
+    } else{
+        name = fileName;
+    }
+
+	if (textures_.contains(name)){
         return;
     }
 
     assert(!srvManager_->IsFull());
 
-    Texture& texture = textures_[fileName];
+    
 
-    DirectX::ScratchImage img = LoadTexture(fileName);
+    Texture& texture = textures_[name];
+
+    DirectX::ScratchImage img = LoadTexture(name);
 
     texture.metadata = img.GetMetadata();
     texture.resource = CreateTextureResource(img.GetMetadata());

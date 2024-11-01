@@ -39,10 +39,13 @@ public:
 		worldTransform_->SetCamera(camera_);
     }
 
-	void Initialize(const std::string& texture) {
+	virtual void Initialize(const std::string& texture) {
         texturePath = texture;
         Initialize();
 	}
+	void SetTexture(const std::string& textureName) {
+        texturePath = textureName;
+    }
 protected:
 	//借り物 DirectXの情報をもらう
 	DirectXCommon* dxCommon_ = nullptr;
