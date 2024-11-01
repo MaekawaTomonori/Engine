@@ -1,14 +1,19 @@
 
-#include "Application/WinApp.h"
+#include <memory>
+
+#include "WindowsApplication/WinApp.h"
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/SRVManager.h"
+#include "DirectX/ObjectCommon/MeshCommon.h"
 #include "DirectX/Texture/TextureManager.h"
 #include "DirectX/Util/D3DResourceLeakChecker.h"
+#include "DirectX/ObjectCommon/SpriteCommon.h"
+#include "DirectX/ObjectCommon/ModelCommon.h"
 #include "System/ImGui/ImGuiManager.h"
-#include "Object/Sprite/SpriteBase.h"
 
 #include "Object/Triangle.h"
-#include "Object/Model/ModelBase.h"
+#include "Object/Model/Model.h"
+#include "Object/Model/Mesh/Mesh.h"
 #include "Object/Sprite/Sprite.h"
 
 
@@ -20,10 +25,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     std::shared_ptr<DirectXCommon> dxCommon = std::make_shared<DirectXCommon>();
     std::shared_ptr<SRVManager> srvManager = std::make_shared<SRVManager>();
     std::shared_ptr<ImGuiManager> imguiManager = std::make_shared<ImGuiManager>(winApp.get(), dxCommon.get(), srvManager.get());
+    std::shared_ptr<SpriteCommon> spriteCommon = std::make_shared<SpriteCommon>(dxCommon.get());
+    std::shared_ptr<ModelCommon> modelCommon = std::make_shared<ModelCommon>(dxCommon.get());
     std::shared_ptr<TextureManager> textureManager = TextureManager::GetInstance();
-    std::shared_ptr<SpriteCommon> spriteBase = std::make_shared<SpriteCommon>(dxCommon.get());
-    std::shared_ptr<ModelBase> modelBase = std::make_shared<ModelBase>(dxCommon.get());
-
+    std::shared_ptr<ModelManager> modelManager = ModelManager::GetInstance();
 
     winApp->Initialize("Engine");
 
@@ -33,19 +38,33 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
     imguiManager->Initialize();
 
-    textureManager->Initialize(dxCommon.get(), srvManager.get());
+    spriteCommon->Initialize();
+    modelCommon->Initialize();
 
-    spriteBase->Initialize();
-    modelBase->Initialize();
+    textureManager->Initialize(dxCommon.get(), srvManager.get());
+    modelManager->Initialize(dxCommon.get());
 
     //UserInit
 
     textureManager->Load("uvChecker.png");
     textureManager->Load("monsterBall.png");
 
+    modelManager->Load("plane.obj");
+    modelManager->Load("axis.obj");
+
     std::shared_ptr<Camera> camera = std::make_shared<Camera>();
     camera->Initialize();
 
+
+    std::shared_ptr<Model> model = std::make_shared<Model>(modelCommon.get());
+    model->Initialize();
+    model->SetMesh("plane.obj");
+    model->SetCamera(camera.get());
+
+    std::shared_ptr<Model> model2 = std::make_shared<Model>(modelCommon.get());
+    model2->Initialize();
+    model2->SetMesh("axis.obj");
+    model2->SetCamera(camera.get());
 
     //MainLoop
     while (winApp->ProcessMessage()){
@@ -54,6 +73,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         ImGui::ShowDemoWindow();
 
         camera->Update();
+        model->Update();
+        model2->Update();
 
         imguiManager->End();
 
@@ -61,9 +82,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         srvManager->PreDraw();
         dxCommon->PreDraw();
 
-        modelBase->PreDraw();
+        modelCommon->PreDraw();
+        model->Draw();
+        model2->Draw();
 
-        spriteBase->PreDraw();
+        spriteCommon->PreDraw();
 
         imguiManager->Draw();
         dxCommon->PostDraw();

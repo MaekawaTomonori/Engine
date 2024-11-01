@@ -4,7 +4,7 @@
 
 #include "imgui/imgui.h"
 
-#include "Application/WinApp.h"
+#include "WindowsApplication/WinApp.h"
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Texture/TextureManager.h"
 #include "System/Math/Material.h"
@@ -59,20 +59,13 @@ void Sprite::Initialize() {
 
     worldTransform_ = std::make_shared<WorldTransform>(dxCommon_);
     worldTransform_->Initialize();
-    worldTransform_->transform_ = {
-        {1,1,1},
-        {0,0,0},
-        {0,0,0}
-    };
+    worldTransform_->scale = {1,1,1};
+    worldTransform_->rotate = {0, 0, 0};
+    worldTransform_->translate = {0, 0, 0};
 
     size = {100, 100};
 
     AdjustTextureSize();
-}
-
-void Sprite::Initialize(const std::string& texture) {
-    texturePath = texture;
-    Initialize();
 }
 
 void Sprite::Update() {
@@ -88,9 +81,9 @@ void Sprite::Update() {
     ImGui::End();
 
 #pragma region Vertex position
-    worldTransform_->transform_ .translate= {position.x, position.y, 0};
-    worldTransform_->transform_.rotate = {0, 0, rotation};
-    worldTransform_->transform_.scale = {size.x, size.y, 1};
+    worldTransform_->translate= {position.x, position.y, 0};
+    worldTransform_->rotate = {0, 0, rotation};
+    worldTransform_->scale = {size.x, size.y, 1};
 
     float left = 0.f - anchorPoint.x;
     float right = 1.f - anchorPoint.x;
@@ -127,7 +120,7 @@ void Sprite::Update() {
     vertexData_[3].texcoord = {texRight, texTop};
 #pragma endregion
 
-    Matrix4x4 worldM = MathUtils::Matrix::MakeAffineMatrix(worldTransform_->transform_);
+    Matrix4x4 worldM = MathUtils::Matrix::MakeAffineMatrix(worldTransform_->scale, worldTransform_->rotate, worldTransform_->translate);
     Matrix4x4 viewProjection = MathUtils::Matrix::MakeIdentity() * MathUtils::Matrix::MakeOrthogonalMatrix(0, WinApp::CLIENT_WIDTH, 0, WinApp::CLIENT_HEIGHT, 0, 100.f);
 
     worldTransform_->SetWVP(worldM * viewProjection);

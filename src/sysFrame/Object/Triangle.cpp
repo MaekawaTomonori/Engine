@@ -4,7 +4,6 @@
 #include "imgui/imgui.h"
 #include "System/Math/Material.h"
 #include "System/Math/MathUtils.h"
-#include "System/Math/TransformationMatrix.h"
 #include "System/Math/VertexData.h"
 
 void Triangle::Initialize() {
@@ -27,22 +26,19 @@ void Triangle::Initialize() {
 
     worldTransform_ = std::make_shared<WorldTransform>(dxCommon_);
     worldTransform_->Initialize();
-    worldTransform_->transform_ = {
-        {1,1,1},
-        {0,0,0},
-        {0,0,0}
-    };
+    worldTransform_->scale = {1,1,1};
+    worldTransform_->rotate = {0,0,0};
+    worldTransform_->translate = {0,0,0};
 
     texturePath = "uvChecker.png";
 }
 
 void Triangle::Update() {
-    if (camera_)worldTransform_->SetCamera(camera_);
 
-    worldTransform_->transform_.rotate.y += 0.03f;
+    worldTransform_->rotate.y += 0.03f;
 
     ImGui::Begin("Triangle");
-    ImGui::DragFloat3("Pos : ", &worldTransform_->transform_.translate.x, 0.01f);
+    ImGui::DragFloat3("Pos : ", &worldTransform_->translate.x, 0.01f);
     ImGui::End();
 
     worldTransform_->Update();

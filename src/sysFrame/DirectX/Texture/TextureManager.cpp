@@ -16,9 +16,9 @@ void TextureManager::InstanceInit() {
     });
 }
 
-DirectX::ScratchImage TextureManager::LoadTexture(const std::string& filename) {
+DirectX::ScratchImage TextureManager::LoadTexture(const std::string& filename) const {
     DirectX::ScratchImage image {};
-    std::string fullpath = folderPath_ + filename;
+    std::string fullpath = filename.find("/") != std::string::npos? filename : folderPath_ + filename;
     std::wstring filePathW = System::ConvertString(fullpath);
     HRESULT hr = LoadFromWICFile(filePathW.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image);
     assert(SUCCEEDED(hr));

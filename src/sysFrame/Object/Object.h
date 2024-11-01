@@ -30,13 +30,19 @@ public:
 	virtual ~Object() = default;
 
 	virtual void Initialize() = 0;
+	
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 
     void SetCamera(Camera* camera) {
         camera_ = camera;
+		worldTransform_->SetCamera(camera_);
     }
 
+	void Initialize(const std::string& texture) {
+        texturePath = texture;
+        Initialize();
+	}
 protected:
 	//借り物 DirectXの情報をもらう
 	DirectXCommon* dxCommon_ = nullptr;
@@ -54,7 +60,6 @@ protected:
 	//VertexData
 	ComPtr<ID3D12Resource> vertexResource_;
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_{};
-    VertexData* vertexData_ = nullptr;
 
 	//Index
 	ComPtr<ID3D12Resource> indexResource_;

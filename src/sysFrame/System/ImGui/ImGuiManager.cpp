@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "Application/WinApp.h"
+#include "WindowsApplication/WinApp.h"
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/SRVManager.h"
 

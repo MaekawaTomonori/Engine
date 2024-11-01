@@ -8,7 +8,9 @@ WorldTransform::WorldTransform(DirectXCommon* direx) {
 }
 
 void WorldTransform::Initialize() {
-    transform_ = {};
+    scale = {1,1,1};
+    rotate = {};
+    translate = {};
 
     resource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(TransformationMatrix)));
 
@@ -19,10 +21,10 @@ void WorldTransform::Initialize() {
 
 void WorldTransform::Update() {
     if (!camera_){
-        matrix_->wvp = MathUtils::Matrix::MakeAffineMatrix(transform_);
+        matrix_->wvp = MathUtils::Matrix::MakeAffineMatrix(scale, rotate, translate);
         return;
     }
 
     Matrix4x4 viewProjection = camera_->GetViewProjection();
-    matrix_->wvp = MathUtils::Matrix::MakeAffineMatrix(transform_) * viewProjection;
+    matrix_->wvp = MathUtils::Matrix::MakeAffineMatrix(scale, rotate, translate) * viewProjection;
 }

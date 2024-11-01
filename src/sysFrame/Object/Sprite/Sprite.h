@@ -3,7 +3,12 @@
 class SpriteCommon;
 
 class Sprite : public Object{
+	
+
+private:
     SpriteCommon* spriteBase_ = nullptr;
+
+    VertexData* vertexData_ = nullptr;
 
     Vector2 position {0,0};
     Vector2 size {1,1};
@@ -23,7 +28,6 @@ public:
 	Sprite(DirectXCommon* dxCommon, SpriteCommon* spriteBase) :Object(dxCommon), spriteBase_(spriteBase) {}
 
     void Initialize() override;
-    void Initialize(const std::string& texture);
     void Update() override;
     void Draw() override;
 

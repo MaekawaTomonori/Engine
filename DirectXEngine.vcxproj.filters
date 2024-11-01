@@ -21,7 +21,7 @@
     <ClCompile Include="src\sysFrame\DirectX\DirectXCommon.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\sysFrame\Application\WinApp.cpp">
+    <ClCompile Include="src\sysFrame\WindowsApplication\WinApp.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\sysFrame\System\System.cpp">
@@ -96,12 +96,21 @@
     <ClCompile Include="src\sysFrame\DirectX\ObjectCommon\ModelCommon.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="src\sysFrame\Object\Model\Mesh\Mesh.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sysFrame\DirectX\ObjectCommon\MeshCommon.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sysFrame\DirectX\Model\ModelManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sysFrame\DirectX\DirectXCommon.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\sysFrame\Application\WinApp.h">
+    <ClInclude Include="src\sysFrame\WindowsApplication\WinApp.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\sysFrame\System\System.h">
@@ -204,6 +213,15 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\sysFrame\DirectX\ObjectCommon\ModelCommon.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sysFrame\Object\Model\Mesh\Mesh.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sysFrame\DirectX\ObjectCommon\MeshCommon.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sysFrame\DirectX\Model\ModelManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

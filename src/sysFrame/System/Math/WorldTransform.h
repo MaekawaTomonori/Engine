@@ -20,7 +20,11 @@ class WorldTransform{
     TransformationMatrix* matrix_ = nullptr;
 
 public://Variables
-	Transform transform_ {};
+	//Transform transform_ {};
+
+	Vector3 scale;
+	Vector3 rotate;
+	Vector3 translate;
 
 public: //Methods
 	WorldTransform(DirectXCommon* direx);
