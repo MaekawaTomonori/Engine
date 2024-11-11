@@ -3,15 +3,12 @@ on:
   push:
     branches:
       - dev
-
 env:
   SOLUTION_FILE_PATH: Project/DirectXEngine.sln
   CONFIGURATION: Debug
-
 jobs:
   build:
     runs-on: windows-2022
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,4 +18,4 @@ jobs:
           msbuild-architecture: x64
       - name: Build
         run: |
-          msbuild ${{env.SOLUTION_FILE_PATH}} /p:Platform=x64,Configuration=%{{env.CONFIGURATION}}
+          msbuild ${{env.SOLUTION_FILE_PATH}} /p:Platform=x64,Configuration=${{env.CONFIGURATION}}
