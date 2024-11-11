@@ -7,10 +7,9 @@
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
 
-void Input::Initialize(WinApp* winApp) {
-    winApp_ = winApp;
+void Input::Initialize(const WinApp* winApp) {
 
-    HRESULT hr = DirectInput8Create(winApp_->GetInstanceHandle(), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&directInput, nullptr);
+    HRESULT hr = DirectInput8Create(winApp->GetInstanceHandle(), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&directInput, nullptr);
     assert(SUCCEEDED(hr));
 
     hr = directInput->CreateDevice(GUID_SysKeyboard, &keyboard, nullptr);
@@ -19,16 +18,14 @@ void Input::Initialize(WinApp* winApp) {
     hr = keyboard->SetDataFormat(&c_dfDIKeyboard);
     assert(SUCCEEDED(hr));
 
-    hr = keyboard->SetCooperativeLevel(winApp_->GetWindowHandle(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+    hr = keyboard->SetCooperativeLevel(winApp->GetWindowHandle(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
     assert(SUCCEEDED(hr));
 }
 
 void Input::Update() {
     memcpy(preKey, keyState, sizeof(keyState));
 
-    HRESULT hr;
-
-	hr = keyboard->Acquire();
+    HRESULT hr = keyboard->Acquire();
 
     assert(SUCCEEDED(hr));
 
