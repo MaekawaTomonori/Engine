@@ -116,7 +116,7 @@ void Mesh::Initialize(const std::string& directory, const std::string& name) {
     materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&material_));
 
     material_->color = {1, 1, 1, 1};
-    material_->enableLight = 1;
+    material_->enableLight = 2;
 
     TextureManager::GetInstance()->Load(modelData_.material.texturePath);
 }

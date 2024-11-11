@@ -25,10 +25,14 @@ PixelShaderOutput main(VertexShaderOutput input) {
     float32_t4 texColor = gTexture.Sample(gSampler, input.texcoord);
 
     //Lambertian Reflectance
-    if (gMaterial.enableLighting != 0) {
+    if (gMaterial.enableLighting == 1) {
         float cos = saturate(dot(normalize(input.normal), -gDirectionalLight.direction));
         output.color = gMaterial.color * texColor * gDirectionalLight.color * gDirectionalLight.intensity * cos;
-    }else {
+    } else if (gMaterial.enableLighting == 2) {
+        float nDotL = dot(normalize(input.normal), -gDirectionalLight.direction);
+        float cos = pow(nDotL * 0.5f + 0.5f, 2.0f);
+        output.color = gMaterial.color * texColor * gDirectionalLight.color * gDirectionalLight.intensity * cos;
+    } else {
         output.color = gMaterial.color * texColor;
     }
 
