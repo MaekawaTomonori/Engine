@@ -73,7 +73,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         //Update
         input->Update();
         imguiManager->Begin();
+#ifdef DEBUG
         ImGui::ShowDemoWindow();
+#endif
 
         light->Update();
         camera->Update();

@@ -72,6 +72,7 @@ void Sprite::Initialize() {
 }
 
 void Sprite::Update() {
+#ifdef DEBUG
     ImGui::Begin("Sprite");
     if (ImGui::TreeNode(uuid_.c_str())){
         ImGui::DragFloat2("Pos : ", &position.x, 0.1f);
@@ -82,6 +83,8 @@ void Sprite::Update() {
         ImGui::TreePop();
     }
     ImGui::End();
+#endif
+
 
 #pragma region Vertex position
     worldTransform_->translate= {position.x, position.y, 0};
