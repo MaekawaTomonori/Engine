@@ -20,6 +20,10 @@ bool WinApp::ProcessMessage() const {
     return window_->ProcessMessage();
 }
 
+HINSTANCE WinApp::GetInstanceHandle() const {
+    return window_->GetInstanceHandle();
+}
+
 HWND WinApp::GetWindowHandle() const {
 	return window_->GetWindowHandle();
 }

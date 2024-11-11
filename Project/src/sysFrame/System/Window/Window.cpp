@@ -23,13 +23,13 @@ Window::~Window() {
 }
 
 bool Window::Create(int clientWidth, int clientHeight, const std::wstring& titleName, const std::wstring& windowClassName) {
-	HINSTANCE hInstance = GetModuleHandle(0);
+	hInstance_ = GetModuleHandle(0);
 
 	//window class. 
 	WNDCLASS wc {};
 	wc.lpfnWndProc = WindowProc;
 	wc.lpszClassName = windowClassName.c_str();
-	wc.hInstance = hInstance;
+	wc.hInstance = hInstance_;
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 
 	if (!RegisterClass(&wc)){
@@ -50,7 +50,7 @@ bool Window::Create(int clientWidth, int clientHeight, const std::wstring& title
 		clientHeight,
 		nullptr,
 		nullptr,
-		hInstance,
+		hInstance_,
 		nullptr
 	);
 
