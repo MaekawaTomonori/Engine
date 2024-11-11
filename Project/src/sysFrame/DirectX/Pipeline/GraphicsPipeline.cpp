@@ -1,5 +1,6 @@
 #include "GraphicsPipeline.h"
 
+#include <cassert>
 #include <format>
 #include <memory>
 

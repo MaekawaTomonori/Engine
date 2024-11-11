@@ -1,5 +1,6 @@
 #include "SRVManager.h"
 
+#include <cassert>
 #include <memory>
 
 #include "DirectX/DirectXCommon.h"
