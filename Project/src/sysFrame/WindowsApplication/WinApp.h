@@ -17,6 +17,7 @@ public: //Functions
 	void Initialize(const std::string& title);
 	bool ProcessMessage() const;
 
+    HINSTANCE GetInstanceHandle() const;
     HWND GetWindowHandle() const;
 };
 

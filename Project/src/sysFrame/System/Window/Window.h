@@ -3,6 +3,7 @@
 #include <Windows.h>
 
 class Window{
+    HINSTANCE hInstance_;
 	HWND hWnd_;
 	RECT windowRect_;
 
@@ -13,6 +14,10 @@ public:
 	~Window();
 	bool Create(int clientWidth, int clientHeight, const std::wstring& titleName, const std::wstring& windowClassName);
 	bool ProcessMessage();
+
+    HINSTANCE GetInstanceHandle() const {
+        return hInstance_;
+    }
 
 	HWND GetWindowHandle() const {
 		return hWnd_;
