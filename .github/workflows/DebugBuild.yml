@@ -2,7 +2,7 @@ name: DebugBuild
 on:
   push:
     branches:
-      - master
+      - dev
 
 env:
   SOLUTION_FILE_PATH: Project/DirectXEngine.sln
