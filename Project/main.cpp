@@ -10,6 +10,7 @@
 #include "DirectX/ObjectCommon/SpriteCommon.h"
 #include "DirectX/ObjectCommon/ModelCommon.h"
 #include "System/ImGui/ImGuiManager.h"
+#include "System/Input/Input.h"
 
 #include "Object/Model/Model.h"
 #include "Object/Sprite/Sprite.h"
@@ -28,6 +29,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     std::shared_ptr<TextureManager> textureManager = TextureManager::GetInstance();
     std::shared_ptr<ModelManager> modelManager = ModelManager::GetInstance();
     std::shared_ptr<LightManager> light = LightManager::GetInstance();
+    std::shared_ptr<Input> input = std::make_shared<Input>();
 
     winApp->Initialize("Engine");
 
@@ -43,6 +45,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     textureManager->Initialize(dxCommon.get(), srvManager.get());
     modelManager->Initialize(dxCommon.get());
     light->Initialize(dxCommon.get());
+
+    input->Initialize(winApp.get());
 
     //UserInit
 
@@ -67,6 +71,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     //MainLoop
     while (winApp->ProcessMessage()){
         //Update
+        input->Update();
         imguiManager->Begin();
         ImGui::ShowDemoWindow();
 

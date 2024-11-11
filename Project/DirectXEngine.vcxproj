@@ -32,6 +32,7 @@
     <ClCompile Include="src\sysFrame\DirectX\Heap\Heap.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\DirectXCommon.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\sysFrame\System\Input\Input.cpp" />
     <ClCompile Include="src\sysFrame\WindowsApplication\WinApp.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Pipeline\GraphicsPipeline.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Shader\Shader.cpp" />
@@ -66,6 +67,7 @@
     <ClInclude Include="src\sysFrame\Object\Camera\Camera.h" />
     <ClInclude Include="src\sysFrame\DirectX\Heap\Heap.h" />
     <ClInclude Include="src\sysFrame\DirectX\DirectXCommon.h" />
+    <ClInclude Include="src\sysFrame\System\Input\Input.h" />
     <ClInclude Include="src\sysFrame\WindowsApplication\WinApp.h" />
     <ClInclude Include="src\sysFrame\DirectX\Pipeline\GraphicsPipeline.h" />
     <ClInclude Include="src\sysFrame\DirectX\Shader\Shader.h" />
