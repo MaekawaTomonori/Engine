@@ -4,6 +4,7 @@
 #include "WindowsApplication/WinApp.h"
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/SRVManager.h"
+#include "DirectX/Lighting/LightManager.h"
 #include "DirectX/Texture/TextureManager.h"
 #include "DirectX/Util/D3DResourceLeakChecker.h"
 #include "DirectX/ObjectCommon/SpriteCommon.h"
@@ -26,6 +27,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     std::shared_ptr<ModelCommon> modelCommon = std::make_shared<ModelCommon>(dxCommon.get());
     std::shared_ptr<TextureManager> textureManager = TextureManager::GetInstance();
     std::shared_ptr<ModelManager> modelManager = ModelManager::GetInstance();
+    std::shared_ptr<LightManager> light = LightManager::GetInstance();
 
     winApp->Initialize("Engine");
 
@@ -40,6 +42,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
     textureManager->Initialize(dxCommon.get(), srvManager.get());
     modelManager->Initialize(dxCommon.get());
+    light->Initialize(dxCommon.get());
 
     //UserInit
 
@@ -54,6 +57,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
     std::shared_ptr<Sprite> sprite = std::make_shared<Sprite>(dxCommon.get(), spriteCommon.get());
     sprite->Initialize("uvChecker.png");
+    sprite->SetCamera(camera.get());
+
+    std::shared_ptr<Model> model = std::make_shared<Model>(modelCommon.get());
+    model->Initialize();
+    model->SetCamera(camera.get());
+    model->SetMesh("plane.obj");
 
     //MainLoop
     while (winApp->ProcessMessage()){
@@ -61,8 +70,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         imguiManager->Begin();
         ImGui::ShowDemoWindow();
 
+        light->Update();
         camera->Update();
         sprite->Update();
+        model->Update();
 
         imguiManager->End();
 
@@ -71,6 +82,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         dxCommon->PreDraw();
 
         modelCommon->PreDraw();
+        model->Draw();
 
         spriteCommon->PreDraw();
         sprite->Draw();

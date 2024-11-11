@@ -3,7 +3,7 @@
 
 struct Material{
 	Vector4 color;
-	//uint32_t enableLight;
+	uint32_t enableLight;
 	//float padding[3];
 	//Matrix4x4 uvTranform;
 };

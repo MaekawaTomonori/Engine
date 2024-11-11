@@ -167,8 +167,14 @@ uint32_t TextureManager::GetTextureIndexByFilePath(const std::string& path) cons
 }
 
 D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::GetGPUHandle(const std::string& fileName) const {
-    if (textures_.contains(fileName)){
-        return textures_.at(fileName).gpuHandle;
+    std::string name = fileName;
+    size_t pos = fileName.find_last_of('/');
+    if (pos != std::string::npos){
+        name = fileName.substr(pos + 1);
+    }
+
+    if (textures_.contains(name)){
+        return textures_.at(name).gpuHandle;
     }
 
     assert(0);

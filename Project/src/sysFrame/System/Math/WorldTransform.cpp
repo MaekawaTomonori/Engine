@@ -21,10 +21,11 @@ void WorldTransform::Initialize() {
 
 void WorldTransform::Update() {
     if (!camera_){
-        matrix_->wvp = MathUtils::Matrix::MakeAffineMatrix(scale, rotate, translate);
+        matrix_->world = matrix_->wvp = MathUtils::Matrix::MakeAffineMatrix(scale, rotate, translate);
         return;
     }
 
     Matrix4x4 viewProjection = camera_->GetViewProjection();
-    matrix_->wvp = MathUtils::Matrix::MakeAffineMatrix(scale, rotate, translate) * viewProjection;
+    matrix_->world = MathUtils::Matrix::MakeAffineMatrix(scale, rotate, translate);
+    matrix_->wvp = matrix_->world * viewProjection;
 }

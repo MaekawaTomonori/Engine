@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "DirectX/DirectXCommon.h"
+#include "DirectX/Lighting/LightManager.h"
 #include "DirectX/ObjectCommon/MeshCommon.h"
 #include "DirectX/Texture/TextureManager.h"
 #include "System/Math/Vector3.h"
@@ -80,7 +81,7 @@ Mesh::ModelData Mesh::LoadObjFile(const std::string& directoryPath, const std::s
                 texcoord.y = 1 - texcoord.y;
                 normal.x *= -1;
 
-                triangle[faceVertex] = {position, texcoord, /*normal*/};
+                triangle[faceVertex] = {position, texcoord, normal};
             }
             modelData.vertices.push_back(triangle[2]);
             modelData.vertices.push_back(triangle[1]);
@@ -115,7 +116,7 @@ void Mesh::Initialize(const std::string& directory, const std::string& name) {
     materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&material_));
 
     material_->color = {1, 1, 1, 1};
-
+    material_->enableLight = 1;
 
     TextureManager::GetInstance()->Load(modelData_.material.texturePath);
 }
@@ -125,6 +126,7 @@ void Mesh::Draw() {
 	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView_);
     commandList_->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
     commandList_->SetGraphicsRootDescriptorTable(2, TextureManager::GetInstance()->GetGPUHandle(modelData_.material.texturePath));
+    LightManager::GetInstance()->Draw(LightType::Directional);
 
     commandList_->DrawInstanced(static_cast<UINT>(modelData_.vertices.size()), 1, 0, 0);
 }

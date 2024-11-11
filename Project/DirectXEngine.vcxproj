@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sysFrame\DirectX\Lighting\LightManager.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Model\ModelManager.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\ObjectCommon\MeshCommon.cpp" />
     <ClCompile Include="src\sysFrame\Object\Model\Mesh\Mesh.cpp" />
@@ -43,8 +44,10 @@
     <ClCompile Include="src\sysFrame\DirectX\Texture\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sysFrame\DirectX\Lighting\LightManager.h" />
     <ClInclude Include="src\sysFrame\DirectX\Model\ModelManager.h" />
     <ClInclude Include="src\sysFrame\DirectX\ObjectCommon\MeshCommon.h" />
+    <ClInclude Include="src\sysFrame\Object\Light\DirectionalLight\DirectionalLight.h" />
     <ClInclude Include="src\sysFrame\Object\Model\Mesh\Mesh.h" />
     <ClInclude Include="src\sysFrame\DirectX\ObjectCommon\ModelCommon.h" />
     <ClInclude Include="src\sysFrame\Object\Model\Model.h" />

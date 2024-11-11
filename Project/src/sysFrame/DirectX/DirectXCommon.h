@@ -46,7 +46,7 @@ private://Variables
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[2] {};
 
 	//DSV
-	Microsoft::WRL::ComPtr<ID3D12Resource> depthStencilResource_;
+	ComPtr<ID3D12Resource> depthStencilResource_;
 	std::shared_ptr<Heap> dsvHeap_;
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc_ {};
 

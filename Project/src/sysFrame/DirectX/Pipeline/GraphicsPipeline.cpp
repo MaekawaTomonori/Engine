@@ -69,6 +69,11 @@ void GraphicsPipeline::CreateRootSignature() {
     rootParamerters_[2].DescriptorTable.pDescriptorRanges = descriptorRange_;
     rootParamerters_[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_);
 
+    //Lighting
+    rootParamerters_[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+    rootParamerters_[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+    rootParamerters_[3].Descriptor.ShaderRegister = 1;
+
 	//set
     descriptionRootSignature.pParameters = rootParamerters_;
     descriptionRootSignature.NumParameters = _countof(rootParamerters_);
@@ -104,6 +109,11 @@ void GraphicsPipeline::CreateInputLayout() {
     inputElementDescs_[1].SemanticIndex = 0;
     inputElementDescs_[1].Format = DXGI_FORMAT_R32G32_FLOAT;
     inputElementDescs_[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+    inputElementDescs_[2].SemanticName = "NORMAL";
+    inputElementDescs_[2].SemanticIndex = 0;
+    inputElementDescs_[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+    inputElementDescs_[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
     //System::Debug::Log(std::format(L"InputElementSlot : {}\n", inputElementDescs_[0].InputSlot));
 

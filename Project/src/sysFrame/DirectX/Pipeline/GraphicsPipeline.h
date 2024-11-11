@@ -30,10 +30,10 @@ private://Variables
 	ID3D12Device* device_ = nullptr;
 
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature_;
-	D3D12_ROOT_PARAMETER rootParamerters_[3] = {};
+	D3D12_ROOT_PARAMETER rootParamerters_[4] = {};
     D3D12_DESCRIPTOR_RANGE descriptorRange_[1] {};
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc_ {};
-	D3D12_INPUT_ELEMENT_DESC inputElementDescs_[2]{};
+	D3D12_INPUT_ELEMENT_DESC inputElementDescs_[3]{};
 	D3D12_BLEND_DESC blendDesc_ {};
 	Microsoft::WRL::ComPtr<IDxcBlob> vertexShaderBlob_;
 	D3D12_RASTERIZER_DESC rasterizerDesc_ {};

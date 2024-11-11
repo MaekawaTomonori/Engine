@@ -28,7 +28,7 @@ void Model::Update() {
     worldTransform_->Update();
 }
 
-void Model::Draw() {
+void Model::Draw() const {
     if (!mesh_)return;
 
     commandList_->SetGraphicsRootConstantBufferView(1, worldTransform_->GetGPUVirtualAddress());

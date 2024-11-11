@@ -35,6 +35,8 @@ void Sprite::Initialize() {
     vertexData_[2].texcoord = {1, 1};
     vertexData_[3].texcoord = {1, 0};
 
+    vertexData_[0].normal = {0, 0, -1};
+
     //IndexData
     indexResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(uint32_t) * 6));
 
@@ -56,6 +58,7 @@ void Sprite::Initialize() {
     materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&material_));
 
     material_->color = {1, 1, 1, 1};
+    material_->enableLight = false;
 
     worldTransform_ = std::make_shared<WorldTransform>(dxCommon_);
     worldTransform_->Initialize();
