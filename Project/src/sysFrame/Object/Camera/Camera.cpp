@@ -14,9 +14,11 @@ void Camera::Initialize() {
 }
 
 void Camera::Update() {
+#ifdef DEBUG
     ImGui::Begin("Camera");
     ImGui::DragFloat3("Pos : ", &transform_.translate.x, 0.01f);
     ImGui::End();
+#endif
 
 	viewMatrix = MathUtils::Matrix::MakeAffineMatrix(transform_).Inverse();
 	projectionMatrix = MathUtils::Matrix::MakePerspectiveFovMatrix(fov_, aspectRatio_, near_, farZ_);

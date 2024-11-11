@@ -2,7 +2,6 @@
 
 #include <cassert>
 #include <format>
-#include <memory>
 
 #include "WindowsApplication/WinApp.h"
 #include "DirectX/DirectXCommon.h"
@@ -26,7 +25,6 @@ void GraphicsPipeline::Create2D(ID3D12Device* device) {
     device_ = device;
 
     CreateRootSignature();
-
 
     D3D12_GRAPHICS_PIPELINE_STATE_DESC desc {};
     desc.pRootSignature = rootSignature_.Get();
