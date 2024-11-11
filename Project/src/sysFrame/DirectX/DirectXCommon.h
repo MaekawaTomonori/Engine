@@ -1,12 +1,11 @@
 ﻿#pragma once
 #include <array>
-#include <string>
-#include <cassert>
 #include <memory>
 
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <wrl.h>
+#include <chrono>
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -72,6 +71,8 @@ private://Variables
 	//scissor
 	D3D12_RECT scissorRect_ {};
 
+    std::chrono::steady_clock::time_point reference_;
+
 public://Methods
 	~DirectXCommon();
 	bool Initialize(WinApp* winApp);
@@ -112,6 +113,10 @@ private://Methods
 	void CreateDepthStencilView();
 	
 	void WaitForCommandQueue();
+
+	void InitializeFixFPS();
+	void UpdateFixFPS();
+
 	void EndFrame();
 };
 

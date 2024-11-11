@@ -1,6 +1,8 @@
 #include "DirectXCommon.h"
 
+#include <cassert>
 #include <format>
+#include <thread>
 
 #include "WindowsApplication/WinApp.h"
 #include "Heap/Heap.h"
@@ -10,6 +12,8 @@
 
 bool DirectXCommon::Initialize(WinApp* winApp) {
     winApp_ = winApp;
+
+    InitializeFixFPS();
 
     CoInitializeEx(0, COINIT_MULTITHREADED);
     CreateDebugLayer();
@@ -72,7 +76,8 @@ void DirectXCommon::EndFrame() {
     swapChain_->Present(1, 0);
     
     WaitForCommandQueue();
-    
+    UpdateFixFPS();
+
     hr = commandAllocator_.Get()->Reset();
     assert(SUCCEEDED(hr));
     
@@ -330,9 +335,7 @@ void DirectXCommon::CreateDepthStencilView() {
 //}
 //
 void DirectXCommon::WaitForCommandQueue() {
-    ++fenceValue_;
-
-    commandQueue_->Signal(fence_.Get(), fenceValue_);
+    commandQueue_->Signal(fence_.Get(), ++fenceValue_);
 
     if (fence_->GetCompletedValue() < fenceValue_){
         HANDLE fenceEvent = CreateEvent(nullptr, false, false, nullptr);
@@ -344,4 +347,24 @@ void DirectXCommon::WaitForCommandQueue() {
 
         CloseHandle(fenceEvent);
     }
+}
+
+void DirectXCommon::InitializeFixFPS() {
+    reference_ = std::chrono::steady_clock::now();
+}
+
+void DirectXCommon::UpdateFixFPS() {
+	constexpr std::chrono::microseconds MIN_TIME(static_cast<uint64_t>(1e6 / 60));
+    constexpr std::chrono::microseconds MIN_CHECK_TIME(static_cast<uint64_t>(1e6 / 65));
+
+    std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+    std::chrono::microseconds elapsedTime = std::chrono::duration_cast<std::chrono::microseconds>(now - reference_);
+
+    if (elapsedTime < MIN_CHECK_TIME) {
+	    while (std::chrono::steady_clock::now() - reference_ < MIN_TIME) {
+            std::this_thread::sleep_for(std::chrono::microseconds(1));
+	    }
+    }
+
+    reference_ = std::chrono::steady_clock::now();
 }
