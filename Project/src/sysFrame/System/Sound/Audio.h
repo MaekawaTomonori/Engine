@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include <cstdint>
 #include <string>
+#include <unordered_map>
+#include <vector>
 #include <xaudio2.h>
 #include <wrl/client.h>
 
@@ -26,11 +28,11 @@ class Audio{
         WAVEFORMATEX format;
 	};
 
-	
-
     Microsoft::WRL::ComPtr<IXAudio2> xAudio2_;
     IXAudio2MasteringVoice* masteringVoice_ = nullptr;
 
+	uint32_t playingAudioCount_ = 0;
+	std::unordered_map<uint32_t, IXAudio2SourceVoice*> playingAudios_;
 public:
 	~Audio();
 	void Initialize();
@@ -38,6 +40,14 @@ public:
 	SoundData Load(const std::string& fileName);
     void Unload(SoundData& soundData);
 
-    void Play(const SoundData& soundData) const;
+	uint32_t Play(const SoundData& soundData);
+	void Stop(uint32_t handle);
+
+	//TODO
+	//Volume
+	//Loopable
+	//Pause
+	//Resume
+	//Effects
 };
 

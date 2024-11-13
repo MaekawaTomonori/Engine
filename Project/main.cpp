@@ -74,6 +74,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     SoundData sData = audio->Load("assets/Audio/Alarm01.wav");
     //audio->Play(sData);
     bool audioTest = true;
+    int count = 50;
+    uint32_t audioHandle = 0;
 
     //MainLoop
     while (winApp->ProcessMessage()){
@@ -91,8 +93,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         model->Update();
 
         if (audioTest){
-            audio->Play(sData);
+            audioHandle = audio->Play(sData);
             audioTest = false;
+        }
+
+        if(count-- <= 0){
+            audio->Stop(audioHandle);
         }
 
         imguiManager->End();

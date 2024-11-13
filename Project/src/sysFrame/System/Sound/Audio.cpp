@@ -75,7 +75,7 @@ void Audio::Unload(SoundData& soundData) {
     soundData.wfex = {};
 }
 
-void Audio::Play(const SoundData& soundData) const {
+uint32_t Audio::Play(const SoundData& soundData) {
     HRESULT hr = S_OK;
 
     IXAudio2SourceVoice* pSourceVoice = nullptr;
@@ -92,4 +92,15 @@ void Audio::Play(const SoundData& soundData) const {
 
     hr = pSourceVoice->Start();
     assert(SUCCEEDED(hr));
+
+    playingAudios_.emplace(playingAudioCount_, pSourceVoice);
+    return playingAudioCount_++;
+}
+
+void Audio::Stop(const uint32_t handle) {
+    if (!playingAudios_.contains(handle))return;
+
+    playingAudios_.at(handle)->Stop();
+    playingAudios_.at(handle)->DestroyVoice();
+    playingAudios_.erase(handle);
 }
