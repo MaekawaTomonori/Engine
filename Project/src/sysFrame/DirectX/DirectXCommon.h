@@ -73,6 +73,8 @@ private://Variables
 
     std::chrono::steady_clock::time_point reference_;
 
+	double maxFPS = 60;
+
 public://Methods
 	~DirectXCommon();
 	bool Initialize(WinApp* winApp);
@@ -96,6 +98,10 @@ public://Methods
     }
 	size_t GetBackBufferCount() const {
 		return swapChainBuffers_.size();
+	}
+
+	void SetFPSLimit(double limit) {
+        maxFPS = limit;
 	}
 
 private://Methods

@@ -354,8 +354,8 @@ void DirectXCommon::InitializeFixFPS() {
 }
 
 void DirectXCommon::UpdateFixFPS() {
-	constexpr std::chrono::microseconds MIN_TIME(static_cast<uint64_t>(1e6 / 60));
-    constexpr std::chrono::microseconds MIN_CHECK_TIME(static_cast<uint64_t>(1e6 / 65));
+	constexpr std::chrono::microseconds MIN_TIME(static_cast<uint64_t>(1e6 / maxFPS));
+    constexpr std::chrono::microseconds MIN_CHECK_TIME(static_cast<uint64_t>(1e6 / (maxFPS + 5)));
 
     std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
     std::chrono::microseconds elapsedTime = std::chrono::duration_cast<std::chrono::microseconds>(now - reference_);
