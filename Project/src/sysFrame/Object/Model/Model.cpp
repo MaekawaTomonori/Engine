@@ -15,7 +15,7 @@ void Model::Initialize() {
 }
 
 void Model::Update() {
-#ifdef DEBUG
+#ifdef _DEBUG
     ImGui::Begin("Model");
     if(ImGui::TreeNode(uuid_.c_str())){
         ImGui::DragFloat3("Pos : ", &worldTransform_->translate.x, 0.1f);
