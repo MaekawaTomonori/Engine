@@ -14,7 +14,7 @@ void Camera::Initialize() {
 }
 
 void Camera::Update() {
-#ifdef DEBUG
+#ifdef _DEBUG
     ImGui::Begin("Camera");
     ImGui::DragFloat3("Pos : ", &transform_.translate.x, 0.01f);
     ImGui::End();

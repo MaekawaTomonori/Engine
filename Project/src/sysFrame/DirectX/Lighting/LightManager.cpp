@@ -31,7 +31,7 @@ void LightManager::Initialize(DirectXCommon* dxCommon) {
 }
 
 void LightManager::Update() const {
-#ifdef DEBUG
+#ifdef _DEBUG
     ImGui::Begin("Light");
     if (ImGui::TreeNode("Directional")){
         ImGui::ColorEdit4("Color", &directionalLight_->color.x);

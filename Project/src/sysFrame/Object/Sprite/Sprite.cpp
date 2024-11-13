@@ -72,7 +72,7 @@ void Sprite::Initialize() {
 }
 
 void Sprite::Update() {
-#ifdef DEBUG
+#ifdef _DEBUG
     ImGui::Begin("Sprite");
     if (ImGui::TreeNode(uuid_.c_str())){
         ImGui::DragFloat2("Pos : ", &position.x, 0.1f);

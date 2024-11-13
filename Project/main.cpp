@@ -14,6 +14,7 @@
 
 #include "Object/Model/Model.h"
 #include "Object/Sprite/Sprite.h"
+#include "System/Sound/Audio.h"
 
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -30,6 +31,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     std::shared_ptr<ModelManager> modelManager = ModelManager::GetInstance();
     std::shared_ptr<LightManager> light = LightManager::GetInstance();
     std::shared_ptr<Input> input = std::make_shared<Input>();
+    std::shared_ptr<Audio> audio = std::make_shared<Audio>();
 
     winApp->Initialize("Engine");
 
@@ -47,6 +49,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     light->Initialize(dxCommon.get());
 
     input->Initialize(winApp.get());
+    audio->Initialize();
 
     //UserInit
 
@@ -68,12 +71,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     model->SetCamera(camera.get());
     model->SetMesh("plane.obj");
 
+    SoundData sData = audio->Load("assets/Audio/Alarm01.wav");
+    //audio->Play(sData);
+    bool audioTest = true;
+
     //MainLoop
     while (winApp->ProcessMessage()){
         //Update
         input->Update();
         imguiManager->Begin();
-#ifdef DEBUG
+
+#ifdef _DEBUG
         ImGui::ShowDemoWindow();
 #endif
 
@@ -81,6 +89,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         camera->Update();
         sprite->Update();
         model->Update();
+
+        if (audioTest){
+            audio->Play(sData);
+            audioTest = false;
+        }
 
         imguiManager->End();
 

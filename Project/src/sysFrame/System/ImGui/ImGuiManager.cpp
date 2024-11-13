@@ -5,7 +5,7 @@
 #include "DirectX/Heap/SRVManager.h"
 
 ImGuiManager::~ImGuiManager() {
-#ifdef DEBUG
+#ifdef _DEBUG
     ImGui_ImplDX12_Shutdown();
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
@@ -13,7 +13,7 @@ ImGuiManager::~ImGuiManager() {
 }
 
 void ImGuiManager::Initialize() {
-#ifdef DEBUG
+#ifdef _DEBUG
     srvIndex_ = srvManager_->Allocate();
 
     ImGui::CreateContext();
@@ -33,7 +33,7 @@ void ImGuiManager::Initialize() {
 }
 
 void ImGuiManager::Begin() {
-#ifdef DEBUG
+#ifdef _DEBUG
     ImGui_ImplDX12_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
@@ -41,13 +41,13 @@ void ImGuiManager::Begin() {
 }
 
 void ImGuiManager::End() {
-#ifdef DEBUG
+#ifdef _DEBUG
     ImGui::Render();
 #endif
 }
 
 void ImGuiManager::Draw() {
-#ifdef DEBUG
+#ifdef _DEBUG
     ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
     ID3D12DescriptorHeap* ppHeaps[] = {srvManager_->GetDescriptorHeap()};
