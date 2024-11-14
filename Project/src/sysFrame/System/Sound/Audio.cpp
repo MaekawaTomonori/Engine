@@ -19,7 +19,7 @@ void Audio::Initialize() {
 
 }
 
-SoundData Audio::Load(const std::string& fileName) {
+SoundData Audio::LoadWave(const std::string& fileName) {
     std::ifstream file;
     file.open(fileName.c_str(), std::ios_base::binary);
 	assert(file.is_open());

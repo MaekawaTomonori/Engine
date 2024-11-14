@@ -26,7 +26,7 @@ private:
 	std::string uuid_ {};
 
 
-    std::shared_ptr<WorldTransform> worldTransform_ = nullptr;
+    std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
 
 
 public:
@@ -38,9 +38,10 @@ public:
         uuid_ = reinterpret_cast<char*>(szUuid);
         RpcStringFreeA(&szUuid);
 	}
+    ~Model();
 
     void Initialize();
-    void Update();
+    void Update() const;
     void Draw() const;
 
     void SetMesh(const std::string& name);

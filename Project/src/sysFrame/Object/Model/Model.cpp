@@ -5,16 +5,18 @@
 #include "imgui/imgui.h"
 #include "Mesh/Mesh.h"
 
+Model::~Model() = default;
+
 void Model::Initialize() {
     dxCommon_ = modelCommon_->GetDXCommon();
     commandList_ = dxCommon_->GetCommandList();
 
-    worldTransform_ = std::make_shared<WorldTransform>(dxCommon_);
+    worldTransform_ = std::make_unique<WorldTransform>(dxCommon_);
     worldTransform_->Initialize();
 
 }
 
-void Model::Update() {
+void Model::Update() const {
 #ifdef _DEBUG
     ImGui::Begin("Model");
     if(ImGui::TreeNode(uuid_.c_str())){

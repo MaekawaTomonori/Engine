@@ -2,7 +2,6 @@
 #include <cstdint>
 #include <string>
 #include <unordered_map>
-#include <vector>
 #include <xaudio2.h>
 #include <wrl/client.h>
 
@@ -37,7 +36,7 @@ public:
 	~Audio();
 	void Initialize();
 
-	SoundData Load(const std::string& fileName);
+	SoundData LoadWave(const std::string& fileName);
     void Unload(SoundData& soundData);
 
 	uint32_t Play(const SoundData& soundData);

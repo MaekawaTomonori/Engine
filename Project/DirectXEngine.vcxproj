@@ -11,6 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sysFrame\Framework\Framework.cpp" />
+    <ClCompile Include="src\sysFrame\Framework\Engine.cpp" />
+    <ClCompile Include="src\Game\Game.cpp" />
     <ClCompile Include="src\sysFrame\System\Sound\Audio.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Lighting\LightManager.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Model\ModelManager.cpp" />
@@ -46,6 +49,9 @@
     <ClCompile Include="src\sysFrame\DirectX\Texture\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sysFrame\Framework\Framework.h" />
+    <ClInclude Include="src\sysFrame\Framework\Engine.h" />
+    <ClInclude Include="src\Game\Game.h" />
     <ClInclude Include="src\sysFrame\System\Sound\Audio.h" />
     <ClInclude Include="src\sysFrame\DirectX\Lighting\LightManager.h" />
     <ClInclude Include="src\sysFrame\DirectX\Model\ModelManager.h" />
