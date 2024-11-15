@@ -1,19 +1,20 @@
 #include "Engine.h"
 
-
+std::unique_ptr<Camera> Engine::defaultCamera_ = nullptr;
 
 Engine::Engine() {
     winApp_ = std::make_unique<WinApp>();
     dxCommon_ = std::make_unique<DirectXCommon>();
     srvManager_ = std::make_unique<SRVManager>();
     imguiManager_ = std::make_unique<ImGuiManager>(winApp_.get(), dxCommon_.get(), srvManager_.get());
-    spriteCommon_ = std::make_unique<SpriteCommon>(dxCommon_.get());
-    modelCommon_ = std::make_unique<ModelCommon>(dxCommon_.get());
+    spriteCommon_ = SpriteCommon::GetInstance();
+    modelCommon_ = ModelCommon::GetInstance();
     textureManager_ = TextureManager::GetInstance();
     modelManager_ = ModelManager::GetInstance();
     lightManager_ = LightManager::GetInstance();
     input_ = std::make_unique<Input>();
-    audio_ = std::make_unique<Audio>();
+    audio_ = Audio::GetInstance();
+
     defaultCamera_ = std::make_unique<Camera>();
 }
 
@@ -27,8 +28,8 @@ void Engine::Initialize() const {
 
     imguiManager_->Initialize();
 
-    spriteCommon_->Initialize();
-    modelCommon_->Initialize();
+    spriteCommon_->Initialize(dxCommon_.get());
+    modelCommon_->Initialize(dxCommon_.get());
 
     textureManager_->Initialize(dxCommon_.get(), srvManager_.get());
     modelManager_->Initialize(dxCommon_.get());
@@ -53,18 +54,12 @@ void Engine::Update() const {
     defaultCamera_->Update();
 }
 
-void Engine::ModelPreDraw() const {
+void Engine::PreDraw() const {
 	imguiManager_->End();
 
-    //ModelPreDraw
+    //PreDraw
     srvManager_->PreDraw();
     dxCommon_->PreDraw();
-
-    modelCommon_->PreDraw();
-}
-
-void Engine::SpritePreDraw() const {
-	spriteCommon_->PreDraw();
 }
 
 void Engine::PostDraw() const {
@@ -76,7 +71,12 @@ bool Engine::IsEndRequest() const {
     return !winApp_->ProcessMessage();
 }
 
-Camera* Engine::GetDefaultCamera() const {
+
+Camera* Engine::GetDefaultCamera() {
+    if (!defaultCamera_){
+        defaultCamera_ = std::make_unique<Camera>();
+        defaultCamera_->Initialize();
+    }
     return defaultCamera_.get();
 }
 

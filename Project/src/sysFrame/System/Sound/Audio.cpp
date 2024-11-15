@@ -5,8 +5,20 @@
 
 #pragma comment(lib, "xaudio2.lib")
 
+std::shared_ptr<Audio> Audio::instance_ = nullptr;
+
 Audio::~Audio() {
     xAudio2_.Reset();
+}
+
+std::shared_ptr<Audio> Audio::GetInstance() {
+    if (!instance_){
+        instance_ = std::shared_ptr<Audio>(new Audio, [](const Audio* ptr){
+            delete ptr;
+        });
+    }
+
+    return instance_;
 }
 
 void Audio::Initialize() {
@@ -19,9 +31,25 @@ void Audio::Initialize() {
 
 }
 
-SoundData Audio::LoadWave(const std::string& fileName) {
+void Audio::Load(const std::string& fileName) {
+    std::string name;
+    size_t pos = fileName.find_last_of('/');
+    if (pos != std::string::npos){
+        name = fileName.substr(pos + 1);
+    } else{
+        name = fileName;
+    }
+
+    if (loaded_.contains(name))return;
+
+    LoadWave(name);
+}
+
+void Audio::LoadWave(const std::string& fileName) {
+    std::string name = folderPath_ + fileName;
+
     std::ifstream file;
-    file.open(fileName.c_str(), std::ios_base::binary);
+    file.open(name.c_str(), std::ios_base::binary);
 	assert(file.is_open());
 
     RiffHeader riff;
@@ -64,15 +92,21 @@ SoundData Audio::LoadWave(const std::string& fileName) {
     soundData.pBuffer = reinterpret_cast<BYTE*>(pBuffer);
     soundData.size = data.size;
 
-    return soundData;
+    loaded_.emplace(name, soundData);
 }
 
-void Audio::Unload(SoundData& soundData) {
+void Audio::Unload(const std::string& name) {
+    if (!loaded_.contains(name))return;
+
+    SoundData& soundData = loaded_.at(name);
+
     delete[] soundData.pBuffer;
 
     soundData.pBuffer = nullptr;
     soundData.size = 0;
     soundData.wfex = {};
+
+    loaded_.erase(name);
 }
 
 uint32_t Audio::Play(const SoundData& soundData) {
@@ -93,14 +127,14 @@ uint32_t Audio::Play(const SoundData& soundData) {
     hr = pSourceVoice->Start();
     assert(SUCCEEDED(hr));
 
-    playingAudios_.emplace(playingAudioCount_, pSourceVoice);
+    playing_.emplace(playingAudioCount_, pSourceVoice);
     return playingAudioCount_++;
 }
 
 void Audio::Stop(const uint32_t handle) {
-    if (!playingAudios_.contains(handle))return;
+    if (!playing_.contains(handle))return;
 
-    playingAudios_.at(handle)->Stop();
-    playingAudios_.at(handle)->DestroyVoice();
-    playingAudios_.erase(handle);
+    playing_.at(handle)->Stop();
+    playing_.at(handle)->DestroyVoice();
+    playing_.erase(handle);
 }

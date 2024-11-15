@@ -19,11 +19,13 @@ void Shader::CreateDxc() {
 }
 
 void Shader::CompileShaders() {
-    vertexShader_.Attach(Compile(L"Assets/Shaders/", L"Object3d.VS.hlsl", L"vs_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get()));
-    pixelShader_.Attach(Compile(L"Assets/Shaders/", L"Object3d.PS.hlsl", L"ps_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get()));
+    vertexShader_.Attach(Compile(L"Assets/Shaders/", name_ + L".VS.hlsl", L"vs_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get()));
+    pixelShader_.Attach(Compile(L"Assets/Shaders/", name_ + L".PS.hlsl", L"ps_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get()));
 }
 
-bool Shader::Create() {
+bool Shader::Create(const std::wstring& name) {
+    name_ = name;
+
     CreateDxc();
     CompileShaders();
 

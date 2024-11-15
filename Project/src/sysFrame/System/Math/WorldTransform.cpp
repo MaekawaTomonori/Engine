@@ -2,6 +2,7 @@
 
 #include "MathUtils.h"
 #include "DirectX/DirectXCommon.h"
+#include "Framework/Engine.h"
 
 WorldTransform::WorldTransform(DirectXCommon* direx) {
     dxCommon_ = direx;
@@ -17,9 +18,11 @@ void WorldTransform::Initialize() {
     resource_->Map(0, nullptr, reinterpret_cast<void**>(&matrix_));
 
     matrix_->wvp = MathUtils::Matrix::MakeIdentity();
+
+    camera_ = Engine::GetDefaultCamera();
 }
 
-void WorldTransform::Update() {
+void WorldTransform::Update() const {
     if (!camera_){
         matrix_->world = matrix_->wvp = MathUtils::Matrix::MakeAffineMatrix(scale, rotate, translate);
         return;

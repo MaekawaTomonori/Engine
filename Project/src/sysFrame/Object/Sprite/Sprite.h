@@ -1,12 +1,10 @@
-﻿#pragma once
+﻿	#pragma once
+#include "DirectX/ObjectCommon/SpriteCommon.h"
 #include "Object/Object.h"
 class SpriteCommon;
 
 class Sprite : public Object{
-	
-
-private:
-    SpriteCommon* spriteBase_ = nullptr;
+    SpriteCommon* spriteCommon_ = nullptr;
 
     VertexData* vertexData_ = nullptr;
 
@@ -25,7 +23,7 @@ private:
 	void AdjustTextureSize();
 
 public:
-	Sprite(DirectXCommon* dxCommon, SpriteCommon* spriteBase) :Object(dxCommon), spriteBase_(spriteBase) {}
+	Sprite(SpriteCommon* spriteBase) :Object(spriteBase->GetDXCommon()), spriteCommon_(spriteBase) {}
 
     void Initialize() override;
     void Initialize(const std::string& texture) override {

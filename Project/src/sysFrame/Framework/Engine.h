@@ -21,28 +21,26 @@ class Engine{
     std::unique_ptr<DirectXCommon> dxCommon_;
     std::unique_ptr<SRVManager> srvManager_;
     std::unique_ptr<ImGuiManager> imguiManager_;
-    std::unique_ptr<SpriteCommon> spriteCommon_;
-    std::unique_ptr<ModelCommon> modelCommon_;
+    std::shared_ptr<SpriteCommon> spriteCommon_;
+    std::shared_ptr<ModelCommon> modelCommon_;
     std::shared_ptr<TextureManager> textureManager_;
     std::shared_ptr<ModelManager> modelManager_;
     std::shared_ptr<LightManager> lightManager_;
     std::unique_ptr<Input> input_;
-    std::unique_ptr<Audio> audio_;
-	std::unique_ptr<Camera> defaultCamera_;
+    std::shared_ptr<Audio> audio_;
+	static std::unique_ptr<Camera> defaultCamera_;
 
 public:
 	Engine();
     void Initialize() const;
     void Update() const;
-    void ModelPreDraw() const;
-    void SpritePreDraw() const;
+    void PreDraw() const;
     void PostDraw() const;
 
     bool IsEndRequest() const;
-    Camera* GetDefaultCamera() const;
+    static Camera* GetDefaultCamera();
 
     DirectXCommon* GetDirectXCommon() const;
     SpriteCommon* GetSpriteCommon() const;
     ModelCommon* GetModelCommon() const;
 };
-

@@ -3,33 +3,25 @@
 #include <cassert>
 #include <format>
 
-#include "WindowsApplication/WinApp.h"
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/Heap.h"
 #include "System/System.h"
 
-void GraphicsPipeline::Create(ID3D12Device* device, IDxcBlob* vs, IDxcBlob* ps) {
-    device_ = device;
+void GraphicsPipeline::Create(DirectXCommon* dxCommon, Type type) {
+    dxCommon_ = dxCommon;
 
-    CreateRootSignature();
-    CreateInputLayout();
-    CreateBlendState();
-    CreateRasterizerState();
-    vertexShaderBlob_.Attach(vs);
-    pixelShaderBlob_.Attach(ps);
+    switch (type){
+	case Type::MODEL:
+    default:
+	    CreateRootSignature();
+	    CreateInputLayout();
+	    CreateBlendState();
+        CreateShader(L"Object3d");
+	    CreateRasterizerState();
+	    break;
+    }
 
     CreatePSO();
-}
-
-void GraphicsPipeline::Create2D(ID3D12Device* device) {
-    device_ = device;
-
-    CreateRootSignature();
-
-    D3D12_GRAPHICS_PIPELINE_STATE_DESC desc {};
-    desc.pRootSignature = rootSignature_.Get();
-    HRESULT hr = device_->CreateGraphicsPipelineState(&desc, IID_PPV_ARGS(&graphicsPipelineState_));
-    assert(SUCCEEDED(hr));
 }
 
 void GraphicsPipeline::DrawCall(ID3D12GraphicsCommandList* commandList) const {
@@ -93,7 +85,7 @@ void GraphicsPipeline::CreateRootSignature() {
         assert(false);
     }
 
-    hr = device_->CreateRootSignature(0, signatureBlob->GetBufferPointer(), signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature_));
+    hr = dxCommon_->GetDevice()->CreateRootSignature(0, signatureBlob->GetBufferPointer(), signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature_));
     assert(SUCCEEDED(hr));
 }
 
@@ -124,6 +116,11 @@ void GraphicsPipeline::CreateBlendState() {
     blendDesc_.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 }
 
+void GraphicsPipeline::CreateShader(const std::wstring& name) {
+    shader_ = std::make_unique<Shader>();
+    shader_->Create(name);
+}
+
 void GraphicsPipeline::CreateRasterizerState() {
     rasterizerDesc_.CullMode = D3D12_CULL_MODE_BACK;
     rasterizerDesc_.FillMode = D3D12_FILL_MODE_SOLID;
@@ -151,9 +148,9 @@ void GraphicsPipeline::CreatePSO() {
     graphicsPipelineStateDesc.pRootSignature = rootSignature_.Get();
     graphicsPipelineStateDesc.InputLayout = inputLayoutDesc_;
     graphicsPipelineStateDesc.BlendState = blendDesc_;
-    graphicsPipelineStateDesc.VS = {vertexShaderBlob_->GetBufferPointer(), vertexShaderBlob_->GetBufferSize()};
+    graphicsPipelineStateDesc.VS = {shader_->GetVertexShader()->GetBufferPointer(), shader_->GetVertexShader()->GetBufferSize()};
     graphicsPipelineStateDesc.RasterizerState = rasterizerDesc_;
-    graphicsPipelineStateDesc.PS = {pixelShaderBlob_->GetBufferPointer(), pixelShaderBlob_->GetBufferSize()};
+    graphicsPipelineStateDesc.PS = {shader_->GetPixelShader()->GetBufferPointer(), shader_->GetPixelShader()->GetBufferSize()};
     graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc_;
     graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
@@ -164,6 +161,6 @@ void GraphicsPipeline::CreatePSO() {
     graphicsPipelineStateDesc.SampleDesc.Count = 1;
     graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
 
-    HRESULT hr = device_->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(&graphicsPipelineState_));
+    HRESULT hr = dxCommon_->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(&graphicsPipelineState_));
     assert(SUCCEEDED(hr));
 }

@@ -2,11 +2,13 @@
 #include <memory>
 
 #include "Engine.h"
+#include "sysFrame/Scene/SceneManager.h"
 
 class Framework{
 protected:
     //maybe replace to adapter
     std::unique_ptr<Engine> engine_;
+    std::unique_ptr<SceneManager> scene_;
 
     bool endRequest_ = false;
 

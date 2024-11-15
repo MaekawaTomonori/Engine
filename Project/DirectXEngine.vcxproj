@@ -11,6 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Game\Scene\SceneFactory.cpp" />
+    <ClCompile Include="src\sysFrame\Scene\Factory\AbstractSceneFactory.cpp" />
+    <ClCompile Include="src\sysFrame\Scene\SceneManager.cpp" />
+    <ClCompile Include="src\Game\Scene\PlayScene.cpp" />
     <ClCompile Include="src\sysFrame\Framework\Framework.cpp" />
     <ClCompile Include="src\sysFrame\Framework\Engine.cpp" />
     <ClCompile Include="src\Game\Game.cpp" />
@@ -47,8 +51,14 @@
     <ClCompile Include="src\sysFrame\System\Math\WorldTransform.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Heap\SRVManager.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Texture\TextureManager.cpp" />
+    <ClCompile Include="src\Game\Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Game\Scene\SceneFactory.h" />
+    <ClInclude Include="src\sysFrame\Scene\Factory\AbstractSceneFactory.h" />
+    <ClInclude Include="src\sysFrame\Scene\SceneManager.h" />
+    <ClInclude Include="src\sysFrame\Scene\BaseScene.h" />
+    <ClInclude Include="src\Game\Scene\PlayScene.h" />
     <ClInclude Include="src\sysFrame\Framework\Framework.h" />
     <ClInclude Include="src\sysFrame\Framework\Engine.h" />
     <ClInclude Include="src\Game\Game.h" />
@@ -95,6 +105,7 @@
     <ClInclude Include="src\sysFrame\System\Math\WorldTransform.h" />
     <ClInclude Include="src\sysFrame\DirectX\Heap\SRVManager.h" />
     <ClInclude Include="src\sysFrame\DirectX\Texture\TextureManager.h" />
+    <ClInclude Include="src\Game\Scene\TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="assets\Shaders\Object3d.PS.hlsl">

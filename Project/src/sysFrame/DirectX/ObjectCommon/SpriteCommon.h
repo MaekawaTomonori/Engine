@@ -5,16 +5,24 @@ class DirectXCommon;
 class GraphicsPipeline;
 
 class SpriteCommon{
+    static std::shared_ptr<SpriteCommon> instance_;
+
 	DirectXCommon* dxCommon_ = nullptr;
 
     std::shared_ptr<GraphicsPipeline> pipeline_;
 
 private://Methods
-	void CreatePipeline();
+	SpriteCommon() = default;
+    ~SpriteCommon() = default;
 
+	void CreatePipeline();
 public:
-	SpriteCommon(DirectXCommon* dxCommon) : dxCommon_(dxCommon) {}
-	void Initialize();
+	SpriteCommon(const SpriteCommon&) = delete;
+    void operator=(SpriteCommon&) = delete;
+
+    static std::shared_ptr<SpriteCommon> GetInstance();
+
+	void Initialize(DirectXCommon* dxCommon);
     void PreDraw() const;
 
     DirectXCommon* GetDXCommon() const {

@@ -3,7 +3,6 @@
 #include <memory>
 #include <string>
 
-
 class DirectXCommon;
 class Mesh;
 class MeshCommon;
