@@ -25,12 +25,9 @@ void Input::Initialize(const WinApp* winApp) {
 void Input::Update() {
     memcpy(preKey, keyState, sizeof(keyState));
 
-    HRESULT hr = keyboard->Acquire();
+	keyboard->Acquire();
 
-    assert(SUCCEEDED(hr));
-
-    hr = keyboard->GetDeviceState(sizeof(keyState), keyState);
-    assert(SUCCEEDED(hr));
+    keyboard->GetDeviceState(sizeof(keyState), keyState);
 }
 
 bool Input::PushKey(BYTE key) const {
