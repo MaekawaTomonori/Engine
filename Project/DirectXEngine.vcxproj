@@ -11,7 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Game\Scene\SceneManager.cpp" />
+    <ClCompile Include="src\Game\Scene\SceneFactory.cpp" />
+    <ClCompile Include="src\sysFrame\Scene\Factory\AbstractSceneFactory.cpp" />
+    <ClCompile Include="src\sysFrame\Scene\SceneManager.cpp" />
     <ClCompile Include="src\Game\Scene\PlayScene.cpp" />
     <ClCompile Include="src\sysFrame\Framework\Framework.cpp" />
     <ClCompile Include="src\sysFrame\Framework\Engine.cpp" />
@@ -52,8 +54,10 @@
     <ClCompile Include="src\Game\Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Game\Scene\SceneManager.h" />
-    <ClInclude Include="src\Game\Scene\BaseScene.h" />
+    <ClInclude Include="src\Game\Scene\SceneFactory.h" />
+    <ClInclude Include="src\sysFrame\Scene\Factory\AbstractSceneFactory.h" />
+    <ClInclude Include="src\sysFrame\Scene\SceneManager.h" />
+    <ClInclude Include="src\sysFrame\Scene\BaseScene.h" />
     <ClInclude Include="src\Game\Scene\PlayScene.h" />
     <ClInclude Include="src\sysFrame\Framework\Framework.h" />
     <ClInclude Include="src\sysFrame\Framework\Engine.h" />

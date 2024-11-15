@@ -13,7 +13,7 @@ Engine::Engine() {
     modelManager_ = ModelManager::GetInstance();
     lightManager_ = LightManager::GetInstance();
     input_ = std::make_unique<Input>();
-    audio_ = std::make_unique<Audio>();
+    audio_ = Audio::GetInstance();
 
     defaultCamera_ = std::make_unique<Camera>();
 }

@@ -27,7 +27,7 @@ class Engine{
     std::shared_ptr<ModelManager> modelManager_;
     std::shared_ptr<LightManager> lightManager_;
     std::unique_ptr<Input> input_;
-    std::unique_ptr<Audio> audio_;
+    std::shared_ptr<Audio> audio_;
 	static std::unique_ptr<Camera> defaultCamera_;
 
 public:

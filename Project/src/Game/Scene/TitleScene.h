@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "BaseScene.h"
+#include "Scene/BaseScene.h"
 #include "System/Input/Input.h"
 
 class TitleScene : public BaseScene{

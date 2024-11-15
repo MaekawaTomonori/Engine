@@ -2,6 +2,7 @@
 class SceneManager;
 
 class BaseScene{
+protected:
     SceneManager* manager_ = nullptr;
 public:
 	virtual ~BaseScene() = default;

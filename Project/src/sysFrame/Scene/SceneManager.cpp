@@ -1,5 +1,7 @@
 #include "SceneManager.h"
 
+#include <cassert>
+
 #include "BaseScene.h"
 
 SceneManager::~SceneManager() {
@@ -30,6 +32,17 @@ void SceneManager::Draw() const {
     if (!scene_)return;
 
     scene_->Draw();
+}
+
+void SceneManager::ChangeScene(const std::string& scene) {
+    assert(factory_);
+    assert(nextScene_ == nullptr);
+
+    SetNextScene(factory_->CreateScene(scene));
+}
+
+void SceneManager::SetFactory(AbstractSceneFactory* factory) {
+    factory_ = factory;
 }
 
 void SceneManager::SetNextScene(BaseScene* nextScene) {

@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <memory>
 
-#include "BaseScene.h"
+#include "Scene/BaseScene.h"
 #include "DirectX/Model/ModelManager.h"
 #include "DirectX/Texture/TextureManager.h"
 #include "Object/Model/Model.h"
