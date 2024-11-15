@@ -34,6 +34,7 @@ void Model::Update() const {
 
 void Model::Draw() const {
     if (!mesh_)return;
+    modelCommon_->PreDraw();
 
     commandList_->SetGraphicsRootConstantBufferView(1, worldTransform_->GetGPUVirtualAddress());
     mesh_->Draw();

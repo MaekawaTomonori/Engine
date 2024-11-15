@@ -133,6 +133,8 @@ void Sprite::Update() {
 }
 
 void Sprite::Draw() {
+    spriteCommon_->PreDraw();
+
     commandList_->IASetVertexBuffers(0, 1, &vertexBufferView_);
     commandList_->IASetIndexBuffer(&indexBufferView_);
     commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);

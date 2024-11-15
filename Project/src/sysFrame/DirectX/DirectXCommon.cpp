@@ -6,9 +6,13 @@
 
 #include "WindowsApplication/WinApp.h"
 #include "Heap/Heap.h"
-#include "Pipeline/GraphicsPipeline.h"
-#include "Shader/Shader.h"
 #include "System/System.h"
+
+
+DirectXCommon::~DirectXCommon() {
+    CoUninitialize();
+}
+
 
 bool DirectXCommon::Initialize(WinApp* winApp) {
     winApp_ = winApp;
@@ -22,8 +26,6 @@ bool DirectXCommon::Initialize(WinApp* winApp) {
     CreateCommand();
     CreateSwapChain(winApp_->GetWindowHandle(), WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT);
     CreateFence();
-    CompileShader();
-    CreateGraphicsPipeline();
     SettingGraphicsInfo();
     CreateDepthStencilView();
     //CreateShaderResourceView();
@@ -50,9 +52,6 @@ void DirectXCommon::PreDraw() {
 
     commandList_->RSSetViewports(1, &viewport_);
     commandList_->RSSetScissorRects(1, &scissorRect_);
-
-    //DrawCall PSO
-    graphicsPipeline_->DrawCall(commandList_.Get());
 }
 
 void DirectXCommon::PostDraw() {
@@ -148,10 +147,6 @@ ID3D12DescriptorHeap* DirectXCommon::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_
     HRESULT hr = device_->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&heap));
     assert(SUCCEEDED(hr));
     return heap;
-}
-
-DirectXCommon::~DirectXCommon() {
-    CoUninitialize();
 }
 
 void DirectXCommon::CreateDebugLayer() {
@@ -290,16 +285,6 @@ void DirectXCommon::CreateFence() {
     HRESULT hr = S_OK;
     hr = device_->CreateFence(fenceValue_, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_));
     assert(SUCCEEDED(hr));
-}
-
-void DirectXCommon::CompileShader() {
-    shader_ = std::make_shared<Shader>();
-    shader_->Create();
-}
-
-void DirectXCommon::CreateGraphicsPipeline() {
-    graphicsPipeline_ = std::make_shared<GraphicsPipeline>();
-    graphicsPipeline_->Create(device_.Get(), shader_->GetVertexShader(), shader_->GetPixelShader());
 }
 
 void DirectXCommon::SettingGraphicsInfo() {

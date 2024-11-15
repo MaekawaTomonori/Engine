@@ -16,6 +16,7 @@ class Camera{
     float farZ_ = 100.f;
 
 public:
+	Camera() = default;
 	~Camera() = default;
 	void Initialize();
     void Update();

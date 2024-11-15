@@ -29,7 +29,7 @@ public://Variables
 public: //Methods
 	WorldTransform(DirectXCommon* direx);
 	void Initialize();
-    void Update();
+    void Update() const;
 
     D3D12_GPU_VIRTUAL_ADDRESS GetGPUVirtualAddress() const {
         return resource_->GetGPUVirtualAddress();

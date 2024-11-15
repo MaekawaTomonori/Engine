@@ -12,7 +12,6 @@
 
 class WinApp;
 class GraphicsPipeline;
-class Shader;
 class Heap;
 
 using namespace Microsoft::WRL;
@@ -59,12 +58,6 @@ private://Variables
 	//Mainにおいている。場所は要検討。
 	//std::shared_ptr<D3DResourceLeakChecker> leakChecker_;
 
-	//Shader
-    std::shared_ptr<Shader> shader_;
-
-	//GraphicsPipeline
-	std::shared_ptr<GraphicsPipeline> graphicsPipeline_;
-
 	//Viewport
 	D3D12_VIEWPORT viewport_ {};
 
@@ -74,6 +67,7 @@ private://Variables
     std::chrono::steady_clock::time_point reference_;
 
 	double maxFPS = 60;
+
 
 public://Methods
 	~DirectXCommon();
@@ -93,9 +87,6 @@ public://Methods
 	ID3D12GraphicsCommandList* GetCommandList() const {
 		return commandList_.Get();
 	}
-    Shader* GetShader() const {
-        return shader_.get();
-    }
 	size_t GetBackBufferCount() const {
 		return swapChainBuffers_.size();
 	}
@@ -112,8 +103,6 @@ private://Methods
 	void CreateCommand();
 	void CreateSwapChain(HWND hwnd, int width, int height);
 	void CreateFence();
-	void CompileShader();
-	void CreateGraphicsPipeline();
 	void SettingGraphicsInfo();
 	//void CreateShaderResourceView();
 	void CreateDepthStencilView();

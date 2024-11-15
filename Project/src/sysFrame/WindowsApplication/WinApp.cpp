@@ -4,7 +4,6 @@
 #include <memory>
 
 #include "System/System.h"
-#include "System/Window/Window.h"
 #include "DirectX/Heap/SRVManager.h"
 
 #pragma comment(lib, "winmm.lib")
