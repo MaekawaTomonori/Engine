@@ -288,11 +288,11 @@ void DirectXCommon::CreateFence() {
 }
 
 void DirectXCommon::SettingGraphicsInfo() {
+    viewport_.TopLeftX = 0;
+    viewport_.TopLeftY = 0;
     viewport_.Width = WinApp::CLIENT_WIDTH;
     viewport_.Height = WinApp::CLIENT_HEIGHT;
 
-    viewport_.TopLeftX = 0;
-    viewport_.TopLeftY = 0;
     viewport_.MinDepth = 0;
     viewport_.MaxDepth = 1.f;
 

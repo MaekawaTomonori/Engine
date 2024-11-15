@@ -29,6 +29,10 @@ void ImGuiManager::Initialize() {
         srvManager_->GetCPUHandle(srvIndex_),
         srvManager_->GetGPUHandle(srvIndex_)
     );
+
+    ImGuiIO& io = ImGui::GetIO();
+    io.FontGlobalScale = 1.f;
+    io.Fonts->AddFontDefault();
 #endif
 }
 
