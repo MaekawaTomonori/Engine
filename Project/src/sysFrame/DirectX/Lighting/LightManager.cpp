@@ -36,7 +36,7 @@ void LightManager::Update() const {
     if (ImGui::TreeNode("Directional")){
         ImGui::ColorEdit4("Color", &directionalLight_->color.x);
         ImGui::DragFloat3("Direction", &directionalLight_->direction.x, 0.1f);
-        ImGui::DragFloat("Intensity", &directionalLight_->intensity, 0.1f, 0, 1);
+        ImGui::DragFloat("Intensity", &directionalLight_->intensity, 0.01f, 0, 1);
 
         ImGui::TreePop();
     }

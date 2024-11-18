@@ -39,7 +39,7 @@ private://Methods
 	void DescriptorRange();
 	void CreateInputLayout();
 	void CreateBlendState();
-	void CreateShader(const std::wstring& name);
+	void CreateShader();
 	void CreateRasterizerState();
 	void CreateSampler();
 	void CreateDepthStencil();

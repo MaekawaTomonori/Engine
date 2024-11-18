@@ -10,16 +10,13 @@
 void GraphicsPipeline::Create(DirectXCommon* dxCommon, Type type) {
     dxCommon_ = dxCommon;
 
-    switch (type){
-	case Type::MODEL:
-    default:
-	    CreateRootSignature();
-	    CreateInputLayout();
-	    CreateBlendState();
-        CreateShader(L"Object3d");
-	    CreateRasterizerState();
-	    break;
-    }
+    type_ = type;
+
+    CreateRootSignature();
+    CreateInputLayout();
+    CreateBlendState();
+    CreateShader();
+    CreateRasterizerState();
 
     CreatePSO();
 }
@@ -151,8 +148,22 @@ void GraphicsPipeline::CreateBlendState() {
     }
 }
 
-void GraphicsPipeline::CreateShader(const std::wstring& name) {
+void GraphicsPipeline::CreateShader() {
     shader_ = std::make_unique<Shader>();
+
+    std::wstring name;
+    switch (type_){
+    case Type::MODEL:
+        name = L"Object3d";
+	    break;
+    case Type::SPRITE:
+        name = L"Object3d";
+	    break;
+    case Type::PARTICLE:
+        name = L"Particle";
+	    break;
+    }
+
     shader_->Create(name);
 }
 

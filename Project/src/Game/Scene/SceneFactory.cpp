@@ -3,16 +3,16 @@
 #include "PlayScene.h"
 #include "TitleScene.h"
 
-BaseScene* SceneFactory::CreateScene(const std::string& scene) {
-    BaseScene* nextScene = nullptr;
+BaseScene* SceneFactory::CreateScene(const std::string& sceneName) {
+    BaseScene* scene = nullptr;
 
-    if (scene == "Title"){
-        nextScene = new TitleScene();
-    } else if (scene == "Play"){
-        nextScene = new PlayScene();
+    if (sceneName == "Title"){
+        scene = new TitleScene();
+    } else if (sceneName == "Play"){
+        scene = new PlayScene();
     }else{
         assert(false);
     }
 
-    return nextScene;
+    return scene;
 }

@@ -13,22 +13,17 @@ DirectXCommon::~DirectXCommon() {
     CoUninitialize();
 }
 
-
-bool DirectXCommon::Initialize(WinApp* winApp) {
-    winApp_ = winApp;
-
-    InitializeFixFPS();
-
+bool DirectXCommon::Initialize(const WinApp* winApp) {
     CoInitializeEx(0, COINIT_MULTITHREADED);
     CreateDebugLayer();
     CreateFactory();
     CreateDevice();
     CreateCommand();
-    CreateSwapChain(winApp_->GetWindowHandle(), WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT);
+    CreateSwapChain(winApp->GetWindowHandle(), WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT);
     CreateFence();
     SettingGraphicsInfo();
     CreateDepthStencilView();
-    //CreateShaderResourceView();
+    InitializeFixFPS();
     return true;
 }
 

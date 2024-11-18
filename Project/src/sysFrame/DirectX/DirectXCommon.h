@@ -19,9 +19,6 @@ using namespace Microsoft::WRL;
 class DirectXCommon{
 
 private://Variables
-	//WinApp借り物
-	WinApp* winApp_ = nullptr;
-
 	//Factory
     ComPtr<IDXGIFactory7> factory_ = nullptr;
 	//Device
@@ -36,8 +33,9 @@ private://Variables
 	ComPtr<ID3D12CommandQueue> commandQueue_;
 
 	//SwapChain
+	static constexpr size_t BACK_BUFFER_COUNT = 2;
 	ComPtr<IDXGISwapChain4> swapChain_ = nullptr;
-	std::array<ComPtr<ID3D12Resource>, 2> swapChainBuffers_;
+	std::array<ComPtr<ID3D12Resource>, BACK_BUFFER_COUNT> swapChainBuffers_;
 
 	//RenderTargetView
 	std::shared_ptr<Heap> rtvHeap_;
@@ -71,7 +69,7 @@ private://Variables
 
 public://Methods
 	~DirectXCommon();
-	bool Initialize(WinApp* winApp);
+	bool Initialize(const WinApp* winApp);
 
 	void PreDraw();
 	void PostDraw();
@@ -88,7 +86,7 @@ public://Methods
 		return commandList_.Get();
 	}
 	size_t GetBackBufferCount() const {
-		return swapChainBuffers_.size();
+		return BACK_BUFFER_COUNT;
 	}
 
 	void SetFPSLimit(double limit) {

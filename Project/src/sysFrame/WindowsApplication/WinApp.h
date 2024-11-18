@@ -4,8 +4,6 @@
 
 #include "System/Window/Window.h"
 
-class DirectXCommon;
-
 class WinApp{
 private: //Variables
 	std::shared_ptr<Window> window_;

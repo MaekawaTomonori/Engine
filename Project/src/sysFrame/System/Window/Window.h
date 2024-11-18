@@ -3,11 +3,11 @@
 #include <Windows.h>
 
 class Window{
-    HINSTANCE hInstance_;
-	HWND hWnd_;
-	RECT windowRect_;
+    HINSTANCE hInstance_ {};
+	HWND hWnd_ {};
+	RECT windowRect_ {};
 
-public:
+private:
 	static LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 public:

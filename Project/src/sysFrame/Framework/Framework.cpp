@@ -19,11 +19,8 @@ bool Framework::IsEndRequest() const {
 
 void Framework::Run() {
     Initialize();
-    while (true){
+    while (!IsEndRequest()){
         Update();
-        if (IsEndRequest()){
-            break;
-        }
         engine_->PreDraw();
         Draw();
         engine_->PostDraw();

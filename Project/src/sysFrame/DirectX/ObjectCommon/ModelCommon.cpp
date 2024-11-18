@@ -4,17 +4,16 @@
 
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Pipeline/GraphicsPipeline.h"
-#include "DirectX/Shader/Shader.h"
 #include "System/System.h"
 
 std::shared_ptr<ModelCommon> ModelCommon::instance_ = nullptr;
 
 ModelCommon::ModelCommon() {
-    System::Log("ModelCommon Enabled\n");
+    System::Log("[ModelCommon]Enabled\n");
 }
 
 ModelCommon::~ModelCommon() {
-    System::Log("ModelCommon Disabled\n");
+    System::Log("[ModelCommon]Disabled\n");
 }
 
 std::shared_ptr<ModelCommon> ModelCommon::GetInstance() {

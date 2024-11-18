@@ -1,8 +1,12 @@
 #include "Engine.h"
 
-std::unique_ptr<Camera> Engine::defaultCamera_ = nullptr;
+#include "System/System.h"
+
+std::unique_ptr<Camera> Engine::defaultCamera_ = std::make_unique<Camera>();
 
 Engine::Engine() {
+    System::Log("[Engine]Starting...\n");
+
     winApp_ = std::make_unique<WinApp>();
     dxCommon_ = std::make_unique<DirectXCommon>();
     srvManager_ = std::make_unique<SRVManager>();
@@ -14,31 +18,37 @@ Engine::Engine() {
     lightManager_ = LightManager::GetInstance();
     input_ = std::make_unique<Input>();
     audio_ = Audio::GetInstance();
-
-    defaultCamera_ = std::make_unique<Camera>();
 }
 
 void Engine::Initialize() const {
-	//EngineInit
-    winApp_->Initialize("Engine");
+    try{
+        System::Log("[Engine]Initialize...\n");
 
-    dxCommon_->Initialize(winApp_.get());
+        //EngineInit
+        winApp_->Initialize("Engine");
 
-    srvManager_->Initialize(dxCommon_.get());
+        dxCommon_->Initialize(winApp_.get());
 
-    imguiManager_->Initialize();
+        srvManager_->Initialize(dxCommon_.get());
 
-    spriteCommon_->Initialize(dxCommon_.get());
-    modelCommon_->Initialize(dxCommon_.get());
+        imguiManager_->Initialize();
 
-    textureManager_->Initialize(dxCommon_.get(), srvManager_.get());
-    modelManager_->Initialize(dxCommon_.get());
-    lightManager_->Initialize(dxCommon_.get());
+        spriteCommon_->Initialize(dxCommon_.get());
+        modelCommon_->Initialize(dxCommon_.get());
 
-    input_->Initialize(winApp_.get());
-    audio_->Initialize();
+        textureManager_->Initialize(dxCommon_.get(), srvManager_.get());
+        modelManager_->Initialize(dxCommon_.get());
+        lightManager_->Initialize(dxCommon_.get());
 
-    defaultCamera_->Initialize();
+        input_->Initialize(winApp_.get());
+        audio_->Initialize();
+
+        defaultCamera_->Initialize();
+
+        System::Log("[Engine]Enabled\n");
+    } catch (const std::exception& e){
+        System::Log(std::format("Engine Initialization Failed: {}\n", e.what()));
+    }
 }
 
 void Engine::Update() const {
