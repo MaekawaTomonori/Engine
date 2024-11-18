@@ -9,17 +9,30 @@
 class Heap;
 class DirectXCommon;
 
-enum class Type{
-	MODEL,
-	SPRITE,
-	PARTICLE,
+enum class BlendMode{
+	NONE,
+	ALPHA,
+	ADD,
+	SUB,
+	MULTI,
+	SCREEN,
 };
 
 class GraphicsPipeline{
 public:
+	enum class Type{
+		MODEL,
+		SPRITE,
+		PARTICLE,
+	};
+
 	void Create(DirectXCommon* dxCommon, Type type);
 
 	void DrawCall(ID3D12GraphicsCommandList* commandList) const;
+
+    void SetBlendMode(BlendMode mode) {
+        blendMode_ = mode;
+    }
 
 private://Methods
 	void CreateRootSignature();
@@ -37,11 +50,14 @@ private://Variables
 	//借りポ
 	DirectXCommon* dxCommon_ = nullptr;
 
+	Type type_ = Type::MODEL;
+
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature_;
 	D3D12_ROOT_PARAMETER rootParamerters_[4] = {};
     D3D12_DESCRIPTOR_RANGE descriptorRange_[1] {};
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc_ {};
 	D3D12_INPUT_ELEMENT_DESC inputElementDescs_[3]{};
+    BlendMode blendMode_ = BlendMode::NONE;
 	D3D12_BLEND_DESC blendDesc_ {};
 	D3D12_RASTERIZER_DESC rasterizerDesc_ {};
 
