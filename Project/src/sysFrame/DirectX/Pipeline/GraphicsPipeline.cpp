@@ -44,7 +44,16 @@ void GraphicsPipeline::CreateRootSignature() {
     rootParamerters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
     rootParamerters_[0].Descriptor.ShaderRegister = 0;
 
-    //VertexShader
+    if(type_ == Type::PARTICLE){
+        DescriptorRange();
+
+        rootParamerters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+        rootParamerters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+        rootParamerters_[1].DescriptorTable.pDescriptorRanges = descriptorRange_;
+        rootParamerters_[1].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_);
+    }
+        
+	//VertexShader
     rootParamerters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
     rootParamerters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
     rootParamerters_[1].Descriptor.ShaderRegister = 0;

@@ -12,19 +12,23 @@
 
 - 命名変更　一部Draw-> Render
 
+- ObjectをModel,Spriteにとりあえず対応させる
+	- リソース (割り当てるものはそれぞれに持たせる
+	
 - Pipelineを細分化
 - Sprite用のシェーダーを用意
 
 - ParticleSystem(CG3への対応)
 
-- Frameworkに持たせるクラスたちを必要に応じてSingleton化する AlmostDone
-
 - デストラクタに実装されている終了処理をFinalize(shutdown)関数に置き換え明示的な呼び出しを行う
+
+## Done
+- Frameworkに持たせるクラスたちを必要に応じてSingleton化する
 
 ### DirectXCommonを以下のように変更
 - GraphicsPipelineをメンバ変数から除外(Model, Sprite, Particleにはそれぞれtypeを引数として持たせ、各Commonクラスに変数として追加)
 - Shaderをメンバ変数から除外(Model, Sprite, Particleにはそれぞれtypeを引数として持たせ、作成された各GraphicsPipelineの変数として追加)
-- 引数でDirectXCommonを持っている関数から該当する引数を除外
+- 引数でDirectXCommonを持っている関数から該当する引数を除外 
 
 
 ## DirectXCommonははたしてSingletonにすべきなのか。

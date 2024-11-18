@@ -11,6 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sysFrame\Effect\Emitter.cpp" />
+    <ClCompile Include="src\sysFrame\Effect\ParticleManager.cpp" />
+    <ClCompile Include="src\sysFrame\Effect\Particle.cpp" />
     <ClCompile Include="src\Game\Scene\SceneFactory.cpp" />
     <ClCompile Include="src\sysFrame\Scene\Factory\AbstractSceneFactory.cpp" />
     <ClCompile Include="src\sysFrame\Scene\SceneManager.cpp" />
@@ -54,6 +57,9 @@
     <ClCompile Include="src\Game\Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sysFrame\Effect\Emitter.h" />
+    <ClInclude Include="src\sysFrame\Effect\ParticleManager.h" />
+    <ClInclude Include="src\sysFrame\Effect\Particle.h" />
     <ClInclude Include="src\Game\Scene\SceneFactory.h" />
     <ClInclude Include="src\sysFrame\Scene\Factory\AbstractSceneFactory.h" />
     <ClInclude Include="src\sysFrame\Scene\SceneManager.h" />
@@ -108,13 +114,21 @@
     <ClInclude Include="src\Game\Scene\TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="assets\Shaders\Object3d.PS.hlsl">
+    <FxCompile Include="Assets\Shaders\Object3d.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\Object3d.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\Particle.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="assets\Shaders\Object3d.VS.hlsl">
+    <FxCompile Include="Assets\Shaders\Particle.VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -130,7 +144,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\Shaders\Object3d.hlsli">
+    <FxCompile Include="Assets\Shaders\Object3d.hlsli">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <None Include="Assets\Shaders\Particle.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </None>
   </ItemGroup>

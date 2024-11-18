@@ -9,8 +9,8 @@ Engine::Engine() {
 
     winApp_ = std::make_unique<WinApp>();
     dxCommon_ = std::make_unique<DirectXCommon>();
-    srvManager_ = std::make_unique<SRVManager>();
     imguiManager_ = std::make_unique<ImGuiManager>(winApp_.get(), dxCommon_.get(), srvManager_.get());
+    srvManager_ = std::make_unique<SRVManager>();
     spriteCommon_ = SpriteCommon::GetInstance();
     modelCommon_ = ModelCommon::GetInstance();
     textureManager_ = TextureManager::GetInstance();

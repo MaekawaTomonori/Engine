@@ -138,6 +138,15 @@
     <ClCompile Include="src\Game\Scene\SceneFactory.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="src\sysFrame\Effect\Particle.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sysFrame\Effect\Emitter.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sysFrame\Effect\ParticleManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sysFrame\DirectX\DirectXCommon.h">
@@ -296,13 +305,25 @@
     <ClInclude Include="src\Game\Scene\SceneFactory.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="src\sysFrame\Effect\Particle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sysFrame\Effect\Emitter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sysFrame\Effect\ParticleManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="assets\Shaders\Object3d.VS.hlsl" />
-    <FxCompile Include="assets\Shaders\Object3d.PS.hlsl" />
+    <FxCompile Include="Assets\Shaders\Particle.VS.hlsl" />
+    <FxCompile Include="Assets\Shaders\Particle.PS.hlsl" />
+    <FxCompile Include="Assets\Shaders\Object3d.PS.hlsl" />
+    <FxCompile Include="Assets\Shaders\Object3d.VS.hlsl" />
+    <FxCompile Include="Assets\Shaders\Object3d.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\Shaders\Object3d.hlsli" />
+    <None Include="Assets\Shaders\Particle.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\externals\imgui\LICENSE.txt" />

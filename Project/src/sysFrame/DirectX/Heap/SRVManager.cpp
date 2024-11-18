@@ -43,9 +43,16 @@ void SRVManager::CreateSRVforTexture2D(uint32_t srvIndex, ID3D12Resource* pResou
     dxCommon_->GetDevice()->CreateShaderResourceView(pResource, &desc, heap_->GetCPUHandle(srvIndex));
 }
 
-void SRVManager::CreateSRVforStructuredBuffer(uint32_t srvIndex, ID3D12Resource* pResource, UINT numElements,
-	UINT stride) {
-    (void)srvIndex, pResource, numElements, stride;
+void SRVManager::CreateSRVforStructuredBuffer(uint32_t srvIndex, ID3D12Resource* pResource, UINT numElements, UINT stride) {
+    D3D12_SHADER_RESOURCE_VIEW_DESC desc {};
+    desc.Format = DXGI_FORMAT_UNKNOWN;
+    desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+    desc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+    desc.Buffer.FirstElement = 0;
+    desc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+    desc.Buffer.NumElements = numElements;
+    desc.Buffer.StructureByteStride = stride;
+    dxCommon_->GetDevice()->CreateShaderResourceView(pResource, &desc, heap_->GetCPUHandle(srvIndex));
 }
 
 void SRVManager::SetGraphicsRootDescriptorTable(UINT rootParameterIndex, uint32_t srvIndex) const {
