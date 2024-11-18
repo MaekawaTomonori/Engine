@@ -48,5 +48,9 @@ public:
 
 	void Initialize(const std::string& directory, const std::string& name);
 	void Draw();
+
+    Vector4&  GetColor() const {
+        return material_->color;
+    }
 };
 

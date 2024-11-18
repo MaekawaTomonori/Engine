@@ -10,7 +10,7 @@ std::shared_ptr<SpriteCommon> SpriteCommon::instance_ = nullptr;
 
 void SpriteCommon::CreatePipeline() {
     pipeline_ = std::make_shared<GraphicsPipeline>();
-    pipeline_->Create(dxCommon_, Type::SPRITE);
+    pipeline_->Create(dxCommon_, GraphicsPipeline::Type::SPRITE);
 }
 
 std::shared_ptr<SpriteCommon> SpriteCommon::GetInstance() {

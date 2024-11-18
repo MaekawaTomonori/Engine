@@ -20,10 +20,10 @@ void Model::Update() const {
 #ifdef _DEBUG
     ImGui::Begin("Model");
     if(ImGui::TreeNode(uuid_.c_str())){
-        ImGui::DragFloat3("Pos : ", &worldTransform_->translate.x, 0.1f);
-        ImGui::DragFloat3("Rotate : ", &worldTransform_->rotate.x, 0.1f);
-        ImGui::DragFloat3("Scale : ", &worldTransform_->scale.x, 0.1f);
-
+        ImGui::DragFloat3("Pos", &worldTransform_->translate.x, 0.1f);
+        ImGui::DragFloat3("Rotate", &worldTransform_->rotate.x, 0.1f);
+        ImGui::DragFloat3("Scale", &worldTransform_->scale.x, 0.1f);
+        ImGui::ColorEdit4("Color", &mesh_->GetColor().x);
         ImGui::TreePop();
     }
     ImGui::End();
