@@ -1,6 +1,4 @@
-﻿#include <cstdint>
-
-#include "Particle.hlsli"
+﻿#include "Particle.hlsli"
 
 struct ParticleForGPU{
     float32_t4x4 WVP;
@@ -19,9 +17,7 @@ VertexShaderOutput main(VertexShaderInput input, uint32_t instanceId : SV_Instan
     VertexShaderOutput output;
     output.position = mul(input.position, gParticles[instanceId].WVP);
     output.texcoord = input.texcoord;
-
-    //Lambertian Reflectance
-    output.normal = normalize(mul(input.normal, (float32_t3x3)gParticles[instanceId].World));
+    output.color = gParticles[instanceId].color;
 
     return output;
 }

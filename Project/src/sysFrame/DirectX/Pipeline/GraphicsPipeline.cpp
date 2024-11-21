@@ -16,6 +16,7 @@ void GraphicsPipeline::Create(DirectXCommon* dxCommon, Type type) {
     CreateBlendState();
     CreateShader();
     CreateRasterizerState();
+    CreateDepthStencil();
 
     CreatePSO();
 }
@@ -75,42 +76,47 @@ void GraphicsPipeline::CreateRootSignature() {
     D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature {};
     descriptionRootSignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
-    //PixelShader
-    rootParamerters_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-    rootParamerters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-    rootParamerters_[0].Descriptor.ShaderRegister = 0;
+    DescriptorRange();
 
-    if(type_ == Type::PARTICLE){
-        DescriptorRange();
-
-        rootParamerters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-        rootParamerters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
-        rootParamerters_[1].DescriptorTable.pDescriptorRanges = descriptorRange_;
-        rootParamerters_[1].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_);
+    if (type_ == Type::PARTICLE){
+        rootParameters_.resize(3);
     } else{
-        //VertexShader
-        rootParamerters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-        rootParamerters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
-        rootParamerters_[1].Descriptor.ShaderRegister = 0;
-
-    	//Lighting
-	    rootParamerters_[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-	    rootParamerters_[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-	    rootParamerters_[3].Descriptor.ShaderRegister = 1;
+        rootParameters_.resize(4);
     }
 
-    //texture
-    DescriptorRange();
-    //DescriptorTable
-    rootParamerters_[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-    rootParamerters_[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-    rootParamerters_[2].DescriptorTable.pDescriptorRanges = descriptorRange_;
-    rootParamerters_[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_);
+    //PixelShader Material
+    rootParameters_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+    rootParameters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+    rootParameters_[0].Descriptor.ShaderRegister = 0;
 
+    //VertexShader WVP
+    if (type_ == Type::PARTICLE){
+        rootParameters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+        rootParameters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+        rootParameters_[1].DescriptorTable.pDescriptorRanges = descriptorRange_;
+        rootParameters_[1].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_);
+    } else{
+        rootParameters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        rootParameters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+        rootParameters_[1].Descriptor.ShaderRegister = 0;
+    }
+
+    //DescriptorTable Texture
+    rootParameters_[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+    rootParameters_[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+    rootParameters_[2].DescriptorTable.pDescriptorRanges = descriptorRange_;
+    rootParameters_[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_);
+
+    if (type_ != Type::PARTICLE){
+        //Lighting
+        rootParameters_[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        rootParameters_[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+        rootParameters_[3].Descriptor.ShaderRegister = 1;
+    }
 
 	//set
-    descriptionRootSignature.pParameters = rootParamerters_;
-    descriptionRootSignature.NumParameters = _countof(rootParamerters_);
+    descriptionRootSignature.pParameters = rootParameters_.data();
+    descriptionRootSignature.NumParameters = static_cast<UINT>(rootParameters_.size());
 
     //StaticSampler
     CreateSampler();
@@ -177,8 +183,21 @@ void GraphicsPipeline::CreateShader() {
 }
 
 void GraphicsPipeline::CreateRasterizerState() {
-    rasterizerDesc_.CullMode = D3D12_CULL_MODE_BACK;
-    rasterizerDesc_.FillMode = D3D12_FILL_MODE_SOLID;
+	switch (type_){
+	case Type::MODEL:
+	    rasterizerDesc_.CullMode = D3D12_CULL_MODE_BACK;
+	    rasterizerDesc_.FillMode = D3D12_FILL_MODE_SOLID;
+		break;
+	case Type::SPRITE:
+        rasterizerDesc_.CullMode = D3D12_CULL_MODE_NONE;
+        rasterizerDesc_.FillMode = D3D12_FILL_MODE_SOLID;
+		break;
+	case Type::PARTICLE:
+        rasterizerDesc_.CullMode = D3D12_CULL_MODE_NONE;
+        rasterizerDesc_.FillMode = D3D12_FILL_MODE_SOLID;
+		break;
+	default: ;
+	}
 }
 
 void GraphicsPipeline::CreateSampler() {
@@ -196,6 +215,10 @@ void GraphicsPipeline::CreateDepthStencil() {
     depthStencilDesc_.DepthEnable = true;
     depthStencilDesc_.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
     depthStencilDesc_.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+
+    if(type_ == Type::PARTICLE){
+   //     depthStencilDesc_.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+    }
 }
 
 void GraphicsPipeline::CreatePSO() {
@@ -204,7 +227,7 @@ void GraphicsPipeline::CreatePSO() {
     graphicsPipelineStateDesc.BlendState = blendDesc_;
     graphicsPipelineStateDesc.VS = {shader_->GetVertexShader()->GetBufferPointer(), shader_->GetVertexShader()->GetBufferSize()};
     if (type_ == Type::PARTICLE){
-        graphicsPipelineStateDesc.GS = {shader_->GetGeometryShader()->GetBufferPointer(), shader_->GetGeometryShader()->GetBufferSize()};
+        //graphicsPipelineStateDesc.GS = {shader_->GetGeometryShader()->GetBufferPointer(), shader_->GetGeometryShader()->GetBufferSize()};
     }
 	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc_;
     graphicsPipelineStateDesc.PS = {shader_->GetPixelShader()->GetBufferPointer(), shader_->GetPixelShader()->GetBufferSize()};

@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sysFrame\DirectX\ObjectCommon\ParticleCommon.cpp" />
     <ClCompile Include="src\sysFrame\Effect\Emitter.cpp" />
     <ClCompile Include="src\sysFrame\Effect\ParticleManager.cpp" />
     <ClCompile Include="src\sysFrame\Effect\Particle.cpp" />
@@ -57,6 +58,7 @@
     <ClCompile Include="src\Game\Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sysFrame\DirectX\ObjectCommon\ParticleCommon.h" />
     <ClInclude Include="src\sysFrame\Effect\Emitter.h" />
     <ClInclude Include="src\sysFrame\Effect\ParticleManager.h" />
     <ClInclude Include="src\sysFrame\Effect\Particle.h" />

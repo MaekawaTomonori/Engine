@@ -6,7 +6,7 @@ void main(triangle VertexShaderOutput input[3] : SV_POSITION, inout TriangleStre
         GeometryShaderOutput element;
         element.position = input[i].position;
         element.texcoord = input[i].texcoord;
-        element.normal = input[i].normal;
+        element.color = input[i].color;
 
         output.Append(element);
     }

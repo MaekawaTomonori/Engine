@@ -2,6 +2,7 @@
 #include <d3d12.h>
 #include <dxcapi.h>
 #include <memory>
+#include <vector>
 #include <wrl/client.h>
 
 #include "DirectX/Shader/Shader.h"
@@ -51,7 +52,7 @@ private://Variables
 	Type type_ = Type::MODEL;
 
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature_;
-	D3D12_ROOT_PARAMETER rootParamerters_[4] = {};
+	std::vector<D3D12_ROOT_PARAMETER> rootParameters_;
     D3D12_DESCRIPTOR_RANGE descriptorRange_[1] {};
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc_ {};
 	D3D12_INPUT_ELEMENT_DESC inputElementDescs_[3]{};

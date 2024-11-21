@@ -3,15 +3,17 @@
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/SRVManager.h"
 #include "DirectX/Model/ModelManager.h"
+#include "DirectX/ObjectCommon/ParticleCommon.h"
 #include "Framework/Engine.h"
 #include "Object/Camera/Camera.h"
 #include "Object/Model/Mesh/Mesh.h"
 #include "Utility/Math/MathUtils.h"
 
-void Emitter::Initialize(const DirectXCommon* dxCommon, SRVManager* srv) {
-    commandList_ = dxCommon->GetCommandList();
+void Emitter::Initialize(ParticleCommon* common, SRVManager* srv) {
+    common_ = common;
+	commandList_ = common->GetDXCommon()->GetCommandList();
 
-	resource_.Attach(DirectXCommon::CreateBufferResource(dxCommon->GetDevice(), sizeof(ParticleForGPU) * MAX_COUNT));
+	resource_.Attach(DirectXCommon::CreateBufferResource(common->GetDXCommon()->GetDevice(), sizeof(ParticleForGPU) * MAX_COUNT));
     resource_->Map(0, nullptr, reinterpret_cast<void**>(&forGpu_));
 
     for (uint16_t i = 0; i < MAX_COUNT; ++i){
@@ -38,6 +40,7 @@ void Emitter::Initialize(const DirectXCommon* dxCommon, SRVManager* srv) {
 void Emitter::Update() const {
     for(uint16_t i = 0; i < MAX_COUNT; ++i){
         particle_[i]->transform.translate += particle_[i]->velocity;
+        //particle_[i]->transform.rotate.y += 0.01f;
 
         forGpu_[i].World = MathUtils::Matrix::MakeAffineMatrix(particle_[i]->transform);
         forGpu_[i].WVP = forGpu_[i].World * camera_->GetViewProjection();
@@ -47,6 +50,7 @@ void Emitter::Update() const {
 
 void Emitter::Draw() const {
     if (!mesh_)return;
+    common_->PreDraw();
 
     mesh_->Draw();
 
@@ -61,7 +65,7 @@ void Emitter::SetCamera(Camera* camera) {
 Particle Emitter::Spawn() {
     Particle particle;
     particle.transform.translate = {0, 0, 0};
-    particle.transform.rotate = {};
+    particle.transform.rotate = {0,0,0};
     particle.transform.scale = {1, 1, 1};
     particle.velocity = {};
     particle.color = {1,1,1,1};

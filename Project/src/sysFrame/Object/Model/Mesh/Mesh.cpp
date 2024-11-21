@@ -127,7 +127,7 @@ void Mesh::Draw() const {
     commandList_->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
     commandList_->SetGraphicsRootDescriptorTable(2, TextureManager::GetInstance()->GetGPUHandle(modelData_.material.texturePath));
 
-    if (material_->enableLight){
+    if (enableLight_ && material_->enableLight){
         LightManager::GetInstance()->Draw(lightType);
     }
 

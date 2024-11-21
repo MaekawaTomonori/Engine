@@ -3,6 +3,7 @@
 #include <wrl/client.h>
 
 #include "DirectX/DirectXCommon.h"
+#include "DirectX/ObjectCommon/ParticleCommon.h"
 #include "Utility/Math/Transform.h"
 #include "Utility/Math/TransformationMatrix.h"
 #include "Utility/Math/Vector4.h"
@@ -26,12 +27,13 @@ struct ParticleForGPU{
 
 class Emitter{
     ID3D12GraphicsCommandList* commandList_ = nullptr;
+    ParticleCommon* common_ = nullptr;
 
     Mesh* mesh_ = nullptr;
 
     Camera* camera_ = nullptr;
 
-    static constexpr uint16_t MAX_COUNT = 10;
+    static constexpr uint16_t MAX_COUNT = 50;
     const uint16_t SPAWN_COUNT = 3;
 
     Microsoft::WRL::ComPtr<ID3D12Resource> resource_;
@@ -42,7 +44,7 @@ class Emitter{
     D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle_ {};
 
 public:
-	void Initialize(const DirectXCommon* dxCommon, SRVManager* srv);
+	void Initialize(ParticleCommon* common, SRVManager* srv);
     void Update() const;
     void Draw() const;
 

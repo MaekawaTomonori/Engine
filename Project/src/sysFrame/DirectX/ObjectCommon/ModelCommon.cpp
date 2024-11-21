@@ -29,8 +29,8 @@ void ModelCommon::Initialize(DirectXCommon* dxCommon) {
     dxCommon_ = dxCommon;
 
     pipeline_ = std::make_shared<GraphicsPipeline>();
-    pipeline_->SetBlendMode(BlendMode::ALPHA);
     pipeline_->Create(dxCommon_, GraphicsPipeline::Type::MODEL);
+    pipeline_->SetBlendMode(BlendMode::ALPHA);
 }
 
 void ModelCommon::PreDraw() const {
