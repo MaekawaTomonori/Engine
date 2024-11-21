@@ -2,7 +2,6 @@
 #include <list>
 #include <memory>
 
-#include "System/Math/Vector3.h"
 
 class SRVManager;
 class DirectXCommon;
@@ -19,8 +18,16 @@ class ParticleManager{
 
 	std::list<std::unique_ptr<Emitter>> emitters_;
 
+private:
+	ParticleManager() = default;
+	~ParticleManager() = default;
+
+    static std::shared_ptr<ParticleManager> instance_;
+
 public:
+	static std::shared_ptr<ParticleManager> GetInstance();
+
 	void Initialize(DirectXCommon* dxCommon, SRVManager* srvManager);
-	Emitter* Emit(const Vector3& position/*, ParticleType type*/);
+	Emitter* Emit(/*const Vector3& position/*, ParticleType type*/);
 };
 

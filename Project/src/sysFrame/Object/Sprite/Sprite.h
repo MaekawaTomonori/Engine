@@ -1,6 +1,9 @@
 ﻿	#pragma once
 #include "DirectX/ObjectCommon/SpriteCommon.h"
 #include "Object/Object.h"
+#include "Utility/Math/Vector2.h"
+#include "Utility/Math/VertexData.h"
+
 class SpriteCommon;
 
 class Sprite : public Object{

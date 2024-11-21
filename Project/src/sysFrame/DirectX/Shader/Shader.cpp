@@ -21,6 +21,10 @@ void Shader::CreateDxc() {
 void Shader::CompileShaders() {
     vertexShader_.Attach(Compile(L"Assets/Shaders/", name_ + L".VS.hlsl", L"vs_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get()));
     pixelShader_.Attach(Compile(L"Assets/Shaders/", name_ + L".PS.hlsl", L"ps_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get()));
+
+    if(name_ == L"Particle"){
+        geometryShader_.Attach(Compile(L"Assets/Shaders/", name_ + L".GS.hlsl", L"gs_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get()));
+    }
 }
 
 bool Shader::Create(const std::wstring& name) {

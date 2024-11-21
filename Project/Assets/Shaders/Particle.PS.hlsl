@@ -1,4 +1,4 @@
-﻿#include "Object3d.hlsli"
+﻿#include "Particle.hlsli"
 
 struct Material{
     float32_t4 color;
@@ -20,7 +20,7 @@ struct PixelShaderOutput{
     float32_t4 color : SV_TARGET0;
 };
 
-PixelShaderOutput main(VertexShaderOutput input) {
+PixelShaderOutput main(GeometryShaderOutput input) {
     PixelShaderOutput output;
     float32_t4 texColor = gTexture.Sample(gSampler, input.texcoord);
 

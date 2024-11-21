@@ -3,16 +3,27 @@
 #include "Emitter.h"
 #include "DirectX/Heap/SRVManager.h"
 
+std::shared_ptr<ParticleManager> ParticleManager::instance_ = nullptr;
+
+std::shared_ptr<ParticleManager> ParticleManager::GetInstance() {
+    if (!instance_){
+        instance_ = std::shared_ptr<ParticleManager>(new ParticleManager, [](const ParticleManager* ptr){
+            delete ptr;
+        });
+    }
+    return instance_;
+}
+
 void ParticleManager::Initialize(DirectXCommon* dxCommon, SRVManager* srvManager) {
     dxCommon_ = dxCommon;
     srvManager_ = srvManager;
 }
 
-Emitter* ParticleManager::Emit(const Vector3& position) {
-    std::unique_ptr<Emitter> emitter = std::make_unique<Emitter>();
+Emitter* ParticleManager::Emit(/*const Vector3& position*/) {
+    Emitter* emitter = new Emitter;
     emitter->Initialize(dxCommon_, srvManager_);
 
-    emitters_.push_back(emitter);
+    emitters_.push_back(std::unique_ptr<Emitter>(emitter));
 
-    return emitter.get();
+    return emitter;
 }

@@ -9,7 +9,6 @@
 
 void GraphicsPipeline::Create(DirectXCommon* dxCommon, Type type) {
     dxCommon_ = dxCommon;
-
     type_ = type;
 
     CreateRootSignature();
@@ -51,25 +50,26 @@ void GraphicsPipeline::CreateRootSignature() {
         rootParamerters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
         rootParamerters_[1].DescriptorTable.pDescriptorRanges = descriptorRange_;
         rootParamerters_[1].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_);
+    } else{
+        //VertexShader
+        rootParamerters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        rootParamerters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+        rootParamerters_[1].Descriptor.ShaderRegister = 0;
+
+    	//Lighting
+	    rootParamerters_[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	    rootParamerters_[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	    rootParamerters_[3].Descriptor.ShaderRegister = 1;
     }
-        
-	//VertexShader
-    rootParamerters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-    rootParamerters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
-    rootParamerters_[1].Descriptor.ShaderRegister = 0;
 
+    //texture
     DescriptorRange();
-
     //DescriptorTable
     rootParamerters_[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
     rootParamerters_[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
     rootParamerters_[2].DescriptorTable.pDescriptorRanges = descriptorRange_;
     rootParamerters_[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_);
 
-    //Lighting
-    rootParamerters_[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-    rootParamerters_[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-    rootParamerters_[3].Descriptor.ShaderRegister = 1;
 
 	//set
     descriptionRootSignature.pParameters = rootParamerters_;
@@ -163,8 +163,6 @@ void GraphicsPipeline::CreateShader() {
     std::wstring name;
     switch (type_){
     case Type::MODEL:
-        name = L"Object3d";
-	    break;
     case Type::SPRITE:
         name = L"Object3d";
 	    break;
@@ -204,7 +202,10 @@ void GraphicsPipeline::CreatePSO() {
     graphicsPipelineStateDesc.InputLayout = inputLayoutDesc_;
     graphicsPipelineStateDesc.BlendState = blendDesc_;
     graphicsPipelineStateDesc.VS = {shader_->GetVertexShader()->GetBufferPointer(), shader_->GetVertexShader()->GetBufferSize()};
-    graphicsPipelineStateDesc.RasterizerState = rasterizerDesc_;
+    if (type_ == Type::PARTICLE){
+        graphicsPipelineStateDesc.GS = {shader_->GetGeometryShader()->GetBufferPointer(), shader_->GetGeometryShader()->GetBufferSize()};
+    }
+	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc_;
     graphicsPipelineStateDesc.PS = {shader_->GetPixelShader()->GetBufferPointer(), shader_->GetPixelShader()->GetBufferSize()};
     graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc_;
     graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;

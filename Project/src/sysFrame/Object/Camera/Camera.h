@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "System/Math/Matrix.h"
-#include "System/Math/Transform.h"
+#include "Utility/Math/Matrix.h"
+#include "Utility/Math/Transform.h"
 
 
 class Camera{

@@ -2,9 +2,11 @@
 
 #include "DirectX/Model/ModelManager.h"
 #include "DirectX/Texture/TextureManager.h"
+#include "Effect/ParticleManager.h"
 #include "Framework/Engine.h"
 #include "Object/Model/Model.h"
 #include "Object/Sprite/Sprite.h"
+#include "Effect/Emitter.h"
 
 PlayScene::~PlayScene() {
 }
@@ -21,21 +23,22 @@ void PlayScene::Initialize() {
 
 	sprite = std::make_unique<Sprite>(SpriteCommon::GetInstance().get());
     sprite->Initialize("uvChecker.png");
-    sprite->SetCamera(Engine::GetDefaultCamera());
 
     model = std::make_unique<Model>(ModelCommon::GetInstance().get());
     model->Initialize();
-    model->SetCamera(Engine::GetDefaultCamera());
     model->SetMesh("plane.obj");
+
+    emitter_ = ParticleManager::GetInstance()->Emit();
 }
 
 void PlayScene::Update() {
 	sprite->Update();
     model->Update();
+    emitter_->Update();
 }
 
 void PlayScene::Draw() {
 	model->Draw();
-
+    emitter_->Draw();
 	sprite->Draw();
 }

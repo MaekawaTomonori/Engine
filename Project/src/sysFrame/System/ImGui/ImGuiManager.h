@@ -23,7 +23,7 @@ class ImGuiManager{
 public:
 	ImGuiManager(WinApp* winApp, DirectXCommon* dxCommon, SRVManager* srvManager) :winApp_(winApp), dxCommon_(dxCommon), srvManager_(srvManager) {}
     ~ImGuiManager();
-	void Initialize();
+	void Initialize(SRVManager* srv);
 
     void Begin();
     void End();

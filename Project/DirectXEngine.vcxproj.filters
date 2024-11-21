@@ -39,7 +39,7 @@
     <ClCompile Include="src\sysFrame\DirectX\Pipeline\GraphicsPipeline.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\sysFrame\System\Math\MathUtils.cpp">
+    <ClCompile Include="src\sysFrame\Utility\Math\MathUtils.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\sysFrame\Object\Triangle.cpp">
@@ -75,7 +75,7 @@
     <ClCompile Include="src\sysFrame\Object\Camera\Camera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\sysFrame\System\Math\WorldTransform.cpp">
+    <ClCompile Include="src\sysFrame\Utility\Math\WorldTransform.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\sysFrame\DirectX\Heap\SRVManager.cpp">
@@ -173,31 +173,31 @@
     <ClInclude Include="src\sysFrame\Object\Object.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\MathUtils.h">
+    <ClInclude Include="src\sysFrame\Utility\Math\MathUtils.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\Matrix.h">
+    <ClInclude Include="src\sysFrame\Utility\Math\Matrix.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\Transform.h">
+    <ClInclude Include="src\sysFrame\Utility\Math\Transform.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\Vector2.h">
+    <ClInclude Include="src\sysFrame\Utility\Math\Vector2.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\Vector3.h">
+    <ClInclude Include="src\sysFrame\Utility\Math\Vector3.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\Vector4.h">
+    <ClInclude Include="src\sysFrame\Utility\Math\Vector4.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\sysFrame\Object\Triangle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\VertexData.h">
+    <ClInclude Include="src\sysFrame\Utility\Math\VertexData.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\Material.h">
+    <ClInclude Include="src\sysFrame\Utility\Math\Material.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\sysFrame\DirectX\Util\D3DResourceLeakChecker.h">
@@ -233,10 +233,10 @@
     <ClInclude Include="src\sysFrame\Object\Camera\Camera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\TransformationMatrix.h">
+    <ClInclude Include="src\sysFrame\Utility\Math\TransformationMatrix.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\WorldTransform.h">
+    <ClInclude Include="src\sysFrame\Utility\Math\WorldTransform.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\sysFrame\DirectX\Heap\SRVManager.h">
@@ -321,6 +321,7 @@
     <FxCompile Include="Assets\Shaders\Object3d.PS.hlsl" />
     <FxCompile Include="Assets\Shaders\Object3d.VS.hlsl" />
     <FxCompile Include="Assets\Shaders\Object3d.hlsli" />
+    <FxCompile Include="Assets\Shaders\Particle.GS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\Particle.hlsli" />

@@ -2,9 +2,9 @@
 
 #include "DirectX/Texture/TextureManager.h"
 #include "imgui/imgui.h"
-#include "System/Math/Material.h"
-#include "System/Math/MathUtils.h"
-#include "System/Math/VertexData.h"
+#include "Utility/Math/Material.h"
+#include "Utility/Math/MathUtils.h"
+#include "Utility/Math/VertexData.h"
 
 void Triangle::Initialize() {
     vertexResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(VertexData) * 3));

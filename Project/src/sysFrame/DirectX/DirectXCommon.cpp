@@ -298,7 +298,7 @@ void DirectXCommon::SettingGraphicsInfo() {
 }
 
 void DirectXCommon::CreateDepthStencilView() {
-    depthStencilResource_.Attach(DirectXCommon::CreateDepthStencilTextureResource(device_.Get(), WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT));
+    depthStencilResource_.Attach(CreateDepthStencilTextureResource(device_.Get(), WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT));
 
     dsvHeap_ = std::make_shared<Heap>();
     dsvHeap_->Create(device_.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 1, false);

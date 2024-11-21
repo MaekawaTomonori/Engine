@@ -2,7 +2,7 @@
 
 #include "WindowsApplication/WinApp.h"
 #include "imgui/imgui.h"
-#include "System/Math/MathUtils.h"
+#include "Utility/Math/MathUtils.h"
 
 void Camera::Initialize() {
     transform_ = {

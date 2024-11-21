@@ -15,6 +15,8 @@
 #include "System/Sound/Audio.h"
 #include "Object/Camera/Camera.h"
 
+class ParticleManager;
+
 class Engine{
 	std::unique_ptr<D3DResourceLeakChecker> leakChecker;
 	std::unique_ptr<WinApp> winApp_;
@@ -26,6 +28,7 @@ class Engine{
     std::shared_ptr<TextureManager> textureManager_;
     std::shared_ptr<ModelManager> modelManager_;
     std::shared_ptr<LightManager> lightManager_;
+    std::shared_ptr<ParticleManager> particle_;
     std::unique_ptr<Input> input_;
     std::shared_ptr<Audio> audio_;
 	static std::unique_ptr<Camera> defaultCamera_;
@@ -39,8 +42,4 @@ public:
 
     bool IsEndRequest() const;
     static Camera* GetDefaultCamera();
-
-    DirectXCommon* GetDirectXCommon() const;
-    SpriteCommon* GetSpriteCommon() const;
-    ModelCommon* GetModelCommon() const;
 };
