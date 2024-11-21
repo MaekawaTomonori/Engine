@@ -25,6 +25,43 @@ void GraphicsPipeline::DrawCall(ID3D12GraphicsCommandList* commandList) const {
     commandList->SetPipelineState(graphicsPipelineState_.Get());
 }
 
+void GraphicsPipeline::SetBlendMode(BlendMode mode) {
+	blendMode_ = mode;
+	switch (blendMode_){
+	case BlendMode::ALPHA:
+		blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+		blendDesc_.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+		blendDesc_.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+		blendDesc_.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
+		blendDesc_.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
+		blendDesc_.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
+		break;
+	case BlendMode::ADD:
+		blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+		blendDesc_.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+		blendDesc_.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
+		break;
+	case BlendMode::SUB:
+		blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+		blendDesc_.RenderTarget[0].BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;
+		blendDesc_.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
+		break;
+	case BlendMode::MULTI:
+		blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_ZERO;
+		blendDesc_.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+		blendDesc_.RenderTarget[0].DestBlend = D3D12_BLEND_DEST_COLOR;
+		break;
+	case BlendMode::SCREEN:
+		blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_INV_DEST_COLOR;
+		blendDesc_.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+		blendDesc_.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
+		break;
+	case BlendMode::NONE:
+		blendDesc_.RenderTarget[0].BlendEnable = false;
+	}
+    graphicsPipelineStateDesc.BlendState = blendDesc_;
+}
+
 void GraphicsPipeline::DescriptorRange() {
     descriptorRange_[0].BaseShaderRegister = 0;
     descriptorRange_[0].NumDescriptors = 1;
@@ -120,41 +157,6 @@ void GraphicsPipeline::CreateInputLayout() {
 
 void GraphicsPipeline::CreateBlendState() {
     blendDesc_.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
-
-    blendDesc_.RenderTarget[0].BlendEnable = true;
-
-	switch (blendMode_){
-    case BlendMode::ALPHA:
-        blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
-	    blendDesc_.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
-	    blendDesc_.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
-		blendDesc_.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
-	    blendDesc_.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
-	    blendDesc_.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
-		break;
-	case BlendMode::ADD:
-        blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
-        blendDesc_.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
-        blendDesc_.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
-        break;
-	case BlendMode::SUB:
-        blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
-        blendDesc_.RenderTarget[0].BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;
-        blendDesc_.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
-        break;
-	case BlendMode::MULTI:
-        blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_ZERO;
-        blendDesc_.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
-        blendDesc_.RenderTarget[0].DestBlend = D3D12_BLEND_DEST_COLOR;
-		break;
-    case BlendMode::SCREEN:
-        blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_INV_DEST_COLOR;
-        blendDesc_.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
-        blendDesc_.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
-        break;
-	case BlendMode::NONE:
-        blendDesc_.RenderTarget[0].BlendEnable = false;
-    }
 }
 
 void GraphicsPipeline::CreateShader() {
@@ -197,7 +199,6 @@ void GraphicsPipeline::CreateDepthStencil() {
 }
 
 void GraphicsPipeline::CreatePSO() {
-    D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc {};
     graphicsPipelineStateDesc.pRootSignature = rootSignature_.Get();
     graphicsPipelineStateDesc.InputLayout = inputLayoutDesc_;
     graphicsPipelineStateDesc.BlendState = blendDesc_;

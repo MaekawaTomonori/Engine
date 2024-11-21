@@ -30,9 +30,7 @@ public:
 
 	void DrawCall(ID3D12GraphicsCommandList* commandList) const;
 
-    void SetBlendMode(BlendMode mode) {
-        blendMode_ = mode;
-    }
+    void SetBlendMode(BlendMode mode);
 
 private://Methods
 	void CreateRootSignature();
@@ -68,5 +66,6 @@ private://Variables
     //DepthStencil
     D3D12_DEPTH_STENCIL_DESC depthStencilDesc_ {};
 
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc {};
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> graphicsPipelineState_;
 };
