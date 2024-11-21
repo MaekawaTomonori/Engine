@@ -45,14 +45,25 @@ Typeとして定義して関数ポインタテーブルから呼び出すのも�
 ### Component指向について
 良い資料を見つけたので勉強をしつつ、実装を試行してみる
 
+### OpenCV
+よく使われているライブラリなので、使い方を覚えておくと便利かもしれない
+必要に応じてexternに追加予定
+
+### OpenGL (GLSL)
+汎用性が高いらしいので、選択できるように今後変更を加える予定
+
+### CMake
+調べた感じ使いやすそうなので今後を考えて移行の準備をしておく。
+
 
 # Done
 - Frameworkに持たせるクラスたちを必要に応じてSingleton化する
 
-### DirectXCommonを以下のように変更
+
+#### DirectXCommonを以下のように変更
 - GraphicsPipelineをメンバ変数から除外(Model, Sprite, Particleにはそれぞれtypeを引数として持たせ、各Commonクラスに変数として追加)
 - Shaderをメンバ変数から除外(Model, Sprite, Particleにはそれぞれtypeを引数として持たせ、作成された各GraphicsPipelineの変数として追加)
-- 引数でDirectXCommonを持っている関数から該当する引数を除外 
+
 
 ### DirectXCommonははたしてSingletonにすべきなのか。
 https://qiita.com/mo12ino/items/abf2e31e34278ebea42c
