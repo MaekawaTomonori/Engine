@@ -134,3 +134,7 @@ void Mesh::Draw() const {
     if (!enableDrawCall_)return;
     commandList_->DrawInstanced(static_cast<UINT>(modelData_.vertices.size()), 1, 0, 0);
 }
+
+void Mesh::SetTexture(const std::string& name) {
+    modelData_.material.texturePath = name;
+}

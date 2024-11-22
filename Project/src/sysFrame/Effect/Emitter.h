@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <d3d12.h>
+#include <list>
 #include <wrl/client.h>
 
 #include "DirectX/DirectXCommon.h"
@@ -17,6 +18,8 @@ struct Particle{
     Transform transform;
     Vector3 velocity;
     Vector4 color;
+    float lifeTime;
+    float currentTime;
 };
 
 struct ParticleForGPU{
@@ -33,24 +36,35 @@ class Emitter{
 
     Camera* camera_ = nullptr;
 
-    static constexpr uint16_t MAX_COUNT = 50;
+    Transform transform_ {};
+
+    const uint16_t MAX_COUNT = 100;
     const uint16_t SPAWN_COUNT = 3;
 
     Microsoft::WRL::ComPtr<ID3D12Resource> resource_;
     ParticleForGPU* forGpu_ = nullptr;
-    std::array<std::unique_ptr<Particle>, MAX_COUNT> particle_;
+    std::list<std::unique_ptr<Particle>> particle_;
 
     uint32_t srvIndex_ = 0;
     D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle_ {};
 
+    uint16_t instanceCount = 0;
+
+    Matrix4x4 backToFront{};
+
+    float frequency_ = 0;
+    float frequencyTime = 0;
+
 public:
-	void Initialize(ParticleCommon* common, SRVManager* srv);
-    void Update() const;
+	void Initialize(ParticleCommon* common, SRVManager* srv, const Transform& transform);
+    void Update();
     void Draw() const;
 
     void SetCamera(Camera* camera);
 
+    void SetFrequency(float frequency);
+
 private:
-    static Particle Spawn();
+    std::list<std::unique_ptr<Particle>> Spawn() const;
 };
 

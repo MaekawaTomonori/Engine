@@ -6,7 +6,7 @@
 void ParticleCommon::Initialize() {
     pipeline_ = std::make_unique<GraphicsPipeline>();
     pipeline_->Create(dxCommon_, GraphicsPipeline::Type::PARTICLE);
-    pipeline_->SetBlendMode(BlendMode::ALPHA);
+    //pipeline_->SetBlendMode(BlendMode::ADD);
 }
 
 void ParticleCommon::PreDraw() const {

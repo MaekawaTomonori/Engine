@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sysFrame\Utility\Randomize.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\ObjectCommon\ParticleCommon.cpp" />
     <ClCompile Include="src\sysFrame\Effect\Emitter.cpp" />
     <ClCompile Include="src\sysFrame\Effect\ParticleManager.cpp" />
@@ -45,6 +46,7 @@
     <ClCompile Include="src\sysFrame\DirectX\DirectXCommon.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\sysFrame\System\Input\Input.cpp" />
+    <ClCompile Include="src\sysFrame\Utility\Math\Vector3.cpp" />
     <ClCompile Include="src\sysFrame\WindowsApplication\WinApp.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Pipeline\GraphicsPipeline.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Shader\Shader.cpp" />
@@ -58,6 +60,7 @@
     <ClCompile Include="src\Game\Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sysFrame\Utility\Randomize.h" />
     <ClInclude Include="src\sysFrame\DirectX\ObjectCommon\ParticleCommon.h" />
     <ClInclude Include="src\sysFrame\Effect\Emitter.h" />
     <ClInclude Include="src\sysFrame\Effect\ParticleManager.h" />

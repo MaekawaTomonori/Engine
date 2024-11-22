@@ -10,6 +10,10 @@ struct Vector3{
 		z += v.z;
 	}
 
+    Vector3 operator*(const float f) const {
+        return {x * f, y * f, z * f};
+    }
+
 	float length() const {
 		return sqrtf(x * x + y * y + z * z);
 	}
@@ -19,5 +23,6 @@ struct Vector3{
 		this->y /= length();
 		this->z /= length();
 	}
-};
 
+	static Vector3 Random();
+};

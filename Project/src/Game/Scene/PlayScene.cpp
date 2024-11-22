@@ -12,27 +12,32 @@ PlayScene::~PlayScene() {
 }
 
 void PlayScene::Initialize() {
-	//UserInit
+    //UserInit
     textureManager = TextureManager::GetInstance();
     textureManager->Load("uvChecker.png");
     textureManager->Load("monsterBall.png");
+    textureManager->Load("circle.png");
 
     modelManager = ModelManager::GetInstance();
     modelManager->Load("plane.obj");
     modelManager->Load("axis.obj");
 
-	sprite = std::make_unique<Sprite>(SpriteCommon::GetInstance().get());
-    sprite->Initialize("uvChecker.png");
+    //sprite = std::make_unique<Sprite>(SpriteCommon::GetInstance().get());
+    //sprite->Initialize("uvChecker.png");
 
     //model = std::make_unique<Model>(ModelCommon::GetInstance().get());
     //model->Initialize();
     //model->SetMesh("plane.obj");
 
-    emitter_ = ParticleManager::GetInstance()->Emit();
+    emitter_ = ParticleManager::GetInstance()->Emit(
+        {1,1,1,
+        0,0,0,
+        0, 0, 10
+    });
 }
 
 void PlayScene::Update() {
-	sprite->Update();
+	//sprite->Update();
     //model->Update();
     emitter_->Update();
 }
@@ -40,5 +45,5 @@ void PlayScene::Update() {
 void PlayScene::Draw() {
 	//model->Draw();
     emitter_->Draw();
-	sprite->Draw();
+	//sprite->Draw();
 }

@@ -62,6 +62,7 @@ public:
 	ModelData GetModelData() const {
 		return modelData_;
     }
+    void SetTexture(const std::string& name);
 
     void SetEnableLight(bool enableLight) {
         enableLight_ = enableLight;

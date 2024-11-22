@@ -21,8 +21,13 @@ void Camera::Update() {
     ImGui::End();
 #endif
 
-	viewMatrix = MathUtils::Matrix::MakeAffineMatrix(transform_).Inverse();
+    cameraMatrix = MathUtils::Matrix::MakeAffineMatrix(transform_);
+	viewMatrix = cameraMatrix.Inverse();
 	projectionMatrix = MathUtils::Matrix::MakePerspectiveFovMatrix(fov_, aspectRatio_, near_, farZ_);
+}
+
+Matrix4x4 Camera::GetCameraMatrix() const {
+    return cameraMatrix;
 }
 
 Matrix4x4 Camera::GetViewProjection() const {

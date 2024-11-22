@@ -6,6 +6,7 @@
 class Camera{
     Transform transform_{};
 
+    Matrix4x4 cameraMatrix {};
     Matrix4x4 viewMatrix {};
     Matrix4x4 projectionMatrix {};
 
@@ -20,6 +21,7 @@ public:
 	~Camera() = default;
 	void Initialize();
     void Update();
+    Matrix4x4 GetCameraMatrix() const;
 	Matrix4x4 GetViewProjection() const;
 };
 

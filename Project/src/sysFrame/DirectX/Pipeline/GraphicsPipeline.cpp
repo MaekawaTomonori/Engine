@@ -28,6 +28,7 @@ void GraphicsPipeline::DrawCall(ID3D12GraphicsCommandList* commandList) const {
 
 void GraphicsPipeline::SetBlendMode(BlendMode mode) {
 	blendMode_ = mode;
+    blendDesc_.RenderTarget[0].BlendEnable = true;
 	switch (blendMode_){
 	case BlendMode::ALPHA:
 		blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
@@ -41,6 +42,9 @@ void GraphicsPipeline::SetBlendMode(BlendMode mode) {
 		blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
 		blendDesc_.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
 		blendDesc_.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
+        blendDesc_.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
+        blendDesc_.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
+        blendDesc_.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
 		break;
 	case BlendMode::SUB:
 		blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
@@ -60,7 +64,7 @@ void GraphicsPipeline::SetBlendMode(BlendMode mode) {
 	case BlendMode::NONE:
 		blendDesc_.RenderTarget[0].BlendEnable = false;
 	}
-    graphicsPipelineStateDesc.BlendState = blendDesc_;
+    //graphicsPipelineStateDesc.BlendState = blendDesc_;
 }
 
 void GraphicsPipeline::DescriptorRange() {
@@ -163,6 +167,10 @@ void GraphicsPipeline::CreateInputLayout() {
 
 void GraphicsPipeline::CreateBlendState() {
     blendDesc_.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+
+    if(type_ == Type::PARTICLE){
+        SetBlendMode(BlendMode::ADD);
+    }
 }
 
 void GraphicsPipeline::CreateShader() {
@@ -217,7 +225,7 @@ void GraphicsPipeline::CreateDepthStencil() {
     depthStencilDesc_.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 
     if(type_ == Type::PARTICLE){
-   //     depthStencilDesc_.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+    	//depthStencilDesc_.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
     }
 }
 
@@ -226,9 +234,6 @@ void GraphicsPipeline::CreatePSO() {
     graphicsPipelineStateDesc.InputLayout = inputLayoutDesc_;
     graphicsPipelineStateDesc.BlendState = blendDesc_;
     graphicsPipelineStateDesc.VS = {shader_->GetVertexShader()->GetBufferPointer(), shader_->GetVertexShader()->GetBufferSize()};
-    if (type_ == Type::PARTICLE){
-        //graphicsPipelineStateDesc.GS = {shader_->GetGeometryShader()->GetBufferPointer(), shader_->GetGeometryShader()->GetBufferSize()};
-    }
 	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc_;
     graphicsPipelineStateDesc.PS = {shader_->GetPixelShader()->GetBufferPointer(), shader_->GetPixelShader()->GetBufferSize()};
     graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc_;

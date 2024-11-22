@@ -22,9 +22,9 @@ void ParticleManager::Initialize(DirectXCommon* dxCommon, SRVManager* srvManager
     common_->Initialize();
 }
 
-Emitter* ParticleManager::Emit(/*const Vector3& position*/) {
+Emitter* ParticleManager::Emit(const Transform& transform) {
     Emitter* emitter = new Emitter;
-    emitter->Initialize(common_.get(), srvManager_);
+    emitter->Initialize(common_.get(), srvManager_, transform);
 
     emitters_.push_back(std::unique_ptr<Emitter>(emitter));
 

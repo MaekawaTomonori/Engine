@@ -2,12 +2,15 @@
 #include <list>
 #include <memory>
 
+#include "Utility/Math/Transform.h"
+
 
 class ParticleCommon;
 class SRVManager;
 class DirectXCommon;
 
 enum class ParticleType{
+	BUBBLE,
 };
 
 class Emitter;
@@ -31,7 +34,6 @@ public:
 	static std::shared_ptr<ParticleManager> GetInstance();
 
 	void Initialize(DirectXCommon* dxCommon, SRVManager* srvManager);
-    void PreDraw() const;
-	Emitter* Emit(/*const Vector3& position/*, ParticleType type*/);
+	Emitter* Emit(const Transform& transform /*, ParticleType type*/);
 };
 
