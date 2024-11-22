@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Object/Object.h"
+#include "Utility/Math/VertexData.h"
 
 class Triangle : public Object{
 	VertexData* vertexData_ = nullptr;

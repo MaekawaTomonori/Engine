@@ -7,8 +7,9 @@
 #include "WindowsApplication/WinApp.h"
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Texture/TextureManager.h"
-#include "System/Math/Material.h"
-#include "System/Math/MathUtils.h"
+#include "Framework/Engine.h"
+#include "Utility/Math/Material.h"
+#include "Utility/Math/MathUtils.h"
 
 void Sprite::AdjustTextureSize() {
     const DirectX::TexMetadata& metadata = TextureManager::GetInstance()->GetTextureMetadata(texturePath);
@@ -67,6 +68,8 @@ void Sprite::Initialize() {
     worldTransform_->translate = {0, 0, 0};
 
     size = {100, 100};
+
+    camera_ = Engine::GetDefaultCamera();
 
     AdjustTextureSize();
 }

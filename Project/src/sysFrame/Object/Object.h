@@ -3,10 +3,8 @@
 #include <d3d12.h>
 
 #include "DirectX/DirectXCommon.h"
-#include "System/Math/Material.h"
-#include "System/Math/Transform.h"
-#include "System/Math/VertexData.h"
-#include "System/Math/WorldTransform.h"
+#include "Utility/Math/Material.h"
+#include "Utility/Math/WorldTransform.h"
 
 #pragma comment(lib, "rpcrt4.lib")
 #pragma comment(lib, "d3d12.lib")

@@ -10,6 +10,9 @@ namespace MathUtils{
     const float F_PI = 3.14159265358979323846264338327950288f;
     const double PI = 3.14159265358979323846264338327950288;
 
+    float Random(float min, float max);
+    Vector3 Random(Vector3 min, Vector3 max);
+
     template<typename Type>
     Type Lerp(const Type& a, const Type& b, float t) {
         return a + (b - a) * t;
@@ -40,6 +43,7 @@ namespace MathUtils{
         Matrix4x4 MakeRotateZ(float rad);
         Matrix4x4 MakeAffineMatrix(const ::Transform& transform);
         Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
+        Matrix4x4 MakeAffineMatrix(const Matrix4x4& scale, const Matrix4x4& rotate, const Matrix4x4& translate);
 
         Matrix4x4 MakeOrthogonalMatrix(float left, float right, float top, float bottom, float znear, float zfar);
         Matrix4x4 MakePerspectiveFovMatrix(float fovY, float aspectRatio, float nearClip, float farClip);

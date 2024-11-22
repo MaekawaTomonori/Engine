@@ -2,6 +2,7 @@
 #include <d3d12.h>
 #include <dxcapi.h>
 #include <memory>
+#include <vector>
 #include <wrl/client.h>
 
 #include "DirectX/Shader/Shader.h"
@@ -30,9 +31,7 @@ public:
 
 	void DrawCall(ID3D12GraphicsCommandList* commandList) const;
 
-    void SetBlendMode(BlendMode mode) {
-        blendMode_ = mode;
-    }
+    void SetBlendMode(BlendMode mode);
 
 private://Methods
 	void CreateRootSignature();
@@ -53,7 +52,7 @@ private://Variables
 	Type type_ = Type::MODEL;
 
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature_;
-	D3D12_ROOT_PARAMETER rootParamerters_[4] = {};
+	std::vector<D3D12_ROOT_PARAMETER> rootParameters_;
     D3D12_DESCRIPTOR_RANGE descriptorRange_[1] {};
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc_ {};
 	D3D12_INPUT_ELEMENT_DESC inputElementDescs_[3]{};
@@ -68,5 +67,6 @@ private://Variables
     //DepthStencil
     D3D12_DEPTH_STENCIL_DESC depthStencilDesc_ {};
 
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc {};
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> graphicsPipelineState_;
 };

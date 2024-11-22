@@ -7,7 +7,7 @@
 #include "DirectX/Lighting/LightManager.h"
 #include "DirectX/ObjectCommon/MeshCommon.h"
 #include "DirectX/Texture/TextureManager.h"
-#include "System/Math/Vector3.h"
+#include "Utility/Math/Vector3.h"
 
 
 Mesh::MaterialData Mesh::LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& fileName) {
@@ -121,12 +121,20 @@ void Mesh::Initialize(const std::string& directory, const std::string& name) {
     TextureManager::GetInstance()->Load(modelData_.material.texturePath);
 }
 
-void Mesh::Draw() {
+void Mesh::Draw() const {
 	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView_);
     commandList_->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
     commandList_->SetGraphicsRootDescriptorTable(2, TextureManager::GetInstance()->GetGPUHandle(modelData_.material.texturePath));
-    LightManager::GetInstance()->Draw(LightType::Directional);
 
+    if (enableLight_ && material_->enableLight){
+        LightManager::GetInstance()->Draw(lightType);
+    }
+
+    if (!enableDrawCall_)return;
     commandList_->DrawInstanced(static_cast<UINT>(modelData_.vertices.size()), 1, 0, 0);
+}
+
+void Mesh::SetTexture(const std::string& name) {
+    modelData_.material.texturePath = name;
 }

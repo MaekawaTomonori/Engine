@@ -11,6 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sysFrame\Utility\Collision.cpp" />
+    <ClCompile Include="src\sysFrame\Utility\Math\Randomize.cpp" />
+    <ClCompile Include="src\sysFrame\DirectX\ObjectCommon\ParticleCommon.cpp" />
+    <ClCompile Include="src\sysFrame\Effect\Emitter.cpp" />
+    <ClCompile Include="src\sysFrame\Effect\ParticleManager.cpp" />
+    <ClCompile Include="src\sysFrame\Effect\Particle.cpp" />
     <ClCompile Include="src\Game\Scene\SceneFactory.cpp" />
     <ClCompile Include="src\sysFrame\Scene\Factory\AbstractSceneFactory.cpp" />
     <ClCompile Include="src\sysFrame\Scene\SceneManager.cpp" />
@@ -41,19 +47,28 @@
     <ClCompile Include="src\sysFrame\DirectX\DirectXCommon.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\sysFrame\System\Input\Input.cpp" />
+    <ClCompile Include="src\sysFrame\Utility\Math\Vector3.cpp" />
     <ClCompile Include="src\sysFrame\WindowsApplication\WinApp.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Pipeline\GraphicsPipeline.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Shader\Shader.cpp" />
-    <ClCompile Include="src\sysFrame\System\Math\MathUtils.cpp" />
+    <ClCompile Include="src\sysFrame\Utility\Math\MathUtils.cpp" />
     <ClCompile Include="src\sysFrame\System\System.cpp" />
     <ClCompile Include="src\sysFrame\System\Window\Window.cpp" />
     <ClCompile Include="src\sysFrame\Object\Triangle.cpp" />
-    <ClCompile Include="src\sysFrame\System\Math\WorldTransform.cpp" />
+    <ClCompile Include="src\sysFrame\Utility\Math\WorldTransform.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Heap\SRVManager.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Texture\TextureManager.cpp" />
     <ClCompile Include="src\Game\Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sysFrame\Effect\AccelerationField.h" />
+    <ClInclude Include="src\sysFrame\Utility\AABB.h" />
+    <ClInclude Include="src\sysFrame\Utility\Collision.h" />
+    <ClInclude Include="src\sysFrame\Utility\Math\Randomize.h" />
+    <ClInclude Include="src\sysFrame\DirectX\ObjectCommon\ParticleCommon.h" />
+    <ClInclude Include="src\sysFrame\Effect\Emitter.h" />
+    <ClInclude Include="src\sysFrame\Effect\ParticleManager.h" />
+    <ClInclude Include="src\sysFrame\Effect\Particle.h" />
     <ClInclude Include="src\Game\Scene\SceneFactory.h" />
     <ClInclude Include="src\sysFrame\Scene\Factory\AbstractSceneFactory.h" />
     <ClInclude Include="src\sysFrame\Scene\SceneManager.h" />
@@ -90,31 +105,47 @@
     <ClInclude Include="src\sysFrame\DirectX\Pipeline\GraphicsPipeline.h" />
     <ClInclude Include="src\sysFrame\DirectX\Shader\Shader.h" />
     <ClInclude Include="src\sysFrame\Object\Object.h" />
-    <ClInclude Include="src\sysFrame\System\Math\Material.h" />
-    <ClInclude Include="src\sysFrame\System\Math\MathUtils.h" />
-    <ClInclude Include="src\sysFrame\System\Math\Matrix.h" />
-    <ClInclude Include="src\sysFrame\System\Math\Transform.h" />
-    <ClInclude Include="src\sysFrame\System\Math\TransformationMatrix.h" />
-    <ClInclude Include="src\sysFrame\System\Math\Vector2.h" />
-    <ClInclude Include="src\sysFrame\System\Math\Vector3.h" />
-    <ClInclude Include="src\sysFrame\System\Math\Vector4.h" />
+    <ClInclude Include="src\sysFrame\Utility\Math\Material.h" />
+    <ClInclude Include="src\sysFrame\Utility\Math\MathUtils.h" />
+    <ClInclude Include="src\sysFrame\Utility\Math\Matrix.h" />
+    <ClInclude Include="src\sysFrame\Utility\Math\Transform.h" />
+    <ClInclude Include="src\sysFrame\Utility\Math\TransformationMatrix.h" />
+    <ClInclude Include="src\sysFrame\Utility\Math\Vector2.h" />
+    <ClInclude Include="src\sysFrame\Utility\Math\Vector3.h" />
+    <ClInclude Include="src\sysFrame\Utility\Math\Vector4.h" />
     <ClInclude Include="src\sysFrame\System\System.h" />
     <ClInclude Include="src\sysFrame\System\Window\Window.h" />
     <ClInclude Include="src\sysFrame\Object\Triangle.h" />
-    <ClInclude Include="src\sysFrame\System\Math\VertexData.h" />
-    <ClInclude Include="src\sysFrame\System\Math\WorldTransform.h" />
+    <ClInclude Include="src\sysFrame\Utility\Math\VertexData.h" />
+    <ClInclude Include="src\sysFrame\Utility\Math\WorldTransform.h" />
     <ClInclude Include="src\sysFrame\DirectX\Heap\SRVManager.h" />
     <ClInclude Include="src\sysFrame\DirectX\Texture\TextureManager.h" />
     <ClInclude Include="src\Game\Scene\TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="assets\Shaders\Object3d.PS.hlsl">
+    <FxCompile Include="Assets\Shaders\Object3d.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\Object3d.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\Particle.GS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\Particle.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="assets\Shaders\Object3d.VS.hlsl">
+    <FxCompile Include="Assets\Shaders\Particle.VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -130,7 +161,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\Shaders\Object3d.hlsli">
+    <FxCompile Include="Assets\Shaders\Object3d.hlsli">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <None Include="Assets\Shaders\Particle.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </None>
   </ItemGroup>

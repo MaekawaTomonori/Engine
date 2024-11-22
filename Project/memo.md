@@ -2,35 +2,74 @@
 何でもやってくれる至れり尽くせりなエンジンにする。
 軽量化を怠らず速度を出す。そのうえで安全第一。
 
-# 命名
-- Object3d => Model
-- Model => Mesh
 
 
 # TODO
 - Engine部をまとめる
 
-- 命名変更　一部Draw-> Render
+- ObjectをModel,Spriteにとりあえず対応させる
+	- リソース (割り当てるものはそれぞれに持たせる
+	- 本当にObjectがあるべきなのかを見直す(設計が甘いので練り直す)
+
 
 - Pipelineを細分化
 - Sprite用のシェーダーを用意
 
 - ParticleSystem(CG3への対応)
-
-- Frameworkに持たせるクラスたちを必要に応じてSingleton化する AlmostDone
+- ParticleCommonの追加
+- Particleのクラス化前にParticle部を丸々ParticleManagerに実装しなおすこと
+- ParticleCommonを追加(本当に必要か要検討)
+- GeometryShaderの理解と必要個所の検討
 
 - デストラクタに実装されている終了処理をFinalize(shutdown)関数に置き換え明示的な呼び出しを行う
 
-### DirectXCommonを以下のように変更
+- FontRendering
+- Adjust for MultiThread
+
+### 命名
+- Object3d => Model
+- Model => Mesh
+- 一部Draw-> Render
+
+### AudioLoadについてのTODO
+LoadからWavやmp3などの形式に応じて呼び出す関数を変更する
+Typeとして定義して関数ポインタテーブルから呼び出すのもよいかも
+
+.wavなどの拡張子の有無を関係なくtryするようにする
+なかった場合Load関数でnameに.wav等をつける or key側に拡張子を付けないよう変更する
+
+### Inputについて
+現状InputをとりあえずSingletonとして使用する。
+が、これでは2P対応が難しいため、Singletonではない方法を模索する必要がある。
+
+### Component指向について
+良い資料を見つけたので勉強をしつつ、実装を試行してみる
+
+### OpenCV
+よく使われているライブラリなので、使い方を覚えておくと便利かもしれない
+必要に応じてexternに追加予定
+
+### OpenGL (GLSL)
+汎用性が高いらしいので、選択できるように今後変更を加える予定
+
+### CMake
+調べた感じ使いやすそうなので今後を考えて移行の準備をしておく。
+
+
+# Done
+- Frameworkに持たせるクラスたちを必要に応じてSingleton化する
+
+
+#### DirectXCommonを以下のように変更
 - GraphicsPipelineをメンバ変数から除外(Model, Sprite, Particleにはそれぞれtypeを引数として持たせ、各Commonクラスに変数として追加)
 - Shaderをメンバ変数から除外(Model, Sprite, Particleにはそれぞれtypeを引数として持たせ、作成された各GraphicsPipelineの変数として追加)
-- 引数でDirectXCommonを持っている関数から該当する引数を除外
+- ~~関数の引数から除外~~
 
-
-## DirectXCommonははたしてSingletonにすべきなのか。
+### DirectXCommonははたしてSingletonにすべきなのか。
 https://qiita.com/mo12ino/items/abf2e31e34278ebea42c
+
 資料に抗ってSingletonを極力なしでやってみる。例外はあるけど(AudioやらTextureやら)
-### 例外君たち
+##### 例外君たち
 - SpriteCommon Done
 - ModelCommon Done
 - TextureManager Done
@@ -38,19 +77,3 @@ https://qiita.com/mo12ino/items/abf2e31e34278ebea42c
 - AudioManager(Audio) Almost
 - Input(?) *要検討
 - Light *検討
-
-
-
-## AudioLoadについてのTODO
-LoadからWavやmp3などの形式に応じて呼び出す関数を変更する
-Typeとして定義して関数ポインタテーブルから呼び出すのもよいかも
-
-.wavなどの拡張子の有無を関係なくtryするようにする
-なかった場合Load関数でnameに.wav等をつける or key側に拡張子を付けないよう変更する
-
-## Inputについて
-現状InputをとりあえずSingletonとして使用する。
-が、これでは2P対応が難しいため、Singletonではない方法を模索する必要がある。
-
-## Component指向について
-良い資料を見つけたので勉強をしつつ、実装を試行してみる

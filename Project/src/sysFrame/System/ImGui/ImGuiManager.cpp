@@ -12,8 +12,9 @@ ImGuiManager::~ImGuiManager() {
 #endif
 }
 
-void ImGuiManager::Initialize() {
+void ImGuiManager::Initialize(SRVManager* srv) {
 #ifdef _DEBUG
+    srvManager_ = srv;
     srvIndex_ = srvManager_->Allocate();
 
     ImGui::CreateContext();

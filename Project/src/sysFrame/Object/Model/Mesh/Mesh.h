@@ -4,9 +4,11 @@
 #include <vector>
 #include <wrl/client.h>
 
-#include "System/Math/Material.h"
-#include "System/Math/VertexData.h"
+#include "DirectX/Lighting/LightManager.h"
+#include "Utility/Math/Material.h"
+#include "Utility/Math/VertexData.h"
 
+enum class LightType;
 class DirectXCommon;
 class MeshCommon;
 
@@ -43,14 +45,30 @@ private:
 
     VertexData* vertexData_ = nullptr;
 
+	bool enableLight_ = true;
+    LightType lightType = LightType::Directional;
+
+	bool enableDrawCall_ = true;
+
 public:
 	Mesh(MeshCommon* meshCommon) :common_(meshCommon) {}
 
 	void Initialize(const std::string& directory, const std::string& name);
-	void Draw();
+	void Draw() const;
 
     Vector4&  GetColor() const {
         return material_->color;
+    }
+	ModelData GetModelData() const {
+		return modelData_;
+    }
+    void SetTexture(const std::string& name);
+
+    void SetEnableLight(bool enableLight) {
+        enableLight_ = enableLight;
+    }
+    void SetEnableDrawCall(bool enableDrawCall) {
+        enableDrawCall_ = enableDrawCall;
     }
 };
 

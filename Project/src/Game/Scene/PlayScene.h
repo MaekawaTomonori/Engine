@@ -7,12 +7,15 @@
 #include "Object/Model/Model.h"
 #include "Object/Sprite/Sprite.h"
 
+class Emitter;
+
 class PlayScene : public BaseScene{
 	std::shared_ptr<TextureManager> textureManager;
 	std::shared_ptr<ModelManager> modelManager;
 
     std::unique_ptr<Sprite> sprite;
     std::unique_ptr<Model> model;
+    Emitter* emitter_ = nullptr;
 public:
 	~PlayScene() override;
 	void Initialize() override;

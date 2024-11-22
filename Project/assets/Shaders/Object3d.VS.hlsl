@@ -1,10 +1,10 @@
 ﻿#include "Object3d.hlsli"
 
-struct TransformationMatrix{
+struct ParticleForGPU{
     float32_t4x4 WVP;
     float32_t4x4 World;
 };
-ConstantBuffer<TransformationMatrix> gTransformationMatrix : register(b0);
+ConstantBuffer<ParticleForGPU> gTransformationMatrix : register(b0);
 
 struct VertexShaderInput{
 	float32_t4 position : POSITION0;

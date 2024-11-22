@@ -1,5 +1,6 @@
 #include "Engine.h"
 
+#include "Effect/ParticleManager.h"
 #include "System/System.h"
 
 std::unique_ptr<Camera> Engine::defaultCamera_ = std::make_unique<Camera>();
@@ -9,8 +10,8 @@ Engine::Engine() {
 
     winApp_ = std::make_unique<WinApp>();
     dxCommon_ = std::make_unique<DirectXCommon>();
-    srvManager_ = std::make_unique<SRVManager>();
     imguiManager_ = std::make_unique<ImGuiManager>(winApp_.get(), dxCommon_.get(), srvManager_.get());
+    srvManager_ = std::make_unique<SRVManager>();
     spriteCommon_ = SpriteCommon::GetInstance();
     modelCommon_ = ModelCommon::GetInstance();
     textureManager_ = TextureManager::GetInstance();
@@ -18,6 +19,7 @@ Engine::Engine() {
     lightManager_ = LightManager::GetInstance();
     input_ = std::make_unique<Input>();
     audio_ = Audio::GetInstance();
+    particle_ = ParticleManager::GetInstance();
 }
 
 void Engine::Initialize() const {
@@ -31,7 +33,7 @@ void Engine::Initialize() const {
 
         srvManager_->Initialize(dxCommon_.get());
 
-        imguiManager_->Initialize();
+        imguiManager_->Initialize(srvManager_.get());
 
         spriteCommon_->Initialize(dxCommon_.get());
         modelCommon_->Initialize(dxCommon_.get());
@@ -39,6 +41,7 @@ void Engine::Initialize() const {
         textureManager_->Initialize(dxCommon_.get(), srvManager_.get());
         modelManager_->Initialize(dxCommon_.get());
         lightManager_->Initialize(dxCommon_.get());
+        particle_->Initialize(dxCommon_.get(), srvManager_.get());
 
         input_->Initialize(winApp_.get());
         audio_->Initialize();
@@ -81,23 +84,10 @@ bool Engine::IsEndRequest() const {
     return !winApp_->ProcessMessage();
 }
 
-
 Camera* Engine::GetDefaultCamera() {
     if (!defaultCamera_){
         defaultCamera_ = std::make_unique<Camera>();
         defaultCamera_->Initialize();
     }
     return defaultCamera_.get();
-}
-
-DirectXCommon* Engine::GetDirectXCommon() const {
-    return dxCommon_.get();
-}
-
-SpriteCommon* Engine::GetSpriteCommon() const {
-    return spriteCommon_.get();
-}
-
-ModelCommon* Engine::GetModelCommon() const {
-    return modelCommon_.get();
 }

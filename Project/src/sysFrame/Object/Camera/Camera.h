@@ -1,11 +1,12 @@
 ﻿#pragma once
-#include "System/Math/Matrix.h"
-#include "System/Math/Transform.h"
+#include "Utility/Math/Matrix.h"
+#include "Utility/Math/Transform.h"
 
 
 class Camera{
     Transform transform_{};
 
+    Matrix4x4 cameraMatrix {};
     Matrix4x4 viewMatrix {};
     Matrix4x4 projectionMatrix {};
 
@@ -20,6 +21,7 @@ public:
 	~Camera() = default;
 	void Initialize();
     void Update();
+    Matrix4x4 GetCameraMatrix() const;
 	Matrix4x4 GetViewProjection() const;
 };
 

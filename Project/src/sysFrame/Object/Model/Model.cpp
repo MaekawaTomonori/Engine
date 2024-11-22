@@ -2,6 +2,7 @@
 
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/ObjectCommon/ModelCommon.h"
+#include "Framework/Engine.h"
 #include "imgui/imgui.h"
 #include "Mesh/Mesh.h"
 
@@ -14,6 +15,7 @@ void Model::Initialize() {
     worldTransform_ = std::make_unique<WorldTransform>(dxCommon_);
     worldTransform_->Initialize();
 
+    camera_ = Engine::GetDefaultCamera();
 }
 
 void Model::Update() const {
