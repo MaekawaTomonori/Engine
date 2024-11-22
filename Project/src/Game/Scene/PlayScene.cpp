@@ -25,25 +25,25 @@ void PlayScene::Initialize() {
     //sprite = std::make_unique<Sprite>(SpriteCommon::GetInstance().get());
     //sprite->Initialize("uvChecker.png");
 
-    //model = std::make_unique<Model>(ModelCommon::GetInstance().get());
-    //model->Initialize();
-    //model->SetMesh("plane.obj");
+    model = std::make_unique<Model>(ModelCommon::GetInstance().get());
+    model->Initialize();
+    model->SetMesh("plane");
 
-    emitter_ = ParticleManager::GetInstance()->Emit(
+    /*emitter_ = ParticleManager::GetInstance()->Emit(
         {1,1,1,
         0,0,0,
         0, 0, 10
-    });
+        });*/
 }
 
 void PlayScene::Update() {
-	//sprite->Update();
-    //model->Update();
-    emitter_->Update();
+    //sprite->Update();
+    model->Update();
+    //emitter_->Update();
 }
 
 void PlayScene::Draw() {
-	//model->Draw();
-    emitter_->Draw();
-	//sprite->Draw();
+    model->Draw();
+    //emitter_->Draw();
+    //sprite->Draw();
 }

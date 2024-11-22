@@ -2,6 +2,9 @@
 #include "Utility/Math/Matrix.h"
 #include "Utility/Math/Transform.h"
 
+struct CameraForGPU{
+    Vector3 worldPosition;
+};
 
 class Camera{
     Transform transform_{};
@@ -23,5 +26,6 @@ public:
     void Update();
     Matrix4x4 GetCameraMatrix() const;
 	Matrix4x4 GetViewProjection() const;
+    CameraForGPU GetCameraForGPU() const;
 };
 

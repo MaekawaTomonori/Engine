@@ -85,7 +85,7 @@ void GraphicsPipeline::CreateRootSignature() {
     if (type_ == Type::PARTICLE){
         rootParameters_.resize(3);
     } else{
-        rootParameters_.resize(4);
+        rootParameters_.resize(5);
     }
 
     //PixelShader Material
@@ -116,7 +116,12 @@ void GraphicsPipeline::CreateRootSignature() {
         rootParameters_[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
         rootParameters_[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
         rootParameters_[3].Descriptor.ShaderRegister = 1;
+
+        rootParameters_[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        rootParameters_[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+        rootParameters_[4].Descriptor.ShaderRegister = 2;
     }
+
 
 	//set
     descriptionRootSignature.pParameters = rootParameters_.data();

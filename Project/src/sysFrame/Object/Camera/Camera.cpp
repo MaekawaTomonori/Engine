@@ -33,3 +33,7 @@ Matrix4x4 Camera::GetCameraMatrix() const {
 Matrix4x4 Camera::GetViewProjection() const {
     return viewMatrix * projectionMatrix;
 }
+
+CameraForGPU Camera::GetCameraForGPU() const {
+    return {transform_.translate};
+}

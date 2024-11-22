@@ -7,6 +7,7 @@
 #include "DirectX/Lighting/LightManager.h"
 #include "DirectX/ObjectCommon/MeshCommon.h"
 #include "DirectX/Texture/TextureManager.h"
+#include "imgui/imgui.h"
 #include "Utility/Math/Vector3.h"
 
 
@@ -128,7 +129,8 @@ void Mesh::Initialize(const std::string& directory, const std::string& name) {
     materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&material_));
 
     material_->color = {1, 1, 1, 1};
-    material_->enableLight = 2;
+    material_->enableLight = 3;
+    material_->shininess = 1;
 
     TextureManager::GetInstance()->Load(modelData_.material.texturePath);
 }
@@ -145,6 +147,14 @@ void Mesh::Draw() const {
 
     if (!enableDrawCall_)return;
     commandList_->DrawInstanced(static_cast<UINT>(modelData_.vertices.size()), 1, 0, 0);
+}
+
+void Mesh::ImGuiAccess() const {
+    if(ImGui::TreeNode("Mesh")){
+        ImGui::ColorEdit4("Color", &material_->color.x);
+        ImGui::DragFloat("Shininess", &material_->shininess, 0.1f, 0.f, 100.f);
+        ImGui::TreePop();
+    }
 }
 
 void Mesh::SetTexture(const std::string& name) {

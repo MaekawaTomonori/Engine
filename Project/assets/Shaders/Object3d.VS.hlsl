@@ -1,10 +1,10 @@
 ﻿#include "Object3d.hlsli"
 
-struct ParticleForGPU{
+struct TransformationMatrix{
     float32_t4x4 WVP;
     float32_t4x4 World;
 };
-ConstantBuffer<ParticleForGPU> gTransformationMatrix : register(b0);
+ConstantBuffer<TransformationMatrix> gTransformationMatrix : register(b0);
 
 struct VertexShaderInput{
 	float32_t4 position : POSITION0;
@@ -19,5 +19,9 @@ VertexShaderOutput main(VertexShaderInput input){
 
     //Lambertian Reflectance
     output.normal = normalize(mul(input.normal, (float32_t3x3)gTransformationMatrix.World));
+
+    //Phong Reflection Model
+    output.worldPosition = mul(input.position, gTransformationMatrix.World).xyz;
+
     return output;
 }

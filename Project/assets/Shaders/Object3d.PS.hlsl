@@ -3,6 +3,7 @@
 struct Material{
     float32_t4 color;
     uint32_t enableLighting;
+    float32_t shininess;
 };
 ConstantBuffer<Material> gMaterial : register(b0);
 
@@ -15,6 +16,11 @@ struct DirectionalLight{
     float intensity;
 };
 ConstantBuffer<DirectionalLight> gDirectionalLight : register(b1);
+
+struct Camera{
+    float32_t3 worldPosition;
+};
+ConstantBuffer<Camera> gCamera : register(b2);
 
 struct PixelShaderOutput{
     float32_t4 color : SV_TARGET0;
@@ -33,11 +39,24 @@ PixelShaderOutput main(VertexShaderOutput input) {
     if (gMaterial.enableLighting == 1) {
         float cos = saturate(dot(normalize(input.normal), -gDirectionalLight.direction));
         output.color.rgb = rgb * gDirectionalLight.color.rgb * gDirectionalLight.intensity * cos;
-    } else if (gMaterial.enableLighting == 2) {
+    }
+    else if (gMaterial.enableLighting == 2) {
         float nDotL = dot(normalize(input.normal), -gDirectionalLight.direction);
         float cos = pow(nDotL * 0.5f + 0.5f, 2.0f);
         output.color.rgb = rgb * gDirectionalLight.color.rgb * gDirectionalLight.intensity * cos;
-    } else {
+    }else if (gMaterial.enableLighting == 3) {
+        float nDotL = dot(normalize(input.normal), -gDirectionalLight.direction);
+        float cos = pow(nDotL * 0.5f + 0.5f, 2.0f);
+        float32_t3 toEye = normalize(gCamera.worldPosition - input.worldPosition);
+        float32_t3 reflectLight = reflect(gDirectionalLight.direction, normalize(input.normal));
+
+        float rDotE = dot(reflectLight, toEye);
+        float specularPow = pow(saturate(rDotE), gMaterial.shininess);
+
+        float32_t3 diffuse = rgb * gDirectionalLight.color.rgb * cos * gDirectionalLight.intensity;
+        float32_t3 specular = gDirectionalLight.color.rgb * gDirectionalLight.intensity * specularPow * float32_t3(1.f, 1.f, 1.f);
+        output.color.rgb = diffuse + specular;
+    }else {
         output.color.rgb = rgb;
     }
     output.color.a = a;

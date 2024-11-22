@@ -16,6 +16,12 @@ void Model::Initialize() {
     worldTransform_->Initialize();
 
     camera_ = Engine::GetDefaultCamera();
+
+	cameraResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(CameraForGPU)));
+    cameraResource_->Map(0, nullptr, reinterpret_cast<void**>(&cameraForGPU_));
+
+    *cameraForGPU_ = camera_->GetCameraForGPU();
+
 }
 
 void Model::Update() const {
@@ -26,6 +32,7 @@ void Model::Update() const {
         ImGui::DragFloat3("Rotate", &worldTransform_->rotate.x, 0.1f);
         ImGui::DragFloat3("Scale", &worldTransform_->scale.x, 0.1f);
         ImGui::ColorEdit4("Color", &mesh_->GetColor().x);
+        mesh_->ImGuiAccess();
         ImGui::TreePop();
     }
     ImGui::End();
@@ -39,6 +46,7 @@ void Model::Draw() const {
     modelCommon_->PreDraw();
 
     commandList_->SetGraphicsRootConstantBufferView(1, worldTransform_->GetGPUVirtualAddress());
+    commandList_->SetGraphicsRootConstantBufferView(4, cameraResource_->GetGPUVirtualAddress());
     mesh_->Draw();
 }
 
