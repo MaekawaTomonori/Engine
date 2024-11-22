@@ -1,5 +1,7 @@
 #include "ModelManager.h"
 
+#include <cassert>
+
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/ObjectCommon/MeshCommon.h"
 #include "Object/Model/Mesh/Mesh.h"
@@ -39,6 +41,7 @@ Mesh* ModelManager::Find(const std::string& name) {
         return models_[name].get();
     }
 
+    assert(false);
     return nullptr;
 }
 

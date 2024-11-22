@@ -30,7 +30,7 @@ void Emitter::Initialize(ParticleCommon* common, SRVManager* srv, const Transfor
     gpuHandle_ = srv->GetGPUHandle(srvIndex_);
     srv->CreateSRVforStructuredBuffer(srvIndex_, resource_.Get(), MAX_COUNT, sizeof(ParticleForGPU));
 
-    mesh_ = ModelManager::GetInstance()->Find("plane.obj");
+    mesh_ = ModelManager::GetInstance()->Find("plane");
     mesh_->SetEnableLight(false);
     mesh_->SetEnableDrawCall(false);
     mesh_->SetTexture("circle.png");

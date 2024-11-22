@@ -39,10 +39,15 @@ Mesh::ModelData Mesh::LoadObjFile(const std::string& directoryPath, const std::s
 
     size_t dot = fileName.find_last_of('.');
     std::string name = fileName;
+    std::string objName = fileName;
     if (dot != std::string::npos){
         name = name.erase(dot);
+    }else{
+        objName += ".obj";
     }
-    std::ifstream file(directoryPath + "/" + name + "/" + fileName);
+
+
+    std::ifstream file(directoryPath + "/" + name + "/" + objName);
     assert(file.is_open());
 
     std::string dir = directoryPath + "/" + name;

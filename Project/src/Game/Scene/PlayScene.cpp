@@ -19,7 +19,7 @@ void PlayScene::Initialize() {
     textureManager->Load("circle.png");
 
     modelManager = ModelManager::GetInstance();
-    modelManager->Load("plane.obj");
+    modelManager->Load("plane");
     modelManager->Load("axis.obj");
 
     //sprite = std::make_unique<Sprite>(SpriteCommon::GetInstance().get());
