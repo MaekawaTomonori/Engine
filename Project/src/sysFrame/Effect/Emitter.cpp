@@ -10,6 +10,7 @@
 #include "Framework/Engine.h"
 #include "Object/Camera/Camera.h"
 #include "Object/Model/Mesh/Mesh.h"
+#include "Utility/Collision.h"
 #include "Utility/Math/MathUtils.h"
 
 void Emitter::Initialize(ParticleCommon* common, SRVManager* srv, const Transform& transform) {
@@ -37,6 +38,9 @@ void Emitter::Initialize(ParticleCommon* common, SRVManager* srv, const Transfor
     camera_ = Engine::GetDefaultCamera();
 
     backToFront = MathUtils::Matrix::MakeRotateY(std::numbers::pi_v<float>);
+
+    field_.acceleration = {15.f, 0.f, 0.f};
+    field_.area = {{-1.f, -1.f, 9.f}, {1.f, 1.f,11.f}};
 }
 
 void Emitter::Update() {
@@ -53,10 +57,12 @@ void Emitter::Update() {
         }
 
         (*itr)->currentTime += DELTA_TIME;
-        (*itr)->transform.translate += (*itr)->velocity * DELTA_TIME;
-
         float alpha = (1.f - (*itr)->currentTime / (*itr)->lifeTime);
 
+        if(Collision::IsCollision(field_.area, (*itr)->transform.translate)){
+            (*itr)->velocity += field_.acceleration * DELTA_TIME;
+        }
+        (*itr)->transform.translate += (*itr)->velocity * DELTA_TIME;
 
         forGpu_[instanceCount].World = MathUtils::Matrix::MakeAffineMatrix(
             MathUtils::Matrix::MakeScaleMatrix((*itr)->transform.scale),
@@ -79,6 +85,8 @@ void Emitter::Update() {
             frequencyTime -= frequency_;
         }
     }
+
+
 
 
     ImGui::Begin("Emitter");
@@ -110,6 +118,10 @@ void Emitter::SetCamera(Camera* camera) {
 
 void Emitter::SetFrequency(float frequency) {
     this->frequency_ = frequency;
+}
+
+void Emitter::SetTexture(const std::string& textureName) const {
+    mesh_->SetTexture(textureName);
 }
 
 std::list<std::unique_ptr<Particle>> Emitter::Spawn() const {

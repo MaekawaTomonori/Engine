@@ -153,7 +153,10 @@
     <ClCompile Include="src\sysFrame\Utility\Math\Vector3.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\sysFrame\Utility\Randomize.cpp">
+    <ClCompile Include="src\sysFrame\Utility\Math\Randomize.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sysFrame\Utility\Collision.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -326,7 +329,16 @@
     <ClInclude Include="src\sysFrame\DirectX\ObjectCommon\ParticleCommon.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\sysFrame\Utility\Randomize.h">
+    <ClInclude Include="src\sysFrame\Utility\Math\Randomize.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sysFrame\Utility\Collision.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sysFrame\Effect\AccelerationField.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sysFrame\Utility\AABB.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,6 +3,7 @@
 #include <list>
 #include <wrl/client.h>
 
+#include "AccelerationField.h"
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/ObjectCommon/ParticleCommon.h"
 #include "Utility/Math/Transform.h"
@@ -55,6 +56,8 @@ class Emitter{
     float frequency_ = 0;
     float frequencyTime = 0;
 
+    AccelerationField field_{};
+
 public:
 	void Initialize(ParticleCommon* common, SRVManager* srv, const Transform& transform);
     void Update();
@@ -63,6 +66,8 @@ public:
     void SetCamera(Camera* camera);
 
     void SetFrequency(float frequency);
+
+    void SetTexture(const std::string& textureName) const;
 
 private:
     std::list<std::unique_ptr<Particle>> Spawn() const;

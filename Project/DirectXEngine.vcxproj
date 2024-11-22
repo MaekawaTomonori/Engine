@@ -11,7 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\sysFrame\Utility\Randomize.cpp" />
+    <ClCompile Include="src\sysFrame\Utility\Collision.cpp" />
+    <ClCompile Include="src\sysFrame\Utility\Math\Randomize.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\ObjectCommon\ParticleCommon.cpp" />
     <ClCompile Include="src\sysFrame\Effect\Emitter.cpp" />
     <ClCompile Include="src\sysFrame\Effect\ParticleManager.cpp" />
@@ -60,7 +61,10 @@
     <ClCompile Include="src\Game\Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\sysFrame\Utility\Randomize.h" />
+    <ClInclude Include="src\sysFrame\Effect\AccelerationField.h" />
+    <ClInclude Include="src\sysFrame\Utility\AABB.h" />
+    <ClInclude Include="src\sysFrame\Utility\Collision.h" />
+    <ClInclude Include="src\sysFrame\Utility\Math\Randomize.h" />
     <ClInclude Include="src\sysFrame\DirectX\ObjectCommon\ParticleCommon.h" />
     <ClInclude Include="src\sysFrame\Effect\Emitter.h" />
     <ClInclude Include="src\sysFrame\Effect\ParticleManager.h" />
