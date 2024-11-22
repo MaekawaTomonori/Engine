@@ -29,6 +29,9 @@ private:
     std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
 
 
+    Microsoft::WRL::ComPtr<ID3D12Resource> cameraResource_;
+    CameraForGPU* cameraForGPU_ = nullptr;
+
 public:
 	Model(ModelCommon* modelCommon) :modelCommon_(modelCommon) {
         UUID uuid;

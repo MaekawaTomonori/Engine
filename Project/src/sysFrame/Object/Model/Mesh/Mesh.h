@@ -56,6 +56,8 @@ public:
 	void Initialize(const std::string& directory, const std::string& name);
 	void Draw() const;
 
+    void ImGuiAccess() const;
+
     Vector4&  GetColor() const {
         return material_->color;
     }

@@ -12,4 +12,5 @@ struct Material{
 	uint32_t enableLight;
 	//float padding[3];
 	//Matrix4x4 uvTranform;
+	float shininess;
 };
