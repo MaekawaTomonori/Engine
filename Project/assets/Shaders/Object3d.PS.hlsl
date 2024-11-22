@@ -32,33 +32,42 @@ PixelShaderOutput main(VertexShaderOutput input) {
 
     if (texColor.a == 0.f) {discard;}
 
-    float32_t3 rgb = gMaterial.color.rgb * texColor.rgb;
+	float32_t3 rgb = gMaterial.color.rgb * texColor.rgb;
     float32_t a = gMaterial.color.a * texColor.a;
 
+	float nDotL = dot(normalize(input.normal), -gDirectionalLight.direction);
+    float cos = pow(nDotL * 0.5f + 0.5f, 2.0f);
+    
     //Lambertian Reflectance
     if (gMaterial.enableLighting == 1) {
-        float cos = saturate(dot(normalize(input.normal), -gDirectionalLight.direction));
+        cos = saturate(dot(normalize(input.normal), -gDirectionalLight.direction));
         output.color.rgb = rgb * gDirectionalLight.color.rgb * gDirectionalLight.intensity * cos;
-    }
-    else if (gMaterial.enableLighting == 2) {
-        float nDotL = dot(normalize(input.normal), -gDirectionalLight.direction);
-        float cos = pow(nDotL * 0.5f + 0.5f, 2.0f);
+    }else if (gMaterial.enableLighting == 2) {
+        
         output.color.rgb = rgb * gDirectionalLight.color.rgb * gDirectionalLight.intensity * cos;
-    }else if (gMaterial.enableLighting == 3) {
-        float nDotL = dot(normalize(input.normal), -gDirectionalLight.direction);
-        float cos = pow(nDotL * 0.5f + 0.5f, 2.0f);
+    }else if (gMaterial.enableLighting == 3 || gMaterial.enableLighting == 4) {
+        
         float32_t3 toEye = normalize(gCamera.worldPosition - input.worldPosition);
         float32_t3 reflectLight = reflect(gDirectionalLight.direction, normalize(input.normal));
 
-        float rDotE = dot(reflectLight, toEye);
-        float specularPow = pow(saturate(rDotE), gMaterial.shininess);
+        float specularPow;
+
+        if(gMaterial.enableLighting == 4){
+            float32_t3 halfVector = normalize(-gDirectionalLight.direction + toEye);
+            float nDotH = saturate(dot(normalize(input.normal), halfVector));
+            specularPow = pow(saturate(nDotH), gMaterial.shininess);
+        }else {
+	        float rDotE = dot(reflectLight, toEye);
+			specularPow = pow(saturate(rDotE), gMaterial.shininess);
+        }
 
         float32_t3 diffuse = rgb * gDirectionalLight.color.rgb * cos * gDirectionalLight.intensity;
         float32_t3 specular = gDirectionalLight.color.rgb * gDirectionalLight.intensity * specularPow * float32_t3(1.f, 1.f, 1.f);
         output.color.rgb = diffuse + specular;
-    }else {
+    }else{
         output.color.rgb = rgb;
     }
+
     output.color.a = a;
 
     if (output.color.a == 0.f){discard;}
