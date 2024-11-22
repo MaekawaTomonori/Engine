@@ -37,8 +37,15 @@ Mesh::ModelData Mesh::LoadObjFile(const std::string& directoryPath, const std::s
     std::vector<Vector2> texcoords;
     std::string line;
 
-    std::ifstream file(directoryPath + "/" + fileName);
+    size_t dot = fileName.find_last_of('.');
+    std::string name = fileName;
+    if (dot != std::string::npos){
+        name = name.erase(dot);
+    }
+    std::ifstream file(directoryPath + "/" + name + "/" + fileName);
     assert(file.is_open());
+
+    std::string dir = directoryPath + "/" + name;
 
     while (std::getline(file, line)){
         std::string identifier;
@@ -90,7 +97,7 @@ Mesh::ModelData Mesh::LoadObjFile(const std::string& directoryPath, const std::s
             std::string materialFileName;
             s >> materialFileName;
 
-            modelData.material = LoadMaterialTemplateFile(directoryPath, materialFileName);
+            modelData.material = LoadMaterialTemplateFile(dir, materialFileName);
         }
     }
 
