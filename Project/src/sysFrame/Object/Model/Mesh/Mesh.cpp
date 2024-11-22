@@ -129,7 +129,7 @@ void Mesh::Initialize(const std::string& directory, const std::string& name) {
     materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&material_));
 
     material_->color = {1, 1, 1, 1};
-    material_->enableLight = 3;
+    material_->enableLight = 4;
     material_->shininess = 1;
 
     TextureManager::GetInstance()->Load(modelData_.material.texturePath);
@@ -152,7 +152,7 @@ void Mesh::Draw() const {
 void Mesh::ImGuiAccess() const {
     if(ImGui::TreeNode("Mesh")){
         ImGui::ColorEdit4("Color", &material_->color.x);
-        ImGui::DragFloat("Shininess", &material_->shininess, 0.1f, 0.f, 100.f);
+        ImGui::DragFloat("Shininess", &material_->shininess, 0.1f, 0.f);
         ImGui::TreePop();
     }
 }
