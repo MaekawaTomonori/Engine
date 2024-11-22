@@ -11,15 +11,12 @@
 	- リソース (割り当てるものはそれぞれに持たせる
 	- 本当にObjectがあるべきなのかを見直す(設計が甘いので練り直す)
 
-
 - Pipelineを細分化
+- Pipelineを複数用意(BlendMode用)
 - Sprite用のシェーダーを用意
 
-- ParticleSystem(CG3への対応)
-- ParticleCommonの追加
-- Particleのクラス化前にParticle部を丸々ParticleManagerに実装しなおすこと
-- ParticleCommonを追加(本当に必要か要検討)
-- GeometryShaderの理解と必要個所の検討
+- Texture(png)の読み込みに拡張子を必要ない形に変更する
+	- 同じ名前のファイルが複数あった場合どうするかを考える(example.png & example.jpg)
 
 - デストラクタに実装されている終了処理をFinalize(shutdown)関数に置き換え明示的な呼び出しを行う
 
@@ -59,6 +56,11 @@ Typeとして定義して関数ポインタテーブルから呼び出すのも�
 # Done
 - Frameworkに持たせるクラスたちを必要に応じてSingleton化する
 
+- ParticleSystem(CG3への対応)
+- ParticleCommonの追加
+- Particleのクラス化前にParticle部を丸々ParticleManagerに実装しなおすこと
+- ParticleCommonを追加(本当に必要か要検討)
+- ~~GeometryShaderの理解と必要個所の検討~~
 
 #### DirectXCommonを以下のように変更
 - GraphicsPipelineをメンバ変数から除外(Model, Sprite, Particleにはそれぞれtypeを引数として持たせ、各Commonクラスに変数として追加)
