@@ -1,8 +1,7 @@
 [![DebugBuild](https://github.com/MaekawaTomonori/Engine/actions/workflows/DebugBuild.yml/badge.svg?branch=dev)](https://github.com/MaekawaTomonori/Engine/actions/workflows/DebugBuild.yml)
 [![ReleaseBuild](https://github.com/MaekawaTomonori/Engine/actions/workflows/ReleaseBuild.yml/badge.svg?branch=dev)](https://github.com/MaekawaTomonori/Engine/actions/workflows/ReleaseBuild.yml)
 # GameEngine
-<img src="https://img.shields.io/badge/-Cpp-00599C.svg?logo=cplusplus&style=popout-square">
-<img src="https://img.shields.io/badge/-DirectX12-0078D6.svg?logo=windows&style=popout-square">
+<img src="https://img.shields.io/badge/-Cpp-00599C.svg?logo=cplusplus&style=popout-square"><img src="https://img.shields.io/badge/-DirectX12-0078D6.svg?logo=windows&style=popout-square">
 
 
 [WinApp](https://github.com/MaekawaTomonori/Engine/blob/dev/Project/src/sysFrame/WindowsApplication/WinApp.h)
