@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sysFrame\Effect\AccelerationField.h" />
+    <ClInclude Include="src\sysFrame\Object\Light\PointLight\PointLight.h" />
     <ClInclude Include="src\sysFrame\Utility\AABB.h" />
     <ClInclude Include="src\sysFrame\Utility\Collision.h" />
     <ClInclude Include="src\sysFrame\Utility\Math\Randomize.h" />

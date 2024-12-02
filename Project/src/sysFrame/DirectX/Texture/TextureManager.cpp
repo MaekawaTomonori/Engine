@@ -108,14 +108,14 @@ void TextureManager::Initialize(DirectXCommon* dxCommon, SRVManager* srvManager)
 }
 
 void TextureManager::Load(const std::string& fileName) {
-    std::string name;
-    size_t pos = fileName.find_last_of('/');
-    if (pos != std::string::npos){
-    	name = fileName.substr(pos + 1);
-    } else{
-        name = fileName;
+    //Remove FolderPath
+    std::string name = fileName;
+    size_t pos = 0;
+    while((pos = name.find(folderPath_, pos)) != std::string::npos){
+        name.erase(pos, folderPath_.length());
     }
-
+    
+    //Check if texture is already loaded
 	if (textures_.contains(name)){
         return;
     }
@@ -123,7 +123,7 @@ void TextureManager::Load(const std::string& fileName) {
     assert(!srvManager_->IsFull());
 
     
-
+    //Load Texture
     Texture& texture = textures_[name];
 
     DirectX::ScratchImage img = LoadTexture(name);
@@ -168,9 +168,9 @@ uint32_t TextureManager::GetTextureIndexByFilePath(const std::string& path) cons
 
 D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::GetGPUHandle(const std::string& fileName) const {
     std::string name = fileName;
-    size_t pos = fileName.find_last_of('/');
-    if (pos != std::string::npos){
-        name = fileName.substr(pos + 1);
+    size_t pos = 0;
+    while ((pos = name.find(folderPath_, pos)) != std::string::npos){
+        name.erase(pos, folderPath_.length());
     }
 
     if (textures_.contains(name)){

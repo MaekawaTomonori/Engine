@@ -85,7 +85,7 @@ void GraphicsPipeline::CreateRootSignature() {
     if (type_ == Type::PARTICLE){
         rootParameters_.resize(3);
     } else{
-        rootParameters_.resize(5);
+        rootParameters_.resize(6);
     }
 
     //PixelShader Material
@@ -112,14 +112,20 @@ void GraphicsPipeline::CreateRootSignature() {
     rootParameters_[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_);
 
     if (type_ != Type::PARTICLE){
-        //Lighting
+        //DirectionalLight
         rootParameters_[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
         rootParameters_[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
         rootParameters_[3].Descriptor.ShaderRegister = 1;
 
+        //Camera For GPU
         rootParameters_[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
         rootParameters_[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
         rootParameters_[4].Descriptor.ShaderRegister = 2;
+
+        //PointLight
+        rootParameters_[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        rootParameters_[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+        rootParameters_[5].Descriptor.ShaderRegister = 3;
     }
 
 

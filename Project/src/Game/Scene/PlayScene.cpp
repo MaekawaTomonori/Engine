@@ -20,14 +20,14 @@ void PlayScene::Initialize() {
 
     modelManager = ModelManager::GetInstance();
     modelManager->Load("plane");
-    modelManager->Load("axis.obj");
+    modelManager->Load("terrain");
 
     //sprite = std::make_unique<Sprite>(SpriteCommon::GetInstance().get());
     //sprite->Initialize("uvChecker.png");
 
     model = std::make_unique<Model>(ModelCommon::GetInstance().get());
     model->Initialize();
-    model->SetMesh("plane");
+    model->SetMesh("terrain");
 
     /*emitter_ = ParticleManager::GetInstance()->Emit(
         {1,1,1,
