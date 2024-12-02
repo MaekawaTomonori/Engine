@@ -38,20 +38,20 @@ Mesh::ModelData Mesh::LoadObjFile(const std::string& directoryPath, const std::s
     std::vector<Vector2> texcoords;
     std::string line;
 
+    //add ".obj" 
     size_t dot = fileName.find_last_of('.');
     std::string name = fileName;
     std::string objName = fileName;
     if (dot != std::string::npos){
         name = name.erase(dot);
-    }else{
+    } else{
         objName += ".obj";
     }
 
-
-    std::ifstream file(directoryPath + "/" + name + "/" + objName);
+    std::ifstream file(directoryPath + name + "/" + objName);
     assert(file.is_open());
 
-    std::string dir = directoryPath + "/" + name;
+    std::string dir = directoryPath + name;
 
     while (std::getline(file, line)){
         std::string identifier;
