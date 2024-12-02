@@ -36,6 +36,8 @@ void LightManager::Initialize(DirectXCommon* dxCommon) {
     pointLight_->color = {1,1,1,1};
     pointLight_->position = {0,2,0};
     pointLight_->intensity = 1.f;
+    pointLight_->radius = 10;
+    pointLight_->decay = 1;
 }
 
 void LightManager::Update() const {
@@ -52,6 +54,8 @@ void LightManager::Update() const {
         ImGui::ColorEdit4("Color", &pointLight_->color.x);
         ImGui::DragFloat3("Position", &pointLight_->position.x, 0.1f);
         ImGui::DragFloat("Intensity", &pointLight_->intensity, 0.01f, 0, 1);
+        ImGui::DragFloat("radius", &pointLight_->radius, 0.01f);
+        ImGui::DragFloat("decay", &pointLight_->decay, 0.01f);
 
         ImGui::TreePop();
     }
