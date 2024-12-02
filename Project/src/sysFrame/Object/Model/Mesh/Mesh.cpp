@@ -129,8 +129,8 @@ void Mesh::Initialize(const std::string& directory, const std::string& name) {
     materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&material_));
 
     material_->color = {1, 1, 1, 1};
-    material_->enableLight = 4;
-    material_->shininess = 1;
+    material_->enableLight = 1;
+    material_->shininess = 100;
 
     TextureManager::GetInstance()->Load(modelData_.material.texturePath);
 }
@@ -142,7 +142,7 @@ void Mesh::Draw() const {
     commandList_->SetGraphicsRootDescriptorTable(2, TextureManager::GetInstance()->GetGPUHandle(modelData_.material.texturePath));
 
     if (enableLight_ && material_->enableLight){
-        LightManager::GetInstance()->Draw(lightType);
+        LightManager::GetInstance()->Draw();
     }
 
     if (!enableDrawCall_)return;

@@ -3,6 +3,7 @@
 #include "DirectX/DirectXCommon.h"
 #include "imgui/imgui.h"
 #include "Object/Light/DirectionalLight/DirectionalLight.h"
+#include "Object/Light/PointLight/PointLight.h"
 
 std::shared_ptr<LightManager> LightManager::instance = nullptr;
 
@@ -28,6 +29,13 @@ void LightManager::Initialize(DirectXCommon* dxCommon) {
     directionalLight_->color = {1, 1, 1, 1};
     directionalLight_->direction = {0, -1, 0};
     directionalLight_->intensity = 1.f;
+
+    pointResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(PointLight)));
+    pointResource_->Map(0, nullptr, reinterpret_cast<void**>(&pointLight_));
+
+    pointLight_->color = {1,1,1,1};
+    pointLight_->position = {0,2,0};
+    pointLight_->intensity = 1.f;
 }
 
 void LightManager::Update() const {
@@ -40,6 +48,13 @@ void LightManager::Update() const {
 
         ImGui::TreePop();
     }
+    if (ImGui::TreeNode("Point")){
+        ImGui::ColorEdit4("Color", &pointLight_->color.x);
+        ImGui::DragFloat3("Position", &pointLight_->position.x, 0.1f);
+        ImGui::DragFloat("Intensity", &pointLight_->intensity, 0.01f, 0, 1);
+
+        ImGui::TreePop();
+    }
     ImGui::End();
 #endif
 
@@ -47,11 +62,7 @@ void LightManager::Update() const {
     directionalLight_->direction.normalize();
 }
 
-void LightManager::Draw(LightType type) const {
-    switch (type){
-        case LightType::Directional:
-		default:
-            dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalResource_->GetGPUVirtualAddress());
-            break;
-    }
+void LightManager::Draw() const {
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalResource_->GetGPUVirtualAddress());
+    dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(5, pointResource_->GetGPUVirtualAddress());
 }

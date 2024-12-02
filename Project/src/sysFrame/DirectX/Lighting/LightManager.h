@@ -4,6 +4,7 @@
 #include <wrl/client.h>
 
 struct DirectionalLight;
+struct PointLight;
 class DirectXCommon;
 
 enum class LightType{
@@ -14,8 +15,10 @@ class LightManager final{
     DirectXCommon* dxCommon_ = nullptr;
 
     Microsoft::WRL::ComPtr<ID3D12Resource> directionalResource_;
-
     DirectionalLight* directionalLight_ = nullptr;
+
+    Microsoft::WRL::ComPtr<ID3D12Resource> pointResource_;
+    PointLight* pointLight_ = nullptr;
 
     LightManager() = default;
     ~LightManager() = default;
@@ -31,6 +34,6 @@ public:
 
 	void Initialize(DirectXCommon* dxCommon);
     void Update() const;
-    void Draw(LightType type) const;
+    void Draw() const;
 };
 
