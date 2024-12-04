@@ -85,7 +85,7 @@ void GraphicsPipeline::CreateRootSignature() {
     if (type_ == Type::PARTICLE){
         rootParameters_.resize(3);
     } else{
-        rootParameters_.resize(6);
+        rootParameters_.resize(7);
     }
 
     //PixelShader Material
@@ -126,6 +126,11 @@ void GraphicsPipeline::CreateRootSignature() {
         rootParameters_[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
         rootParameters_[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
         rootParameters_[5].Descriptor.ShaderRegister = 3;
+
+        //SpotLight
+        rootParameters_[6].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        rootParameters_[6].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+        rootParameters_[6].Descriptor.ShaderRegister = 4;
     }
 
 
