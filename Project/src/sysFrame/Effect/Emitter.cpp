@@ -41,6 +41,8 @@ void Emitter::Initialize(ParticleCommon* common, SRVManager* srv, const Transfor
 
     field_.acceleration = {15.f, 0.f, 0.f};
     field_.area = {{-1.f, -1.f, 9.f}, {1.f, 1.f,11.f}};
+
+    frequency_ = 0.5f;
 }
 
 void Emitter::Update() {
@@ -88,7 +90,7 @@ void Emitter::Update() {
 
 
 
-
+#ifdef _DEBUG
     ImGui::Begin("Emitter");
     ImGui::DragFloat("Frequency", &frequency_, 0.1f, 0.f, 10.f);
     if (ImGui::Button("Spawn")){
@@ -100,6 +102,7 @@ void Emitter::Update() {
     }
 
     ImGui::End();
+#endif
 }
 
 void Emitter::Draw() const {

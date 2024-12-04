@@ -22,6 +22,7 @@
 
 - FontRendering
 - Adjust for MultiThread
+- Changeable Icon
 
 ### 命名
 - Object3d => Model
