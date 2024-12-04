@@ -51,7 +51,7 @@ void LightManager::Initialize(DirectXCommon* dxCommon) {
     spotLight_->intensity = 4.f;
     spotLight_->decay = 2.f;
     spotLight_->cosAngle = std::cos(MathUtils::F_PI / 3.f);
-
+    spotLight_->falloffStart = std::cos(MathUtils::F_PI / 4.f);
 }
 
 void LightManager::Update() const {
@@ -78,10 +78,11 @@ void LightManager::Update() const {
         ImGui::ColorEdit4("Color", &spotLight_->color.x);
         ImGui::DragFloat3("Position", &spotLight_->position.x, 0.1f);
         ImGui::DragFloat3("Direction", &spotLight_->direction.x, 0.1f);
-        ImGui::DragFloat("Distance", &spotLight_->distance, 0.1f);
+        ImGui::DragFloat("Distance", &spotLight_->distance, 0.1f, 0.f);
     	ImGui::DragFloat("Intensity", &spotLight_->intensity, 0.01f, 0.f, 10.f);
-        ImGui::DragFloat("decay", &spotLight_->decay, 0.01f);
-        ImGui::DragFloat("cosAngle", &spotLight_->cosAngle, 0.01f);
+        ImGui::DragFloat("decay", &spotLight_->decay, 0.01f, 0.f);
+        ImGui::DragFloat("cosAngle", &spotLight_->cosAngle, 0.01f, spotLight_->falloffStart);
+        ImGui::DragFloat("falloffStart", &spotLight_->falloffStart, 0.01f, 0.f);
 
         ImGui::TreePop();
     }
@@ -90,6 +91,19 @@ void LightManager::Update() const {
 
 
     directionalLight_->direction.normalize();
+
+    if ((MathUtils::F_PI * 2.f) <= spotLight_->cosAngle){
+        spotLight_->cosAngle -= MathUtils::F_PI * 2.f;
+    }
+	if ((MathUtils::F_PI * 2.f) <= spotLight_->falloffStart){
+        spotLight_->falloffStart -= MathUtils::F_PI * 2.f;
+    }
+
+    if (spotLight_->falloffStart < spotLight_->cosAngle){
+		spotLight_->falloffStart = spotLight_->cosAngle + std::cos(MathUtils::F_PI / 10.f);
+    }
+
+    spotLight_->direction.normalize();
 }
 
 void LightManager::Draw() const {

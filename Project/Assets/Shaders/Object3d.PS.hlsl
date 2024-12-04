@@ -39,6 +39,7 @@ struct SpotLight{
     float32_t distance;
     float32_t decay;
     float32_t cosAngle;
+    float32_t cosFalloffStart;
 };
 ConstantBuffer<SpotLight> gSpotLight : register(b4);
 
@@ -96,7 +97,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
     //spot
     float32_t3 spotDirection = normalize(input.worldPosition - gSpotLight.position);
     float32_t cosAngle = dot(spotDirection, gSpotLight.direction);
-    float32_t falloffFactor = saturate((cosAngle - gSpotLight.cosAngle) / (1.f - gSpotLight.cosAngle));
+    float32_t falloffFactor = saturate((cosAngle - gSpotLight.cosAngle) / (gSpotLight.cosFalloffStart - gSpotLight.cosAngle));
 
     float32_t attenuationFactor = 1.f / (1.f + gSpotLight.decay * pow(distance / gSpotLight.distance, 2.f));
 
