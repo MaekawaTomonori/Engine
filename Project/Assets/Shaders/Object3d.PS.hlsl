@@ -31,6 +31,17 @@ struct PointLight{
 };
 ConstantBuffer<PointLight> gPointLight : register(b3);
 
+struct SpotLight{
+    float32_t4 color;
+    float32_t3 position;
+    float32_t intensity;
+    float32_t3 direction;
+    float32_t distance;
+    float32_t decay;
+    float32_t cosAngle;
+};
+ConstantBuffer<SpotLight> gSpotLight : register(b4);
+
 struct PixelShaderOutput{
     float32_t4 color : SV_TARGET0;
 };
@@ -51,12 +62,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
         return output;
     }
 
-    if (gDirectionalLight.intensity == 0 && gPointLight.intensity == 0) {
-        output.color = float32_t4(rgb, a);
-        return output;
-    }
-
-    //directional
+	//directional
 	float nDotL = dot(normalize(input.normal), -gDirectionalLight.direction);
 	float cos = pow(nDotL * 0.5f + 0.5f, 2.0f);
     
@@ -87,6 +93,17 @@ PixelShaderOutput main(VertexShaderOutput input) {
 
     finalRGB += pointDiffuse + pointSpecular;
 
+    //spot
+    float32_t3 spotDirection = normalize(input.worldPosition - gSpotLight.position);
+    float32_t cosAngle = dot(spotDirection, gSpotLight.direction);
+    float32_t falloffFactor = saturate((cosAngle - gSpotLight.cosAngle) / (1.f - gSpotLight.cosAngle));
+
+    float32_t attenuationFactor = 1.f / (1.f + gSpotLight.decay * pow(distance / gSpotLight.distance, 2.f));
+
+    finalRGB += rgb * gSpotLight.color.rgb * gSpotLight.intensity * attenuationFactor * falloffFactor;
+
+
+    //final set
     output.color = float32_t4(finalRGB, a);
 
     if (output.color.a == 0.f){discard;}

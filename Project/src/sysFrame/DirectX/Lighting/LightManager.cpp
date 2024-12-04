@@ -4,6 +4,8 @@
 #include "imgui/imgui.h"
 #include "Object/Light/DirectionalLight/DirectionalLight.h"
 #include "Object/Light/PointLight/PointLight.h"
+#include "Object/Light/SpotLight/SpotLight.h"
+#include "Utility/Math/MathUtils.h"
 
 std::shared_ptr<LightManager> LightManager::instance = nullptr;
 
@@ -38,6 +40,18 @@ void LightManager::Initialize(DirectXCommon* dxCommon) {
     pointLight_->intensity = 1.f;
     pointLight_->radius = 10;
     pointLight_->decay = 1;
+
+    spotResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(SpotLight)));
+    spotResource_->Map(0, nullptr, reinterpret_cast<void**>(&spotLight_));
+
+    spotLight_->color = {1,1,1,1};
+    spotLight_->position = {2.f, 1.25f, 0.f};
+    spotLight_->distance = 7.f;
+    spotLight_->direction = Vector3(-1.f, -1.f, 0).normalize();
+    spotLight_->intensity = 4.f;
+    spotLight_->decay = 2.f;
+    spotLight_->cosAngle = std::cos(MathUtils::F_PI / 3.f);
+
 }
 
 void LightManager::Update() const {
@@ -59,6 +73,18 @@ void LightManager::Update() const {
 
         ImGui::TreePop();
     }
+
+    if (ImGui::TreeNode("Spot")){
+        ImGui::ColorEdit4("Color", &spotLight_->color.x);
+        ImGui::DragFloat3("Position", &spotLight_->position.x, 0.1f);
+        ImGui::DragFloat3("Direction", &spotLight_->direction.x, 0.1f);
+        ImGui::DragFloat("Distance", &spotLight_->distance, 0.1f);
+    	ImGui::DragFloat("Intensity", &spotLight_->intensity, 0.01f, 0.f, 10.f);
+        ImGui::DragFloat("decay", &spotLight_->decay, 0.01f);
+        ImGui::DragFloat("cosAngle", &spotLight_->cosAngle, 0.01f);
+
+        ImGui::TreePop();
+    }
     ImGui::End();
 #endif
 
@@ -69,4 +95,5 @@ void LightManager::Update() const {
 void LightManager::Draw() const {
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalResource_->GetGPUVirtualAddress());
     dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(5, pointResource_->GetGPUVirtualAddress());
+    dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(6, spotResource_->GetGPUVirtualAddress());
 }

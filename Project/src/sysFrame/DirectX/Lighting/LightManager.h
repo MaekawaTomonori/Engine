@@ -3,6 +3,7 @@
 #include <memory>
 #include <wrl/client.h>
 
+struct SpotLight;
 struct DirectionalLight;
 struct PointLight;
 class DirectXCommon;
@@ -19,6 +20,9 @@ class LightManager final{
 
     Microsoft::WRL::ComPtr<ID3D12Resource> pointResource_;
     PointLight* pointLight_ = nullptr;
+
+    Microsoft::WRL::ComPtr<ID3D12Resource> spotResource_;
+    SpotLight* spotLight_ = nullptr;
 
     LightManager() = default;
     ~LightManager() = default;

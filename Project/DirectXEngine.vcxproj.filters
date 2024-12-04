@@ -344,6 +344,9 @@
     <ClInclude Include="src\sysFrame\Object\Light\PointLight\PointLight.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="src\sysFrame\Object\Light\SpotLight\SpotLight.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shaders\Particle.VS.hlsl" />

@@ -18,10 +18,12 @@ struct Vector3{
 		return sqrtf(x * x + y * y + z * z);
 	}
 
-	void normalize() {
+	Vector3 normalize() {
 		this->x /= length();
 		this->y /= length();
 		this->z /= length();
+
+		return *this;
 	}
 
 	static Vector3 Random();

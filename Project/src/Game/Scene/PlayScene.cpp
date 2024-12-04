@@ -39,11 +39,11 @@ void PlayScene::Initialize() {
 void PlayScene::Update() {
     //sprite->Update();
     model->Update();
-    emitter_->Update();
+    //emitter_->Update();
 }
 
 void PlayScene::Draw() {
     model->Draw();
-    emitter_->Draw();
+    //emitter_->Draw();
     //sprite->Draw();
 }
