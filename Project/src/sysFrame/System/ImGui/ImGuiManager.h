@@ -28,6 +28,6 @@ public:
     void Begin();
     void End();
 
-    void Draw();
+    void Draw() const;
 };
 

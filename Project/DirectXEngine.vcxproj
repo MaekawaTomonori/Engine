@@ -164,6 +164,9 @@
     <ProjectReference Include="src\externals\imgui\imgui.vcxproj">
       <Project>{24b7e739-e20b-473a-8c40-48bc22286b3b}</Project>
     </ProjectReference>
+    <ProjectReference Include="src\externals\lwlog\lwlog\lwlog.vcxproj">
+      <Project>{ca71e40f-3686-0cc1-ff07-b0206bdb08f2}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shaders\Object3d.hlsli">
@@ -216,7 +219,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)..\Generated\outputs\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\obj\$(ProjectName)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)src\externals\imgui;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src\externals\imgui;$(SolutionDir)src\externals\lwlog;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
