@@ -5,7 +5,7 @@
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/Heap.h"
 #include "DirectX/Heap/SRVManager.h"
-#include "DirectXTex/d3dx12.h"
+#include "d3dx12.h"
 #include "System/System.h"
 
 std::shared_ptr<TextureManager> TextureManager::instance_ = nullptr;
@@ -183,6 +183,6 @@ D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::GetGPUHandle(const std::string& file
 
 D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::GetGPUHandle(const uint32_t index) const {
     assert(index <= textures_.size());
-    System::Log(std::format("TextureManager::GetGPUHandle: index {}", index));
+    System::Log(Log::Level::INFO, std::format("TextureManager::GetGPUHandle: index {}", index));
 	return srvManager_->GetGPUHandle(index);
 }

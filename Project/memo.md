@@ -2,10 +2,9 @@
 何でもやってくれる至れり尽くせりなエンジンにする。
 軽量化を怠らず速度を出す。そのうえで安全第一。
 
-
-
 # TODO
 - Engine部をまとめる
+	- Singletonがあることを前提にしてエンジンの解放をまとめられる方法がないか考える
 
 - ObjectをModel,Spriteにとりあえず対応させる
 	- リソース (割り当てるものはそれぞれに持たせる
@@ -23,6 +22,8 @@
 - FontRendering
 - Adjust for MultiThread
 - Changeable Icon
+- Add TimeScheduler(Maybe runnable system)
+- Fix ParticleSystem
 
 ### 命名
 - Object3d => Model
@@ -62,6 +63,7 @@ Typeとして定義して関数ポインタテーブルから呼び出すのも�
 - Particleのクラス化前にParticle部を丸々ParticleManagerに実装しなおすこと
 - ParticleCommonを追加(本当に必要か要検討)
 - ~~GeometryShaderの理解と必要個所の検討~~
+- Add Log Library
 
 #### DirectXCommonを以下のように変更
 - GraphicsPipelineをメンバ変数から除外(Model, Sprite, Particleにはそれぞれtypeを引数として持たせ、各Commonクラスに変数として追加)

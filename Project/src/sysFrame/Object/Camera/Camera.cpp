@@ -1,7 +1,7 @@
 #include "Camera.h"
 
 #include "WindowsApplication/WinApp.h"
-#include "imgui/imgui.h"
+#include "imgui.h"
 #include "Utility/Math/MathUtils.h"
 
 void Camera::Initialize() {

@@ -1,0 +1,3 @@
+[submodule "Project/src/externals/spdlog"]
+	path = Project/src/externals/spdlog
+	url = https://github.com/gabime/spdlog.git

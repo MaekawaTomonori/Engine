@@ -7,7 +7,7 @@
 #include "DirectX/Lighting/LightManager.h"
 #include "DirectX/ObjectCommon/MeshCommon.h"
 #include "DirectX/Texture/TextureManager.h"
-#include "imgui/imgui.h"
+#include "imgui.h"
 #include "Utility/Math/Vector3.h"
 
 

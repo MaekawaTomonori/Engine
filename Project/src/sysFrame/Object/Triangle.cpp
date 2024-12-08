@@ -1,7 +1,7 @@
 #include "Triangle.h"
 
 #include "DirectX/Texture/TextureManager.h"
-#include "imgui/imgui.h"
+#include "imgui.h"
 #include "Utility/Math/Material.h"
 #include "Utility/Math/MathUtils.h"
 #include "Utility/Math/VertexData.h"

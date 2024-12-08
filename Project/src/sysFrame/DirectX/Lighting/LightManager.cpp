@@ -1,7 +1,7 @@
 #include "LightManager.h"
 
 #include "DirectX/DirectXCommon.h"
-#include "imgui/imgui.h"
+#include "imgui.h"
 #include "Object/Light/DirectionalLight/DirectionalLight.h"
 #include "Object/Light/PointLight/PointLight.h"
 #include "Object/Light/SpotLight/SpotLight.h"
