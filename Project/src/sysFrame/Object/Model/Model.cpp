@@ -3,7 +3,7 @@
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/ObjectCommon/ModelCommon.h"
 #include "Framework/Engine.h"
-#include "imgui/imgui.h"
+#include "imgui.h"
 #include "Mesh/Mesh.h"
 
 Model::~Model() = default;

@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <wrl/client.h>
 
-#include "DirectXTex/DirectXTex.h"
+#include "DirectXTex.h"
 
 class DirectXCommon;
 class SRVManager;

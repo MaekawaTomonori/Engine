@@ -9,11 +9,11 @@
 std::shared_ptr<ModelCommon> ModelCommon::instance_ = nullptr;
 
 ModelCommon::ModelCommon() {
-    System::Log("[ModelCommon]Enabled\n");
+    System::Log(Log::Level::INFO, "[ModelCommon]Enabled");
 }
 
 ModelCommon::~ModelCommon() {
-    System::Log("[ModelCommon]Disabled\n");
+    System::Log(Log::Level::INFO, "[ModelCommon]Disabled");
 }
 
 std::shared_ptr<ModelCommon> ModelCommon::GetInstance() {

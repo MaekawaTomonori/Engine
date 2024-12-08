@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sysFrame\System\Log\Log.cpp" />
     <ClCompile Include="src\sysFrame\Utility\Collision.cpp" />
     <ClCompile Include="src\sysFrame\Utility\Math\Randomize.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\ObjectCommon\ParticleCommon.cpp" />
@@ -59,8 +60,10 @@
     <ClCompile Include="src\sysFrame\DirectX\Heap\SRVManager.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Texture\TextureManager.cpp" />
     <ClCompile Include="src\Game\Scene\TitleScene.cpp" />
+    <ClCompile Include="src\sysFrame\System\Time\TimeScheduler.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sysFrame\System\Log\Log.h" />
     <ClInclude Include="src\sysFrame\Effect\AccelerationField.h" />
     <ClInclude Include="src\sysFrame\Object\Light\PointLight\PointLight.h" />
     <ClInclude Include="src\sysFrame\Object\Light\SpotLight\SpotLight.h" />
@@ -123,6 +126,7 @@
     <ClInclude Include="src\sysFrame\DirectX\Heap\SRVManager.h" />
     <ClInclude Include="src\sysFrame\DirectX\Texture\TextureManager.h" />
     <ClInclude Include="src\Game\Scene\TitleScene.h" />
+    <ClInclude Include="src\sysFrame\System\Time\TimeScheduler.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shaders\Object3d.PS.hlsl">
@@ -211,12 +215,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IntDir>$(SolutionDir)..\Generated\obj\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)..\Generated\outputs\$(Configuration)\</OutDir>
-    <IncludePath>$(SolutionDir)src\externals\imgui;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src\externals\DirectXTex;$(SolutionDir)src\externals\imgui;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)..\Generated\outputs\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\obj\$(ProjectName)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)src\externals\imgui;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src\externals\DirectXTex;$(SolutionDir)src\externals\imgui;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -229,7 +233,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\sysFrame;$(ProjectDir)src;$(ProjectDir)src\externals</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\sysFrame;$(ProjectDir)src;$(SolutionDir)src\externals\spdlog\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -255,7 +259,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\sysFrame;$(ProjectDir)src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\sysFrame;$(ProjectDir)src;$(SolutionDir)src\externals\spdlog\include</AdditionalIncludeDirectories>
       <Optimization>MinSpace</Optimization>
     </ClCompile>
     <Link>

@@ -150,7 +150,7 @@ void GraphicsPipeline::CreateRootSignature() {
     hr = D3D12SerializeRootSignature(&descriptionRootSignature, D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
 
     if(FAILED(hr)){
-        System::Log(static_cast<char*>(errorBlob->GetBufferPointer()));
+        System::Log(Log::Level::ERR, static_cast<char*>(errorBlob->GetBufferPointer()));
         assert(false);
     }
 

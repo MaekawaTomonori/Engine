@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "imgui/imgui.h"
+#include "imgui.h"
 
 #include "WindowsApplication/WinApp.h"
 #include "DirectX/DirectXCommon.h"

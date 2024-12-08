@@ -14,6 +14,7 @@
 #include "System/Input/Input.h"
 #include "System/Sound/Audio.h"
 #include "Object/Camera/Camera.h"
+#include "System/Log/Log.h"
 
 class ParticleManager;
 
@@ -31,7 +32,9 @@ class Engine{
     std::shared_ptr<ParticleManager> particle_;
     std::unique_ptr<Input> input_;
     std::shared_ptr<Audio> audio_;
+    std::unique_ptr<Log> log_;
 	static std::unique_ptr<Camera> defaultCamera_;
+
 
 public:
 	Engine();

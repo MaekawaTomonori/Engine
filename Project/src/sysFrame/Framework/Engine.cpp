@@ -6,7 +6,10 @@
 std::unique_ptr<Camera> Engine::defaultCamera_ = std::make_unique<Camera>();
 
 Engine::Engine() {
-    System::Log("[Engine]Starting...\n");
+    log_ = std::make_unique<Log>();
+	log_->Initialize();
+
+    System::Log(Log::Level::INFO, "[Engine] Starting...");
 
     winApp_ = std::make_unique<WinApp>();
     dxCommon_ = std::make_unique<DirectXCommon>();
@@ -24,7 +27,8 @@ Engine::Engine() {
 
 void Engine::Initialize() const {
     try{
-        System::Log("[Engine]Initialize...\n");
+        System::Log(Log::Level::INFO, "[Engine] Initialize...");
+
 
         //EngineInit
         winApp_->Initialize("Engine");
@@ -46,11 +50,13 @@ void Engine::Initialize() const {
         input_->Initialize(winApp_.get());
         audio_->Initialize();
 
+
         defaultCamera_->Initialize();
 
-        System::Log("[Engine]Enabled\n");
+        System::Log(Log::Level::INFO, "[Engine] Enabled!");
     } catch (const std::exception& e){
-        System::Log(std::format("Engine Initialization Failed: {}\n", e.what()));
+        System::Log(Log::Level::ERR, std::format("Engine Initialization Failed: {}\n", e.what()));
+        assert(0);
     }
 }
 
@@ -61,6 +67,11 @@ void Engine::Update() const {
 
 #ifdef _DEBUG
     ImGui::ShowDemoWindow();
+    ImGui::Begin("Engine");
+    if(ImGui::Button("Log")) {
+        System::Log(Log::Level::INFO, "Log Button Pressed");
+    }
+    ImGui::End();
 #endif
 
     lightManager_->Update();
