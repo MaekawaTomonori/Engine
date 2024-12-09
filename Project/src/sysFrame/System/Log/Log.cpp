@@ -4,8 +4,17 @@
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/msvc_sink.h"
 
-std::vector<spdlog::sink_ptr> Log::sinks_;
-std::shared_ptr<spdlog::logger> Log::combined_logger;
+std::shared_ptr<Log> Log::instance_ = nullptr;
+
+std::shared_ptr<Log> Log::GetLogger() {
+    if(!instance_){
+        instance_ = std::shared_ptr<Log>(new Log, [](const Log* ptr){
+            delete ptr;
+        });
+    }
+
+    return instance_;
+}
 
 void Log::Initialize() {
     auto file = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/latest.log", true);
@@ -20,18 +29,18 @@ void Log::Initialize() {
     spdlog::info("LogSystem Enabled");
 }
 
-void Log::Info(const std::string& msg) {
-    spdlog::info(msg);
+void Log::Info(const std::string& msg) const {
+    combined_logger->info(msg);
 }
 
-void Log::Debug(const std::string& msg) {
-    spdlog::debug(msg);
+void Log::Debug(const std::string& msg) const {
+    combined_logger->debug(msg);
 }
 
-void Log::Warning(const std::string& msg) {
-    spdlog::warn(msg);
+void Log::Warning(const std::string& msg) const {
+    combined_logger->warn(msg);
 }
 
-void Log::Error(const std::string& msg) {
-    spdlog::error(msg);
+void Log::Error(const std::string& msg) const {
+    combined_logger->error(msg);
 }

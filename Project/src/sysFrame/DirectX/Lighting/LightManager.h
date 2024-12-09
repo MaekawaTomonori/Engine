@@ -33,8 +33,9 @@ class LightManager final{
 public:
 	LightManager(const LightManager&) = delete;
     void operator=(const LightManager&) = delete;
+    void Finalize();
 
-	static std::shared_ptr<LightManager> GetInstance();
+    static std::shared_ptr<LightManager> GetInstance();
 
 	void Initialize(DirectXCommon* dxCommon);
     void Update() const;

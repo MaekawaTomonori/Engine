@@ -32,7 +32,7 @@ class Engine{
     std::shared_ptr<ParticleManager> particle_;
     std::unique_ptr<Input> input_;
     std::shared_ptr<Audio> audio_;
-    std::unique_ptr<Log> log_;
+    std::shared_ptr<Log> log_;
 	static std::unique_ptr<Camera> defaultCamera_;
 
 
@@ -42,6 +42,7 @@ public:
     void Update() const;
     void PreDraw() const;
     void PostDraw() const;
+    void Finalize() const;
 
     bool IsEndRequest() const;
     static Camera* GetDefaultCamera();

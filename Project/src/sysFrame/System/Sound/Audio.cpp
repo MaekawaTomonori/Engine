@@ -3,13 +3,11 @@
 #include <cassert>
 #include <fstream>
 
+#include "System/System.h"
+
 #pragma comment(lib, "xaudio2.lib")
 
 std::shared_ptr<Audio> Audio::instance_ = nullptr;
-
-Audio::~Audio() {
-    xAudio2_.Reset();
-}
 
 std::shared_ptr<Audio> Audio::GetInstance() {
     if (!instance_){
@@ -22,13 +20,17 @@ std::shared_ptr<Audio> Audio::GetInstance() {
 }
 
 void Audio::Initialize() {
+    System::Log(Log::Level::INFO, "Audio Enable");
     HRESULT hr = XAudio2Create(&xAudio2_, 0, XAUDIO2_DEFAULT_PROCESSOR);
     assert(SUCCEEDED(hr));
 
     hr = xAudio2_->CreateMasteringVoice(&masteringVoice_);
     assert(SUCCEEDED(hr));
+}
 
-
+void Audio::Finalize() {
+	xAudio2_.Reset();
+    System::Log(Log::Level::INFO, "Audio Disable");
 }
 
 void Audio::Load(const std::string& fileName) {

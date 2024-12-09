@@ -12,6 +12,7 @@ public:
     static const int32_t CLIENT_HEIGHT = 720;
 public: //Functions
 	void Initialize(const std::string& title);
+	void Finalize();
 	bool ProcessMessage() const;
 
     HINSTANCE GetInstanceHandle() const;

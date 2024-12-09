@@ -4,13 +4,6 @@
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/SRVManager.h"
 
-ImGuiManager::~ImGuiManager() {
-#ifdef _DEBUG
-    ImGui_ImplDX12_Shutdown();
-    ImGui_ImplWin32_Shutdown();
-    ImGui::DestroyContext();
-#endif
-}
 
 void ImGuiManager::Initialize(SRVManager* srv) {
 #ifdef _DEBUG
@@ -59,5 +52,13 @@ void ImGuiManager::Draw() const {
     commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
     ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList);
+#endif
+}
+
+void ImGuiManager::Finalize() {
+#ifdef _DEBUG
+    ImGui_ImplDX12_Shutdown();
+    ImGui_ImplWin32_Shutdown();
+    ImGui::DestroyContext();
 #endif
 }

@@ -31,20 +31,26 @@ std::string System::ConvertString(const std::wstring& str) {
 }
 
 void System::Log(Log::Level level, const std::string& message) {
-    if (level == Log::Level::INFO){Log::Info(message); return;}
-    if (level == Log::Level::DEBUG){Log::Debug(message); return;}
-    if (level == Log::Level::WARN){Log::Warning(message); return;}
-    if (level == Log::Level::ERR){Log::Error(message); return;}
+	std::weak_ptr<class Log> w = Log::GetLogger();
+    if (std::shared_ptr<class Log> logging = w.lock()){
+	    if (level == Log::Level::INFO){logging->Info(message); return;}
+	    if (level == Log::Level::DEBUG){logging->Debug(message); return;}
+	    if (level == Log::Level::WARN){logging->Warning(message); return;}
+	    if (level == Log::Level::ERR){logging->Error(message); return;}
     //OutputDebugStringA(message.c_str());
+    }
 }
 
 void System::Log(Log::Level level, const std::wstring& message) {
     std::string msg = ConvertString(message);
-    if (level == Log::Level::INFO){Log::Info(msg); return;}
-    if (level == Log::Level::DEBUG){Log::Debug(msg); return;}
-    if (level == Log::Level::WARN){Log::Warning(msg); return;}
-    if (level == Log::Level::ERR){Log::Error(msg); return;}
-    //OutputDebugStringA(ConvertString(message).c_str());
+    std::weak_ptr<class Log> w = Log::GetLogger();
+    if(std::shared_ptr<class Log> log = w.lock()){
+	    if (level == Log::Level::INFO){log->Info(msg); return;}
+	    if (level == Log::Level::DEBUG){log->Debug(msg); return;}
+	    if (level == Log::Level::WARN){log->Warning(msg); return;}
+	    if (level == Log::Level::ERR){log->Error(msg); return;}
+	    //OutputDebugStringA(ConvertString(message).c_str());
+	}
 }
 
 void System::Log(const std::string& message) {

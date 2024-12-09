@@ -19,6 +19,7 @@
 
 - デストラクタに実装されている終了処理をFinalize(shutdown)関数に置き換え明示的な呼び出しを行う
 
+- Add Finalize(Change Destructor to Finalize)
 - FontRendering
 - Adjust for MultiThread
 - Changeable Icon

@@ -5,6 +5,7 @@
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Pipeline/GraphicsPipeline.h"
 #include "DirectX/Shader/Shader.h"
+#include "System/System.h"
 
 std::shared_ptr<SpriteCommon> SpriteCommon::instance_ = nullptr;
 
@@ -27,6 +28,12 @@ void SpriteCommon::Initialize(DirectXCommon* dxCommon) {
 
     // Do something
     CreatePipeline();
+
+    System::Log(Log::Level::INFO, "SpriteCommon Enabled");
+}
+
+void SpriteCommon::Finalize() {
+    System::Log(Log::Level::INFO, "SpriteCommon Disabled");
 }
 
 void SpriteCommon::PreDraw() const {

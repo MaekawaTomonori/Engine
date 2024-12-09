@@ -29,6 +29,7 @@ public:
 
 public:
 	void Initialize(DirectXCommon* dxCommon);
+    void Finalize();
 
     void Load(const std::string& fileName);
 

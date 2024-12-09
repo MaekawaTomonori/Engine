@@ -5,9 +5,14 @@
 #include "Object/Light/DirectionalLight/DirectionalLight.h"
 #include "Object/Light/PointLight/PointLight.h"
 #include "Object/Light/SpotLight/SpotLight.h"
+#include "System/System.h"
 #include "Utility/Math/MathUtils.h"
 
 std::shared_ptr<LightManager> LightManager::instance = nullptr;
+
+void LightManager::Finalize() {
+    System::Log(Log::Level::INFO, "Light Disabled");
+}
 
 std::shared_ptr<LightManager> LightManager::GetInstance() {
     if (!instance){
@@ -52,6 +57,8 @@ void LightManager::Initialize(DirectXCommon* dxCommon) {
     spotLight_->decay = 2.f;
     spotLight_->cosAngle = std::cos(MathUtils::F_PI / 3.f);
     spotLight_->falloffStart = std::cos(MathUtils::F_PI / 4.f);
+
+    System::Log(Log::Level::INFO, "Light Enabled");
 }
 
 void LightManager::Update() const {

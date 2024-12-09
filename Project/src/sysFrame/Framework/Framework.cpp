@@ -25,4 +25,5 @@ void Framework::Run() {
         Draw();
         engine_->PostDraw();
     }
+    engine_->Finalize();
 }

@@ -2,12 +2,15 @@
 
 #include <cassert>
 
+#include "System/System.h"
+#include "System/Log/Log.h"
 #include "WindowsApplication/WinApp.h"
 
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
 
 void Input::Initialize(const WinApp* winApp) {
+    System::Log(Log::Level::INFO, "Input Enabled");
 
     HRESULT hr = DirectInput8Create(winApp->GetInstanceHandle(), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&directInput, nullptr);
     assert(SUCCEEDED(hr));
@@ -28,6 +31,10 @@ void Input::Update() {
 	keyboard->Acquire();
 
     keyboard->GetDeviceState(sizeof(keyState), keyState);
+}
+
+void Input::Finalize() {
+    System::Log(Log::Level::INFO, "Input Disabled");
 }
 
 bool Input::PushKey(BYTE key) const {

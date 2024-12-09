@@ -41,7 +41,7 @@ private:
 	static std::shared_ptr<Audio> instance_;
 
 	Audio() = default;
-	~Audio();
+	~Audio() = default ;
 
 private:
 	void LoadWave(const std::string& fileName);
@@ -50,10 +50,11 @@ public:
 	Audio(const Audio&) = delete;
     Audio& operator=(const Audio&) = delete;
 
-    static std::shared_ptr<Audio> GetInstance();
+	static std::shared_ptr<Audio> GetInstance();
 
 public:
 	void Initialize();
+	void Finalize();
 
 	void Load(const std::string& fileName);
     void Unload(const std::string& name);

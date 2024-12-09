@@ -4,7 +4,6 @@
 #include <wrl/client.h>
 #include <windows.h>
 
-
 class WinApp;
 
 class Input{
@@ -15,6 +14,7 @@ class Input{
 public:
 	void Initialize(const WinApp* winApp);
 	void Update();
+	void Finalize();
 
 	bool PushKey(BYTE key) const;
 	bool TriggerKey(BYTE key) const;

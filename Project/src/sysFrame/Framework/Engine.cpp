@@ -6,7 +6,7 @@
 std::unique_ptr<Camera> Engine::defaultCamera_ = std::make_unique<Camera>();
 
 Engine::Engine() {
-    log_ = std::make_unique<Log>();
+    log_ = Log::GetLogger();
 	log_->Initialize();
 
     System::Log(Log::Level::INFO, "[Engine] Starting...");
@@ -55,9 +55,30 @@ void Engine::Initialize() const {
 
         System::Log(Log::Level::INFO, "[Engine] Enabled!");
     } catch (const std::exception& e){
-        System::Log(Log::Level::ERR, std::format("Engine Initialization Failed: {}\n", e.what()));
+        System::Log(Log::Level::ERR, std::format("Engine Initialization Failed: {}", e.what()));
         assert(0);
     }
+}
+
+void Engine::Finalize() const {
+    System::Log(Log::Level::INFO, "[Engine] Finalizing...");
+
+    audio_->Finalize();
+    input_->Finalize();
+    particle_->Finalize();
+    lightManager_->Finalize();
+    modelManager_->Finalize();
+    textureManager_->Finalize();
+
+    modelCommon_->Finalize();
+    spriteCommon_->Finalize();
+    imguiManager_->Finalize();
+
+    srvManager_->Finalize();
+    dxCommon_->Finalize();
+    winApp_->Finalize();
+
+    System::Log(Log::Level::INFO, "[Engine] Disabled!");
 }
 
 void Engine::Update() const {
