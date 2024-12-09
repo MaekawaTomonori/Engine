@@ -16,6 +16,14 @@
 #include "Object/Camera/Camera.h"
 #include "System/Log/Log.h"
 
+#ifdef _DEBUG
+enum class DebugState{
+	ENGINE_DEBUG,
+    DEBUG,
+    RELEASE
+};
+#endif
+
 class ParticleManager;
 
 class Engine{
@@ -35,6 +43,10 @@ class Engine{
     std::shared_ptr<Log> log_;
 	static std::unique_ptr<Camera> defaultCamera_;
 
+#ifdef _DEBUG
+    DebugState debugState_ = DebugState::ENGINE_DEBUG;
+#endif
+
 
 public:
 	Engine();
@@ -46,4 +58,13 @@ public:
 
     bool IsEndRequest() const;
     static Camera* GetDefaultCamera();
+
+#ifdef _DEBUG
+    DebugState IsDebug() const {
+        return debugState_;
+    }
+    void SetDebugState(DebugState state) {
+        debugState_ = state;
+    }
+#endif
 };
