@@ -45,6 +45,7 @@ public:
 	static std::shared_ptr<TextureManager> GetInstance();
 
 	void Initialize(DirectXCommon* dxCommon, SRVManager* srvManager);
+	void Finalize();
 	void Load(const std::string& fileName);
 
     const DirectX::TexMetadata& GetTextureMetadata(const std::string& fileName) const;

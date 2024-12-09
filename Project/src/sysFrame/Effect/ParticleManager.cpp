@@ -3,6 +3,7 @@
 #include "Emitter.h"
 #include "DirectX/Heap/SRVManager.h"
 #include "DirectX/ObjectCommon/ParticleCommon.h"
+#include "System/System.h"
 
 std::shared_ptr<ParticleManager> ParticleManager::instance_ = nullptr;
 
@@ -16,6 +17,7 @@ std::shared_ptr<ParticleManager> ParticleManager::GetInstance() {
 }
 
 void ParticleManager::Initialize(DirectXCommon* dxCommon, SRVManager* srvManager) {
+    System::Log(Log::Level::INFO, "ParticleManager Enabled");
     dxCommon_ = dxCommon;
     srvManager_ = srvManager;
     common_ = std::make_unique<ParticleCommon>(dxCommon);
@@ -29,4 +31,9 @@ Emitter* ParticleManager::Emit(const Transform& transform) {
     emitters_.push_back(std::unique_ptr<Emitter>(emitter));
 
     return emitter;
+}
+
+void ParticleManager::Finalize() {
+
+    System::Log(Log::Level::INFO, "ParticleManager Disabled");
 }

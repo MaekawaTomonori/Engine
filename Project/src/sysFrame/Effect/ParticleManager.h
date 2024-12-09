@@ -35,5 +35,6 @@ public:
 
 	void Initialize(DirectXCommon* dxCommon, SRVManager* srvManager);
 	Emitter* Emit(const Transform& transform /*, ParticleType type*/);
+	void Finalize();
 };
 

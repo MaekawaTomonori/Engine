@@ -9,10 +9,6 @@
 #include "System/System.h"
 
 
-DirectXCommon::~DirectXCommon() {
-    CoUninitialize();
-}
-
 bool DirectXCommon::Initialize(const WinApp* winApp) {
     CoInitializeEx(0, COINIT_MULTITHREADED);
     CreateDebugLayer();
@@ -24,7 +20,15 @@ bool DirectXCommon::Initialize(const WinApp* winApp) {
     SettingGraphicsInfo();
     CreateDepthStencilView();
     InitializeFixFPS();
+
+    System::Log(Log::Level::INFO, "DirectXCommon Enabled");
+
     return true;
+}
+
+void DirectXCommon::Finalize() {
+    CoUninitialize();
+    System::Log(Log::Level::INFO, "DirectXCommon Disabled");
 }
 
 void DirectXCommon::PreDraw() {

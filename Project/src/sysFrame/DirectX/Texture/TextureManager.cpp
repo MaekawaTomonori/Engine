@@ -105,6 +105,12 @@ std::shared_ptr<TextureManager> TextureManager::GetInstance() {
 void TextureManager::Initialize(DirectXCommon* dxCommon, SRVManager* srvManager) {
     dxCommon_ = dxCommon;
     srvManager_ = srvManager;
+    System::Log(Log::Level::INFO, "TextureManager Enabled");
+}
+
+void TextureManager::Finalize() {
+    textures_.clear();
+    System::Log(Log::Level::INFO, "TextureManager Disabled");
 }
 
 void TextureManager::Load(const std::string& fileName) {
@@ -137,6 +143,8 @@ void TextureManager::Load(const std::string& fileName) {
     texture.gpuHandle = srvManager_->GetGPUHandle(texture.srvIndex);
 
     srvManager_->CreateSRVforTexture2D(texture.srvIndex, texture.resource.Get(), texture.metadata.format, static_cast<UINT>(texture.metadata.mipLevels));
+
+    System::Log(Log::Level::INFO, std::format("TextureManager::Load: {}", name));
 }
 
 const DirectX::TexMetadata& TextureManager::GetTextureMetadata(const std::string& fileName) const {
@@ -144,6 +152,7 @@ const DirectX::TexMetadata& TextureManager::GetTextureMetadata(const std::string
         return textures_.at(fileName).metadata;
 	}
 
+    System::Log(Log::Level::ERR, std::format("TextureManager::GetTextureMetadata: {} not found", fileName));
     assert(0);
     return textures_.at("").metadata;
 }
@@ -153,6 +162,7 @@ uint32_t TextureManager::GetSrvIndex(const std::string& fileName) const {
         return textures_.at(fileName).srvIndex;
     }
 
+    System::Log(Log::Level::ERR, std::format("TextureManager::GetSrvIndex: {} not found", fileName));
     assert(0);
     return 0;
 }
@@ -162,6 +172,7 @@ uint32_t TextureManager::GetTextureIndexByFilePath(const std::string& path) cons
         return textures_.at(path).srvIndex;
     }
 
+    System::Log(Log::Level::ERR, std::format("TextureManager::GetTextureIndexByFilePath: {} not found", path));
     assert(0);
     return 0;
 }
@@ -177,6 +188,7 @@ D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::GetGPUHandle(const std::string& file
         return textures_.at(name).gpuHandle;
     }
 
+    System::Log(Log::Level::ERR, std::format("TextureManager::GetGPUHandle: {} not found", name));
     assert(0);
     return {};
 }

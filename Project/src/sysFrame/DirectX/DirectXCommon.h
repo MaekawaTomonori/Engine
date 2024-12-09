@@ -68,8 +68,9 @@ private://Variables
 
 
 public://Methods
-	~DirectXCommon();
+	~DirectXCommon() = default;
 	bool Initialize(const WinApp* winApp);
+	void Finalize();
 
 	void PreDraw();
 	void PostDraw();

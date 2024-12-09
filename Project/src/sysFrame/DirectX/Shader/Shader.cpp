@@ -38,7 +38,7 @@ bool Shader::Create(const std::wstring& name) {
 
 IDxcBlob* Shader::Compile(const std::wstring& directoryPath, const std::wstring& filePath, const wchar_t* profile,
                           IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHandler) {
-    System::Log(Log::Level::INFO, System::ConvertString(std::format(L"Begin CompileShader, Path : {}, Profile : {}\n", filePath, profile)));
+    System::Log(Log::Level::INFO, System::ConvertString(std::format(L"Begin CompileShader, Path : {}, Profile : {}", filePath, profile)));
     IDxcBlobEncoding* shaderSource = nullptr;
     std::wstring fullPath = directoryPath + filePath;
     HRESULT hResult = dxcUtils->LoadFile(fullPath.c_str(), nullptr, &shaderSource);
@@ -82,7 +82,7 @@ IDxcBlob* Shader::Compile(const std::wstring& directoryPath, const std::wstring&
     hResult = shaderResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(&shaderBlob), nullptr);
     assert(SUCCEEDED(hResult));
 
-    System::Log(Log::Level::INFO, System::ConvertString(std::format(L"Compile Succeed, Path : {}, Profile : {}\n", filePath, profile)));
+    System::Log(Log::Level::INFO, System::ConvertString(std::format(L"Compile Succeed, Path : {}, Profile : {}", filePath, profile)));
     shaderSource->Release();
     shaderResult->Release();
 

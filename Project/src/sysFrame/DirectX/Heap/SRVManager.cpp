@@ -5,6 +5,7 @@
 
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/Heap.h"
+#include "System/System.h"
 
 const uint32_t SRVManager::kMaxSRVCount = 512;
 
@@ -16,6 +17,12 @@ void SRVManager::Initialize(DirectXCommon* dxCommon) {
     descriptorSize = dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
     useIndex_ = 0;
+
+    System::Log(Log::Level::INFO, "SRVManager Enabled");
+}
+
+void SRVManager::Finalize() {
+    System::Log(Log::Level::INFO, "SRVManager Disabled");
 }
 
 uint32_t SRVManager::Allocate() {

@@ -23,6 +23,7 @@ public:
     static std::shared_ptr<SpriteCommon> GetInstance();
 
 	void Initialize(DirectXCommon* dxCommon);
+    void Finalize();
     void PreDraw() const;
 
     DirectXCommon* GetDXCommon() const {

@@ -18,6 +18,7 @@ class SRVManager{
 
 public:
 	void Initialize(DirectXCommon* dxCommon);
+    void Finalize();
 
     uint32_t Allocate();
     void PreDraw() const;
