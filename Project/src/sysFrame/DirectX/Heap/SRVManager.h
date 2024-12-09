@@ -17,6 +17,7 @@ class SRVManager{
     std::shared_ptr<Heap> heap_;
 
 public:
+	~SRVManager() = default;
 	void Initialize(DirectXCommon* dxCommon);
     void Finalize();
 

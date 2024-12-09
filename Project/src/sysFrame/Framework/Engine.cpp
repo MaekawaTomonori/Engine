@@ -1,5 +1,7 @@
 #include "Engine.h"
 
+#include <memory>
+
 #include "Effect/ParticleManager.h"
 #include "System/System.h"
 
@@ -11,6 +13,7 @@ Engine::Engine() {
 
     System::Log(Log::Level::INFO, "[Engine] Starting...");
 
+    //leakChecker = std::make_unique<D3DResourceLeakChecker>();
     winApp_ = std::make_unique<WinApp>();
     dxCommon_ = std::make_unique<DirectXCommon>();
     imguiManager_ = std::make_unique<ImGuiManager>(winApp_.get(), dxCommon_.get(), srvManager_.get());
@@ -20,15 +23,14 @@ Engine::Engine() {
     textureManager_ = TextureManager::GetInstance();
     modelManager_ = ModelManager::GetInstance();
     lightManager_ = LightManager::GetInstance();
+    particle_ = ParticleManager::GetInstance();
     input_ = std::make_unique<Input>();
     audio_ = Audio::GetInstance();
-    particle_ = ParticleManager::GetInstance();
 }
 
 void Engine::Initialize() const {
     try{
         System::Log(Log::Level::INFO, "[Engine] Initialize...");
-
 
         //EngineInit
         winApp_->Initialize("Engine");

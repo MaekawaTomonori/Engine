@@ -29,11 +29,7 @@ void PlayScene::Initialize() {
     model->Initialize();
     model->SetMesh("terrain");
 
-    emitter_ = ParticleManager::GetInstance()->Emit(
-        {1,1,1,
-        0,0,0,
-        0, 0, 10
-        });
+    //emitter_ = ParticleManager::GetInstance()->Emit({1,1,1,0,0,0,0, 0, 10});
 }
 
 void PlayScene::Update() {

@@ -3,6 +3,7 @@
 #include "WindowsApplication/WinApp.h"
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/SRVManager.h"
+#include "System/System.h"
 
 
 void ImGuiManager::Initialize(SRVManager* srv) {
@@ -27,6 +28,8 @@ void ImGuiManager::Initialize(SRVManager* srv) {
     ImGuiIO& io = ImGui::GetIO();
     io.FontGlobalScale = 1.f;
     io.Fonts->AddFontDefault();
+
+
 #endif
 }
 

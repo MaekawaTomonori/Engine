@@ -105,6 +105,7 @@ std::shared_ptr<TextureManager> TextureManager::GetInstance() {
 void TextureManager::Initialize(DirectXCommon* dxCommon, SRVManager* srvManager) {
     dxCommon_ = dxCommon;
     srvManager_ = srvManager;
+
     System::Log(Log::Level::INFO, "TextureManager Enabled");
 }
 

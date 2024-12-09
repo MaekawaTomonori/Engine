@@ -16,6 +16,7 @@ void WinApp::Initialize(const std::string& title) {
         assert(false);
         return;
     }
+
     System::Log(Log::Level::INFO, "WinApp Enabled");
 }
 

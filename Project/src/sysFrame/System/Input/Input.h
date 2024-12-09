@@ -12,6 +12,7 @@ class Input{
 	BYTE keyState[256] = {};
 	BYTE preKey[256] = {};
 public:
+	~Input() = default;
 	void Initialize(const WinApp* winApp);
 	void Update();
 	void Finalize();

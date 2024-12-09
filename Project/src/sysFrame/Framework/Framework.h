@@ -10,6 +10,7 @@ protected:
     std::unique_ptr<Engine> engine_;
     std::unique_ptr<SceneManager> scene_;
 
+
     bool endRequest_ = false;
 
 protected:

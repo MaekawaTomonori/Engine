@@ -27,7 +27,7 @@ enum class DebugState{
 class ParticleManager;
 
 class Engine{
-	std::unique_ptr<D3DResourceLeakChecker> leakChecker;
+	//std::shared_ptr<D3DResourceLeakChecker> leakChecker;
 	std::unique_ptr<WinApp> winApp_;
     std::unique_ptr<DirectXCommon> dxCommon_;
     std::unique_ptr<SRVManager> srvManager_;
@@ -50,6 +50,9 @@ class Engine{
 
 public:
 	Engine();
+    ~Engine() {
+	    
+    }
     void Initialize() const;
     void Update() const;
     void PreDraw() const;

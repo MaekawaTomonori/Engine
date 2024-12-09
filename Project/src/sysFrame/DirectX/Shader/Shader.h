@@ -16,12 +16,14 @@ class Shader{
 	Microsoft::WRL::ComPtr<IDxcBlob> vertexShader_;
 	Microsoft::WRL::ComPtr<IDxcBlob> geometryShader_;
 	Microsoft::WRL::ComPtr<IDxcBlob> pixelShader_;
+
 	IDxcBlob* Compile(const std::wstring& directoryPath_, const std::wstring& filePath, const wchar_t* profile, IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHandler);
 
 	void CreateDxc();
 	void CompileShaders();
 
 public:
+	~Shader() = default;
 	bool Create(const std::wstring& name);
 
     IDxcBlob* GetVertexShader() const {

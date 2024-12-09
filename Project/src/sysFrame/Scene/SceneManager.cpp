@@ -7,6 +7,7 @@
 SceneManager::~SceneManager() {
     delete nextScene_;
     delete scene_;
+    delete factory_;
 }
 
 void SceneManager::Update() {

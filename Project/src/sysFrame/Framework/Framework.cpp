@@ -5,6 +5,7 @@ void Framework::Initialize() {
     engine_->Initialize();
 
     scene_ = std::make_unique<SceneManager>();
+
 }
 
 void Framework::Update() {

@@ -11,6 +11,7 @@ public:
 	static const int32_t CLIENT_WIDTH = 1280;
     static const int32_t CLIENT_HEIGHT = 720;
 public: //Functions
+	~WinApp() = default;
 	void Initialize(const std::string& title);
 	void Finalize();
 	bool ProcessMessage() const;
