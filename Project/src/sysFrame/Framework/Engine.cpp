@@ -2,6 +2,7 @@
 
 #include "Effect/ParticleManager.h"
 #include "System/System.h"
+#include "System/SingletonFinalizer/SingletonFinalizer.h"
 
 std::unique_ptr<Camera> Engine::defaultCamera_ = std::make_unique<Camera>();
 
@@ -15,14 +16,17 @@ Engine::Engine() {
     dxCommon_ = std::make_unique<DirectXCommon>();
     imguiManager_ = std::make_unique<ImGuiManager>(winApp_.get(), dxCommon_.get(), srvManager_.get());
     srvManager_ = std::make_unique<SRVManager>();
+    input_ = std::make_unique<Input>();
+
+    textureManager_ = TextureManager::GetInstance();
+    audio_ = Audio::GetInstance();
+
     spriteCommon_ = SpriteCommon::GetInstance();
     modelCommon_ = ModelCommon::GetInstance();
-    textureManager_ = TextureManager::GetInstance();
     modelManager_ = ModelManager::GetInstance();
-    lightManager_ = LightManager::GetInstance();
-    input_ = std::make_unique<Input>();
-    audio_ = Audio::GetInstance();
     particle_ = ParticleManager::GetInstance();
+
+    lightManager_ = LightManager::GetInstance();
 }
 
 void Engine::Initialize() const {
@@ -63,22 +67,14 @@ void Engine::Initialize() const {
 void Engine::Finalize() const {
     System::Log(Log::Level::INFO, "[Engine] Finalizing...");
 
-    audio_->Finalize();
-    input_->Finalize();
-    particle_->Finalize();
-    lightManager_->Finalize();
-    modelManager_->Finalize();
-    textureManager_->Finalize();
+    SingletonFinalizer::Finalize();
 
-    modelCommon_->Finalize();
-    spriteCommon_->Finalize();
     imguiManager_->Finalize();
-
     srvManager_->Finalize();
     dxCommon_->Finalize();
     winApp_->Finalize();
 
-    System::Log(Log::Level::INFO, "[Engine] Disabled!");
+    //System::Log(Log::Level::INFO, "[Engine] Disabled!");
 }
 
 void Engine::Update() const {

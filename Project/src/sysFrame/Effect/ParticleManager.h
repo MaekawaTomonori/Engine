@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <list>
 #include <memory>
+#include <mutex>
 
 #include "Utility/Math/Transform.h"
 
@@ -28,13 +29,14 @@ private:
 	ParticleManager() = default;
 	~ParticleManager() = default;
 
-    static std::shared_ptr<ParticleManager> instance_;
-
+    static ParticleManager* instance_;
+	static std::once_flag onceFlag_;
 public:
-	static std::shared_ptr<ParticleManager> GetInstance();
+	static ParticleManager* GetInstance();
+	static void Create();
+	static void Finalize();
 
 	void Initialize(DirectXCommon* dxCommon, SRVManager* srvManager);
 	Emitter* Emit(const Transform& transform /*, ParticleType type*/);
-	void Finalize();
 };
 

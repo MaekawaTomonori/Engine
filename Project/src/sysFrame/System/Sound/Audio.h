@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <cstdint>
-#include <memory>
+#include <mutex>
 #include <string>
 #include <unordered_map>
 #include <xaudio2.h>
@@ -38,10 +38,11 @@ class Audio{
 
     std::string folderPath_ = "Assets/Sound/";
 private:
-	static std::shared_ptr<Audio> instance_;
+	static Audio* instance_;
+	static std::once_flag onceFlag_;
 
 	Audio() = default;
-	~Audio() = default ;
+	~Audio();
 
 private:
 	void LoadWave(const std::string& fileName);
@@ -50,11 +51,11 @@ public:
 	Audio(const Audio&) = delete;
     Audio& operator=(const Audio&) = delete;
 
-	static std::shared_ptr<Audio> GetInstance();
-
+	static Audio* GetInstance();
+	static void Create();
+	static void Finalize();
 public:
 	void Initialize();
-	void Finalize();
 
 	void Load(const std::string& fileName);
     void Unload(const std::string& name);

@@ -4,23 +4,32 @@
 
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Pipeline/GraphicsPipeline.h"
-#include "DirectX/Shader/Shader.h"
 #include "System/System.h"
+#include "System/SingletonFinalizer/SingletonFinalizer.h"
 
-std::shared_ptr<SpriteCommon> SpriteCommon::instance_ = nullptr;
+SpriteCommon* SpriteCommon::instance_ = nullptr;
+std::once_flag SpriteCommon::onceFlag_;
 
 void SpriteCommon::CreatePipeline() {
     pipeline_ = std::make_shared<GraphicsPipeline>();
     pipeline_->Create(dxCommon_, GraphicsPipeline::Type::SPRITE);
 }
 
-std::shared_ptr<SpriteCommon> SpriteCommon::GetInstance() {
-    if (!instance_){
-        instance_ = std::shared_ptr<SpriteCommon>(new SpriteCommon, [](const SpriteCommon* ptr){
-            delete ptr;
-        });
-    }
+SpriteCommon* SpriteCommon::GetInstance() {
+    call_once(onceFlag_, Create);
+    assert(instance_);
     return instance_;
+}
+
+void SpriteCommon::Create() {
+    instance_ = new SpriteCommon();
+    SingletonFinalizer::AddFinalizer(&Destroy);
+}
+
+void SpriteCommon::Destroy() {
+    delete instance_;
+    instance_ = nullptr;
+    System::Log(Log::Level::INFO, "SpriteCommon Disabled");
 }
 
 void SpriteCommon::Initialize(DirectXCommon* dxCommon) {
@@ -30,10 +39,6 @@ void SpriteCommon::Initialize(DirectXCommon* dxCommon) {
     CreatePipeline();
 
     System::Log(Log::Level::INFO, "SpriteCommon Enabled");
-}
-
-void SpriteCommon::Finalize() {
-    System::Log(Log::Level::INFO, "SpriteCommon Disabled");
 }
 
 void SpriteCommon::PreDraw() const {

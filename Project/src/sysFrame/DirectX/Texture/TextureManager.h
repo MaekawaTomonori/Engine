@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <d3d12.h>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <unordered_map>
 #include <wrl/client.h>
@@ -21,7 +22,8 @@ class TextureManager{
 	};
 
 private: //Variables
-	static std::shared_ptr<TextureManager> instance_;
+	static TextureManager* instance_;
+    static std::once_flag onceFlag_;
 
     DirectXCommon* dxCommon_ = nullptr;
     SRVManager* srvManager_ = nullptr;
@@ -32,20 +34,20 @@ private: //Variables
 
 private: //Methods
 	TextureManager() = default;
-    ~TextureManager() = default;
-	static void InstanceInit();
+    ~TextureManager();
 
    DirectX::ScratchImage LoadTexture(const std::string& filename) const;
-   ID3D12Resource* CreateTextureResource(const DirectX::TexMetadata& metadata);
+   ID3D12Resource* CreateTextureResource(const DirectX::TexMetadata& metadata) const;
 	ID3D12Resource* UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages) const;
 
 public:
     TextureManager(const TextureManager&) = delete;
     TextureManager& operator=(const TextureManager&) = delete;
-	static std::shared_ptr<TextureManager> GetInstance();
+	static TextureManager* GetInstance();
+	static void Create();
+	static void Destroy();
 
 	void Initialize(DirectXCommon* dxCommon, SRVManager* srvManager);
-	void Finalize();
 	void Load(const std::string& fileName);
 
     const DirectX::TexMetadata& GetTextureMetadata(const std::string& fileName) const;

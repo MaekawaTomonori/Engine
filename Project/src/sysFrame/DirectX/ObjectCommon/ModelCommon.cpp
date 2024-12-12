@@ -5,16 +5,26 @@
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Pipeline/GraphicsPipeline.h"
 #include "System/System.h"
+#include "System/SingletonFinalizer/SingletonFinalizer.h"
 
-std::shared_ptr<ModelCommon> ModelCommon::instance_ = nullptr;
+ModelCommon* ModelCommon::instance_ = nullptr;
+std::once_flag ModelCommon::onceFlag_;
 
-std::shared_ptr<ModelCommon> ModelCommon::GetInstance() {
-    if (!instance_){
-        instance_ = std::shared_ptr<ModelCommon>(new ModelCommon, [](const ModelCommon* ptr) {
-            delete ptr;
-        });
-    }
+ModelCommon* ModelCommon::GetInstance() {
+    call_once(onceFlag_, Create);
+    assert(instance_);
     return instance_;
+}
+
+void ModelCommon::Create() {
+    instance_ = new ModelCommon();
+    SingletonFinalizer::AddFinalizer(&Finalize);
+}
+
+void ModelCommon::Finalize() {
+    delete instance_;
+    instance_ = nullptr;
+    System::Log(Log::Level::INFO, "ModelCommon Finalized");
 }
 
 void ModelCommon::Initialize(DirectXCommon* dxCommon) {
@@ -25,11 +35,6 @@ void ModelCommon::Initialize(DirectXCommon* dxCommon) {
     pipeline_->SetBlendMode(BlendMode::ALPHA);
 
     System::Log(Log::Level::INFO, "ModelCommon Initialized");
-}
-
-void ModelCommon::Finalize() {
-
-    System::Log(Log::Level::INFO, "ModelCommon Finalized");
 }
 
 void ModelCommon::PreDraw() const {

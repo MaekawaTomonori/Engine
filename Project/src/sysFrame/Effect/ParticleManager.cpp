@@ -4,20 +4,25 @@
 #include "DirectX/Heap/SRVManager.h"
 #include "DirectX/ObjectCommon/ParticleCommon.h"
 #include "System/System.h"
+#include "System/SingletonFinalizer/SingletonFinalizer.h"
 
-std::shared_ptr<ParticleManager> ParticleManager::instance_ = nullptr;
+ParticleManager* ParticleManager::instance_ = nullptr;
+std::once_flag ParticleManager::onceFlag_;
 
-std::shared_ptr<ParticleManager> ParticleManager::GetInstance() {
-    if (!instance_){
-        instance_ = std::shared_ptr<ParticleManager>(new ParticleManager, [](const ParticleManager* ptr){
-            delete ptr;
-        });
-    }
+ParticleManager* ParticleManager::GetInstance() {
+    call_once(onceFlag_, Create);
+    assert(instance_);
     return instance_;
 }
 
-void ParticleManager::Initialize(DirectXCommon* dxCommon, SRVManager* srvManager) {
+void ParticleManager::Create() {
+    instance_ = new ParticleManager;
+    SingletonFinalizer::AddFinalizer(&Finalize);
     System::Log(Log::Level::INFO, "ParticleManager Enabled");
+}
+
+void ParticleManager::Initialize(DirectXCommon* dxCommon, SRVManager* srvManager) {
+    System::Log(Log::Level::INFO, "ParticleManager Initialized");
     dxCommon_ = dxCommon;
     srvManager_ = srvManager;
     common_ = std::make_unique<ParticleCommon>(dxCommon);
@@ -34,6 +39,7 @@ Emitter* ParticleManager::Emit(const Transform& transform) {
 }
 
 void ParticleManager::Finalize() {
-
+    delete instance_;
+    instance_ = nullptr;
     System::Log(Log::Level::INFO, "ParticleManager Disabled");
 }

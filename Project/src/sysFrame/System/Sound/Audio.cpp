@@ -2,21 +2,25 @@
 
 #include <cassert>
 #include <fstream>
+#include <threads.h>
 
 #include "System/System.h"
+#include "System/SingletonFinalizer/SingletonFinalizer.h"
 
 #pragma comment(lib, "xaudio2.lib")
 
-std::shared_ptr<Audio> Audio::instance_ = nullptr;
+Audio* Audio::instance_ = nullptr;
+std::once_flag Audio::onceFlag_;
 
-std::shared_ptr<Audio> Audio::GetInstance() {
-    if (!instance_){
-        instance_ = std::shared_ptr<Audio>(new Audio, [](const Audio* ptr){
-            delete ptr;
-        });
-    }
-
+Audio* Audio::GetInstance() {
+    call_once(onceFlag_, Create);
+    assert(instance_);
     return instance_;
+}
+
+void Audio::Create() {
+    instance_ = new Audio;
+    SingletonFinalizer::AddFinalizer(&Finalize);
 }
 
 void Audio::Initialize() {
@@ -29,8 +33,15 @@ void Audio::Initialize() {
 }
 
 void Audio::Finalize() {
-	xAudio2_.Reset();
+    delete instance_;
+    instance_ = nullptr;
     System::Log(Log::Level::INFO, "Audio Disable");
+}
+
+Audio::~Audio() {
+    loaded_.clear();
+    playing_.clear();
+	xAudio2_.Reset();
 }
 
 void Audio::Load(const std::string& fileName) {
@@ -46,6 +57,7 @@ void Audio::Load(const std::string& fileName) {
 
     LoadWave(name);
 }
+
 
 void Audio::LoadWave(const std::string& fileName) {
     std::string name = folderPath_ + fileName;

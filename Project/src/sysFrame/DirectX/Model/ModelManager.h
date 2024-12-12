@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <map>
 #include <memory>
+#include <mutex>
 #include <string>
 
 class DirectXCommon;
@@ -9,11 +10,12 @@ class MeshCommon;
 
 //ModelManager ? MeshManager
 class ModelManager{
-    static std::shared_ptr<ModelManager> instance_;
-	static void InstanceInit();
+    static ModelManager* instance_;
+    static std::once_flag onceFlag_;
+	static void Create();
 
     ModelManager() = default;
-    ~ModelManager() = default;
+    ~ModelManager();
 
 private://Variables
 	std::map<std::string, std::shared_ptr<Mesh>> models_;
@@ -25,11 +27,11 @@ public:
     ModelManager(const ModelManager&) = delete;
     ModelManager& operator=(const ModelManager&) = delete;
 
-    static std::shared_ptr<ModelManager> GetInstance();
+    static ModelManager* GetInstance();
 
 public:
+    static void Finalize();
 	void Initialize(DirectXCommon* dxCommon);
-    void Finalize();
 
     void Load(const std::string& fileName);
 

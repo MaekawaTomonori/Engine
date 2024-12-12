@@ -3,17 +3,27 @@
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/msvc_sink.h"
+#include "System/SingletonFinalizer/SingletonFinalizer.h"
 
-std::shared_ptr<Log> Log::instance_ = nullptr;
+Log* Log::instance_ = nullptr;
+std::once_flag Log::onceFlag_;
 
-std::shared_ptr<Log> Log::GetLogger() {
-    if(!instance_){
-        instance_ = std::shared_ptr<Log>(new Log, [](const Log* ptr){
-            delete ptr;
-        });
-    }
-
+Log* Log::GetLogger() {
+    call_once(onceFlag_, Create);
+    assert(instance_);
     return instance_;
+}
+
+void Log::Create() {
+    instance_ = new Log();
+    instance_->Initialize();
+    SingletonFinalizer::AddFinalizer(&Destroy);
+    instance_->Info("Logger Enabled");
+}
+
+void Log::Destroy() {
+    delete instance_;
+    instance_ = nullptr;
 }
 
 void Log::Initialize() {

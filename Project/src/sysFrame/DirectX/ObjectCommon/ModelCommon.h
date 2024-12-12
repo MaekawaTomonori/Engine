@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <memory>
+#include <mutex>
 
 class DirectXCommon;
 class GraphicsPipeline;
@@ -11,7 +12,8 @@ class ModelCommon{
     std::shared_ptr<GraphicsPipeline> pipeline_;
 
 private:
-    static std::shared_ptr<ModelCommon> instance_;
+    static ModelCommon* instance_;
+    static std::once_flag onceFlag_;
 	ModelCommon() = default;
     ~ModelCommon() = default;
 
@@ -19,10 +21,11 @@ public:
 	ModelCommon(const ModelCommon&) = delete;
     ModelCommon& operator=(const ModelCommon&) = delete;
 
-	static std::shared_ptr<ModelCommon> GetInstance();
+	static ModelCommon* GetInstance();
+    static void Create();
+	static void Finalize();
 
     void Initialize(DirectXCommon* dxCommon);
-	void Finalize();
     void PreDraw() const;
 
     DirectXCommon* GetDXCommon() const;

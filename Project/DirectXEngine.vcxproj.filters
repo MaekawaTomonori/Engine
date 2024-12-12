@@ -165,6 +165,9 @@
     <ClCompile Include="src\sysFrame\System\Time\TimeScheduler.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sysFrame\DirectX\DirectXCommon.h">
@@ -357,6 +360,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\sysFrame\System\Time\TimeScheduler.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

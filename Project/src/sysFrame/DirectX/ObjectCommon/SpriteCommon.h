@@ -1,11 +1,13 @@
 ﻿#pragma once
 #include <memory>
+#include <mutex>
 
 class DirectXCommon;
 class GraphicsPipeline;
 
 class SpriteCommon{
-    static std::shared_ptr<SpriteCommon> instance_;
+    static SpriteCommon* instance_;
+    static std::once_flag onceFlag_;
 
 	DirectXCommon* dxCommon_ = nullptr;
 
@@ -20,10 +22,11 @@ public:
 	SpriteCommon(const SpriteCommon&) = delete;
     void operator=(SpriteCommon&) = delete;
 
-    static std::shared_ptr<SpriteCommon> GetInstance();
+    static SpriteCommon* GetInstance();
+    static void Create();
+    static void Destroy();
 
 	void Initialize(DirectXCommon* dxCommon);
-    void Finalize();
     void PreDraw() const;
 
     DirectXCommon* GetDXCommon() const {

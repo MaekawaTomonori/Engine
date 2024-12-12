@@ -20,7 +20,7 @@ void WinApp::Initialize(const std::string& title) {
 }
 
 void WinApp::Finalize() {
-    System::Log(Log::Level::INFO, "WinApp Disabled");
+    //System::Log(Log::Level::INFO, "WinApp Disabled");
 }
 
 [[nodiscard]]

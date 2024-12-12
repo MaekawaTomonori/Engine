@@ -10,8 +10,8 @@
 class Emitter;
 
 class PlayScene : public BaseScene{
-	std::shared_ptr<TextureManager> textureManager;
-	std::shared_ptr<ModelManager> modelManager;
+	TextureManager* textureManager;
+	ModelManager* modelManager;
 
     std::unique_ptr<Sprite> sprite;
     std::unique_ptr<Model> model;

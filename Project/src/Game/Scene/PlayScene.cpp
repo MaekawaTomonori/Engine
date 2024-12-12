@@ -25,7 +25,7 @@ void PlayScene::Initialize() {
     //sprite = std::make_unique<Sprite>(SpriteCommon::GetInstance().get());
     //sprite->Initialize("uvChecker.png");
 
-    model = std::make_unique<Model>(ModelCommon::GetInstance().get());
+    model = std::make_unique<Model>(ModelCommon::GetInstance());
     model->Initialize();
     model->SetMesh("terrain");
 

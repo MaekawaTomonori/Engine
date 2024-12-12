@@ -23,16 +23,18 @@ class Engine{
 	std::unique_ptr<WinApp> winApp_;
     std::unique_ptr<DirectXCommon> dxCommon_;
     std::unique_ptr<SRVManager> srvManager_;
-    std::unique_ptr<ImGuiManager> imguiManager_;
-    std::shared_ptr<SpriteCommon> spriteCommon_;
-    std::shared_ptr<ModelCommon> modelCommon_;
-    std::shared_ptr<TextureManager> textureManager_;
-    std::shared_ptr<ModelManager> modelManager_;
-    std::shared_ptr<LightManager> lightManager_;
-    std::shared_ptr<ParticleManager> particle_;
     std::unique_ptr<Input> input_;
-    std::shared_ptr<Audio> audio_;
-    std::shared_ptr<Log> log_;
+	std::unique_ptr<ImGuiManager> imguiManager_;
+
+    SpriteCommon* spriteCommon_;
+    ModelCommon* modelCommon_;
+    TextureManager* textureManager_;
+    ModelManager* modelManager_;
+    LightManager* lightManager_;
+    ParticleManager* particle_;
+    Audio* audio_;
+    Log* log_;
+
 	static std::unique_ptr<Camera> defaultCamera_;
 
 

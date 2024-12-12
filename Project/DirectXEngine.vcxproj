@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.cpp" />
     <ClCompile Include="src\sysFrame\System\Log\Log.cpp" />
     <ClCompile Include="src\sysFrame\Utility\Collision.cpp" />
     <ClCompile Include="src\sysFrame\Utility\Math\Randomize.cpp" />
@@ -63,6 +64,7 @@
     <ClCompile Include="src\sysFrame\System\Time\TimeScheduler.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.h" />
     <ClInclude Include="src\sysFrame\System\Log\Log.h" />
     <ClInclude Include="src\sysFrame\Effect\AccelerationField.h" />
     <ClInclude Include="src\sysFrame\Object\Light\PointLight\PointLight.h" />

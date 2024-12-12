@@ -6,22 +6,27 @@
 #include "Object/Light/PointLight/PointLight.h"
 #include "Object/Light/SpotLight/SpotLight.h"
 #include "System/System.h"
+#include "System/SingletonFinalizer/SingletonFinalizer.h"
 #include "Utility/Math/MathUtils.h"
 
-std::shared_ptr<LightManager> LightManager::instance = nullptr;
+LightManager* LightManager::instance = nullptr;
+std::once_flag LightManager::onceFlag_;
 
-void LightManager::Finalize() {
-    System::Log(Log::Level::INFO, "Light Disabled");
+LightManager* LightManager::GetInstance() {
+    std::call_once(onceFlag_, Create);
+    assert(instance);
+    return instance;
 }
 
-std::shared_ptr<LightManager> LightManager::GetInstance() {
-    if (!instance){
-        instance = std::shared_ptr<LightManager>(new LightManager, [](const LightManager* ptr) {
-            delete ptr;
-        });
-    }
+void LightManager::Create() {
+    instance = new LightManager();
+    SingletonFinalizer::AddFinalizer(&Finalize);
+}
 
-    return instance;
+void LightManager::Finalize() {
+    delete instance;
+    instance = nullptr;
+    System::Log(Log::Level::INFO, "Light Disabled");
 }
 
 void LightManager::Initialize(DirectXCommon* dxCommon) {

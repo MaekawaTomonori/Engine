@@ -1,19 +1,37 @@
 #include "TextureManager.h"
 
 #include <format>
+#include <threads.h>
 
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/Heap.h"
 #include "DirectX/Heap/SRVManager.h"
 #include "d3dx12.h"
 #include "System/System.h"
+#include "System/SingletonFinalizer/SingletonFinalizer.h"
 
-std::shared_ptr<TextureManager> TextureManager::instance_ = nullptr;
+TextureManager* TextureManager::instance_ = nullptr;
+std::once_flag TextureManager::onceFlag_;
 
-void TextureManager::InstanceInit() {
-    instance_ = std::shared_ptr<TextureManager>(new TextureManager, [](const TextureManager* ptr) {
-        delete ptr;
-    });
+TextureManager* TextureManager::GetInstance() {
+	call_once(onceFlag_, Create);
+    assert(instance_);
+    return instance_;
+}
+void TextureManager::Create() {
+    instance_ = new TextureManager();
+    SingletonFinalizer::AddFinalizer(&Destroy);
+    System::Log(Log::Level::INFO, "TextureManager Enabled");
+}
+
+void TextureManager::Destroy() {
+    delete instance_;
+    instance_ = nullptr;
+    System::Log(Log::Level::INFO, "TextureManager Disabled");
+}
+
+TextureManager::~TextureManager() {
+    textures_.clear();
 }
 
 DirectX::ScratchImage TextureManager::LoadTexture(const std::string& filename) const {
@@ -30,7 +48,7 @@ DirectX::ScratchImage TextureManager::LoadTexture(const std::string& filename) c
     return mipImages;
 }
 
-ID3D12Resource* TextureManager::CreateTextureResource(const DirectX::TexMetadata& metadata) {
+ID3D12Resource* TextureManager::CreateTextureResource(const DirectX::TexMetadata& metadata) const {
     /// FLOW  ///
 	/// 1. Resource setting from metadata
 	/// 2. Heap setting
@@ -94,23 +112,11 @@ ID3D12Resource* TextureManager::UploadTextureData(ID3D12Resource* texture, const
     return intermediateResource;
 }
 
-std::shared_ptr<TextureManager> TextureManager::GetInstance() {
-    if(!instance_){
-        InstanceInit();
-    }
-
-    return instance_;
-}
 
 void TextureManager::Initialize(DirectXCommon* dxCommon, SRVManager* srvManager) {
     dxCommon_ = dxCommon;
     srvManager_ = srvManager;
-    System::Log(Log::Level::INFO, "TextureManager Enabled");
-}
-
-void TextureManager::Finalize() {
-    textures_.clear();
-    System::Log(Log::Level::INFO, "TextureManager Disabled");
+    System::Log(Log::Level::INFO, "TextureManager Initialized");
 }
 
 void TextureManager::Load(const std::string& fileName) {

@@ -22,7 +22,7 @@ void SRVManager::Initialize(DirectXCommon* dxCommon) {
 }
 
 void SRVManager::Finalize() {
-    System::Log(Log::Level::INFO, "SRVManager Disabled");
+    //System::Log(Log::Level::INFO, "SRVManager Disabled");
 }
 
 uint32_t SRVManager::Allocate() {

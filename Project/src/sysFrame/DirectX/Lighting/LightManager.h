@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <d3d12.h>
 #include <memory>
+#include <mutex>
 #include <wrl/client.h>
 
 struct SpotLight;
@@ -28,14 +29,16 @@ class LightManager final{
     ~LightManager() = default;
 
 
-	static std::shared_ptr<LightManager> instance;
+	static LightManager* instance;
+    static std::once_flag onceFlag_;
 
 public:
 	LightManager(const LightManager&) = delete;
     void operator=(const LightManager&) = delete;
-    void Finalize();
+    static LightManager* GetInstance();
+    static void Create();
+    static void Finalize();
 
-    static std::shared_ptr<LightManager> GetInstance();
 
 	void Initialize(DirectXCommon* dxCommon);
     void Update() const;

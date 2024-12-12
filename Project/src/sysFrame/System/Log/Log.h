@@ -2,8 +2,6 @@
 #include <memory>
 #include <spdlog/logger.h>
 
-
-
 class Log{
 public:
 	enum class Level{
@@ -22,9 +20,12 @@ private:
 	Log() = default;
 	~Log() = default;
 
-	static std::shared_ptr<Log> instance_;
+	static Log* instance_;
+	static std::once_flag onceFlag_;
 public:
-	static std::shared_ptr<Log> GetLogger();
+	static Log* GetLogger();
+	static void Create();
+	static void Destroy();
 
 	void Initialize();
 

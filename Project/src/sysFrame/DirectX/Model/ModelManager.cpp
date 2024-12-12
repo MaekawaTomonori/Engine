@@ -1,32 +1,36 @@
 #include "ModelManager.h"
 
 #include <cassert>
+#include <threads.h>
 
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/ObjectCommon/MeshCommon.h"
 #include "Object/Model/Mesh/Mesh.h"
 #include "System/System.h"
+#include "System/SingletonFinalizer/SingletonFinalizer.h"
 
-std::shared_ptr<ModelManager> ModelManager::instance_ = nullptr;
+ModelManager* ModelManager::instance_ = nullptr;
+std::once_flag ModelManager::onceFlag_;
 
-void ModelManager::InstanceInit() {
-    instance_ = std::shared_ptr<ModelManager>(new ModelManager, [](const ModelManager* ptr){
-        delete ptr;
-    });
+ModelManager* ModelManager::GetInstance() {
+    call_once(onceFlag_, Create);
+    assert(instance_);
+    return instance_;
+}
+
+void ModelManager::Create() {
+    instance_ = new ModelManager();
+    SingletonFinalizer::AddFinalizer(&Finalize);
+}
+
+ModelManager::~ModelManager() {
+    models_.clear();
 }
 
 void ModelManager::Finalize() {
-    models_.clear();
-
+    delete instance_;
+    instance_ = nullptr;
     System::Log(Log::Level::INFO, "ModelManager Disabled");
-}
-
-std::shared_ptr<ModelManager> ModelManager::GetInstance() {
-    if(!instance_){
-        InstanceInit();
-    }
-
-    return instance_;
 }
 
 void ModelManager::Initialize(DirectXCommon* dxCommon) {

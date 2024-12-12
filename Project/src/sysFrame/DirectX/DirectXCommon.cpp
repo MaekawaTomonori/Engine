@@ -28,7 +28,7 @@ bool DirectXCommon::Initialize(const WinApp* winApp) {
 
 void DirectXCommon::Finalize() {
     CoUninitialize();
-    System::Log(Log::Level::INFO, "DirectXCommon Disabled");
+    //System::Log(Log::Level::INFO, "DirectXCommon Disabled");
 }
 
 void DirectXCommon::PreDraw() {
