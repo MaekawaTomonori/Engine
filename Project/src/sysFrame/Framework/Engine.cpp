@@ -13,8 +13,8 @@ Engine::Engine() {
     System::Log(Log::Level::INFO, "[Engine] Starting...");
 
     winApp_ = std::make_unique<WinApp>();
-    dxCommon_ = std::make_unique<DirectXCommon>();
-    imguiManager_ = std::make_unique<ImGuiManager>(winApp_.get(), dxCommon_.get(), srvManager_.get());
+    dxCommon_ = std::make_shared<DirectXCommon>();
+    imguiManager_ = std::make_unique<ImGuiManager>(winApp_.get(), dxCommon_, srvManager_.get());
     srvManager_ = std::make_unique<SRVManager>();
     input_ = std::make_unique<Input>();
 
@@ -39,23 +39,25 @@ void Engine::Initialize() const {
 
         dxCommon_->Initialize(winApp_.get());
 
-        srvManager_->Initialize(dxCommon_.get());
+        srvManager_->Initialize(dxCommon_);
 
         imguiManager_->Initialize(srvManager_.get());
 
-        spriteCommon_->Initialize(dxCommon_.get());
-        modelCommon_->Initialize(dxCommon_.get());
+        spriteCommon_->Initialize(dxCommon_);
+        modelCommon_->Initialize(dxCommon_);
 
-        textureManager_->Initialize(dxCommon_.get(), srvManager_.get());
-        modelManager_->Initialize(dxCommon_.get());
-        lightManager_->Initialize(dxCommon_.get());
-        particle_->Initialize(dxCommon_.get(), srvManager_.get());
+        textureManager_->Initialize(dxCommon_, srvManager_.get());
+        modelManager_->Initialize(dxCommon_);
+        lightManager_->Initialize(dxCommon_);
+        particle_->Initialize(dxCommon_, srvManager_.get());
 
         input_->Initialize(winApp_.get());
         audio_->Initialize();
 
 
         defaultCamera_->Initialize();
+
+        System::Log(std::format("DirectXCommon : {}", dxCommon_.use_count()));
 
         System::Log(Log::Level::INFO, "[Engine] Enabled!");
     } catch (const std::exception& e){
@@ -71,6 +73,9 @@ void Engine::Finalize() const {
 
     imguiManager_->Finalize();
     srvManager_->Finalize();
+
+    OutputDebugStringA(std::format("DirectXCommon : {}", dxCommon_.use_count()).c_str());
+
     dxCommon_->Finalize();
     winApp_->Finalize();
 

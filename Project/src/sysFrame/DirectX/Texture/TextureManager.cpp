@@ -80,7 +80,7 @@ ID3D12Resource* TextureManager::CreateTextureResource(const DirectX::TexMetadata
     #ifdef _DEBUG
     HRESULT hr =
         #endif  
-        dxCommon_->GetDevice()->CreateCommittedResource(
+        dxCommon_.lock()->GetDevice()->CreateCommittedResource(
             &heapProperties,
             D3D12_HEAP_FLAG_NONE,
             &resourceDesc,
@@ -95,11 +95,17 @@ ID3D12Resource* TextureManager::CreateTextureResource(const DirectX::TexMetadata
 
 [[nodiscard]]
 ID3D12Resource* TextureManager::UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages) const {
-    std::vector<D3D12_SUBRESOURCE_DATA> subResources;
-    PrepareUpload(dxCommon_->GetDevice(), mipImages.GetImages(), mipImages.GetImageCount(), mipImages.GetMetadata(), subResources);
+    auto dxc = dxCommon_.lock();
+    if (!dxc){
+        System::Log(Log::Level::ERR, "SRVManager Initialize Failed");
+        assert(0);
+    }
+
+	std::vector<D3D12_SUBRESOURCE_DATA> subResources;
+    PrepareUpload(dxc->GetDevice().Get(), mipImages.GetImages(), mipImages.GetImageCount(), mipImages.GetMetadata(), subResources);
     uint32_t intermediateSize = static_cast<uint32_t>(GetRequiredIntermediateSize(texture, 0, static_cast<UINT>(subResources.size())));
-    ID3D12Resource* intermediateResource = DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), intermediateSize);
-    UpdateSubresources(dxCommon_->GetCommandList(), texture, intermediateResource, 0, 0, static_cast<UINT>(subResources.size()), subResources.data());
+    ID3D12Resource* intermediateResource = DirectXCommon::CreateBufferResource(dxc->GetDevice(), intermediateSize).Get();
+    UpdateSubresources(dxc->GetCommandList().Get(), texture, intermediateResource, 0, 0, static_cast<UINT>(subResources.size()), subResources.data());
 
     D3D12_RESOURCE_BARRIER barrier {};
     barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
@@ -108,12 +114,12 @@ ID3D12Resource* TextureManager::UploadTextureData(ID3D12Resource* texture, const
     barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
     barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_COPY_DEST;
     barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_GENERIC_READ;
-    dxCommon_->GetCommandList()->ResourceBarrier(1, &barrier);
+    dxc->GetCommandList()->ResourceBarrier(1, &barrier);
     return intermediateResource;
 }
 
 
-void TextureManager::Initialize(DirectXCommon* dxCommon, SRVManager* srvManager) {
+void TextureManager::Initialize(std::weak_ptr<DirectXCommon> dxCommon, SRVManager* srvManager) {
     dxCommon_ = dxCommon;
     srvManager_ = srvManager;
     System::Log(Log::Level::INFO, "TextureManager Initialized");

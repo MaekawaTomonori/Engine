@@ -17,7 +17,7 @@ enum class ParticleType{
 class Emitter;
 
 class ParticleManager{
-	DirectXCommon* dxCommon_ = nullptr;
+	std::weak_ptr<DirectXCommon> dxCommon_;
 
     SRVManager* srvManager_ = nullptr;
 
@@ -36,7 +36,7 @@ public:
 	static void Create();
 	static void Finalize();
 
-	void Initialize(DirectXCommon* dxCommon, SRVManager* srvManager);
+	void Initialize(const std::weak_ptr<DirectXCommon>& dxCommon, SRVManager* srvManager);
 	Emitter* Emit(const Transform& transform /*, ParticleType type*/);
 };
 

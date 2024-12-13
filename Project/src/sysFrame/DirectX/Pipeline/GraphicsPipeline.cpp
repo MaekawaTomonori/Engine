@@ -7,7 +7,7 @@
 #include "DirectX/Heap/Heap.h"
 #include "System/System.h"
 
-void GraphicsPipeline::Create(DirectXCommon* dxCommon, Type type) {
+void GraphicsPipeline::Create(std::weak_ptr<DirectXCommon> dxCommon, Type type) {
     dxCommon_ = dxCommon;
     type_ = type;
 
@@ -21,7 +21,7 @@ void GraphicsPipeline::Create(DirectXCommon* dxCommon, Type type) {
     CreatePSO();
 }
 
-void GraphicsPipeline::DrawCall(ID3D12GraphicsCommandList* commandList) const {
+void GraphicsPipeline::DrawCall(const ComPtr<ID3D12GraphicsCommandList>& commandList) const {
     commandList->SetGraphicsRootSignature(rootSignature_.Get());
     commandList->SetPipelineState(graphicsPipelineState_.Get());
 }
@@ -154,7 +154,7 @@ void GraphicsPipeline::CreateRootSignature() {
         assert(false);
     }
 
-    hr = dxCommon_->GetDevice()->CreateRootSignature(0, signatureBlob->GetBufferPointer(), signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature_));
+    hr = dxCommon_.lock()->GetDevice()->CreateRootSignature(0, signatureBlob->GetBufferPointer(), signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature_));
     assert(SUCCEEDED(hr));
 }
 
@@ -262,6 +262,6 @@ void GraphicsPipeline::CreatePSO() {
     graphicsPipelineStateDesc.SampleDesc.Count = 1;
     graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
 
-    HRESULT hr = dxCommon_->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(&graphicsPipelineState_));
+    HRESULT hr = dxCommon_.lock()->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(&graphicsPipelineState_));
     assert(SUCCEEDED(hr));
 }

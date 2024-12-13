@@ -9,12 +9,18 @@
 
 const uint32_t SRVManager::kMaxSRVCount = 512;
 
-void SRVManager::Initialize(DirectXCommon* dxCommon) {
+auto SRVManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) -> void {
     dxCommon_ = dxCommon;
 
+	auto dxc = dxCommon_.lock();
+    if (!dxc){
+        System::Log(Log::Level::ERR, "SRVManager Initialize Failed");
+        return;
+    }
+
     heap_ = std::make_shared<Heap>();
-    heap_->Create(dxCommon_->GetDevice(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, kMaxSRVCount, true);
-    descriptorSize = dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+    heap_->Create(dxc->GetDevice(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, kMaxSRVCount, true);
+    descriptorSize = dxc->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
     useIndex_ = 0;
 
@@ -37,7 +43,7 @@ uint32_t SRVManager::Allocate() {
 
 void SRVManager::PreDraw() const {
     ID3D12DescriptorHeap* descriptorHeaps[] = {heap_->GetDescriptorHeap()};
-    dxCommon_->GetCommandList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+    dxCommon_.lock()->GetCommandList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 }
 
 void SRVManager::CreateSRVforTexture2D(uint32_t srvIndex, ID3D12Resource* pResource, DXGI_FORMAT format, UINT mipMap) {
@@ -47,7 +53,7 @@ void SRVManager::CreateSRVforTexture2D(uint32_t srvIndex, ID3D12Resource* pResou
     desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
     desc.Texture2D.MipLevels = mipMap;
 
-    dxCommon_->GetDevice()->CreateShaderResourceView(pResource, &desc, heap_->GetCPUHandle(srvIndex));
+    dxCommon_.lock()->GetDevice()->CreateShaderResourceView(pResource, &desc, heap_->GetCPUHandle(srvIndex));
 }
 
 void SRVManager::CreateSRVforStructuredBuffer(uint32_t srvIndex, ID3D12Resource* pResource, UINT numElements, UINT stride) {
@@ -59,11 +65,11 @@ void SRVManager::CreateSRVforStructuredBuffer(uint32_t srvIndex, ID3D12Resource*
     desc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
     desc.Buffer.NumElements = numElements;
     desc.Buffer.StructureByteStride = stride;
-    dxCommon_->GetDevice()->CreateShaderResourceView(pResource, &desc, heap_->GetCPUHandle(srvIndex));
+    dxCommon_.lock()->GetDevice()->CreateShaderResourceView(pResource, &desc, heap_->GetCPUHandle(srvIndex));
 }
 
 void SRVManager::SetGraphicsRootDescriptorTable(UINT rootParameterIndex, uint32_t srvIndex) const {
-    dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(rootParameterIndex, heap_->GetGPUHandle(srvIndex));
+    dxCommon_.lock()->GetCommandList()->SetGraphicsRootDescriptorTable(rootParameterIndex, heap_->GetGPUHandle(srvIndex));
 }
 
 ID3D12DescriptorHeap* SRVManager::GetDescriptorHeap() const {

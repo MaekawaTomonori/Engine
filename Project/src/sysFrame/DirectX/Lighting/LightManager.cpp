@@ -29,11 +29,16 @@ void LightManager::Finalize() {
     System::Log(Log::Level::INFO, "Light Disabled");
 }
 
-void LightManager::Initialize(DirectXCommon* dxCommon) {
+void LightManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
     dxCommon_ = dxCommon;
 
+    auto dxc = dxCommon_.lock();
+    if (!dxc){
+        return;
+    }
+
     //Directional
-    directionalResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(DirectionalLight)));
+    directionalResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(DirectionalLight)).Get());
 
 
     directionalResource_->Map(0, nullptr, reinterpret_cast<void**>(&directionalLight_));
@@ -42,7 +47,7 @@ void LightManager::Initialize(DirectXCommon* dxCommon) {
     directionalLight_->direction = {0, -1, 0};
     directionalLight_->intensity = 1.f;
 
-    pointResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(PointLight)));
+    pointResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(PointLight)).Get());
     pointResource_->Map(0, nullptr, reinterpret_cast<void**>(&pointLight_));
 
     pointLight_->color = {1,1,1,1};
@@ -51,7 +56,7 @@ void LightManager::Initialize(DirectXCommon* dxCommon) {
     pointLight_->radius = 10;
     pointLight_->decay = 1;
 
-    spotResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(SpotLight)));
+    spotResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(SpotLight)).Get());
     spotResource_->Map(0, nullptr, reinterpret_cast<void**>(&spotLight_));
 
     spotLight_->color = {1,1,1,1};
@@ -119,7 +124,12 @@ void LightManager::Update() const {
 }
 
 void LightManager::Draw() const {
-	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalResource_->GetGPUVirtualAddress());
-    dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(5, pointResource_->GetGPUVirtualAddress());
-    dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(6, spotResource_->GetGPUVirtualAddress());
+    auto dxc = dxCommon_.lock();
+    if (!dxc){
+        return;
+    }
+
+	dxc->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalResource_->GetGPUVirtualAddress());
+    dxc->GetCommandList()->SetGraphicsRootConstantBufferView(5, pointResource_->GetGPUVirtualAddress());
+    dxc->GetCommandList()->SetGraphicsRootConstantBufferView(6, spotResource_->GetGPUVirtualAddress());
 }

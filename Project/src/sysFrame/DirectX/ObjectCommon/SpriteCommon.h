@@ -9,7 +9,7 @@ class SpriteCommon{
     static SpriteCommon* instance_;
     static std::once_flag onceFlag_;
 
-	DirectXCommon* dxCommon_ = nullptr;
+	std::weak_ptr<DirectXCommon> dxCommon_;
 
     std::shared_ptr<GraphicsPipeline> pipeline_;
 
@@ -26,10 +26,10 @@ public:
     static void Create();
     static void Destroy();
 
-	void Initialize(DirectXCommon* dxCommon);
+	void Initialize(const std::weak_ptr<DirectXCommon>& dxCommon);
     void PreDraw() const;
 
-    DirectXCommon* GetDXCommon() const {
+    std::weak_ptr<DirectXCommon> GetDXCommon() const {
         return dxCommon_;
     }
 };

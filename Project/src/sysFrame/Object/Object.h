@@ -14,9 +14,9 @@ class Camera;
 //抽象クラス 3D
 class Object{
 public:
-	Object(DirectXCommon* dxCommon) {
+	Object(const std::weak_ptr<DirectXCommon>& dxCommon) {
 		dxCommon_ = dxCommon;
-		commandList_ = dxCommon_->GetCommandList();
+		commandList_ = dxCommon_.lock()->GetCommandList();
 
 		UUID uuid;
 		UuidCreate(&uuid);
@@ -25,7 +25,9 @@ public:
 		uuid_ = reinterpret_cast<char*>(szUuid);
 		RpcStringFreeA(&szUuid);
 	}
-	virtual ~Object() = default;
+	virtual ~Object() {
+		commandList_->Release();
+	}
 
 	virtual void Initialize() = 0;
 	
@@ -46,10 +48,10 @@ public:
     }
 protected:
 	//借り物 DirectXの情報をもらう
-	DirectXCommon* dxCommon_ = nullptr;
+	std::weak_ptr<DirectXCommon> dxCommon_;
 
 	//借り物 
-	ID3D12GraphicsCommandList* commandList_ = nullptr;
+	ComPtr<ID3D12GraphicsCommandList> commandList_ = nullptr;
 
 	//UUID
 	std::string uuid_{};

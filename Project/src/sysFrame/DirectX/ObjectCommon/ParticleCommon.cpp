@@ -3,6 +3,9 @@
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Pipeline/GraphicsPipeline.h"
 
+ParticleCommon::~ParticleCommon() {
+}
+
 void ParticleCommon::Initialize() {
     pipeline_ = std::make_unique<GraphicsPipeline>();
     pipeline_->Create(dxCommon_, GraphicsPipeline::Type::PARTICLE);
@@ -10,5 +13,5 @@ void ParticleCommon::Initialize() {
 }
 
 void ParticleCommon::PreDraw() const {
-    pipeline_->DrawCall(dxCommon_->GetCommandList());
+    pipeline_->DrawCall(dxCommon_.lock()->GetCommandList());
 }

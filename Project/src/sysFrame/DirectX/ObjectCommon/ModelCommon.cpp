@@ -27,7 +27,7 @@ void ModelCommon::Finalize() {
     System::Log(Log::Level::INFO, "ModelCommon Finalized");
 }
 
-void ModelCommon::Initialize(DirectXCommon* dxCommon) {
+void ModelCommon::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
 	dxCommon_ = dxCommon;
 
     pipeline_ = std::make_shared<GraphicsPipeline>();
@@ -38,9 +38,9 @@ void ModelCommon::Initialize(DirectXCommon* dxCommon) {
 }
 
 void ModelCommon::PreDraw() const {
-    pipeline_->DrawCall(dxCommon_->GetCommandList());
+    pipeline_->DrawCall(dxCommon_.lock()->GetCommandList());
 }
 
-DirectXCommon* ModelCommon::GetDXCommon() const {
+std::weak_ptr<DirectXCommon> ModelCommon::GetDXCommon() const {
 	return dxCommon_;
 }

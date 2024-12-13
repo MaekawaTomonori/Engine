@@ -21,7 +21,7 @@ void ParticleManager::Create() {
     System::Log(Log::Level::INFO, "ParticleManager Enabled");
 }
 
-void ParticleManager::Initialize(DirectXCommon* dxCommon, SRVManager* srvManager) {
+void ParticleManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon, SRVManager* srvManager) {
     System::Log(Log::Level::INFO, "ParticleManager Initialized");
     dxCommon_ = dxCommon;
     srvManager_ = srvManager;

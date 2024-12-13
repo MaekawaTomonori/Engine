@@ -110,13 +110,17 @@ Mesh::ModelData Mesh::LoadObjFile(const std::string& directoryPath, const std::s
     return modelData;
 }
 
+Mesh::~Mesh() {
+    commandList_.Reset();
+}
+
 void Mesh::Initialize(const std::string& directory, const std::string& name) {
     dxCommon_ = common_->GetDXCommon();
-    commandList_ = dxCommon_->GetCommandList();
+    commandList_ = dxCommon_.lock()->GetCommandList();
 
 	modelData_ = LoadObjFile(directory, name);
 
-    vertexResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(VertexData) * modelData_.vertices.size()));
+    vertexResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_.lock()->GetDevice(), sizeof(VertexData) * modelData_.vertices.size()).Get());
 
     vertexBufferView_.BufferLocation = vertexResource_->GetGPUVirtualAddress();
     vertexBufferView_.SizeInBytes = static_cast<UINT>(sizeof(VertexData) * modelData_.vertices.size());
@@ -125,7 +129,7 @@ void Mesh::Initialize(const std::string& directory, const std::string& name) {
     vertexResource_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
     memcpy(vertexData_, modelData_.vertices.data(), sizeof(VertexData) * modelData_.vertices.size());
 
-    materialResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(Material)));
+    materialResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_.lock()->GetDevice(), sizeof(Material)).Get());
     materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&material_));
 
     material_->color = {1, 1, 1, 1};

@@ -15,9 +15,14 @@ void ImGuiManager::Initialize(SRVManager* srv) {
 
     ImGui_ImplWin32_Init(winApp_->GetWindowHandle());
 
+    auto dxc = dxCommon_.lock();
+    if (!dxc){
+        return;
+    }
+
     ImGui_ImplDX12_Init(
-        dxCommon_->GetDevice(),
-        static_cast<int>(dxCommon_->GetBackBufferCount()),
+        dxc->GetDevice().Get(),
+        static_cast<int>(dxc->GetBackBufferCount()),
         DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
         srvManager_->GetDescriptorHeap(),
         srvManager_->GetCPUHandle(srvIndex_),
@@ -46,12 +51,12 @@ void ImGuiManager::End() {
 
 void ImGuiManager::Draw() const {
 #ifdef _DEBUG
-    ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
+    ComPtr<ID3D12GraphicsCommandList> commandList = dxCommon_.lock()->GetCommandList();
 
-    ID3D12DescriptorHeap* ppHeaps[] = {srvManager_->GetDescriptorHeap()};
-    commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+    ComPtr<ID3D12DescriptorHeap> ppHeaps[] = {srvManager_->GetDescriptorHeap()};
+    commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps->GetAddressOf());
 
-    ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList);
+    ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList.Get());
 #endif
 }
 

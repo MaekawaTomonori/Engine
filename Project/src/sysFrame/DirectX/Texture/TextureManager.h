@@ -25,7 +25,7 @@ private: //Variables
 	static TextureManager* instance_;
     static std::once_flag onceFlag_;
 
-    DirectXCommon* dxCommon_ = nullptr;
+    std::weak_ptr<DirectXCommon> dxCommon_;
     SRVManager* srvManager_ = nullptr;
 
 	std::string folderPath_ = "assets/Resources/";
@@ -47,7 +47,7 @@ public:
 	static void Create();
 	static void Destroy();
 
-	void Initialize(DirectXCommon* dxCommon, SRVManager* srvManager);
+	void Initialize(std::weak_ptr<DirectXCommon> dxCommon, SRVManager* srvManager);
 	void Load(const std::string& fileName);
 
     const DirectX::TexMetadata& GetTextureMetadata(const std::string& fileName) const;

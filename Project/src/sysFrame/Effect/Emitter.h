@@ -30,7 +30,7 @@ struct ParticleForGPU{
 };
 
 class Emitter{
-    ID3D12GraphicsCommandList* commandList_ = nullptr;
+    ComPtr<ID3D12GraphicsCommandList> commandList_ = nullptr;
     ParticleCommon* common_ = nullptr;
 
     Mesh* mesh_ = nullptr;

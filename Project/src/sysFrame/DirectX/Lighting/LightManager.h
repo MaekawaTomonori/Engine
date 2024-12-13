@@ -14,7 +14,7 @@ enum class LightType{
 };
 
 class LightManager final{
-    DirectXCommon* dxCommon_ = nullptr;
+    std::weak_ptr<DirectXCommon> dxCommon_;
 
     Microsoft::WRL::ComPtr<ID3D12Resource> directionalResource_;
     DirectionalLight* directionalLight_ = nullptr;
@@ -40,7 +40,7 @@ public:
     static void Finalize();
 
 
-	void Initialize(DirectXCommon* dxCommon);
+	void Initialize(const std::weak_ptr<DirectXCommon>& dxCommon);
     void Update() const;
     void Draw() const;
 };

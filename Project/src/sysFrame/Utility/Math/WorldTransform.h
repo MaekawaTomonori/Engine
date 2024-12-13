@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <d3d12.h>
+#include <memory>
 #include <wrl/client.h>
 
 #include "Transform.h"
@@ -10,7 +11,7 @@ class DirectXCommon;
 
 class WorldTransform{
     //借り物
-    DirectXCommon* dxCommon_ = nullptr;
+    std::weak_ptr<DirectXCommon> dxCommon_;
 	Camera* camera_ = nullptr;
 
     //Resource
@@ -27,7 +28,7 @@ public://Variables
 	Vector3 translate;
 
 public: //Methods
-	WorldTransform(DirectXCommon* direx);
+	WorldTransform(const std::weak_ptr<DirectXCommon>& direx);
 	void Initialize();
     void Update() const;
 

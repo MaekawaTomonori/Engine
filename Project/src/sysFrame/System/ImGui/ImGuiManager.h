@@ -15,13 +15,13 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 class ImGuiManager{
     //借りもの
     WinApp* winApp_ = nullptr;
-    DirectXCommon* dxCommon_ = nullptr;
+    std::weak_ptr<DirectXCommon> dxCommon_;
     SRVManager* srvManager_ = nullptr;
 
     uint32_t srvIndex_ = 0;
 
 public:
-	ImGuiManager(WinApp* winApp, DirectXCommon* dxCommon, SRVManager* srvManager) :winApp_(winApp), dxCommon_(dxCommon), srvManager_(srvManager) {}
+	ImGuiManager(WinApp* winApp, const std::weak_ptr<DirectXCommon>& dxCommon, SRVManager* srvManager) :winApp_(winApp), dxCommon_(dxCommon), srvManager_(srvManager) {}
     ~ImGuiManager() = default;
 	void Initialize(SRVManager* srv);
     void Finalize();

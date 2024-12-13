@@ -83,7 +83,7 @@ void DirectXCommon::EndFrame() {
     assert(SUCCEEDED(hr));
 }
 
-ID3D12Resource* DirectXCommon::CreateBufferResource(ID3D12Device* device, size_t sizeInBytes) {
+ComPtr<ID3D12Resource> DirectXCommon::CreateBufferResource(const ComPtr<ID3D12Device>& device, size_t sizeInBytes) {
     D3D12_HEAP_PROPERTIES properties {};
     properties.Type = D3D12_HEAP_TYPE_UPLOAD;
 
@@ -109,7 +109,7 @@ ID3D12Resource* DirectXCommon::CreateBufferResource(ID3D12Device* device, size_t
     return resource;
 }
 
-ID3D12Resource* DirectXCommon::CreateDepthStencilTextureResource(ID3D12Device* device, int32_t width, int32_t height) {
+ComPtr<ID3D12Resource> DirectXCommon::CreateDepthStencilTextureResource(const ComPtr<ID3D12Device>& device, int32_t width, int32_t height) {
     D3D12_RESOURCE_DESC desc {};
     desc.Width = width;
     desc.Height = height;
@@ -134,7 +134,7 @@ ID3D12Resource* DirectXCommon::CreateDepthStencilTextureResource(ID3D12Device* d
     return resource;
 }
 
-ID3D12DescriptorHeap* DirectXCommon::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE type, UINT count,
+ComPtr<ID3D12DescriptorHeap> DirectXCommon::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE type, UINT count,
 	bool shaderVisible) const {
     ID3D12DescriptorHeap* heap = nullptr;
 
@@ -309,7 +309,7 @@ void DirectXCommon::SettingGraphicsInfo() {
 }
 
 void DirectXCommon::CreateDepthStencilView() {
-    depthStencilResource_.Attach(CreateDepthStencilTextureResource(device_.Get(), WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT));
+    depthStencilResource_.Attach(CreateDepthStencilTextureResource(device_, WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT).Get());
 
     dsvHeap_ = std::make_shared<Heap>();
     dsvHeap_->Create(device_.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 1, false);

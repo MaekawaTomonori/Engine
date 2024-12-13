@@ -2,7 +2,11 @@
 
 #include <cassert>
 
-bool Heap::Create(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE type, uint32_t useCount, bool shaderVisible) {
+Heap::~Heap() {
+    device_->Release();
+}
+
+bool Heap::Create(const Microsoft::WRL::ComPtr<ID3D12Device>& device, D3D12_DESCRIPTOR_HEAP_TYPE type, uint32_t useCount, bool shaderVisible) {
     device_ = device;
     type_ = type;
     useCount_ = useCount;

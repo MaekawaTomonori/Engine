@@ -4,7 +4,7 @@
 #include "DirectX/DirectXCommon.h"
 #include "Framework/Engine.h"
 
-WorldTransform::WorldTransform(DirectXCommon* direx) {
+WorldTransform::WorldTransform(const std::weak_ptr<DirectXCommon>& direx) {
     dxCommon_ = direx;
 }
 
@@ -13,7 +13,7 @@ void WorldTransform::Initialize() {
     rotate = {};
     translate = {};
 
-    resource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(TransformationMatrix)));
+    resource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_.lock()->GetDevice(), sizeof(TransformationMatrix)).Get());
 
     resource_->Map(0, nullptr, reinterpret_cast<void**>(&matrix_));
 

@@ -22,7 +22,7 @@ private://Variables
 	//Factory
     ComPtr<IDXGIFactory7> factory_ = nullptr;
 	//Device
-    ComPtr<ID3D12Device> device_ = nullptr;
+    CComPtr<ID3D12Device> device_ = nullptr;
 
 	//DebugLayer
     ComPtr<ID3D12Debug1> debugController_;
@@ -75,15 +75,15 @@ public://Methods
 	void PreDraw();
 	void PostDraw();
 
-	static ID3D12Resource* CreateBufferResource(ID3D12Device* device, size_t sizeInBytes);
-    static ID3D12Resource* CreateDepthStencilTextureResource(ID3D12Device* device, int32_t width, int32_t height);
+	static ComPtr<ID3D12Resource> CreateBufferResource(const ComPtr<ID3D12Device>& device, size_t sizeInBytes);
+    static ComPtr<ID3D12Resource> CreateDepthStencilTextureResource(const ComPtr<ID3D12Device>& device, int32_t width, int32_t height);
 
-	ID3D12DescriptorHeap* CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE type, UINT count, bool shaderVisible) const;
+	ComPtr<ID3D12DescriptorHeap> CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE type, UINT count, bool shaderVisible) const;
 
-	ID3D12Device* GetDevice() const {
+	ComPtr<ID3D12Device> GetDevice() const {
 		return device_.Get();
 	}
-	ID3D12GraphicsCommandList* GetCommandList() const {
+	ComPtr<ID3D12GraphicsCommandList> GetCommandList() const {
 		return commandList_.Get();
 	}
 	size_t GetBackBufferCount() const {

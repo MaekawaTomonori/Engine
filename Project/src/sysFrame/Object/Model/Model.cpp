@@ -10,14 +10,14 @@ Model::~Model() = default;
 
 void Model::Initialize() {
     dxCommon_ = modelCommon_->GetDXCommon();
-    commandList_ = dxCommon_->GetCommandList();
+    commandList_ = dxCommon_.lock()->GetCommandList();
 
     worldTransform_ = std::make_unique<WorldTransform>(dxCommon_);
     worldTransform_->Initialize();
 
     camera_ = Engine::GetDefaultCamera();
 
-	cameraResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(CameraForGPU)));
+	cameraResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_.lock()->GetDevice(), sizeof(CameraForGPU)).Get());
     cameraResource_->Map(0, nullptr, reinterpret_cast<void**>(&cameraForGPU_));
 
     *cameraForGPU_ = camera_->GetCameraForGPU();

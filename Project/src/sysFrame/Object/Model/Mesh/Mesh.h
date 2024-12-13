@@ -30,8 +30,8 @@ private:
 	MeshCommon* common_ = nullptr;
 
     //借りポ from meshCommon
-    DirectXCommon* dxCommon_ = nullptr;
-    ID3D12GraphicsCommandList* commandList_ = nullptr;
+    std::weak_ptr<DirectXCommon> dxCommon_;
+	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList_ = nullptr;
 
 	//ModelData from .obj file
     ModelData modelData_;
@@ -52,6 +52,7 @@ private:
 
 public:
 	Mesh(MeshCommon* meshCommon) :common_(meshCommon) {}
+    ~Mesh();
 
 	void Initialize(const std::string& directory, const std::string& name);
 	void Draw() const;

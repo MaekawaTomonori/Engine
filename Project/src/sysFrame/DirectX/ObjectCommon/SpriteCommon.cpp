@@ -12,7 +12,7 @@ std::once_flag SpriteCommon::onceFlag_;
 
 void SpriteCommon::CreatePipeline() {
     pipeline_ = std::make_shared<GraphicsPipeline>();
-    pipeline_->Create(dxCommon_, GraphicsPipeline::Type::SPRITE);
+    pipeline_->Create(dxCommon_.lock(), GraphicsPipeline::Type::SPRITE);
 }
 
 SpriteCommon* SpriteCommon::GetInstance() {
@@ -32,7 +32,7 @@ void SpriteCommon::Destroy() {
     System::Log(Log::Level::INFO, "SpriteCommon Disabled");
 }
 
-void SpriteCommon::Initialize(DirectXCommon* dxCommon) {
+void SpriteCommon::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
     dxCommon_ = dxCommon;
 
     // Do something
@@ -42,6 +42,12 @@ void SpriteCommon::Initialize(DirectXCommon* dxCommon) {
 }
 
 void SpriteCommon::PreDraw() const {
-    pipeline_->DrawCall(dxCommon_->GetCommandList());
-    dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    auto dxc = dxCommon_.lock();
+    if (!dxc){
+        System::Log(Log::Level::ERR, "SRVManager Initialize Failed");
+        return;
+    }
+
+    pipeline_->DrawCall(dxc->GetCommandList());
+    dxc->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }

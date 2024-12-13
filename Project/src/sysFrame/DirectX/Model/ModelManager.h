@@ -31,7 +31,7 @@ public:
 
 public:
     static void Finalize();
-	void Initialize(DirectXCommon* dxCommon);
+	void Initialize(std::weak_ptr<DirectXCommon> dxCommon);
 
     void Load(const std::string& fileName);
 

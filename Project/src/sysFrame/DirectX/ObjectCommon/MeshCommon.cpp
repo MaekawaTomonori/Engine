@@ -6,6 +6,6 @@ void MeshCommon::Initialize() {
 void MeshCommon::PreDraw() const {
 }
 
-DirectXCommon* MeshCommon::GetDXCommon() const {
+std::weak_ptr<DirectXCommon> MeshCommon::GetDXCommon() const {
     return dxCommon_;
 }

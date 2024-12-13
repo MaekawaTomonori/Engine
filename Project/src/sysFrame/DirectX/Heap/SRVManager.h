@@ -7,7 +7,7 @@ class Heap;
 class DirectXCommon;
 
 class SRVManager{
-    DirectXCommon* dxCommon_ = nullptr;
+    std::weak_ptr<DirectXCommon> dxCommon_;
 
     static const uint32_t kMaxSRVCount;
 
@@ -17,7 +17,7 @@ class SRVManager{
     std::shared_ptr<Heap> heap_;
 
 public:
-	void Initialize(DirectXCommon* dxCommon);
+	void Initialize(const std::weak_ptr<DirectXCommon>& dxCommon);
     void Finalize();
 
     uint32_t Allocate();

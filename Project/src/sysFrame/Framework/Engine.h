@@ -21,7 +21,7 @@ class ParticleManager;
 class Engine{
 	std::unique_ptr<D3DResourceLeakChecker> leakChecker;
 	std::unique_ptr<WinApp> winApp_;
-    std::unique_ptr<DirectXCommon> dxCommon_;
+    std::shared_ptr<DirectXCommon> dxCommon_;
     std::unique_ptr<SRVManager> srvManager_;
     std::unique_ptr<Input> input_;
 	std::unique_ptr<ImGuiManager> imguiManager_;

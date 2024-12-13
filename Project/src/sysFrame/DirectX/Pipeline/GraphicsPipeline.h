@@ -27,9 +27,9 @@ public:
 		PARTICLE,
 	};
 
-	void Create(DirectXCommon* dxCommon, Type type);
+	void Create(std::weak_ptr<DirectXCommon> dxCommon, Type type);
 
-	void DrawCall(ID3D12GraphicsCommandList* commandList) const;
+	void DrawCall(const Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& commandList) const;
 
     void SetBlendMode(BlendMode mode);
 
@@ -47,7 +47,7 @@ private://Methods
 
 private://Variables
 	//借りポ
-	DirectXCommon* dxCommon_ = nullptr;
+	std::weak_ptr<DirectXCommon> dxCommon_;
 
 	Type type_ = Type::MODEL;
 

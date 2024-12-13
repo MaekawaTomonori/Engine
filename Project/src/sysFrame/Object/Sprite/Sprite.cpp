@@ -18,8 +18,13 @@ void Sprite::AdjustTextureSize() {
 }
 
 void Sprite::Initialize() {
+    auto dxc = dxCommon_.lock();
+    if (!dxc){
+        return;
+    }
+
     //VertexData
-	vertexResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(VertexData) * 4));
+	vertexResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(VertexData) * 4).Get());
     vertexBufferView_.BufferLocation = vertexResource_->GetGPUVirtualAddress();
     vertexBufferView_.SizeInBytes = sizeof(VertexData) * 4;
     vertexBufferView_.StrideInBytes = sizeof(VertexData);
@@ -39,7 +44,7 @@ void Sprite::Initialize() {
     vertexData_[0].normal = {0, 0, -1};
 
     //IndexData
-    indexResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(uint32_t) * 6));
+    indexResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(uint32_t) * 6).Get());
 
     indexBufferView_.BufferLocation = indexResource_->GetGPUVirtualAddress();
     indexBufferView_.SizeInBytes = sizeof(uint32_t) * 6;
@@ -55,7 +60,7 @@ void Sprite::Initialize() {
     indexData_[5] = 2;
 
     //MaterialData
-    materialResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(Material)));
+    materialResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(Material)).Get());
     materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&material_));
 
     material_->color = {1, 1, 1, 1};
@@ -118,10 +123,10 @@ void Sprite::Update() {
 
 #pragma region Vertex texcoord
     const DirectX::TexMetadata& metadata = TextureManager::GetInstance()->GetTextureMetadata(texturePath);
-    float texLeft = leftTop.x / metadata.width;
-    float texRight = (leftTop.x + texSize.x) / metadata.width;
-    float texTop = leftTop.y / metadata.height;
-    float texBottom = (leftTop.y + texSize.y) / metadata.height;
+    float texLeft = leftTop.x / static_cast<float>(metadata.width);
+    float texRight = (leftTop.x + texSize.x) / static_cast<float>(metadata.width);
+    float texTop = leftTop.y / static_cast<float>(metadata.height);
+    float texBottom = (leftTop.y + texSize.y) / static_cast<float>(metadata.height);
 
     vertexData_[0].texcoord = {texLeft, texBottom};
     vertexData_[1].texcoord = {texLeft, texTop};

@@ -33,7 +33,7 @@ void ModelManager::Finalize() {
     System::Log(Log::Level::INFO, "ModelManager Disabled");
 }
 
-void ModelManager::Initialize(DirectXCommon* dxCommon) {
+void ModelManager::Initialize(std::weak_ptr<DirectXCommon> dxCommon) {
     meshCommon_ = std::make_shared<MeshCommon>(dxCommon);
     meshCommon_->Initialize();
 

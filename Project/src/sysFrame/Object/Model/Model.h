@@ -14,8 +14,8 @@ private:
 	///借りポ
 	ModelCommon* modelCommon_ = nullptr;
 
-    DirectXCommon* dxCommon_ = nullptr;
-    ID3D12GraphicsCommandList* commandList_ = nullptr;
+    std::weak_ptr<DirectXCommon> dxCommon_;
+	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList_ = nullptr;
 
     Mesh* mesh_ = nullptr;
 

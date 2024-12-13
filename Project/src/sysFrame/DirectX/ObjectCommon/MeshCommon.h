@@ -1,15 +1,16 @@
 ﻿#pragma once
+#include <memory>
 class DirectXCommon;
 
 class MeshCommon{
-    DirectXCommon* dxCommon_ = nullptr;
+    std::weak_ptr<DirectXCommon> dxCommon_;
 
 public:
-	MeshCommon(DirectXCommon* dxCommon) :dxCommon_(dxCommon) {}
+	MeshCommon(const std::weak_ptr<DirectXCommon>& dxCommon) :dxCommon_(dxCommon) {}
 
 	void Initialize();
 	void PreDraw() const;
 
-	DirectXCommon* GetDXCommon() const;
+	std::weak_ptr<DirectXCommon> GetDXCommon() const;
 };
 

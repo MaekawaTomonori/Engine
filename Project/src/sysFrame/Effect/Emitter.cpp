@@ -15,11 +15,11 @@
 
 void Emitter::Initialize(ParticleCommon* common, SRVManager* srv, const Transform& transform) {
     common_ = common;
-	commandList_ = common->GetDXCommon()->GetCommandList();
+	commandList_ = common->GetDXCommon().lock()->GetCommandList();
 
     transform_ = transform;
 
-	resource_.Attach(DirectXCommon::CreateBufferResource(common->GetDXCommon()->GetDevice(), sizeof(ParticleForGPU) * MAX_COUNT));
+	resource_.Attach(DirectXCommon::CreateBufferResource(common->GetDXCommon().lock()->GetDevice(), sizeof(ParticleForGPU) * MAX_COUNT).Get());
     resource_->Map(0, nullptr, reinterpret_cast<void**>(&forGpu_));
 
     for (uint16_t i = 0; i < MAX_COUNT/10; ++i){
