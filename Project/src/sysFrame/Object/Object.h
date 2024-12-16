@@ -43,7 +43,7 @@ protected:
 	DirectXCommon* dxCommon_ = nullptr;
 
 	//借り物 
-	ID3D12GraphicsCommandList* commandList_ = nullptr;
+	ComPtr<ID3D12GraphicsCommandList> commandList_ = nullptr;
 
 	//UUID
 	std::string uuid_{};

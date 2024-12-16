@@ -16,7 +16,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
     winApp->Initialize("Engine");
 
-    dxCommon->Initialize(winApp);
+    dxCommon->Initialize(winApp.get());
 
     std::shared_ptr<ImGuiManager> imguiManager = std::make_shared<ImGuiManager>(winApp.get(), dxCommon.get());
     imguiManager->Initialize();

@@ -3,14 +3,14 @@
 #include "MathUtils.h"
 #include "DirectX/DirectXCommon.h"
 
-WorldTransform::WorldTransform(DirectXCommon* direx) {
-    dxCommon_ = direx;
+WorldTransform::WorldTransform(DirectXCommon* dxCommon) {
+    dxCommon_ = dxCommon;
 }
 
 void WorldTransform::Initialize() {
     transform_ = {};
 
-    resource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(TransformationMatrix)));
+    resource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(TransformationMatrix)).Get());
 
     resource_->Map(0, nullptr, reinterpret_cast<void**>(&matrix_));
 }

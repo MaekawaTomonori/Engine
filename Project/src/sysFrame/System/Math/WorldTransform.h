@@ -24,7 +24,7 @@ public://Variables
 	Transform transform_ {};
 
 public: //Methods
-	WorldTransform(DirectXCommon* direx);
+	WorldTransform(DirectXCommon* dxCommon);
 	void Initialize();
     void Update();
 

@@ -1,9 +1,8 @@
 #include "Window.h"
 
+#include "imgui.h"
 #include "System/System.h"
 
-
-#include "imgui/imgui_impl_win32.h"
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 LRESULT CALLBACK Window::WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
@@ -23,13 +22,13 @@ Window::~Window() {
 }
 
 bool Window::Create(int clientWidth, int clientHeight, const std::wstring& titleName, const std::wstring& windowClassName) {
-	HINSTANCE hInstance = GetModuleHandle(0);
+	hInstance_ = GetModuleHandle(0);
 
 	//window class. 
 	WNDCLASS wc {};
 	wc.lpfnWndProc = WindowProc;
 	wc.lpszClassName = windowClassName.c_str();
-	wc.hInstance = hInstance;
+	wc.hInstance = hInstance_;
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 
 	if (!RegisterClass(&wc)){
@@ -46,11 +45,11 @@ bool Window::Create(int clientWidth, int clientHeight, const std::wstring& title
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
-		clientWidth,
-		clientHeight,
+		windowRect_.right - windowRect_.left,
+		windowRect_.bottom - windowRect_.top,
 		nullptr,
 		nullptr,
-		hInstance,
+		hInstance_,
 		nullptr
 	);
 
@@ -63,7 +62,7 @@ bool Window::Create(int clientWidth, int clientHeight, const std::wstring& title
 
 	UpdateWindow(hWnd_);
 
-	System::Log("Window Created\n");
+	System::Log(Log::Level::INFO, "Window Created");
 
 	return true;
 }

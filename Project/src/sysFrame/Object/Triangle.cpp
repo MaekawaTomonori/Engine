@@ -7,7 +7,7 @@
 #include "System/Math/VertexData.h"
 
 void Triangle::Initialize() {
-    vertexResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(VertexData) * 3));
+    vertexResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(VertexData) * 3).Get());
     vertexBufferView_.BufferLocation = vertexResource_->GetGPUVirtualAddress();
     vertexBufferView_.SizeInBytes = sizeof(VertexData) * 3;
     vertexBufferView_.StrideInBytes = sizeof(VertexData);
@@ -18,7 +18,7 @@ void Triangle::Initialize() {
     vertexData_[1].position = {0, .5f, 0, 1};
     vertexData_[2].position = {.5f, -.5f, 0, 1};
 
-    materialResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(Material)));
+    materialResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_->GetDevice(), sizeof(Material)).Get());
 
     materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&material_));
 

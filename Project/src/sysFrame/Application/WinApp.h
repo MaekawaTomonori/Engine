@@ -2,22 +2,20 @@
 #include <memory>
 #include <string>
 
-#include "DirectX/DirectXCommon.h"
-
-class DirectXCommon;
-class Window;
+#include "System/Window/Window.h"
 
 class WinApp{
 private: //Variables
 	std::shared_ptr<Window> window_;
-	//std::shared_ptr<DirectXCommon> dxCommon_;
 public:
 	static const int32_t CLIENT_WIDTH = 1280;
     static const int32_t CLIENT_HEIGHT = 720;
 public: //Functions
 	void Initialize(const std::string& title);
+	void Finalize();
 	bool ProcessMessage() const;
 
+    HINSTANCE GetInstanceHandle() const;
     HWND GetWindowHandle() const;
 };
 
