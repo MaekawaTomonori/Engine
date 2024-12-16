@@ -1,6 +1,7 @@
 #include "Window.h"
 
-#include "imgui.h"
+//#include "imgui.h"
+#include "imgui/imgui.h"
 #include "System/System.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -62,7 +63,7 @@ bool Window::Create(int clientWidth, int clientHeight, const std::wstring& title
 
 	UpdateWindow(hWnd_);
 
-	System::Log(Log::Level::INFO, "Window Created");
+	System::Log(/*Log::Level::INFO, */"Window Created");
 
 	return true;
 }

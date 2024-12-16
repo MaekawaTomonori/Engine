@@ -1,12 +1,3 @@
-C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\Sound\Audio.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Audio.obj
-C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\DirectX\Lighting\LightManager.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\LightManager.obj
-C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\DirectX\Model\ModelManager.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\ModelManager.obj
-C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\DirectX\ObjectCommon\MeshCommon.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\MeshCommon.obj
-C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\Object\Model\Mesh\Mesh.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Mesh.obj
-C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\DirectX\ObjectCommon\ModelCommon.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\ModelCommon.obj
-C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\Object\Model\Model.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Model.obj
-C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\Object\Sprite\Sprite.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Sprite.obj
-C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\DirectX\ObjectCommon\SpriteCommon.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\SpriteCommon.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\DirectX\Util\D3DResourceLeakChecker.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\D3DResourceLeakChecker.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\ImGui\ImGuiManager.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\ImGuiManager.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\externals\imgui\imgui.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\imgui.obj
@@ -20,8 +11,7 @@ C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\Object\Camera\Camera.cp
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\DirectX\Heap\Heap.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Heap.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\DirectX\DirectXCommon.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\DirectXCommon.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\main.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\main.obj
-C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\Input\Input.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Input.obj
-C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\WindowsApplication\WinApp.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\WinApp.obj
+C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\Application\WinApp.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\WinApp.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\DirectX\Pipeline\GraphicsPipeline.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\GraphicsPipeline.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\DirectX\Shader\Shader.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Shader.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\Math\MathUtils.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\MathUtils.obj
@@ -29,5 +19,3 @@ C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\System.cpp;C:\Us
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\Window\Window.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Window.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\Object\Triangle.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Triangle.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\Math\WorldTransform.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\WorldTransform.obj
-C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\DirectX\Heap\SRVManager.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\SRVManager.obj
-C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\DirectX\Texture\TextureManager.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\TextureManager.obj

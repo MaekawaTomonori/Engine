@@ -21,13 +21,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     std::shared_ptr<ImGuiManager> imguiManager = std::make_shared<ImGuiManager>(winApp.get(), dxCommon.get());
     imguiManager->Initialize();
 
-    std::unique_ptr<Triangle> triangle = std::make_unique<Triangle>(dxCommon.get());
-    triangle->Initialize();
+    //std::unique_ptr<Triangle> triangle = std::make_unique<Triangle>(dxCommon.get());
+    //triangle->Initialize();
 
     std::shared_ptr<Camera> camera = std::make_shared<Camera>();
     camera->Initialize();
 
-    triangle->SetCamera(camera.get());
+    //triangle->SetCamera(camera.get());
 
     //MainLoop
     while (winApp->ProcessMessage()){
@@ -35,14 +35,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         imguiManager->Begin();
 
         camera->Update();
-        triangle->Update();
+        //triangle->Update();
 
         imguiManager->End();
 
         //Draw
         dxCommon->PreDraw();
 
-        triangle->Draw();
+        //triangle->Draw();
 
 
         imguiManager->Draw();
