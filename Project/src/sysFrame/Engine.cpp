@@ -8,7 +8,9 @@
 std::shared_ptr<Camera> Engine::defaultCamera_ = nullptr;
 
 void Engine::Initialize() {
-    winApp_ = std::make_shared<WinApp>();
+    logger_ = Log::GetLogger();
+
+	winApp_ = std::make_shared<WinApp>();
     dxCommon_ = std::make_shared<DirectXCommon>();
 	imguiManager_ = std::make_shared<ImGuiManager>(winApp_.get(), dxCommon_.get());
 
