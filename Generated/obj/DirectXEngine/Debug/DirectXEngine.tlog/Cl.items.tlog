@@ -1,3 +1,4 @@
+C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\Engine.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Engine.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\DirectX\Util\D3DResourceLeakChecker.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\D3DResourceLeakChecker.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\ImGui\ImGuiManager.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\ImGuiManager.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\externals\imgui\imgui.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\imgui.obj
@@ -14,6 +15,7 @@ C:\Users\tomo-\source\repos\GE3\GE3\Project\main.cpp;C:\Users\tomo-\source\repos
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\Application\WinApp.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\WinApp.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\DirectX\Pipeline\GraphicsPipeline.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\GraphicsPipeline.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\DirectX\Shader\Shader.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Shader.obj
+C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\Input\Input.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Input.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\Math\MathUtils.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\MathUtils.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\System.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\System.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\Window\Window.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Window.obj

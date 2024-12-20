@@ -30,10 +30,31 @@ std::string System::ConvertString(const std::wstring& str) {
     return result;
 }
 
+void System::Log(Log::Level level, const std::string& message) {
+	class Log* logging = Log::GetLogger();
+    if (level == Log::Level::INFO){logging->Info(message); return;}
+    if (level == Log::Level::DEBUG){logging->Debug(message); return;}
+    if (level == Log::Level::WARN){logging->Warning(message); return;}
+    if (level == Log::Level::ERR){logging->Error(message); return;}
+    //OutputDebugStringA(message.c_str());
+    
+}
+
+void System::Log(Log::Level level, const std::wstring& message) {
+    std::string msg = ConvertString(message);
+    class Log* logging = Log::GetLogger();
+    if (level == Log::Level::INFO){logging->Info(msg); return;}
+    if (level == Log::Level::DEBUG){logging->Debug(msg); return;}
+    if (level == Log::Level::WARN){logging->Warning(msg); return;}
+    if (level == Log::Level::ERR){logging->Error(msg); return;}
+    //OutputDebugStringA(ConvertString(message).c_str());
+	
+}
+
 void System::Log(const std::string& message) {
-    OutputDebugStringA(message.c_str());
+    Log(Log::Level::DEBUG, message);
 }
 
 void System::Log(const std::wstring& message) {
-    OutputDebugStringA(ConvertString(message).c_str());
+    Log(Log::Level::DEBUG, message);
 }

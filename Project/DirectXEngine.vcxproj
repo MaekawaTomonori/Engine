@@ -11,6 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sysFrame\DirectX\Heap\SRVManager.cpp" />
+    <ClCompile Include="src\sysFrame\DirectX\Texture\TextureManager.cpp" />
+    <ClCompile Include="src\sysFrame\Engine.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Util\D3DResourceLeakChecker.cpp" />
     <ClCompile Include="src\sysFrame\System\ImGui\ImGuiManager.cpp" />
     <ClCompile Include="src\externals\imgui\imgui.cpp" />
@@ -27,13 +30,19 @@
     <ClCompile Include="src\sysFrame\Application\WinApp.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Pipeline\GraphicsPipeline.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Shader\Shader.cpp" />
+    <ClCompile Include="src\sysFrame\System\Input\Input.cpp" />
+    <ClCompile Include="src\sysFrame\System\Log\Log.cpp" />
     <ClCompile Include="src\sysFrame\System\Math\MathUtils.cpp" />
+    <ClCompile Include="src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.cpp" />
     <ClCompile Include="src\sysFrame\System\System.cpp" />
     <ClCompile Include="src\sysFrame\System\Window\Window.cpp" />
     <ClCompile Include="src\sysFrame\Object\Triangle.cpp" />
     <ClCompile Include="src\sysFrame\System\Math\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sysFrame\DirectX\Heap\SRVManager.h" />
+    <ClInclude Include="src\sysFrame\DirectX\Texture\TextureManager.h" />
+    <ClInclude Include="src\sysFrame\Engine.h" />
     <ClInclude Include="src\sysFrame\DirectX\Util\D3DResourceLeakChecker.h" />
     <ClInclude Include="src\sysFrame\System\ImGui\ImGuiManager.h" />
     <ClInclude Include="src\externals\imgui\imconfig.h" />
@@ -51,6 +60,8 @@
     <ClInclude Include="src\sysFrame\DirectX\Pipeline\GraphicsPipeline.h" />
     <ClInclude Include="src\sysFrame\DirectX\Shader\Shader.h" />
     <ClInclude Include="src\sysFrame\Object\Object.h" />
+    <ClInclude Include="src\sysFrame\System\Input\Input.h" />
+    <ClInclude Include="src\sysFrame\System\Log\Log.h" />
     <ClInclude Include="src\sysFrame\System\Math\Material.h" />
     <ClInclude Include="src\sysFrame\System\Math\MathUtils.h" />
     <ClInclude Include="src\sysFrame\System\Math\Matrix.h" />
@@ -59,6 +70,7 @@
     <ClInclude Include="src\sysFrame\System\Math\Vector2.h" />
     <ClInclude Include="src\sysFrame\System\Math\Vector3.h" />
     <ClInclude Include="src\sysFrame\System\Math\Vector4.h" />
+    <ClInclude Include="src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.h" />
     <ClInclude Include="src\sysFrame\System\System.h" />
     <ClInclude Include="src\sysFrame\System\Window\Window.h" />
     <ClInclude Include="src\sysFrame\Object\Triangle.h" />
@@ -66,13 +78,13 @@
     <ClInclude Include="src\sysFrame\System\Math\WorldTransform.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="assets\Shaders\Object3d.PS.hlsl">
+    <FxCompile Include="assets\Shaders\Model.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="assets\Shaders\Object3d.VS.hlsl">
+    <FxCompile Include="assets\Shaders\Model.VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -100,6 +112,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>true</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -107,6 +120,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>true</EnableASAN>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -123,10 +137,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)..\Generated\outputs\$(ProjectName)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)src\externals\DirectXTex;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)..\Generated\outputs\$(ProjectName)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)src\externals\DirectXTex;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

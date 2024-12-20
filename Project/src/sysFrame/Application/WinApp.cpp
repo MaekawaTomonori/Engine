@@ -4,7 +4,6 @@
 #include <memory>
 
 #include "System/System.h"
-//#include "DirectX/Heap/SRVManager.h"
 
 #pragma comment(lib, "winmm.lib")
 
@@ -12,11 +11,11 @@ void WinApp::Initialize(const std::string& title) {
     timeBeginPeriod(1);
     window_ = std::make_shared<Window>();
     if(!window_->Create(CLIENT_WIDTH, CLIENT_HEIGHT, System::ConvertString(title), L"Window")){
-        System::Log(/*Log::Level::ERR,*/ "Window Creation Failed");
+        System::Log(Log::Level::ERR, "Window Creation Failed");
         assert(false);
         return;
     }
-    System::Log(/*Log::Level::INFO,*/ "WinApp Enabled");
+    System::Log(Log::Level::INFO, "WinApp Enabled");
 }
 
 void WinApp::Finalize() {

@@ -5,7 +5,7 @@
 
 class Heap{
     //借りポ
-    ID3D12Device* device_ = nullptr;
+    Microsoft::WRL::ComPtr<ID3D12Device> device_ = nullptr;
 
     //Heap
     Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> heap_;
@@ -15,9 +15,10 @@ class Heap{
     uint32_t useCount_ = 0;
 
 public:
-	bool Create(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE type, uint32_t useCount, bool shaderVisible);
+	~Heap();
+	bool Create(const Microsoft::WRL::ComPtr<ID3D12Device>& device, D3D12_DESCRIPTOR_HEAP_TYPE type, uint32_t useCount, bool shaderVisible);
 
-    ID3D12DescriptorHeap* GetHeap() const {
+    ID3D12DescriptorHeap* GetDescriptorHeap() const {
         return heap_.Get();
     }
 

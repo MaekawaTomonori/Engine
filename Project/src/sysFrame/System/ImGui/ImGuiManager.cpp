@@ -24,7 +24,7 @@ void ImGuiManager::Initialize() {
         dxCommon_->GetDevice().Get(),
         static_cast<int>(dxCommon_->GetBackBufferCount()),
         DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
-        srv_->GetHeap(),
+        srv_->GetDescriptorHeap(),
         srv_->GetCPUHandle(0),
         srv_->GetGPUHandle(0)
     );
@@ -44,7 +44,7 @@ void ImGuiManager::End() {
 void ImGuiManager::Draw() {
     ComPtr<ID3D12GraphicsCommandList> commandList = dxCommon_->GetCommandList();
 
-    ComPtr<ID3D12DescriptorHeap> ppHeaps[] = {srv_->GetHeap()};
+    ComPtr<ID3D12DescriptorHeap> ppHeaps[] = {srv_->GetDescriptorHeap()};
     commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps->GetAddressOf());
 
     ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList.Get());
