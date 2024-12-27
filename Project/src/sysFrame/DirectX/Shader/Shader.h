@@ -5,8 +5,6 @@
 #include <string>
 #include <wrl/client.h>
 
-
-
 class Shader{
 	//DXC
 	Microsoft::WRL::ComPtr<IDxcUtils> dxcUtils_;
@@ -14,7 +12,9 @@ class Shader{
 	Microsoft::WRL::ComPtr<IDxcIncludeHandler> includeHandler_;
 
 	//Shader
+	std::wstring name_;
 	Microsoft::WRL::ComPtr<IDxcBlob> vertexShader_;
+	Microsoft::WRL::ComPtr<IDxcBlob> geometryShader_;
 	Microsoft::WRL::ComPtr<IDxcBlob> pixelShader_;
 	IDxcBlob* Compile(const std::wstring& directoryPath_, const std::wstring& filePath, const wchar_t* profile, IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHandler);
 
@@ -22,11 +22,16 @@ class Shader{
 	void CompileShaders();
 
 public:
-	bool Create();
+	bool Create(const std::wstring& name);
 
     IDxcBlob* GetVertexShader() const {
         return vertexShader_.Get();
     }
+
+	IDxcBlob* GetGeometryShader() const {
+        return geometryShader_.Get();
+    }
+
     IDxcBlob* GetPixelShader() const {
         return pixelShader_.Get();
     }

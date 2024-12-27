@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <d3d12.h>
+#include <memory>
 #include <wrl/client.h>
 
 #include "Transform.h"
@@ -10,9 +11,8 @@ class DirectXCommon;
 
 class WorldTransform{
     //借り物
-    DirectXCommon* dxCommon_ = nullptr;
+    std::weak_ptr<DirectXCommon> dxCommon_;
 	Camera* camera_ = nullptr;
-
 
     //Resource
     Microsoft::WRL::ComPtr<ID3D12Resource> resource_;
@@ -21,15 +21,23 @@ class WorldTransform{
     TransformationMatrix* matrix_ = nullptr;
 
 public://Variables
-	Transform transform_ {};
+	//Transform transform_ {};
+
+	Vector3 scale;
+	Vector3 rotate;
+	Vector3 translate;
 
 public: //Methods
-	WorldTransform(DirectXCommon* dxCommon);
+	WorldTransform(const std::weak_ptr<DirectXCommon>& direx);
 	void Initialize();
-    void Update();
+    void Update() const;
 
     D3D12_GPU_VIRTUAL_ADDRESS GetGPUVirtualAddress() const {
         return resource_->GetGPUVirtualAddress();
+    }
+
+    void SetWVP(const Matrix4x4& m) const {
+        matrix_->wvp = m;
     }
 
     void SetCamera(Camera* camera) {

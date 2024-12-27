@@ -19,11 +19,17 @@ void Shader::CreateDxc() {
 }
 
 void Shader::CompileShaders() {
-    vertexShader_.Attach(Compile(L"Assets/Shaders/", L"Object3d.VS.hlsl", L"vs_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get()));
-    pixelShader_.Attach(Compile(L"Assets/Shaders/", L"Object3d.PS.hlsl", L"ps_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get()));
+    vertexShader_.Attach(Compile(L"Assets/Shaders/", name_ + L".VS.hlsl", L"vs_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get()));
+    pixelShader_.Attach(Compile(L"Assets/Shaders/", name_ + L".PS.hlsl", L"ps_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get()));
+
+    /*if (name_ == L"Particle"){
+        geometryShader_.Attach(Compile(L"Assets/Shaders/", name_ + L".GS.hlsl", L"gs_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get()));
+    }*/
 }
 
-bool Shader::Create() {
+bool Shader::Create(const std::wstring& name) {
+    name_ = name;
+
     CreateDxc();
     CompileShaders();
 
@@ -32,7 +38,7 @@ bool Shader::Create() {
 
 IDxcBlob* Shader::Compile(const std::wstring& directoryPath, const std::wstring& filePath, const wchar_t* profile,
                           IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHandler) {
-    System::Log(System::ConvertString(std::format(L"Begin CompileShader, Path : {}, Profile : {}\n", filePath, profile)));
+    System::Log(Log::Level::INFO, System::ConvertString(std::format(L"Begin CompileShader, Path : {}, Profile : {}", filePath, profile)));
     IDxcBlobEncoding* shaderSource = nullptr;
     std::wstring fullPath = directoryPath + filePath;
     HRESULT hResult = dxcUtils->LoadFile(fullPath.c_str(), nullptr, &shaderSource);
@@ -48,6 +54,7 @@ IDxcBlob* Shader::Compile(const std::wstring& directoryPath, const std::wstring&
         filePath.c_str(), //対象のhlslファイル名
         L"-E", L"main", //EntryPoint
         L"-T", profile, //ShaderProfile
+        L"-I", directoryPath.c_str(), //IncludePath
         L"-Zi", L"-Qembed_debug", //DebugInfo
         L"-Od", //最適化を外す
         L"-Zpr", //メモリレイアウトは行優先
@@ -66,7 +73,7 @@ IDxcBlob* Shader::Compile(const std::wstring& directoryPath, const std::wstring&
     IDxcBlobUtf8* shaderError = nullptr;
     shaderResult->GetOutput(DXC_OUT_ERRORS, IID_PPV_ARGS(&shaderError), nullptr);
     if (shaderError != nullptr && shaderError->GetStringLength() != 0){
-        System::Log(shaderError->GetStringPointer());
+        System::Log(Log::Level::ERR, shaderError->GetStringPointer());
 
         assert(false);
     }
@@ -75,7 +82,7 @@ IDxcBlob* Shader::Compile(const std::wstring& directoryPath, const std::wstring&
     hResult = shaderResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(&shaderBlob), nullptr);
     assert(SUCCEEDED(hResult));
 
-    System::Log(System::ConvertString(std::format(L"Compile Succeed, Path : {}, Profile : {}\n", filePath, profile)));
+    System::Log(Log::Level::INFO, System::ConvertString(std::format(L"Compile Succeed, Path : {}, Profile : {}", filePath, profile)));
     shaderSource->Release();
     shaderResult->Release();
 

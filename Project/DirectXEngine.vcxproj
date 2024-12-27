@@ -11,10 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sysFrame\System\Loader.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Heap\SRVManager.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Texture\TextureManager.cpp" />
-    <ClCompile Include="src\sysFrame\Engine.cpp" />
+    <ClCompile Include="src\sysFrame\Engine\Engine.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Util\D3DResourceLeakChecker.cpp" />
+    <ClCompile Include="src\sysFrame\Engine\EngineDebug.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Sprite\Sprite.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Sprite\SpriteCommon.cpp" />
     <ClCompile Include="src\sysFrame\System\ImGui\ImGuiManager.cpp" />
     <ClCompile Include="src\externals\imgui\imgui.cpp" />
     <ClCompile Include="src\externals\imgui\imgui_demo.cpp" />
@@ -36,14 +40,17 @@
     <ClCompile Include="src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.cpp" />
     <ClCompile Include="src\sysFrame\System\System.cpp" />
     <ClCompile Include="src\sysFrame\System\Window\Window.cpp" />
-    <ClCompile Include="src\sysFrame\Object\Triangle.cpp" />
     <ClCompile Include="src\sysFrame\System\Math\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sysFrame\System\Loader.h" />
+    <ClInclude Include="src\sysFrame\Engine\EngineDebug.h" />
     <ClInclude Include="src\sysFrame\DirectX\Heap\SRVManager.h" />
     <ClInclude Include="src\sysFrame\DirectX\Texture\TextureManager.h" />
-    <ClInclude Include="src\sysFrame\Engine.h" />
+    <ClInclude Include="src\sysFrame\Engine\Engine.h" />
     <ClInclude Include="src\sysFrame\DirectX\Util\D3DResourceLeakChecker.h" />
+    <ClInclude Include="src\sysFrame\Object\Sprite\Sprite.h" />
+    <ClInclude Include="src\sysFrame\Object\Sprite\SpriteCommon.h" />
     <ClInclude Include="src\sysFrame\System\ImGui\ImGuiManager.h" />
     <ClInclude Include="src\externals\imgui\imconfig.h" />
     <ClInclude Include="src\externals\imgui\imgui.h" />
@@ -73,7 +80,6 @@
     <ClInclude Include="src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.h" />
     <ClInclude Include="src\sysFrame\System\System.h" />
     <ClInclude Include="src\sysFrame\System\Window\Window.h" />
-    <ClInclude Include="src\sysFrame\Object\Triangle.h" />
     <ClInclude Include="src\sysFrame\System\Math\VertexData.h" />
     <ClInclude Include="src\sysFrame\System\Math\WorldTransform.h" />
   </ItemGroup>

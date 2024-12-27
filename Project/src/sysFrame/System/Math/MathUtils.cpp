@@ -1,6 +1,8 @@
 #include "MathUtils.h"
 
 #include <cassert>
+#include <random>
+
 #include "Transform.h"
 
 Matrix3x3 MathUtils::Matrix::MakeIdentity3x3() {
@@ -94,6 +96,11 @@ Matrix4x4 MathUtils::Matrix::MakeAffineMatrix(const Vector3& scale, const Vector
     return scaleMat * rotateMat * translateMat;
 }
 
+Matrix4x4 MathUtils::Matrix::MakeAffineMatrix(const Matrix4x4& scale, const Matrix4x4& rotate,
+	const Matrix4x4& translate) {
+    return scale * rotate * translate;
+}
+
 Matrix4x4 MathUtils::Matrix::MakeOrthogonalMatrix(float left, float right, float top, float bottom, float znear, float zfar) {
     return Matrix4x4 {
         2 / (right - left), 0, 0, 0,
@@ -120,4 +127,12 @@ Matrix4x4 MathUtils::Matrix::MakeViewportMatrix(float left, float right, float t
         0, 0, depthMax - depthMin, 0,
         left + (right - left) / 2, top + (top - bottom) / 2, depthMin, 1
     };
+}
+
+float MathUtils::Random(float min, float max) {
+	std::random_device seed;
+    std::mt19937 random(seed());
+
+    std::uniform_real_distribution<float> dist(min, max);
+    return dist(random);
 }

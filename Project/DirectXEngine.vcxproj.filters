@@ -42,9 +42,6 @@
     <ClCompile Include="src\sysFrame\System\Math\MathUtils.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\sysFrame\Object\Triangle.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\sysFrame\DirectX\Util\D3DResourceLeakChecker.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -81,7 +78,7 @@
     <ClCompile Include="src\sysFrame\System\Input\Input.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\sysFrame\Engine.cpp">
+    <ClCompile Include="src\sysFrame\Engine\Engine.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\sysFrame\DirectX\Texture\TextureManager.cpp">
@@ -94,6 +91,18 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\sysFrame\DirectX\Heap\SRVManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sysFrame\Object\Sprite\Sprite.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sysFrame\Object\Sprite\SpriteCommon.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sysFrame\Engine\EngineDebug.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sysFrame\System\Loader.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -138,9 +147,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\sysFrame\System\Math\Vector4.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\Object\Triangle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\sysFrame\System\Math\VertexData.h">
@@ -191,7 +197,7 @@
     <ClInclude Include="src\sysFrame\System\Input\Input.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\sysFrame\Engine.h">
+    <ClInclude Include="src\sysFrame\Engine\Engine.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\sysFrame\DirectX\Texture\TextureManager.h">
@@ -204,6 +210,18 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\sysFrame\DirectX\Heap\SRVManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sysFrame\Object\Sprite\Sprite.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sysFrame\Object\Sprite\SpriteCommon.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sysFrame\Engine\EngineDebug.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sysFrame\System\Loader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
