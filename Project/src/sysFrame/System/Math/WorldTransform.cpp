@@ -31,5 +31,5 @@ void WorldTransform::Update() const {
     Matrix4x4 viewProjection = camera_->GetViewProjection();
     matrix_->world = MathUtils::Matrix::MakeAffineMatrix(scale, rotate, translate);
     matrix_->wvp = matrix_->world * viewProjection;
-    matrix_->worldInverseTranspose = matrix_->world.Inverse().Transpose();
+    //matrix_->worldInverseTranspose = matrix_->world.Inverse().Transpose();
 }

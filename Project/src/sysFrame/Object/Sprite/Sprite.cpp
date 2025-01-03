@@ -149,5 +149,5 @@ void Sprite::Draw() {
     commandList_->SetGraphicsRootConstantBufferView(1, worldTransform_->GetGPUVirtualAddress());
     commandList_->SetGraphicsRootDescriptorTable(2, TextureManager::GetInstance()->GetGPUHandle(texturePath));
 
-    //commandList_->DrawIndexedInstanced(6, 1, 0, 0, 0);
+    commandList_->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }

@@ -1,0 +1,15 @@
+[01/03/25-18:36][Thread:8368] [info]: LogSystem Enabled
+[01/03/25-18:36][Thread:8368] [info]: Logger Enabled
+[01/03/25-18:36][Thread:8368] [info]: TextureManager Enabled
+[01/03/25-18:36][Thread:8368] [info]: Window Created
+[01/03/25-18:36][Thread:8368] [info]: WinApp Enabled
+[01/03/25-18:36][Thread:8368] [info]: SRVManager Enabled
+[01/03/25-18:36][Thread:8368] [info]: TextureManager Initialized
+[01/03/25-18:36][Thread:8368] [info]: Begin CompileShader, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[01/03/25-18:36][Thread:8368] [info]: Compile Succeed, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[01/03/25-18:36][Thread:8368] [info]: Begin CompileShader, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[01/03/25-18:36][Thread:8368] [info]: Compile Succeed, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[01/03/25-18:36][Thread:8368] [info]: SpriteCommon Enabled
+[01/03/25-18:36][Thread:8368] [info]: TextureManager::Load: uvChecker.png
+[01/03/25-18:36][Thread:8368] [info]: SpriteCommon Disabled
+[01/03/25-18:36][Thread:8368] [info]: TextureManager Disabled

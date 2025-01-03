@@ -4,10 +4,11 @@
 #include <wrl/client.h>
 
 #include "Transform.h"
-#include "TransformationMatrix.h"
+#include "ModelTransformation.h"
 #include "Object/Camera/Camera.h"
 
 class DirectXCommon;
+
 
 class WorldTransform{
     //借り物

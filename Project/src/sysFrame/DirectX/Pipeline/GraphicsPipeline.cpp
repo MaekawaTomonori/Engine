@@ -201,8 +201,10 @@ void GraphicsPipeline::CreateShader() {
     std::wstring name;
     switch (type_){
     case Type::MODEL:
-    case Type::SPRITE:
         name = L"Model";
+        break;
+    case Type::SPRITE:
+        name = L"Sprite";
 	    break;
     case Type::PARTICLE:
         name = L"Particle";

@@ -27,7 +27,7 @@ void Engine::Initialize() {
 	winApp_->Initialize("Engine");
     dxCommon_->Initialize(winApp_.get());
     srvManager_->Initialize(dxCommon_.get());
-    imguiManager_->Initialize();
+    imguiManager_->Initialize(srvManager_.get());
 
     textureManager_->Initialize(dxCommon_, srvManager_.get());
     spriteCommon_->Initialize(dxCommon_);
@@ -52,7 +52,7 @@ void Engine::Update() const {
 
 void Engine::Draw() const {
 	imguiManager_->End();
-
+    srvManager_->PreDraw();
     //Draw
     dxCommon_->PreDraw();
 

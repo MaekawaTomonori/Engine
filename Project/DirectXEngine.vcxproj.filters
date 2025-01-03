@@ -188,7 +188,7 @@
     <ClInclude Include="src\sysFrame\Object\Camera\Camera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\TransformationMatrix.h">
+    <ClInclude Include="src\sysFrame\System\Math\ModelTransformation.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\sysFrame\System\Math\WorldTransform.h">
@@ -228,8 +228,13 @@
   <ItemGroup>
     <FxCompile Include="assets\Shaders\Model.VS.hlsl" />
     <FxCompile Include="assets\Shaders\Model.PS.hlsl" />
+    <FxCompile Include="Assets\Shaders\Sprite.VS.hlsl" />
+    <FxCompile Include="Assets\Shaders\Sprite.PS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\externals\imgui\LICENSE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Shaders\Sprite.hlsli" />
   </ItemGroup>
 </Project>
