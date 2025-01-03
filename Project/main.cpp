@@ -1,6 +1,7 @@
 #include <Windows.h>
 #include <memory>
 
+#include "DirectX/Util/D3DResourceLeakChecker.h"
 #include "Engine/Engine.h"
 
 

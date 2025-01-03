@@ -36,8 +36,8 @@ private: //Methods
 	TextureManager() = default;
     ~TextureManager();
 
-   DirectX::ScratchImage LoadTexture(const std::string& filename) const;
-   ID3D12Resource* CreateTextureResource(const DirectX::TexMetadata& metadata) const;
+	DirectX::ScratchImage LoadTexture(const std::string& filename) const;
+	ID3D12Resource* CreateTextureResource(const DirectX::TexMetadata& metadata) const;
 	ID3D12Resource* UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages) const;
 
 public:
@@ -47,8 +47,11 @@ public:
 	static void Create();
 	static void Destroy();
 
-	void Initialize(std::weak_ptr<DirectXCommon> dxCommon, SRVManager* srvManager);
+	void Initialize(const std::weak_ptr<DirectXCommon>& dxCommon, SRVManager* srvManager);
 	void Load(const std::string& fileName);
+
+	//All Unload(Clear)
+    void Unload();
 
     const DirectX::TexMetadata& GetTextureMetadata(const std::string& fileName) const;
     uint32_t GetSrvIndex(const std::string& fileName) const;
