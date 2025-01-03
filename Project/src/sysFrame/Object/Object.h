@@ -25,9 +25,7 @@ public:
 		uuid_ = reinterpret_cast<char*>(szUuid);
 		RpcStringFreeA(&szUuid);
 	}
-	virtual ~Object() {
-		commandList_->Release();
-	}
+	virtual ~Object()=default;
 
 	virtual void Initialize() = 0;
 	

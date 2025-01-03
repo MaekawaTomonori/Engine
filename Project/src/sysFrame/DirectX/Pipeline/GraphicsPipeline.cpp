@@ -82,10 +82,16 @@ void GraphicsPipeline::CreateRootSignature() {
 
     DescriptorRange();
 
-    if (type_ == Type::PARTICLE){
-        rootParameters_.resize(3);
-    } else{
+    switch(type_){
+	case Type::MODEL:
+	case Type::SPRITE:
         rootParameters_.resize(7);
+		break;
+        //rootParameters_.resize();
+		//break;
+	case Type::PARTICLE:
+        rootParameters_.resize(3);
+		break;
     }
 
     //PixelShader Material
