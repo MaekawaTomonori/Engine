@@ -6,7 +6,6 @@
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/SRVManager.h"
 #include "DirectX/Texture/TextureManager.h"
-#include "Object/Sprite/SpriteCommon.h"
 #include "System/SingletonFinalizer/SingletonFinalizer.h"
 
 std::shared_ptr<Camera> Engine::defaultCamera_ = nullptr;
@@ -20,7 +19,7 @@ void Engine::Initialize() {
 	imguiManager_ = std::make_shared<ImGuiManager>(winApp_.get(), dxCommon_.get());
 
     textureManager_ = TextureManager::GetInstance();
-    spriteCommon_ = SpriteCommon::GetInstance();
+    //spriteCommon_ = SpriteCommon::GetInstance();
 
 	defaultCamera_ = std::make_shared<Camera>();
 
@@ -30,7 +29,7 @@ void Engine::Initialize() {
     imguiManager_->Initialize();
 
     textureManager_->Initialize(dxCommon_, srvManager_.get());
-    spriteCommon_->Initialize(dxCommon_);
+    //spriteCommon_->Initialize(dxCommon_);
 
     defaultCamera_->Initialize();
 
