@@ -31,13 +31,13 @@ void TextureManager::Destroy() {
 }
 
 TextureManager::~TextureManager() {
-    textures_.clear();
+    Unload();
 }
 
 DirectX::ScratchImage TextureManager::LoadTexture(const std::string& filename) const {
     DirectX::ScratchImage image {};
-    std::string fullpath = folderPath_ + filename;
-    std::wstring filePathW = System::ConvertString(fullpath);
+    std::string fullPath = folderPath_ + filename;
+    std::wstring filePathW = System::ConvertString(fullPath);
     HRESULT hr = LoadFromWICFile(filePathW.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image);
     assert(SUCCEEDED(hr));
 
@@ -119,7 +119,7 @@ ID3D12Resource* TextureManager::UploadTextureData(ID3D12Resource* texture, const
 }
 
 
-void TextureManager::Initialize(std::weak_ptr<DirectXCommon> dxCommon, SRVManager* srvManager) {
+void TextureManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon, SRVManager* srvManager) {
     dxCommon_ = dxCommon;
     srvManager_ = srvManager;
     System::Log(Log::Level::INFO, "TextureManager Initialized");
@@ -157,6 +157,16 @@ void TextureManager::Load(const std::string& fileName) {
     srvManager_->CreateSRVforTexture2D(texture.srvIndex, texture.resource.Get(), texture.metadata.format, static_cast<UINT>(texture.metadata.mipLevels));
 
     System::Log(Log::Level::INFO, std::format("TextureManager::Load: {}", name));
+}
+
+void TextureManager::Unload() {
+    for (auto itr = textures_.begin(); itr != textures_.end(); ){
+        itr->second.resource->Release();
+        itr->second.intermediateResource->Release();
+
+        itr = textures_.erase(itr);
+    }
+    textures_.clear();
 }
 
 const DirectX::TexMetadata& TextureManager::GetTextureMetadata(const std::string& fileName) const {
