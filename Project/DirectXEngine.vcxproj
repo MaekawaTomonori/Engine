@@ -43,6 +43,7 @@
     <ClCompile Include="src\sysFrame\System\Input\Input.cpp" />
     <ClCompile Include="src\sysFrame\System\Log\Log.cpp" />
     <ClCompile Include="src\sysFrame\System\Math\MathUtils.cpp" />
+    <ClCompile Include="src\sysFrame\System\Math\Vector3.cpp" />
     <ClCompile Include="src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.cpp" />
     <ClCompile Include="src\sysFrame\System\System.cpp" />
     <ClCompile Include="src\sysFrame\System\Window\Window.cpp" />

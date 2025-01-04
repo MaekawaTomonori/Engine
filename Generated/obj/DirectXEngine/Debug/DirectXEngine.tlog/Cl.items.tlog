@@ -30,6 +30,7 @@ C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\DirectX\Shader\Shader.c
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\Input\Input.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Input.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\Log\Log.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Log.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\Math\MathUtils.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\MathUtils.obj
+C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\Math\Vector3.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Vector3.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\SingletonFinalizer.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\System.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\System.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\Window\Window.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Window.obj
