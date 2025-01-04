@@ -4,9 +4,11 @@
 
 
 void EngineDebug::Initialize() {
-    Loader::LoadTexture("uvChecker.png");
+    Loader::Texture("uvChecker.png");
     //Loader::LoadTexture("MonsterBall.png");
     //Loader::LoadTexture("circle.png");
+
+    Loader::Model("plane");
 
     sprite_ = std::make_unique<Sprite>();
     sprite_->SetTexture("uvChecker.png");

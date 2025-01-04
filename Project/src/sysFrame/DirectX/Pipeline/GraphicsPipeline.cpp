@@ -7,7 +7,7 @@
 #include "DirectX/Heap/Heap.h"
 #include "System/System.h"
 
-void GraphicsPipeline::Create(std::weak_ptr<DirectXCommon> dxCommon, Type type) {
+void GraphicsPipeline::Create(const std::weak_ptr<DirectXCommon>& dxCommon, Type type) {
     dxCommon_ = dxCommon;
     type_ = type;
 
@@ -84,11 +84,11 @@ void GraphicsPipeline::CreateRootSignature() {
 
     switch(type_){
 	case Type::MODEL:
-	case Type::SPRITE:
         rootParameters_.resize(7);
+        break;
+	case Type::SPRITE:
+        rootParameters_.resize(3);
 		break;
-        //rootParameters_.resize();
-		//break;
 	case Type::PARTICLE:
         rootParameters_.resize(3);
 		break;
@@ -117,7 +117,7 @@ void GraphicsPipeline::CreateRootSignature() {
     rootParameters_[2].DescriptorTable.pDescriptorRanges = descriptorRange_;
     rootParameters_[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_);
 
-    if (type_ != Type::PARTICLE){
+    if (type_ == Type::MODEL){
         //DirectionalLight
         rootParameters_[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
         rootParameters_[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;

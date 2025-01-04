@@ -9,7 +9,6 @@
 
 class DirectXCommon;
 
-
 class WorldTransform{
     //借り物
     std::weak_ptr<DirectXCommon> dxCommon_;
