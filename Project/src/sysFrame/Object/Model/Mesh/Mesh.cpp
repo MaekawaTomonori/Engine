@@ -8,6 +8,7 @@
 #include "DirectX/Texture/TextureManager.h"
 #include "MeshCommon.h"
 #include "imgui/imgui.h"
+#include "System/System.h"
 
 
 Mesh::MaterialData Mesh::LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& fileName) {
@@ -103,6 +104,9 @@ Mesh::ModelData Mesh::LoadObjFile(const std::string& directoryPath, const std::s
             s >> materialFileName;
 
             modelData.material = LoadMaterialTemplateFile(dir, materialFileName);
+        }else{
+            System::Log(Log::Level::ERR, "Unknown Identifier");
+            assert(0);
         }
     }
 
