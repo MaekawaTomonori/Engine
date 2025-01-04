@@ -45,6 +45,7 @@
     <ClCompile Include="src\sysFrame\System\Math\MathUtils.cpp" />
     <ClCompile Include="src\sysFrame\System\Math\Vector3.cpp" />
     <ClCompile Include="src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.cpp" />
+    <ClCompile Include="src\sysFrame\System\Sound\Audio.cpp" />
     <ClCompile Include="src\sysFrame\System\System.cpp" />
     <ClCompile Include="src\sysFrame\System\Window\Window.cpp" />
     <ClCompile Include="src\sysFrame\System\Math\WorldTransform.cpp" />
@@ -94,6 +95,7 @@
     <ClInclude Include="src\sysFrame\System\Math\Vector3.h" />
     <ClInclude Include="src\sysFrame\System\Math\Vector4.h" />
     <ClInclude Include="src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.h" />
+    <ClInclude Include="src\sysFrame\System\Sound\Audio.h" />
     <ClInclude Include="src\sysFrame\System\System.h" />
     <ClInclude Include="src\sysFrame\System\Window\Window.h" />
     <ClInclude Include="src\sysFrame\System\Math\VertexData.h" />

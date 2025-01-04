@@ -11,6 +11,8 @@ void EngineDebug::Initialize() {
 
     Loader::Model("plane");
 
+    Loader::Audio("Alarm01.wav");
+
     sprite_ = std::make_unique<Sprite>();
     sprite_->SetTexture("uvChecker.png");
     sprite_->Initialize();

@@ -1,27 +1,29 @@
-[01/04/25-18:33][Thread:41104] [info]: LogSystem Enabled
-[01/04/25-18:33][Thread:41104] [info]: Logger Enabled
-[01/04/25-18:33][Thread:41104] [info]: TextureManager Enabled
-[01/04/25-18:33][Thread:41104] [info]: Window Created
-[01/04/25-18:33][Thread:41104] [info]: WinApp Enabled
-[01/04/25-18:33][Thread:41104] [info]: SRVManager Enabled
-[01/04/25-18:33][Thread:41104] [info]: TextureManager Initialized
-[01/04/25-18:33][Thread:41104] [info]: ModelManager Enabled
-[01/04/25-18:33][Thread:41104] [info]: Begin CompileShader, Path : Sprite.VS.hlsl, Profile : vs_6_0
-[01/04/25-18:33][Thread:41104] [info]: Compile Succeed, Path : Sprite.VS.hlsl, Profile : vs_6_0
-[01/04/25-18:33][Thread:41104] [info]: Begin CompileShader, Path : Sprite.PS.hlsl, Profile : ps_6_0
-[01/04/25-18:33][Thread:41104] [info]: Compile Succeed, Path : Sprite.PS.hlsl, Profile : ps_6_0
-[01/04/25-18:33][Thread:41104] [info]: SpriteCommon Enabled
-[01/04/25-18:33][Thread:41104] [info]: Begin CompileShader, Path : Model.VS.hlsl, Profile : vs_6_0
-[01/04/25-18:33][Thread:41104] [info]: Compile Succeed, Path : Model.VS.hlsl, Profile : vs_6_0
-[01/04/25-18:33][Thread:41104] [info]: Begin CompileShader, Path : Model.PS.hlsl, Profile : ps_6_0
-[01/04/25-18:33][Thread:41104] [info]: Compile Succeed, Path : Model.PS.hlsl, Profile : ps_6_0
-[01/04/25-18:33][Thread:41104] [info]: ModelCommon Initialized
-[01/04/25-18:33][Thread:41104] [info]: Light Enabled
-[01/04/25-18:33][Thread:41104] [info]: TextureManager::Load: uvChecker.png
-[01/04/25-18:33][Thread:41104] [info]: TextureManager::Load: plane/uvChecker.png
-[01/04/25-18:33][Thread:41104] [info]: Model Loaded:plane
-[01/04/25-18:34][Thread:41104] [info]: Light Disabled
-[01/04/25-18:34][Thread:41104] [info]: ModelCommon Finalized
-[01/04/25-18:34][Thread:41104] [info]: SpriteCommon Disabled
-[01/04/25-18:34][Thread:41104] [info]: ModelManager Disabled
-[01/04/25-18:34][Thread:41104] [info]: TextureManager Disabled
+[01/04/25-19:15][Thread:41972] [info]: LogSystem Enabled
+[01/04/25-19:15][Thread:41972] [info]: Logger Enabled
+[01/04/25-19:15][Thread:41972] [info]: TextureManager Enabled
+[01/04/25-19:15][Thread:41972] [info]: Window Created
+[01/04/25-19:15][Thread:41972] [info]: WinApp Enabled
+[01/04/25-19:15][Thread:41972] [info]: SRVManager Enabled
+[01/04/25-19:15][Thread:41972] [info]: Audio Enable
+[01/04/25-19:15][Thread:41972] [info]: TextureManager Initialized
+[01/04/25-19:15][Thread:41972] [info]: ModelManager Enabled
+[01/04/25-19:15][Thread:41972] [info]: Begin CompileShader, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[01/04/25-19:15][Thread:41972] [info]: Compile Succeed, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[01/04/25-19:15][Thread:41972] [info]: Begin CompileShader, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[01/04/25-19:15][Thread:41972] [info]: Compile Succeed, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[01/04/25-19:15][Thread:41972] [info]: SpriteCommon Enabled
+[01/04/25-19:15][Thread:41972] [info]: Begin CompileShader, Path : Model.VS.hlsl, Profile : vs_6_0
+[01/04/25-19:15][Thread:41972] [info]: Compile Succeed, Path : Model.VS.hlsl, Profile : vs_6_0
+[01/04/25-19:15][Thread:41972] [info]: Begin CompileShader, Path : Model.PS.hlsl, Profile : ps_6_0
+[01/04/25-19:15][Thread:41972] [info]: Compile Succeed, Path : Model.PS.hlsl, Profile : ps_6_0
+[01/04/25-19:15][Thread:41972] [info]: ModelCommon Initialized
+[01/04/25-19:15][Thread:41972] [info]: Light Enabled
+[01/04/25-19:15][Thread:41972] [info]: TextureManager::Load: uvChecker.png
+[01/04/25-19:15][Thread:41972] [info]: TextureManager::Load: plane/uvChecker.png
+[01/04/25-19:15][Thread:41972] [info]: Model Loaded:plane
+[01/04/25-19:15][Thread:41972] [info]: Light Disabled
+[01/04/25-19:15][Thread:41972] [info]: ModelCommon Finalized
+[01/04/25-19:15][Thread:41972] [info]: SpriteCommon Disabled
+[01/04/25-19:15][Thread:41972] [info]: ModelManager Disabled
+[01/04/25-19:15][Thread:41972] [info]: TextureManager Disabled
+[01/04/25-19:15][Thread:41972] [info]: Audio Disable

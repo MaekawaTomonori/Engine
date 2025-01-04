@@ -7,6 +7,7 @@
 #include "System/Log/Log.h"
 
 #include "EngineDebug.h"
+#include "System/Sound/Audio.h"
 
 class LightManager;
 class SRVManager;
@@ -27,6 +28,7 @@ class Engine{
 	std::shared_ptr<ImGuiManager> imguiManager_;
 
     Log* logger_ = nullptr;
+    Audio* audio_ = nullptr;
     TextureManager* textureManager_ = nullptr;
     ModelManager* modelManager_ = nullptr;
     SpriteCommon* spriteCommon_ = nullptr;

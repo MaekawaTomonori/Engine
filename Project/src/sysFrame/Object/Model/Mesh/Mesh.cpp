@@ -104,9 +104,6 @@ Mesh::ModelData Mesh::LoadObjFile(const std::string& directoryPath, const std::s
             s >> materialFileName;
 
             modelData.material = LoadMaterialTemplateFile(dir, materialFileName);
-        }else{
-            System::Log(Log::Level::ERR, "Unknown Identifier");
-            assert(0);
         }
     }
 
