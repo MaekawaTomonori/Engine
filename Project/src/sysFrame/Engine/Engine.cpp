@@ -5,6 +5,7 @@
 #include "Application/WinApp.h"
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/SRVManager.h"
+#include "DirectX/Lighting/LightManager.h"
 #include "DirectX/Model/ModelManager.h"
 #include "DirectX/Texture/TextureManager.h"
 #include "Object/Model/ModelCommon.h"
@@ -25,6 +26,7 @@ void Engine::Initialize() {
     modelManager_ = ModelManager::GetInstance();
     spriteCommon_ = SpriteCommon::GetInstance();
     modelCommon_ = ModelCommon::GetInstance();
+    light_ = LightManager::GetInstance();
 
 	defaultCamera_ = std::make_shared<Camera>();
 
@@ -37,6 +39,7 @@ void Engine::Initialize() {
     modelManager_->Initialize(dxCommon_);
     spriteCommon_->Initialize(dxCommon_);
     modelCommon_->Initialize(dxCommon_);
+    light_->Initialize(dxCommon_);
 
     defaultCamera_->Initialize();
 
@@ -48,7 +51,7 @@ void Engine::Initialize() {
 
 void Engine::Update() const {
     imguiManager_->Begin();
-
+    light_->Update();
     defaultCamera_->Update();
 
     if (engineDebug_){
@@ -57,9 +60,10 @@ void Engine::Update() const {
 }
 
 void Engine::Draw() const {
+    //Draw
 	imguiManager_->End();
     srvManager_->PreDraw();
-    //Draw
+    //light_->Draw();
     dxCommon_->PreDraw();
 
     if(engineDebug_){

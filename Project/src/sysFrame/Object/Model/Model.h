@@ -2,7 +2,7 @@
 #include <memory>
 #include <string>
 
-#include "DirectX/Model/ModelManager.h"
+#include "ModelCommon.h"
 #include "Object/Camera/Camera.h"
 #include "System/Math/WorldTransform.h"
 
@@ -34,7 +34,7 @@ private:
     CameraForGPU* cameraForGPU_ = nullptr;
 
 public:
-	Model(ModelCommon* modelCommon) :modelCommon_(modelCommon) {
+	Model() :modelCommon_(ModelCommon::GetInstance()) {
         UUID uuid;
         UuidCreate(&uuid);
         RPC_CSTR szUuid = nullptr;

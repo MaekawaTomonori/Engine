@@ -2,6 +2,7 @@
 
 #include "ModelCommon.h"
 #include "DirectX/DirectXCommon.h"
+#include "DirectX/Model/ModelManager.h"
 #include "Engine/Engine.h"
 #include "Mesh/Mesh.h"
 
@@ -12,7 +13,7 @@ void Model::Initialize() {
     commandList_ = dxCommon_.lock()->GetCommandList();
 
     worldTransform_ = std::make_unique<WorldTransform>(dxCommon_);
-    worldTransform_->Initialize();
+    worldTransform_->Initialize(WorldTransform::Type::MODEL);
 
     camera_ = Engine::GetDefaultCamera();
 
