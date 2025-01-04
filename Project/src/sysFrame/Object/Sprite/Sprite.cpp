@@ -66,7 +66,7 @@ void Sprite::Initialize() {
     material_->enableLight = false;
 
     worldTransform_ = std::make_shared<WorldTransform>(dxCommon_);
-    worldTransform_->Initialize();
+    worldTransform_->Initialize(WorldTransform::Type::SPRITE);
     worldTransform_->scale = {1,1,1};
     worldTransform_->rotate = {0, 0, 0};
     worldTransform_->translate = {0, 0, 0};

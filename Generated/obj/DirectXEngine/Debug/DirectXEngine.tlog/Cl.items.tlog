@@ -1,3 +1,9 @@
+C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\DirectX\Lighting\LightManager.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\LightManager.obj
+C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\DirectX\Model\ModelManager.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\ModelManager.obj
+C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\Object\Model\Mesh\Mesh.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Mesh.obj
+C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\Object\Model\Mesh\MeshCommon.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\MeshCommon.obj
+C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\Object\Model\Model.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Model.obj
+C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\Object\Model\ModelCommon.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\ModelCommon.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\Object\Sprite\Sprite.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Sprite.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\Object\Sprite\SpriteCommon.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\SpriteCommon.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\Loader.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Loader.obj
@@ -24,6 +30,7 @@ C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\DirectX\Shader\Shader.c
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\Input\Input.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Input.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\Log\Log.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Log.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\Math\MathUtils.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\MathUtils.obj
+C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\Math\Vector3.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Vector3.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\SingletonFinalizer.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\System.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\System.obj
 C:\Users\tomo-\source\repos\GE3\GE3\Project\src\sysFrame\System\Window\Window.cpp;C:\Users\tomo-\source\repos\GE3\GE3\Generated\obj\DirectXEngine\Debug\Window.obj

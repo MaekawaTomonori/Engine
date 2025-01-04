@@ -8,9 +8,12 @@
 
 #include "EngineDebug.h"
 
+class LightManager;
 class SRVManager;
-class SpriteCommon;
 class TextureManager;
+class ModelManager;
+class SpriteCommon;
+class ModelCommon;
 
 class Engine{
 
@@ -25,7 +28,10 @@ class Engine{
 
     Log* logger_ = nullptr;
     TextureManager* textureManager_ = nullptr;
+    ModelManager* modelManager_ = nullptr;
     SpriteCommon* spriteCommon_ = nullptr;
+    ModelCommon* modelCommon_ = nullptr;
+    LightManager* light_ = nullptr;
 
     static std::shared_ptr<Camera> defaultCamera_;
 

@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include <d3d12.h>
-#include <dxcapi.h>
 #include <memory>
 #include <vector>
 #include <wrl/client.h>
@@ -27,7 +26,7 @@ public:
 		PARTICLE,
 	};
 
-	void Create(std::weak_ptr<DirectXCommon> dxCommon, Type type);
+	void Create(const std::weak_ptr<DirectXCommon>& dxCommon, Type type);
 
 	void DrawCall(const Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& commandList) const;
 
