@@ -23,6 +23,7 @@ void SceneManager::Update() {
         scene_->SetManager(this);
         scene_->Initialize();
     }
+    scene_->Update();
 }
 
 void SceneManager::Draw() const {
