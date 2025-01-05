@@ -28,7 +28,7 @@ private: //Variables
     std::weak_ptr<DirectXCommon> dxCommon_;
     SRVManager* srvManager_ = nullptr;
 
-	std::string folderPath_ = "Assets/Resources/";
+	std::string folderPath_ = "assets/Resources/";
 
     std::unordered_map<std::string, Texture> textures_;
 
