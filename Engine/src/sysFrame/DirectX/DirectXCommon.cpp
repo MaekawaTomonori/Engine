@@ -12,7 +12,7 @@
 #pragma comment(lib, "dxgi.lib")
 
 bool DirectXCommon::Initialize(const WinApp* winApp) {
-    CoInitializeEx(0, COINIT_MULTITHREADED);
+    CoInitializeEx(nullptr, COINIT_MULTITHREADED);
     CreateDebugLayer();
     CreateFactory();
     CreateDevice();
@@ -23,7 +23,7 @@ bool DirectXCommon::Initialize(const WinApp* winApp) {
     CreateDepthStencilView();
     InitializeFixFPS();
 
-    System::Log(/*Log::Level::INFO, */"DirectXCommon Enabled");
+    System::Log(Log::Level::INFO, "DirectXCommon Enabled");
 
     return true;
 }

@@ -6,13 +6,15 @@ void Framework::Run() {
 	engine = std::make_unique<Engine>();
     engine->Initialize();
 
+    scene_ = std::make_unique<SceneManager>();
+
     /*
      * Enable EngineDebugMode
      * エンジンの動作を確認するためのデバッグモードを有効にします
-     * 通常の動作をさせる場合はコメントアウトしてください
      * デバッグモード有効時、ゲームの処理が呼び出されません
+     * 有効になっている場合はコメントアウトもしくは削除してください
      */
-    engine->EnableDebug();
+	//engine->EnableDebug();
 
 	Initialize();
     
@@ -23,16 +25,18 @@ void Framework::Run() {
 
         if (!engine->IsDebug()){
             Update();
+            scene_->Update();
         }
 
         engine->Draw();
         if (!engine->IsDebug()){
             Draw();
+            scene_->Draw();
         }
 
         engine->EndFrame();
     }
 
     Finalize();
-    engine->Finalize();
+	engine->Finalize();
 }

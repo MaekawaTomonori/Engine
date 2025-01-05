@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "Game/Game.h"
 
 #include "DirectX/Util/D3DResourceLeakChecker.h"
 
