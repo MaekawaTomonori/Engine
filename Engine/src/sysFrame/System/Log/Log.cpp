@@ -3,6 +3,7 @@
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/msvc_sink.h"
+#include "System/File/File.h"
 #include "System/SingletonFinalizer/SingletonFinalizer.h"
 
 Log* Log::instance_ = nullptr;
@@ -36,7 +37,7 @@ void Log::Initialize() {
 
     spdlog::set_level(spdlog::level::debug);
 
-    spdlog::set_pattern("[%D-%R][Thread:%t] [%l]: %v");
+    spdlog::set_pattern("[%D-%R][Thread:%t][%l]:%v");
 
     spdlog::info("LogSystem Enabled");
 }
