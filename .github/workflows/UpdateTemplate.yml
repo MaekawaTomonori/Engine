@@ -1,0 +1,24 @@
+name: Update from Template
+
+on:
+  schedule:
+    - cron: '0 0 * * *' 
+  workflow_dispatch:
+  push:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Add template remote
+        run: |
+          git remote add template https://github.com/MaekawaTomonori/Engine.git
+          git fetch template
+          git merge template/dev --no-commit || true
+
+      - name: Push changes
+        run: |
+          git push origin main
