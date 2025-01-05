@@ -27,7 +27,7 @@ void EngineDebug::Update() {
     model_->Update();
 }
 
-void EngineDebug::Draw() {
+void EngineDebug::Draw() const {
     sprite_->Draw();
     model_->Draw();
 }
@@ -36,4 +36,3 @@ void EngineDebug::Finalize() {
     sprite_.reset();
     model_.reset();
 }
-

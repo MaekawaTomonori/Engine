@@ -41,7 +41,7 @@ class Engine{
 
     static std::shared_ptr<Camera> defaultCamera_;
 
-    const bool engineDebug_ = true;
+    bool engineDebug_ = false;
     std::shared_ptr<EngineDebug> debugScene_;
 
 public:
@@ -49,11 +49,14 @@ public:
     void Update() const;
     void Draw() const;
     void EndFrame() const;
-    void Finalize();
+    void Finalize() const;
 
     bool IsActive() const;
 
-    static Camera* GetDefaultCamera() {
+    void EnableDebug();
+    bool IsDebug() const;
+
+	static Camera* GetDefaultCamera() {
         return defaultCamera_.get();
     }
 };

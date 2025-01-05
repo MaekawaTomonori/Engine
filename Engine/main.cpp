@@ -1,24 +1,13 @@
-#include <Windows.h>
-#include <memory>
+#include "Game.h"
 
 #include "DirectX/Util/D3DResourceLeakChecker.h"
-#include "Engine/Engine.h"
-
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+    //念のためのリークチェッカー
     D3DResourceLeakChecker lc;
-    std::unique_ptr<Engine> engine = std::make_unique<Engine>();
-    engine->Initialize();
+    std::unique_ptr<Framework> fw = std::make_unique<Game>();
 
-    //MainLoop
-    while (engine->IsActive()){
-        //Update
-        engine->Update();
-        engine->Draw();
-        engine->EndFrame();
-    }
-
-    engine->Finalize();
+    fw->Run();
 
 	return 0;
 }

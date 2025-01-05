@@ -11,6 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sysFrame\System\File\File.cpp" />
+    <ClCompile Include="src\sysFrame\Framework\Framework.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Lighting\LightManager.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Model\ModelManager.cpp" />
     <ClCompile Include="src\sysFrame\Object\Model\Mesh\Mesh.cpp" />
@@ -51,6 +53,9 @@
     <ClCompile Include="src\sysFrame\System\Math\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sysFrame\System\File\File.h" />
+    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\sysFrame\Framework\Framework.h" />
     <ClInclude Include="src\sysFrame\DirectX\Lighting\LightManager.h" />
     <ClInclude Include="src\sysFrame\DirectX\Model\ModelManager.h" />
     <ClInclude Include="src\sysFrame\Object\Light\DirectionalLight\DirectionalLight.h" />
