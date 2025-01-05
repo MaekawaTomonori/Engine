@@ -3,7 +3,6 @@
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/msvc_sink.h"
-#include "System/File/File.h"
 #include "System/SingletonFinalizer/SingletonFinalizer.h"
 
 Log* Log::instance_ = nullptr;
