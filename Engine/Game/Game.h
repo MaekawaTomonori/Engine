@@ -2,6 +2,8 @@
 #include "Framework/Framework.h"
 #include "System/System.h"
 
+#include "SceneFactory.h"
+
 class Game final : public Framework{
 protected:
 	void Initialize() override;
@@ -12,6 +14,8 @@ protected:
 
 inline void Game::Initialize() {
 	System::Log("Game Init");
+	scene_->SetFactory(std::make_unique<SceneFactory>());
+	scene_->ChangeScene("Play");
 }
 
 inline void Game::Update() {

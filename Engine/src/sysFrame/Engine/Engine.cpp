@@ -80,7 +80,9 @@ void Engine::EndFrame() const {
 }
 
 void Engine::Finalize() const {
-    debugScene_->Finalize();
+    if (engineDebug_){
+        debugScene_->Finalize();
+    }
     defaultCamera_.reset();
 
     SingletonFinalizer::Finalize();
@@ -103,7 +105,7 @@ void Engine::EnableDebug() {
 	System::Log(Log::Level::INFO, "DebugMode Enabled");
     return;
 #endif
-    System::Log(Log::Level::ERR, "Request Cancelled!\nDebugMode is not available in Release Build.");
+    //System::Log(Log::Level::ERR, "Request Cancelled!\nDebugMode is not available in Release Build.");
 }
 
 bool Engine::IsDebug() const {

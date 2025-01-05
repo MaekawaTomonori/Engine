@@ -11,6 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game\GameScene.cpp" />
+    <ClCompile Include="Game\SceneFactory.cpp" />
+    <ClCompile Include="src\sysFrame\Scene\AbstractSceneFactory.cpp" />
+    <ClCompile Include="src\sysFrame\Scene\SceneManager.cpp" />
+    <ClCompile Include="src\sysFrame\Scene\BaseScene.cpp" />
     <ClCompile Include="src\sysFrame\System\File\File.cpp" />
     <ClCompile Include="src\sysFrame\Framework\Framework.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Lighting\LightManager.cpp" />
@@ -53,8 +58,13 @@
     <ClCompile Include="src\sysFrame\System\Math\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\GameScene.h" />
+    <ClInclude Include="Game\SceneFactory.h" />
+    <ClInclude Include="src\sysFrame\Scene\AbstractSceneFactory.h" />
+    <ClInclude Include="src\sysFrame\Scene\SceneManager.h" />
+    <ClInclude Include="src\sysFrame\Scene\BaseScene.h" />
     <ClInclude Include="src\sysFrame\System\File\File.h" />
-    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="Game\Game.h" />
     <ClInclude Include="src\sysFrame\Framework\Framework.h" />
     <ClInclude Include="src\sysFrame\DirectX\Lighting\LightManager.h" />
     <ClInclude Include="src\sysFrame\DirectX\Model\ModelManager.h" />
