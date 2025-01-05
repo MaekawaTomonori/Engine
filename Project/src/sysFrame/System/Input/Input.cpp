@@ -4,9 +4,13 @@
 
 #include "System/System.h"
 #include "Application/WinApp.h"
+#include "System/SingletonFinalizer/SingletonFinalizer.h"
 
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
+
+Input* Input::instance = nullptr;
+std::once_flag Input::flag;
 
 void Input::Initialize(const WinApp* winApp) {
     System::Log(Log::Level::INFO, "Input Enabled");
@@ -32,10 +36,6 @@ void Input::Update() {
     keyboard->GetDeviceState(sizeof(keyState), keyState);
 }
 
-void Input::Finalize() {
-    System::Log(Log::Level::INFO, "Input Disabled");
-}
-
 bool Input::PushKey(BYTE key) const {
     return keyState[key];
 }
@@ -46,4 +46,21 @@ bool Input::TriggerKey(BYTE key) const {
 
 bool Input::ReleaseKey(BYTE key) const {
     return !keyState[key] && preKey[key];
+}
+
+Input* Input::GetInstance() {
+    std::call_once(flag, Create);
+    assert(instance);
+    return instance;
+}
+
+void Input::Create() {
+    instance = new Input();
+    SingletonFinalizer::AddFinalizer(&Destroy);
+}
+
+void Input::Destroy() {
+    delete instance;
+    instance = nullptr;
+    System::Log(Log::Level::INFO, "Input Disabled");
 }

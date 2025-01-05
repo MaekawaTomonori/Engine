@@ -22,6 +22,7 @@ void Engine::Initialize() {
     srvManager_ = std::make_shared<SRVManager>();
 	imguiManager_ = std::make_shared<ImGuiManager>(winApp_.get(), dxCommon_.get());
 
+    input_ = Input::GetInstance();
     audio_ = Audio::GetInstance();
 
     textureManager_ = TextureManager::GetInstance();
@@ -39,6 +40,7 @@ void Engine::Initialize() {
 
     audio_->Initialize();
 
+    input_->Initialize(winApp_.get());
     textureManager_->Initialize(dxCommon_, srvManager_.get());
     modelManager_->Initialize(dxCommon_);
     spriteCommon_->Initialize(dxCommon_);
@@ -54,6 +56,7 @@ void Engine::Initialize() {
 }
 
 void Engine::Update() const {
+    input_->Update();
     imguiManager_->Begin();
     light_->Update();
     defaultCamera_->Update();
