@@ -2,7 +2,7 @@
 #include "Engine/Engine.h"
 
 class Framework{
-protected:
+private:
 	std::unique_ptr<Engine> engine;
 
 protected:
