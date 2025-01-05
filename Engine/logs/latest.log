@@ -1,31 +1,43 @@
-[01/05/25-16:37][Thread:31048] [info]: LogSystem Enabled
-[01/05/25-16:37][Thread:31048] [info]: Logger Enabled
-[01/05/25-16:37][Thread:31048] [info]: TextureManager Enabled
-[01/05/25-16:38][Thread:31048] [info]: Window Created
-[01/05/25-16:38][Thread:31048] [info]: WinApp Enabled
-[01/05/25-16:38][Thread:31048] [info]: SRVManager Enabled
-[01/05/25-16:38][Thread:31048] [info]: Audio Enable
-[01/05/25-16:38][Thread:31048] [info]: Input Enabled
-[01/05/25-16:38][Thread:31048] [info]: TextureManager Initialized
-[01/05/25-16:38][Thread:31048] [info]: ModelManager Enabled
-[01/05/25-16:38][Thread:31048] [info]: Begin CompileShader, Path : Sprite.VS.hlsl, Profile : vs_6_0
-[01/05/25-16:38][Thread:31048] [info]: Compile Succeed, Path : Sprite.VS.hlsl, Profile : vs_6_0
-[01/05/25-16:38][Thread:31048] [info]: Begin CompileShader, Path : Sprite.PS.hlsl, Profile : ps_6_0
-[01/05/25-16:38][Thread:31048] [info]: Compile Succeed, Path : Sprite.PS.hlsl, Profile : ps_6_0
-[01/05/25-16:38][Thread:31048] [info]: SpriteCommon Enabled
-[01/05/25-16:38][Thread:31048] [info]: Begin CompileShader, Path : Model.VS.hlsl, Profile : vs_6_0
-[01/05/25-16:38][Thread:31048] [info]: Compile Succeed, Path : Model.VS.hlsl, Profile : vs_6_0
-[01/05/25-16:38][Thread:31048] [info]: Begin CompileShader, Path : Model.PS.hlsl, Profile : ps_6_0
-[01/05/25-16:38][Thread:31048] [info]: Compile Succeed, Path : Model.PS.hlsl, Profile : ps_6_0
-[01/05/25-16:38][Thread:31048] [info]: ModelCommon Initialized
-[01/05/25-16:38][Thread:31048] [info]: Light Enabled
-[01/05/25-16:38][Thread:31048] [info]: TextureManager::Load: uvChecker.png
-[01/05/25-16:38][Thread:31048] [info]: TextureManager::Load: plane/uvChecker.png
-[01/05/25-16:38][Thread:31048] [info]: Model Loaded:plane
-[01/05/25-16:38][Thread:31048] [info]: Light Disabled
-[01/05/25-16:38][Thread:31048] [info]: ModelCommon Finalized
-[01/05/25-16:38][Thread:31048] [info]: SpriteCommon Disabled
-[01/05/25-16:38][Thread:31048] [info]: ModelManager Disabled
-[01/05/25-16:38][Thread:31048] [info]: TextureManager Disabled
-[01/05/25-16:38][Thread:31048] [info]: Audio Disable
-[01/05/25-16:38][Thread:31048] [info]: Input Disabled
+[01/05/25-17:47][Thread:27004] [info]: LogSystem Enabled
+[01/05/25-17:47][Thread:27004] [info]: Logger Enabled
+[01/05/25-17:47][Thread:27004] [info]: TextureManager Enabled
+[01/05/25-17:47][Thread:27004] [info]: Window Created
+[01/05/25-17:47][Thread:27004] [info]: WinApp Enabled
+[01/05/25-17:47][Thread:27004] [debug]: Use Adapter:NVIDIA GeForce RTX 3060 Laptop GPU
+[01/05/25-17:47][Thread:27004] [debug]: FeatureLevel : 12.2
+[01/05/25-17:47][Thread:27004] [debug]: Complete creation!
+[01/05/25-17:47][Thread:27004] [debug]: CommandAllocator Created
+[01/05/25-17:47][Thread:27004] [debug]: CommandList Created
+[01/05/25-17:47][Thread:27004] [debug]: CommandQueue Created
+[01/05/25-17:47][Thread:27004] [debug]: SwapChain Created
+[01/05/25-17:47][Thread:27004] [debug]: DepthStencilView Created
+[01/05/25-17:47][Thread:27004] [debug]: DirectXCommon Enabled
+[01/05/25-17:47][Thread:27004] [info]: SRVManager Enabled
+[01/05/25-17:47][Thread:27004] [info]: Audio Enable
+[01/05/25-17:47][Thread:27004] [info]: Input Enabled
+[01/05/25-17:47][Thread:27004] [info]: TextureManager Initialized
+[01/05/25-17:47][Thread:27004] [info]: ModelManager Enabled
+[01/05/25-17:47][Thread:27004] [info]: Begin CompileShader, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[01/05/25-17:47][Thread:27004] [info]: Compile Succeed, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[01/05/25-17:47][Thread:27004] [info]: Begin CompileShader, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[01/05/25-17:47][Thread:27004] [info]: Compile Succeed, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[01/05/25-17:47][Thread:27004] [info]: SpriteCommon Enabled
+[01/05/25-17:47][Thread:27004] [info]: Begin CompileShader, Path : Model.VS.hlsl, Profile : vs_6_0
+[01/05/25-17:47][Thread:27004] [info]: Compile Succeed, Path : Model.VS.hlsl, Profile : vs_6_0
+[01/05/25-17:47][Thread:27004] [info]: Begin CompileShader, Path : Model.PS.hlsl, Profile : ps_6_0
+[01/05/25-17:47][Thread:27004] [info]: Compile Succeed, Path : Model.PS.hlsl, Profile : ps_6_0
+[01/05/25-17:47][Thread:27004] [info]: ModelCommon Initialized
+[01/05/25-17:47][Thread:27004] [info]: Light Enabled
+[01/05/25-17:47][Thread:27004] [info]: TextureManager::Load: uvChecker.png
+[01/05/25-17:47][Thread:27004] [info]: TextureManager::Load: plane/uvChecker.png
+[01/05/25-17:47][Thread:27004] [info]: Model Loaded:plane
+[01/05/25-17:47][Thread:27004] [info]: DebugMode Enabled
+[01/05/25-17:47][Thread:27004] [debug]: Game Init
+[01/05/25-17:47][Thread:27004] [debug]: Game Finalize
+[01/05/25-17:47][Thread:27004] [info]: Light Disabled
+[01/05/25-17:47][Thread:27004] [info]: ModelCommon Finalized
+[01/05/25-17:47][Thread:27004] [info]: SpriteCommon Disabled
+[01/05/25-17:47][Thread:27004] [info]: ModelManager Disabled
+[01/05/25-17:47][Thread:27004] [info]: TextureManager Disabled
+[01/05/25-17:47][Thread:27004] [info]: Audio Disable
+[01/05/25-17:47][Thread:27004] [info]: Input Disabled

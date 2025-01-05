@@ -8,7 +8,7 @@ class EngineDebug{
 public:
 	void Initialize();
 	void Update();
-	void Draw();
+	void Draw() const;
 	void Finalize();
 };
 

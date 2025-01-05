@@ -10,6 +10,7 @@
 #include "DirectX/Texture/TextureManager.h"
 #include "Object/Model/ModelCommon.h"
 #include "Object/Sprite/SpriteCommon.h"
+#include "System/System.h"
 #include "System/SingletonFinalizer/SingletonFinalizer.h"
 
 std::shared_ptr<Camera> Engine::defaultCamera_ = nullptr;
@@ -48,11 +49,6 @@ void Engine::Initialize() {
     light_->Initialize(dxCommon_);
 
     defaultCamera_->Initialize();
-
-    if (engineDebug_){
-        debugScene_ = std::make_shared<EngineDebug>();
-        debugScene_->Initialize();
-    }
 }
 
 void Engine::Update() const {
@@ -83,7 +79,7 @@ void Engine::EndFrame() const {
     dxCommon_->PostDraw();
 }
 
-void Engine::Finalize() {
+void Engine::Finalize() const {
     debugScene_->Finalize();
     defaultCamera_.reset();
 
@@ -95,4 +91,21 @@ void Engine::Finalize() {
 
 bool Engine::IsActive() const {
     return winApp_->ProcessMessage();
+}
+
+void Engine::EnableDebug() {
+#ifdef _DEBUG
+    engineDebug_ = true;
+
+    debugScene_ = std::make_shared<EngineDebug>();
+    debugScene_->Initialize();
+
+	System::Log(Log::Level::INFO, "DebugMode Enabled");
+    return;
+#endif
+    System::Log(Log::Level::ERR, "Request Cancelled!\nDebugMode is not available in Release Build.");
+}
+
+bool Engine::IsDebug() const {
+	return engineDebug_;
 }
