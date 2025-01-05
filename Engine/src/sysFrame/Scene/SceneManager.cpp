@@ -14,10 +14,12 @@ void SceneManager::Update() {
         if (scene_){
             scene_->Finalize();
             scene_.reset();
+            scene_ = nullptr;
         }
 
         scene_ = std::move(next_);
         next_.reset();
+        next_ = nullptr;
         scene_->SetManager(this);
         scene_->Initialize();
     }
