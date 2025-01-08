@@ -44,6 +44,7 @@ class Engine{
     bool engineDebug_ = false;
     std::shared_ptr<EngineDebug> debugScene_;
 
+    std::string title_ = "Engine";
 public:
 	void Initialize();
     void Update() const;
@@ -55,6 +56,10 @@ public:
 
     void EnableDebug();
     bool IsDebug() const;
+
+    void SetBackColor(const Vector4& color) const;
+
+    void SetTitle(const std::string& title);
 
 	static Camera* GetDefaultCamera() {
         return defaultCamera_.get();

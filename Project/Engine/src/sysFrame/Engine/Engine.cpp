@@ -34,7 +34,7 @@ void Engine::Initialize() {
 
 	defaultCamera_ = std::make_shared<Camera>();
 
-	winApp_->Initialize("Engine");
+	winApp_->Initialize(title_);
     dxCommon_->Initialize(winApp_.get());
     srvManager_->Initialize(dxCommon_.get());
     imguiManager_->Initialize(srvManager_.get());
@@ -55,9 +55,9 @@ void Engine::Update() const {
     input_->Update();
     imguiManager_->Begin();
     light_->Update();
-    defaultCamera_->Update();
 
     if (engineDebug_){
+	    defaultCamera_->Update();
         debugScene_->Update();
     }
 }
@@ -110,4 +110,12 @@ void Engine::EnableDebug() {
 
 bool Engine::IsDebug() const {
 	return engineDebug_;
+}
+
+void Engine::SetBackColor(const Vector4& color) const {
+    dxCommon_->SetBackColor(color);
+}
+
+void Engine::SetTitle(const std::string& title) {
+    title_ = title;
 }

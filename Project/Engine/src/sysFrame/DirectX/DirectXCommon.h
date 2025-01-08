@@ -7,6 +7,8 @@
 #include <wrl.h>
 #include <chrono>
 
+#include "System/Math/Vector4.h"
+
 class WinApp;
 class GraphicsPipeline;
 class Heap;
@@ -33,6 +35,9 @@ private://Variables
 	static constexpr size_t BACK_BUFFER_COUNT = 2;
 	ComPtr<IDXGISwapChain4> swapChain_ = nullptr;
 	std::array<ComPtr<ID3D12Resource>, BACK_BUFFER_COUNT> swapChainBuffers_;
+
+	//BackColor
+	Vector4 backColor_{};
 
 	//RenderTargetView
 	std::shared_ptr<Heap> rtvHeap_;
@@ -87,9 +92,13 @@ public://Methods
 		return BACK_BUFFER_COUNT;
 	}
 
-	void SetFPSLimit(double limit) {
+	void SetFPSLimit(const double& limit) {
         maxFPS = limit;
 	}
+
+    void SetBackColor(const Vector4& color) {
+        backColor_ = color;
+    }
 
 private://Methods
 

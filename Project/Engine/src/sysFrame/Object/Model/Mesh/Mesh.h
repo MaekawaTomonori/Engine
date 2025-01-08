@@ -45,6 +45,8 @@ private:
 
     VertexData* vertexData_ = nullptr;
 
+    std::string currentTexture_;
+
 	bool enableLight_ = true;
     LightType lightType = LightType::Directional;
 
@@ -56,6 +58,7 @@ public:
 
 	void Initialize(const std::string& directory, const std::string& name);
 	void Draw() const;
+    void Draw(const std::string& texture) const;
 
     void ImGuiAccess() const;
 

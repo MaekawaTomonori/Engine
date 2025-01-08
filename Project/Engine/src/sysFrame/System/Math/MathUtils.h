@@ -30,6 +30,9 @@ namespace MathUtils{
         return static_cast<Type>(Factorial(n) / Factorial(n - r));
     }
 
+    float Distance(const Vector3& a, const Vector3& b);
+    Vector3 TransformNormal(const Vector3& v, const Transform& t);
+
     namespace Matrix {
         Matrix3x3 MakeIdentity3x3();
 

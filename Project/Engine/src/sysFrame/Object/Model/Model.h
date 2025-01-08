@@ -8,7 +8,6 @@
 
 class DirectXCommon;
 class Mesh;
-class ModelCommon;
 
 class Model{
 private:
@@ -47,6 +46,7 @@ public:
     void Initialize();
     void Update() const;
     void Draw() const;
+    void Draw(const std::string& texture) const;
 
     void SetMesh(const std::string& name);
 
@@ -54,5 +54,9 @@ public:
         camera_ = camera;
         worldTransform_->SetCamera(camera_);
     }
+
+    void SetTransform(const Transform& transform) const;
+
+    void SetTexture(const std::string& name) const;
 };
 

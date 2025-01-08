@@ -137,6 +137,8 @@ void Mesh::Initialize(const std::string& directory, const std::string& name) {
     material_->shininess = 100;
 
     TextureManager::GetInstance()->Load(modelData_.material.texturePath);
+
+    currentTexture_ = modelData_.material.texturePath;
 }
 
 void Mesh::Draw() const {
@@ -144,6 +146,20 @@ void Mesh::Draw() const {
 	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView_);
     commandList_->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
     commandList_->SetGraphicsRootDescriptorTable(2, TextureManager::GetInstance()->GetGPUHandle(modelData_.material.texturePath));
+
+    if (enableLight_ && material_->enableLight){
+        LightManager::GetInstance()->Draw();
+    }
+
+    if (!enableDrawCall_)return;
+    commandList_->DrawInstanced(static_cast<UINT>(modelData_.vertices.size()), 1, 0, 0);
+}
+
+void Mesh::Draw(const std::string& texture) const {
+    commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    commandList_->IASetVertexBuffers(0, 1, &vertexBufferView_);
+    commandList_->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
+    commandList_->SetGraphicsRootDescriptorTable(2, TextureManager::GetInstance()->GetGPUHandle(texture));
 
     if (enableLight_ && material_->enableLight){
         LightManager::GetInstance()->Draw();
@@ -162,5 +178,5 @@ void Mesh::ImGuiAccess() const {
 }
 
 void Mesh::SetTexture(const std::string& name) {
-    modelData_.material.texturePath = name;
+    currentTexture_ = name;
 }
