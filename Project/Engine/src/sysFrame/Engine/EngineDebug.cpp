@@ -1,20 +1,19 @@
 #include "EngineDebug.h"
 
-#include "Object/Model/ModelCommon.h"
 #include "System/Loader.h"
 
 
 void EngineDebug::Initialize() {
-    Loader::Texture("uvChecker.png");
+    Loader::Texture("1min.png");
     //Loader::LoadTexture("MonsterBall.png");
     //Loader::LoadTexture("circle.png");
 
     Loader::Model("plane");
 
-    Loader::Audio("Alarm01.wav");
+    //Loader::Audio("Alarm01.wav");
 
     sprite_ = std::make_unique<Sprite>();
-    sprite_->SetTexture("uvChecker.png");
+    sprite_->SetTexture("1min.png");
     sprite_->Initialize();
 
     model_ = std::make_unique<Model>();
@@ -33,6 +32,6 @@ void EngineDebug::Draw() const {
 }
 
 void EngineDebug::Finalize() {
-    sprite_.reset();
+    //sprite_.reset();
     model_.reset();
 }

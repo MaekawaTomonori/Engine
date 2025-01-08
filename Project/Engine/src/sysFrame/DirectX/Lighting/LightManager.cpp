@@ -53,7 +53,7 @@ void LightManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
 
     pointLight_->color = {1,1,1,1};
     pointLight_->position = {0,2,0};
-    pointLight_->intensity = 1.f;
+    pointLight_->intensity = 0.f;
     pointLight_->radius = 10;
     pointLight_->decay = 1;
 
@@ -64,7 +64,7 @@ void LightManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
     spotLight_->position = {2.f, 1.25f, 0.f};
     spotLight_->distance = 7.f;
     spotLight_->direction = Vector3(-1.f, -1.f, 0).normalize();
-    spotLight_->intensity = 4.f;
+    spotLight_->intensity = 0.f;
     spotLight_->decay = 2.f;
     spotLight_->cosAngle = std::cos(MathUtils::F_PI / 3.f);
     spotLight_->falloffStart = std::cos(MathUtils::F_PI / 4.f);

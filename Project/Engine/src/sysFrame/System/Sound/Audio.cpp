@@ -123,6 +123,15 @@ void Audio::Unload(const std::string& name) {
     loaded_.erase(name);
 }
 
+uint32_t Audio::Play(const std::string& name) {
+    if (!loaded_.contains(name)){
+        assert(false);
+    	return 0;
+    }
+
+    return Play(loaded_.at(name));
+}
+
 uint32_t Audio::Play(const SoundData& soundData) {
     HRESULT hr = S_OK;
 

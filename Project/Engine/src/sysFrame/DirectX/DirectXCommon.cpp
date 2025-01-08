@@ -2,7 +2,6 @@
 
 #include <cassert>
 #include <format>
-#include <thread>
 
 #include "Application/WinApp.h"
 #include "Heap/Heap.h"
@@ -23,6 +22,7 @@ bool DirectXCommon::Initialize(const WinApp* winApp) {
     CreateDepthStencilView();
     InitializeFixFPS();
 
+    backColor_ = {0.1f, 0.25f, 0.5f, 1.0f};
     System::Log(Log::Level::INFO, "DirectXCommon Enabled");
 
     return true;
@@ -47,8 +47,7 @@ void DirectXCommon::PreDraw() {
     D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap_->GetCPUHandle(0);
     commandList_->OMSetRenderTargets(1, &rtvHandles_[backBufferIndex], false, &dsvHandle);
 
-    float color[4] = {0.1f, 0.25f, 0.5f, 1.0f};
-    commandList_->ClearRenderTargetView(rtvHandles_[backBufferIndex], color, 0, nullptr);
+    commandList_->ClearRenderTargetView(rtvHandles_[backBufferIndex], &backColor_.x, 0, nullptr);
     commandList_->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.f, 0, 0, nullptr);
 
     commandList_->RSSetViewports(1, &viewport_);

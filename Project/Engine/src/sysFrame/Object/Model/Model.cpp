@@ -16,6 +16,7 @@ void Model::Initialize() {
     worldTransform_->Initialize(WorldTransform::Type::MODEL);
 
     camera_ = Engine::GetDefaultCamera();
+    worldTransform_->SetCamera(camera_);
 
 	cameraResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_.lock()->GetDevice(), sizeof(CameraForGPU)).Get());
     cameraResource_->Map(0, nullptr, reinterpret_cast<void**>(&cameraForGPU_));
@@ -50,8 +51,26 @@ void Model::Draw() const {
     mesh_->Draw();
 }
 
+void Model::Draw(const std::string& texture) const {
+    if (!mesh_)return;
+    modelCommon_->PreDraw();
+    commandList_->SetGraphicsRootConstantBufferView(1, worldTransform_->GetGPUVirtualAddress());
+    commandList_->SetGraphicsRootConstantBufferView(4, cameraResource_->GetGPUVirtualAddress());
+    mesh_->Draw(texture);
+}
+
 void Model::SetMesh(const std::string& name) {
 	mesh_ = ModelManager::GetInstance()->Find(name);
 
 	assert(mesh_);
+}
+
+void Model::SetTransform(const Transform& transform) const {
+    worldTransform_->scale = transform.scale;
+    worldTransform_->rotate = transform.rotate;
+    worldTransform_->translate = transform.translate;
+}
+
+void Model::SetTexture(const std::string& name) const {
+	mesh_->SetTexture(name);
 }

@@ -8,8 +8,10 @@ struct CameraForGPU{
 };
 
 class Camera{
+public:
     Transform transform_{};
 
+private:
     Matrix4x4 cameraMatrix {};
     Matrix4x4 viewMatrix {};
     Matrix4x4 projectionMatrix {};

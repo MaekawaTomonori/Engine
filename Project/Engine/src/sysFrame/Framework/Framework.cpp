@@ -4,6 +4,7 @@
 
 void Framework::Run() {
 	engine = std::make_unique<Engine>();
+    engine->SetTitle("LE2C_22_マエカワ_トモノリ_ぼっくすしょっと");
     engine->Initialize();
 
     scene_ = std::make_unique<SceneManager>();
@@ -15,9 +16,11 @@ void Framework::Run() {
      * 有効になっている場合はコメントアウトもしくは削除してください
      */
 	//engine->EnableDebug();
+    engine->SetBackColor({0,0,0,1});
 
 	Initialize();
-    
+
+
     //MainLoop
     while (engine->IsActive()){
         //Update

@@ -136,3 +136,16 @@ float MathUtils::Random(float min, float max) {
     std::uniform_real_distribution<float> dist(min, max);
     return dist(random);
 }
+
+float MathUtils::Distance(const Vector3& a, const Vector3& b) {
+    return std::sqrtf(std::powf(a.x - b.x, 2) + std::powf(a.y - b.y, 2) + std::powf(a.z - b.z, 2));
+}
+
+Vector3 MathUtils::TransformNormal(const Vector3& v, const Transform& t) {
+    Matrix4x4 m = Matrix::MakeAffineMatrix(t);
+    return {
+        v.x * m.matrix[0][0] + v.y * m.matrix[1][0] + v.z * m.matrix[2][0],
+        v.x * m.matrix[0][1] + v.y * m.matrix[1][1] + v.z * m.matrix[2][1],
+        v.x * m.matrix[0][2] + v.y * m.matrix[1][2] + v.z * m.matrix[2][2],
+    };
+}

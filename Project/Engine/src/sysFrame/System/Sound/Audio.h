@@ -47,6 +47,7 @@ private:
 private:
 	void LoadWave(const std::string& fileName);
 
+	uint32_t Play(const SoundData& soundData);
 public:
 	Audio(const Audio&) = delete;
     Audio& operator=(const Audio&) = delete;
@@ -60,7 +61,7 @@ public:
 	void Load(const std::string& fileName);
     void Unload(const std::string& name);
 
-	uint32_t Play(const SoundData& soundData);
+    uint32_t Play(const std::string& name);
 	void Stop(uint32_t handle);
 
 	//TODO
