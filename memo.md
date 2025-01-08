@@ -12,7 +12,6 @@
 
 - Pipelineを細分化
 - Pipelineを複数用意(BlendMode用)
-- Sprite用のシェーダーを用意
 
 - Texture(png)の読み込みに拡張子を必要ない形に変更する
 	- 同じ名前のファイルが複数あった場合どうするかを考える(example.png & example.jpg)
@@ -66,6 +65,7 @@ Typeとして定義して関数ポインタテーブルから呼び出すのも�
 - ParticleCommonを追加(本当に必要か要検討)
 - ~~GeometryShaderの理解と必要個所の検討~~
 - Add Log Library
+- Sprite用のシェーダーを用意
 
 #### DirectXCommonを以下のように変更
 - GraphicsPipelineをメンバ変数から除外(Model, Sprite, Particleにはそれぞれtypeを引数として持たせ、各Commonクラスに変数として追加)
