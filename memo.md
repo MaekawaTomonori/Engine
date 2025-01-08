@@ -27,6 +27,7 @@
 - Add Config (設定ファイルのようなものを作る)
 - Add Scheduler (res.JavaRunnable)
 - Multithreading TextureManager
+- ModelにTextureを持たせてMeshでTextureは変えないようにする(Meshは読み込んだモデルのデータのみを持つ。モデルごとのデフォルト値)
 
 ### 命名
 - Object3d => Model
