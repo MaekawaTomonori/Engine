@@ -25,6 +25,8 @@
 - Add TimeScheduler(Maybe runnable system)
 - Fix ParticleSystem
 - Add Config (設定ファイルのようなものを作る)
+- Add Scheduler (res.JavaRunnable)
+- Multithreading TextureManager
 
 ### 命名
 - Object3d => Model
