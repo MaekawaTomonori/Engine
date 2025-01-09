@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sysFrame\System\Console\Console.cpp" />
     <ClCompile Include="Game\GameScene.cpp" />
     <ClCompile Include="Game\SceneFactory.cpp" />
     <ClCompile Include="src\sysFrame\Scene\AbstractSceneFactory.cpp" />
@@ -58,6 +59,7 @@
     <ClCompile Include="src\sysFrame\System\Math\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sysFrame\System\Console\Console.h" />
     <ClInclude Include="Game\GameScene.h" />
     <ClInclude Include="Game\SceneFactory.h" />
     <ClInclude Include="src\sysFrame\Scene\AbstractSceneFactory.h" />

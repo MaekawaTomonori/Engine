@@ -22,5 +22,7 @@ public:
 	HWND GetWindowHandle() const {
 		return hWnd_;
 	}
+
+    void SetForeground() const;
 };
 

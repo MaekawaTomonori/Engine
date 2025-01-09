@@ -4,17 +4,27 @@
 #include <memory>
 
 #include "System/System.h"
+#include "System/Console/Console.h"
 
 #pragma comment(lib, "winmm.lib")
 
 void WinApp::Initialize(const std::string& title) {
     timeBeginPeriod(1);
-    window_ = std::make_shared<Window>();
+    window_ = std::make_unique<Window>();
     if(!window_->Create(CLIENT_WIDTH, CLIENT_HEIGHT, System::ConvertString(title), L"Window")){
         System::Log(Log::Level::ERR, "Window Creation Failed");
         assert(false);
         return;
     }
+#ifdef _DEBUG
+	if (!Console::Create(title)){
+        System::Log(Log::Level::ERR, "Console Creation Failed");
+        assert(false);
+        return;
+    }
+    window_->SetForeground();
+#endif
+
     System::Log(Log::Level::INFO, "WinApp Enabled");
 }
 
