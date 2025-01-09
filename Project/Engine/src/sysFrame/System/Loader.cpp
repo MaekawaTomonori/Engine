@@ -3,9 +3,12 @@
 #include "DirectX/Model/ModelManager.h"
 #include "DirectX/Texture/TextureManager.h"
 #include "Sound/Audio.h"
+#include "Thread/ThreadManager.h"
 
 void Loader::Texture(const std::string& path) {
-    TextureManager::GetInstance()->Load(path);
+    //ThreadManager::GetInstance()->AddTask([&](){
+	TextureManager::GetInstance()->Load(path);
+    //});
 }
 
 void Loader::Model(const std::string& path) {
@@ -19,5 +22,7 @@ void Loader::Audio(const std::string& path) {
 void Loader::Unload(Type type) {
     if (type != Type::TEXTURE)return;
 
-    TextureManager::GetInstance()->Unload();
+    ThreadManager::GetInstance()->AddTask([](){
+        TextureManager::GetInstance()->Unload();
+    });
 }

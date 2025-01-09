@@ -57,6 +57,7 @@
     <ClCompile Include="src\sysFrame\System\System.cpp" />
     <ClCompile Include="src\sysFrame\System\Window\Window.cpp" />
     <ClCompile Include="src\sysFrame\System\Math\WorldTransform.cpp" />
+    <ClCompile Include="src\sysFrame\System\Thread\ThreadManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sysFrame\System\Console\Console.h" />
@@ -117,6 +118,7 @@
     <ClInclude Include="src\sysFrame\System\Window\Window.h" />
     <ClInclude Include="src\sysFrame\System\Math\VertexData.h" />
     <ClInclude Include="src\sysFrame\System\Math\WorldTransform.h" />
+    <ClInclude Include="src\sysFrame\System\Thread\ThreadManager.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="assets\Shaders\Model.PS.hlsl">

@@ -2,7 +2,6 @@
 
 #include <memory>
 
-
 #include "Application/WinApp.h"
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Texture/TextureManager.h"
