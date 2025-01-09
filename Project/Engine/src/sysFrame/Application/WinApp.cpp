@@ -9,12 +9,19 @@
 
 void WinApp::Initialize(const std::string& title) {
     timeBeginPeriod(1);
-    window_ = std::make_shared<Window>();
+    window_ = std::make_unique<Window>();
     if(!window_->Create(CLIENT_WIDTH, CLIENT_HEIGHT, System::ConvertString(title), L"Window")){
         System::Log(Log::Level::ERR, "Window Creation Failed");
         assert(false);
         return;
     }
+    console_ = std::make_unique<Console>();
+    if (!console_->Create(title)){
+        System::Log(Log::Level::ERR, "Console Creation Failed");
+        assert(false);
+        return;
+    }
+
     System::Log(Log::Level::INFO, "WinApp Enabled");
 }
 

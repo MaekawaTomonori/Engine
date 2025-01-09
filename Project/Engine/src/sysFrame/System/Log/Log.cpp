@@ -1,8 +1,11 @@
 #include "Log.h"
 
+#include <iostream>
+
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/msvc_sink.h"
+#include "spdlog/sinks/ostream_sink.h"
 #include "System/SingletonFinalizer/SingletonFinalizer.h"
 
 Log* Log::instance_ = nullptr;
@@ -28,14 +31,14 @@ void Log::Destroy() {
 
 void Log::Initialize() {
     auto file = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/latest.log", true);
-    auto console = std::make_shared<spdlog::sinks::msvc_sink_mt>();
+    auto msvc = std::make_shared<spdlog::sinks::msvc_sink_mt>();
+    auto console = std::make_shared<spdlog::sinks::ostream_sink_mt>(std::cout);
 
-    sinks_ = {file, console};
+    sinks_ = {file, msvc, console};
     combined_logger = std::make_shared<spdlog::logger>("logger", sinks_.begin(), sinks_.end());
 	set_default_logger(combined_logger);
 
     spdlog::set_level(spdlog::level::debug);
-
     spdlog::set_pattern("[%D-%R][Thread:%t][%l]:%v");
 
     spdlog::info("LogSystem Enabled");
