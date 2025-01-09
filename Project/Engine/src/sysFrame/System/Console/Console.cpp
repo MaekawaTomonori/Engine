@@ -12,9 +12,10 @@ bool Console::Create(const std::string& title) {
     }
 
     FILE* fp = nullptr;
-    freopen_s(&fp, "CONOUT$", "w", stdout);
-    freopen_s(&fp, "CONOUT$", "w", stderr);
-    freopen_s(&fp, "CONIN$", "r", stdin);
+    if(freopen_s(&fp, "CONOUT$", "w", stdout)){return false;}
+    if(freopen_s(&fp, "CONOUT$", "w", stderr)){return false;}
+    if (freopen_s(&fp, "CONIN$", "r", stdin)){return false;}
+
 
     SetConsoleTitle(System::ConvertString(title).c_str());
 
