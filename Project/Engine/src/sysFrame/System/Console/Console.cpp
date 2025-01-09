@@ -7,6 +7,7 @@
 
 [[nodiscard]]
 bool Console::Create(const std::string& title) {
+#ifdef _DEBUG
     if(AllocConsole() == 0){
         return false;
     }
@@ -20,4 +21,5 @@ bool Console::Create(const std::string& title) {
 
     std::wcout << L"Console Initialized" << std::endl;
     return true;
+#endif
 }
