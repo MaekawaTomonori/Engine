@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "System/System.h"
+#include "System/Console/Console.h"
 
 #pragma comment(lib, "winmm.lib")
 
@@ -15,12 +16,14 @@ void WinApp::Initialize(const std::string& title) {
         assert(false);
         return;
     }
-    console_ = std::make_unique<Console>();
-    if (!console_->Create(title)){
+#ifdef _DEBUG
+	if (!Console::Create(title)){
         System::Log(Log::Level::ERR, "Console Creation Failed");
         assert(false);
         return;
     }
+    window_->SetForeground();
+#endif
 
     System::Log(Log::Level::INFO, "WinApp Enabled");
 }

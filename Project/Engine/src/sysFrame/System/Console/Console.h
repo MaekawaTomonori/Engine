@@ -3,6 +3,6 @@
 
 class Console{
 public:
-	bool Create(const std::string& title);
+	static bool Create(const std::string& title);
 };
 

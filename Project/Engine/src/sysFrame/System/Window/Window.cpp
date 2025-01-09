@@ -80,3 +80,8 @@ bool Window::ProcessMessage() {
 	}
 	return true;
 }
+
+void Window::SetForeground() const {
+    SetForegroundWindow(hWnd_);
+    SetFocus(hWnd_);
+}
