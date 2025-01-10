@@ -14,15 +14,15 @@ void GraphicsPipeline::Create(const std::weak_ptr<DirectXCommon>& dxCommon, Type
     type_ = type;
     System::Log("Create GraphicsPipeline:Begin");
     {
-        (void)std::async(std::launch::async, [&]{CreateRootSignature();});
-        (void)std::async(std::launch::async, [&]{CreateInputLayout();});
-        (void)std::async(std::launch::async, [&]{CreateBlendState();});
-        (void)std::async(std::launch::async, [&]{CreateShader(); });
-        (void)std::async(std::launch::async, [&]{CreateRasterizerState();});
-        (void)std::async(std::launch::async, [&]{CreateDepthStencil();});
+        auto f0 = std::async(std::launch::async, [&]{CreateRootSignature();});
+        auto f1 = std::async(std::launch::async, [&]{CreateInputLayout();});
+        auto f2 = std::async(std::launch::async, [&]{CreateBlendState();});
+        auto f3 = std::async(std::launch::async, [&]{CreateShader(); });
+        auto f4 = std::async(std::launch::async, [&]{CreateRasterizerState();});
+        auto f5 = std::async(std::launch::async, [&]{CreateDepthStencil();});
     }
 
-    ThreadManager::GetInstance()->AddTask([&]{CreatePSO(); });
+    ThreadManager::GetInstance()->AddTask([this]{CreatePSO(); });
 
     System::Log("Create GraphicsPipeline:Finish");
 }
