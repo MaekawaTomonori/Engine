@@ -45,7 +45,7 @@ void SpriteCommon::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
 void SpriteCommon::PreDraw() const {
     auto dxc = dxCommon_.lock();
     if (!dxc){
-        System::Log(Logger::Level::ERR, "SRVManager Initialize Failed");
+        System::Log(Logger::Level::ERR, "SpriteCommon DirectXCommon is not Available");
         return;
     }
 
