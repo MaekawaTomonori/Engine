@@ -27,7 +27,7 @@ void LightManager::Create() {
 void LightManager::Finalize() {
     delete instance;
     instance = nullptr;
-    System::Log(Log::Level::INFO, "Light Disabled");
+    System::Log(Logger::Level::INFO, "Light Disabled");
 }
 
 void LightManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
@@ -69,7 +69,7 @@ void LightManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
     spotLight_->cosAngle = std::cos(MathUtils::F_PI / 3.f);
     spotLight_->falloffStart = std::cos(MathUtils::F_PI / 4.f);
 
-    System::Log(Log::Level::INFO, "Light Enabled");
+    System::Log(Logger::Level::INFO, "Light Enabled");
 }
 
 void LightManager::Update() const {

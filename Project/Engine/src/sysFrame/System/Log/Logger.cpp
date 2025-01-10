@@ -1,4 +1,4 @@
-#include "Log.h"
+#include "Logger.h"
 
 #include <iostream>
 
@@ -6,30 +6,29 @@
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/msvc_sink.h"
 #include "spdlog/sinks/ostream_sink.h"
-#include "System/SingletonFinalizer/SingletonFinalizer.h"
 
-Log* Log::instance_ = nullptr;
-std::once_flag Log::onceFlag_;
+Logger* Logger::instance_ = nullptr;
+std::once_flag Logger::onceFlag_;
 
-Log* Log::GetLogger() {
+Logger* Logger::GetLogger() {
     call_once(onceFlag_, Create);
     assert(instance_);
     return instance_;
 }
 
-void Log::Create() {
-    instance_ = new Log();
+void Logger::Create() {
+    instance_ = new Logger();
     instance_->Initialize();
-    SingletonFinalizer::AddFinalizer(&Destroy);
+    //SingletonFinalizer::AddFinalizer(&Destroy);
     instance_->Info("Logger Enabled");
 }
 
-void Log::Destroy() {
+void Logger::Destroy() {
     delete instance_;
     instance_ = nullptr;
 }
 
-void Log::Initialize() {
+void Logger::Initialize() {
     auto file = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/latest.log", true);
     auto msvc = std::make_shared<spdlog::sinks::msvc_sink_mt>();
     auto console = std::make_shared<spdlog::sinks::ostream_sink_mt>(std::cout);
@@ -39,23 +38,23 @@ void Log::Initialize() {
 	set_default_logger(combined_logger);
 
     spdlog::set_level(spdlog::level::debug);
-    spdlog::set_pattern("[%D-%R][Thread:%t][%l]:%v");
+    spdlog::set_pattern("[%D-%R:%S.%e%f%F][Thread:%t][%l]:%v");
 
     spdlog::info("LogSystem Enabled");
 }
 
-void Log::Info(const std::string& msg) const {
+void Logger::Info(const std::string& msg) const {
     combined_logger->info(msg);
 }
 
-void Log::Debug(const std::string& msg) const {
+void Logger::Debug(const std::string& msg) const {
     combined_logger->debug(msg);
 }
 
-void Log::Warning(const std::string& msg) const {
+void Logger::Warning(const std::string& msg) const {
     combined_logger->warn(msg);
 }
 
-void Log::Error(const std::string& msg) const {
+void Logger::Error(const std::string& msg) const {
     combined_logger->error(msg);
 }

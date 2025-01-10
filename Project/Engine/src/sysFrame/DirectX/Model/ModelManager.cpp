@@ -29,14 +29,14 @@ ModelManager::~ModelManager() {
 void ModelManager::Finalize() {
     delete instance_;
     instance_ = nullptr;
-    System::Log(Log::Level::INFO, "ModelManager Disabled");
+    System::Log(Logger::Level::INFO, "ModelManager Disabled");
 }
 
 void ModelManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
     meshCommon_ = std::make_shared<MeshCommon>(dxCommon);
     meshCommon_->Initialize();
 
-    System::Log(Log::Level::INFO, "ModelManager Enabled");
+    System::Log(Logger::Level::INFO, "ModelManager Enabled");
 }
 
 void ModelManager::Load(const std::string& fileName) {
@@ -47,7 +47,7 @@ void ModelManager::Load(const std::string& fileName) {
 
     models_[fileName] = mesh;
 
-    System::Log(Log::Level::INFO, std::format("Model Loaded:{}", fileName));
+    System::Log(Logger::Level::INFO, std::format("Model Loaded:{}", fileName));
 }
 
 Mesh* ModelManager::Find(const std::string& name) {
@@ -55,7 +55,7 @@ Mesh* ModelManager::Find(const std::string& name) {
         return models_[name].get();
     }
 
-    System::Log(Log::Level::ERR, std::format("Model Not Found:{}", name));
+    System::Log(Logger::Level::ERR, std::format("Model Not Found:{}", name));
     return nullptr;
 }
 

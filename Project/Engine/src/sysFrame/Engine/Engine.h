@@ -4,7 +4,6 @@
 #include "DirectX/Util/D3DResourceLeakChecker.h"
 #include "Object/Camera/Camera.h"
 #include "System/ImGui/ImGuiManager.h"
-#include "System/Log/Log.h"
 
 #include "EngineDebug.h"
 #include "System/Input/Input.h"
@@ -28,8 +27,6 @@ class Engine{
 
 	std::shared_ptr<ImGuiManager> imguiManager_;
 
-
-    Log* logger_ = nullptr;
     Audio* audio_ = nullptr;
     Input* input_ = nullptr;
 

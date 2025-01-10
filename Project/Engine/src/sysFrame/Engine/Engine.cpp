@@ -1,5 +1,6 @@
 #include "Engine.h"
 
+#include <future>
 #include <memory>
 
 #include "Application/WinApp.h"
@@ -12,12 +13,11 @@
 #include "Object/Sprite/SpriteCommon.h"
 #include "System/System.h"
 #include "System/SingletonFinalizer/SingletonFinalizer.h"
+#include "System/Thread/ThreadManager.h"
 
 std::shared_ptr<Camera> Engine::defaultCamera_ = nullptr;
 
 void Engine::Initialize() {
-    logger_ = Log::GetLogger();
-
 	winApp_ = std::make_shared<WinApp>();
     dxCommon_ = std::make_shared<DirectXCommon>();
     srvManager_ = std::make_shared<SRVManager>();
@@ -39,7 +39,7 @@ void Engine::Initialize() {
     srvManager_->Initialize(dxCommon_.get());
     imguiManager_->Initialize(srvManager_.get());
 
-    audio_->Initialize();
+    ThreadManager::GetInstance()->AddTask([&]{audio_->Initialize(); });
 
     input_->Initialize(winApp_.get());
     textureManager_->Initialize(dxCommon_, srvManager_.get());
@@ -102,10 +102,10 @@ void Engine::EnableDebug() {
     debugScene_ = std::make_shared<EngineDebug>();
     debugScene_->Initialize();
 
-	System::Log(Log::Level::INFO, "DebugMode Enabled");
+	System::Log(Logger::Level::INFO, "DebugMode Enabled");
     return;
 #endif
-    //System::Log(Log::Level::ERR, "Request Cancelled!\nDebugMode is not available in Release Build.");
+    //System::Logger(Logger::Level::ERR, "Request Cancelled!\nDebugMode is not available in Release Build.");
 }
 
 bool Engine::IsDebug() const {

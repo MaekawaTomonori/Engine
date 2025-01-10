@@ -2,23 +2,29 @@
 
 #include <cassert>
 #include <format>
+#include <future>
 
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/Heap.h"
 #include "System/System.h"
+#include "System/Thread/ThreadManager.h"
 
 void GraphicsPipeline::Create(const std::weak_ptr<DirectXCommon>& dxCommon, Type type) {
     dxCommon_ = dxCommon;
     type_ = type;
+    System::Log("Create GraphicsPipeline:Begin");
+    {
+        auto f0 = std::async(std::launch::async, [&]{CreateRootSignature();});
+        auto f1 = std::async(std::launch::async, [&]{CreateInputLayout();});
+        auto f2 = std::async(std::launch::async, [&]{CreateBlendState();});
+        auto f3 = std::async(std::launch::async, [&]{CreateShader(); });
+        auto f4 = std::async(std::launch::async, [&]{CreateRasterizerState();});
+        auto f5 = std::async(std::launch::async, [&]{CreateDepthStencil();});
+    }
 
-    CreateRootSignature();
-    CreateInputLayout();
-    CreateBlendState();
-    CreateShader();
-    CreateRasterizerState();
-    CreateDepthStencil();
+    ThreadManager::GetInstance()->AddTask([this]{CreatePSO(); });
 
-    CreatePSO();
+    System::Log("Create GraphicsPipeline:Finish");
 }
 
 void GraphicsPipeline::DrawCall(const ComPtr<ID3D12GraphicsCommandList>& commandList) const {
@@ -156,7 +162,7 @@ void GraphicsPipeline::CreateRootSignature() {
     hr = D3D12SerializeRootSignature(&descriptionRootSignature, D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
 
     if(FAILED(hr)){
-        System::Log(Log::Level::ERR, static_cast<char*>(errorBlob->GetBufferPointer()));
+        System::Log(Logger::Level::ERR, static_cast<char*>(errorBlob->GetBufferPointer()));
         assert(false);
     }
 
@@ -181,7 +187,7 @@ void GraphicsPipeline::CreateInputLayout() {
     inputElementDescs_[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
     inputElementDescs_[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
-    //System::Debug::Log(std::format(L"InputElementSlot : {}\n", inputElementDescs_[0].InputSlot));
+    //System::Debug::Logger(std::format(L"InputElementSlot : {}\n", inputElementDescs_[0].InputSlot));
 
 	inputLayoutDesc_.pInputElementDescs = inputElementDescs_;
     inputLayoutDesc_.NumElements = _countof(inputElementDescs_);

@@ -13,7 +13,7 @@ Input* Input::instance = nullptr;
 std::once_flag Input::flag;
 
 void Input::Initialize(const WinApp* winApp) {
-    System::Log(Log::Level::INFO, "Input Enabled");
+    System::Log(Logger::Level::INFO, "Input Enabled");
 
     HRESULT hr = DirectInput8Create(winApp->GetInstanceHandle(), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&directInput, nullptr);
     assert(SUCCEEDED(hr));
@@ -62,5 +62,5 @@ void Input::Create() {
 void Input::Destroy() {
     delete instance;
     instance = nullptr;
-    System::Log(Log::Level::INFO, "Input Disabled");
+    System::Log(Logger::Level::INFO, "Input Disabled");
 }

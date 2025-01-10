@@ -24,7 +24,7 @@ void Audio::Create() {
 }
 
 void Audio::Initialize() {
-    System::Log(Log::Level::INFO, "Audio Enable");
+    System::Log(Logger::Level::INFO, "Audio Enable");
     HRESULT hr = XAudio2Create(&xAudio2_, 0, XAUDIO2_DEFAULT_PROCESSOR);
     assert(SUCCEEDED(hr));
 
@@ -35,7 +35,7 @@ void Audio::Initialize() {
 void Audio::Finalize() {
     delete instance_;
     instance_ = nullptr;
-    System::Log(Log::Level::INFO, "Audio Disable");
+    System::Log(Logger::Level::INFO, "Audio Disable");
 }
 
 Audio::~Audio() {

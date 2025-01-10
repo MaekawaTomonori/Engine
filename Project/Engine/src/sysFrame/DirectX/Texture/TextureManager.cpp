@@ -20,13 +20,13 @@ TextureManager* TextureManager::GetInstance() {
 void TextureManager::Create() {
     instance_ = new TextureManager();
     SingletonFinalizer::AddFinalizer(&Destroy);
-    System::Log(Log::Level::INFO, "TextureManager Enabled");
+    System::Log(Logger::Level::INFO, "TextureManager Enabled");
 }
 
 void TextureManager::Destroy() {
     delete instance_;
     instance_ = nullptr;
-    System::Log(Log::Level::INFO, "TextureManager Disabled");
+    System::Log(Logger::Level::INFO, "TextureManager Disabled");
 }
 
 TextureManager::~TextureManager() {
@@ -96,7 +96,7 @@ ID3D12Resource* TextureManager::CreateTextureResource(const DirectX::TexMetadata
 ID3D12Resource* TextureManager::UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages) const {
     auto dxc = dxCommon_.lock();
     if (!dxc){
-        System::Log(Log::Level::ERR, "SRVManager Initialize Failed");
+        System::Log(Logger::Level::ERR, "SRVManager Initialize Failed");
         assert(0);
     }
 
@@ -121,7 +121,7 @@ ID3D12Resource* TextureManager::UploadTextureData(ID3D12Resource* texture, const
 void TextureManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon, SRVManager* srvManager) {
     dxCommon_ = dxCommon;
     srvManager_ = srvManager;
-    System::Log(Log::Level::INFO, "TextureManager Initialized");
+    System::Log(Logger::Level::INFO, "TextureManager Initialized");
 }
 
 void TextureManager::Load(const std::string& fileName) {
@@ -155,7 +155,7 @@ void TextureManager::Load(const std::string& fileName) {
 
     srvManager_->CreateSRVforTexture2D(texture.srvIndex, texture.resource.Get(), texture.metadata.format, static_cast<UINT>(texture.metadata.mipLevels));
 
-    System::Log(Log::Level::INFO, std::format("TextureManager::Load: {}", name));
+    System::Log(Logger::Level::INFO, std::format("TextureManager::Load: {}", name));
 }
 
 void TextureManager::Unload() {
@@ -173,7 +173,7 @@ const DirectX::TexMetadata& TextureManager::GetTextureMetadata(const std::string
         return textures_.at(fileName).metadata;
 	}
 
-    System::Log(Log::Level::ERR, std::format("TextureManager::GetTextureMetadata: {} not found", fileName));
+    System::Log(Logger::Level::ERR, std::format("TextureManager::GetTextureMetadata: {} not found", fileName));
     assert(0);
     return textures_.at("").metadata;
 }
@@ -183,7 +183,7 @@ uint32_t TextureManager::GetSrvIndex(const std::string& fileName) const {
         return textures_.at(fileName).srvIndex;
     }
 
-    System::Log(Log::Level::ERR, std::format("TextureManager::GetSrvIndex: {} not found", fileName));
+    System::Log(Logger::Level::ERR, std::format("TextureManager::GetSrvIndex: {} not found", fileName));
     assert(0);
     return 0;
 }
@@ -193,7 +193,7 @@ uint32_t TextureManager::GetTextureIndexByFilePath(const std::string& path) cons
         return textures_.at(path).srvIndex;
     }
 
-    System::Log(Log::Level::ERR, std::format("TextureManager::GetTextureIndexByFilePath: {} not found", path));
+    System::Log(Logger::Level::ERR, std::format("TextureManager::GetTextureIndexByFilePath: {} not found", path));
     assert(0);
     return 0;
 }
@@ -209,13 +209,13 @@ D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::GetGPUHandle(const std::string& file
         return textures_.at(name).gpuHandle;
     }
 
-    System::Log(Log::Level::ERR, std::format("TextureManager::GetGPUHandle: {} not found", name));
+    System::Log(Logger::Level::ERR, std::format("TextureManager::GetGPUHandle: {} not found", name));
     assert(0);
     return {};
 }
 
 D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::GetGPUHandle(const uint32_t index) const {
     assert(index <= textures_.size());
-    System::Log(Log::Level::INFO, std::format("TextureManager::GetGPUHandle: index {}", index));
+    System::Log(Logger::Level::INFO, std::format("TextureManager::GetGPUHandle: index {}", index));
 	return srvManager_->GetGPUHandle(index);
 }

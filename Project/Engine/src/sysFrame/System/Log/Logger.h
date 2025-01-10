@@ -2,7 +2,7 @@
 #include <memory>
 #include <spdlog/logger.h>
 
-class Log{
+class Logger{
 public:
 	enum class Level{
 		TRACE,
@@ -17,13 +17,13 @@ private:
 	std::vector<spdlog::sink_ptr> sinks_;
 	std::shared_ptr<spdlog::logger> combined_logger;
 
-	Log() = default;
-	~Log() = default;
+	Logger() = default;
+	~Logger() = default;
 
-	static Log* instance_;
+	static Logger* instance_;
 	static std::once_flag onceFlag_;
 public:
-	static Log* GetLogger();
+	static Logger* GetLogger();
 	static void Create();
 	static void Destroy();
 
