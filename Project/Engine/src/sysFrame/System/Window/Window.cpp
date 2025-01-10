@@ -63,7 +63,7 @@ bool Window::Create(int clientWidth, int clientHeight, const std::wstring& title
 
 	UpdateWindow(hWnd_);
 
-	System::Log(Log::Level::INFO, "Window Created");
+	System::Log(Logger::Level::INFO, "Window Created");
 
 	return true;
 }

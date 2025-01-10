@@ -1,6 +1,5 @@
 #include "Console.h"
 
-#include <iostream>
 #include <Windows.h>
 
 #include "System/System.h"
@@ -19,6 +18,7 @@ bool Console::Create(const std::string& title) {
 
     SetConsoleTitle(System::ConvertString(title).c_str());
 
-    std::wcout << L"Console Initialized" << std::endl;
+    System::Log(Logger::Level::INFO, "Console Create");
+
     return true;
 }

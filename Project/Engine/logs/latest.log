@@ -1,0 +1,42 @@
+[01/10/25-11:17:18.191191420191420000][Thread:448][info]:LogSystem Enabled
+[01/10/25-11:17:18.192192556192556900][Thread:448][info]:Logger Enabled
+[01/10/25-11:17:18.192192632192632300][Thread:448][info]:Framework Run
+[01/10/25-11:17:18.192192996192996600][Thread:448][info]:TextureManager Enabled
+[01/10/25-11:17:18.400400084400084900][Thread:448][info]:Window Created
+[01/10/25-11:17:18.510510275510275400][Thread:448][info]:Console Create
+[01/10/25-11:17:18.515515287515287900][Thread:448][info]:WinApp Enabled
+[01/10/25-11:17:18.640640166640166400][Thread:448][debug]:Use Adapter:NVIDIA GeForce RTX 3060 Laptop GPU
+[01/10/25-11:17:19.729729062729062400][Thread:448][debug]:FeatureLevel : 12.2
+[01/10/25-11:17:19.729729296729296300][Thread:448][debug]:Complete creation!
+[01/10/25-11:17:19.733733064733064800][Thread:33320][debug]:CommandAllocator Created
+[01/10/25-11:17:19.745745094745094200][Thread:33320][debug]:CommandList Created
+[01/10/25-11:17:19.745745869745869400][Thread:448][debug]:DepthStencilView Created
+[01/10/25-11:17:19.746746049746049200][Thread:448][info]:DirectXCommon Enabled
+[01/10/25-11:17:19.747747395747395800][Thread:448][info]:SRVManager Enabled
+[01/10/25-11:17:19.749749433749433300][Thread:448][info]:Input Enabled
+[01/10/25-11:17:19.749749449749449400][Thread:28184][info]:Audio Enable
+[01/10/25-11:17:19.785785775785775800][Thread:33320][debug]:CommandQueue Created
+[01/10/25-11:17:19.793793944793944800][Thread:448][info]:TextureManager Initialized
+[01/10/25-11:17:19.794794240794240200][Thread:448][info]:ModelManager Enabled
+[01/10/25-11:17:20.135135370135370200][Thread:33320][debug]:SwapChain Created
+[01/10/25-11:17:20.158158649158649300][Thread:448][info]:Begin CompileShader, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[01/10/25-11:17:20.218218767218767800][Thread:448][info]:Compile Succeed, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[01/10/25-11:17:20.219219125219125000][Thread:448][info]:Begin CompileShader, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[01/10/25-11:17:20.277277916277916500][Thread:448][info]:Compile Succeed, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[01/10/25-11:17:20.313313589313589700][Thread:448][info]:SpriteCommon Enabled
+[01/10/25-11:17:20.541541612541612900][Thread:448][info]:Begin CompileShader, Path : Model.VS.hlsl, Profile : vs_6_0
+[01/10/25-11:17:20.614614156614156200][Thread:448][info]:Compile Succeed, Path : Model.VS.hlsl, Profile : vs_6_0
+[01/10/25-11:17:20.614614540614540500][Thread:448][info]:Begin CompileShader, Path : Model.PS.hlsl, Profile : ps_6_0
+[01/10/25-11:17:20.750750668750668000][Thread:448][info]:Compile Succeed, Path : Model.PS.hlsl, Profile : ps_6_0
+[01/10/25-11:17:20.820820485820485000][Thread:448][info]:ModelCommon Initialized
+[01/10/25-11:17:20.850850546850546500][Thread:448][info]:Light Enabled
+[01/10/25-11:17:20.850850899850899900][Thread:448][info]:DebugMode Enabled
+[01/10/25-11:17:20.851851095851095400][Thread:448][debug]:Game Init
+[01/10/25-11:17:40.064064902064902400][Thread:448][debug]:Game Finalize
+[01/10/25-11:17:40.071071192071192200][Thread:448][info]:Light Disabled
+[01/10/25-11:17:40.074074223074223300][Thread:448][info]:ModelCommon Finalized
+[01/10/25-11:17:40.079079535079535700][Thread:448][info]:SpriteCommon Disabled
+[01/10/25-11:17:40.079079962079962000][Thread:448][info]:ModelManager Disabled
+[01/10/25-11:17:40.082082283082283300][Thread:448][info]:TextureManager Disabled
+[01/10/25-11:17:40.093093338093338200][Thread:448][info]:Audio Disable
+[01/10/25-11:17:40.093093778093778900][Thread:448][info]:Input Disabled

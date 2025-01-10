@@ -87,7 +87,7 @@
     <ClCompile Include="src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\sysFrame\System\Log\Log.cpp">
+    <ClCompile Include="src\sysFrame\System\Log\Logger.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\sysFrame\DirectX\Heap\SRVManager.cpp">
@@ -257,7 +257,7 @@
     <ClInclude Include="src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Log\Log.h">
+    <ClInclude Include="src\sysFrame\System\Log\Logger.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\sysFrame\DirectX\Heap\SRVManager.h">

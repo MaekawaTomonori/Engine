@@ -2,10 +2,12 @@
 
 #include <cassert>
 #include <format>
+#include <future>
 
 #include "Application/WinApp.h"
 #include "Heap/Heap.h"
 #include "System/System.h"
+#include "System/Thread/ThreadManager.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -15,22 +17,24 @@ bool DirectXCommon::Initialize(const WinApp* winApp) {
     CreateDebugLayer();
     CreateFactory();
     CreateDevice();
-    CreateCommand();
-    CreateSwapChain(winApp->GetWindowHandle(), WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT);
+    ThreadManager::GetInstance()->AddTask([&] {
+	    CreateCommand();
+	    CreateSwapChain(winApp->GetWindowHandle(), WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT);
+    });
     CreateFence();
     SettingGraphicsInfo();
     CreateDepthStencilView();
     InitializeFixFPS();
 
     backColor_ = {0.1f, 0.25f, 0.5f, 1.0f};
-    System::Log(Log::Level::INFO, "DirectXCommon Enabled");
+    System::Log(Logger::Level::INFO, "DirectXCommon Enabled");
 
     return true;
 }
 
 void DirectXCommon::Finalize() {
     CoUninitialize();
-    //System::Log(Log::Level::INFO, "DirectXCommon Disabled");
+    //System::Logger(Logger::Level::INFO, "DirectXCommon Disabled");
 }
 
 void DirectXCommon::PreDraw() {
@@ -174,7 +178,7 @@ void DirectXCommon::CreateDevice() {
         assert(SUCCEEDED(hr));
 
         if (!(adapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE)){
-            System::Log(/*Log::Level::INFO,*/std::format(L"Use Adapter:{}", adapterDesc.Description));
+            System::Log(/*Logger::Level::INFO,*/std::format(L"Use Adapter:{}", adapterDesc.Description));
             break;
         }
         useAdapter = nullptr;
@@ -195,13 +199,13 @@ void DirectXCommon::CreateDevice() {
     for (size_t i = 0; i < _countof(featureLevels); ++i){
         hr = D3D12CreateDevice(useAdapter.Get(), featureLevels[i], IID_PPV_ARGS(device_.GetAddressOf()));
         if (SUCCEEDED(hr)){
-            System::Log(/*Log::Level::INFO, */std::format("FeatureLevel : {}", featureLevelStrings[i]));
+            System::Log(/*Logger::Level::INFO, */std::format("FeatureLevel : {}", featureLevelStrings[i]));
             break;
         }
     }
 
     assert(device_ != nullptr);
-    System::Log(/*Log::Level::INFO,*/"Complete creation!");
+    System::Log(/*Logger::Level::INFO,*/"Complete creation!");
 
     #ifdef _DEBUG
     ComPtr<ID3D12InfoQueue> infoQueue;
@@ -231,12 +235,12 @@ void DirectXCommon::CreateCommand() {
     hr = device_->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocator_));
     assert(SUCCEEDED(hr));
 
-    System::Log(/*Log::Level::INFO, */"CommandAllocator Created");
+    System::Log(/*Logger::Level::INFO, */"CommandAllocator Created");
 
     hr = device_->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator_.Get(), nullptr, IID_PPV_ARGS(&commandList_));
     assert(SUCCEEDED(hr));
 
-    System::Log(/*Log::Level::INFO,*/ "CommandList Created");
+    System::Log(/*Logger::Level::INFO,*/ "CommandList Created");
 
     D3D12_COMMAND_QUEUE_DESC cQueueDesc {};
     cQueueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
@@ -247,7 +251,7 @@ void DirectXCommon::CreateCommand() {
     hr = device_->CreateCommandQueue(&cQueueDesc, IID_PPV_ARGS(&commandQueue_));
     assert(SUCCEEDED(hr));
 
-    System::Log(/*Log::Level::INFO, */"CommandQueue Created");
+    System::Log(/*Logger::Level::INFO, */"CommandQueue Created");
 }
 
 void DirectXCommon::CreateSwapChain(HWND hwnd, int width, int height) {
@@ -264,7 +268,7 @@ void DirectXCommon::CreateSwapChain(HWND hwnd, int width, int height) {
     HRESULT hr = factory_->CreateSwapChainForHwnd(commandQueue_.Get(), hwnd, &swapChainDesc, nullptr, nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain_.ReleaseAndGetAddressOf()));
     assert(SUCCEEDED(hr));
 
-    System::Log(/*Log::Level::INFO, */"SwapChain Created");
+    System::Log(/*Logger::Level::INFO, */"SwapChain Created");
     
     hr = swapChain_->GetBuffer(0, IID_PPV_ARGS(&swapChainBuffers_[0]));
     assert(SUCCEEDED(hr));
@@ -320,7 +324,7 @@ void DirectXCommon::CreateDepthStencilView() {
 
     device_->CreateDepthStencilView(depthStencilResource_.Get(), &dsvDesc_, dsvHeap_->GetCPUHandle(0));
 
-    System::Log(/*Log::Level::INFO, */"DepthStencilView Created");
+    System::Log(/*Logger::Level::INFO, */"DepthStencilView Created");
 }
 
 //void DirectXCommon::CreateShaderResourceView() {

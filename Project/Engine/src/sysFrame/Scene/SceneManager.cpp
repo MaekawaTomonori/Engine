@@ -41,7 +41,7 @@ void SceneManager::SetFactory(std::unique_ptr<AbstractSceneFactory> factory) {
 
 void SceneManager::ChangeScene(const std::string& name) {
     if (!factory_){
-        System::Log(Log::Level::ERR, "SceneFactory is not set");
+        System::Log(Logger::Level::ERR, "SceneFactory is not set");
         assert(false);
         return;
     }

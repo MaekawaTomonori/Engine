@@ -156,7 +156,7 @@ void GraphicsPipeline::CreateRootSignature() {
     hr = D3D12SerializeRootSignature(&descriptionRootSignature, D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
 
     if(FAILED(hr)){
-        System::Log(Log::Level::ERR, static_cast<char*>(errorBlob->GetBufferPointer()));
+        System::Log(Logger::Level::ERR, static_cast<char*>(errorBlob->GetBufferPointer()));
         assert(false);
     }
 
@@ -181,7 +181,7 @@ void GraphicsPipeline::CreateInputLayout() {
     inputElementDescs_[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
     inputElementDescs_[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
-    //System::Debug::Log(std::format(L"InputElementSlot : {}\n", inputElementDescs_[0].InputSlot));
+    //System::Debug::Logger(std::format(L"InputElementSlot : {}\n", inputElementDescs_[0].InputSlot));
 
 	inputLayoutDesc_.pInputElementDescs = inputElementDescs_;
     inputLayoutDesc_.NumElements = _countof(inputElementDescs_);

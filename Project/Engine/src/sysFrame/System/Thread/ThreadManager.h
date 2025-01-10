@@ -15,6 +15,7 @@ private:
     void  Work();
 
 public:
+    //Like Async?idk
 	void AddTask(std::function<void()> task);
 
     void Exit();

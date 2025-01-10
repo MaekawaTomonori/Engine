@@ -49,7 +49,7 @@
     <ClCompile Include="src\sysFrame\DirectX\Pipeline\GraphicsPipeline.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Shader\Shader.cpp" />
     <ClCompile Include="src\sysFrame\System\Input\Input.cpp" />
-    <ClCompile Include="src\sysFrame\System\Log\Log.cpp" />
+    <ClCompile Include="src\sysFrame\System\Log\Logger.cpp" />
     <ClCompile Include="src\sysFrame\System\Math\MathUtils.cpp" />
     <ClCompile Include="src\sysFrame\System\Math\Vector3.cpp" />
     <ClCompile Include="src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.cpp" />
@@ -103,7 +103,7 @@
     <ClInclude Include="src\sysFrame\DirectX\Shader\Shader.h" />
     <ClInclude Include="src\sysFrame\Object\Object.h" />
     <ClInclude Include="src\sysFrame\System\Input\Input.h" />
-    <ClInclude Include="src\sysFrame\System\Log\Log.h" />
+    <ClInclude Include="src\sysFrame\System\Log\Logger.h" />
     <ClInclude Include="src\sysFrame\System\Math\Material.h" />
     <ClInclude Include="src\sysFrame\System\Math\MathUtils.h" />
     <ClInclude Include="src\sysFrame\System\Math\Matrix.h" />

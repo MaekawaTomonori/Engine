@@ -24,7 +24,7 @@ void ModelCommon::Create() {
 void ModelCommon::Finalize() {
     delete instance_;
     instance_ = nullptr;
-    System::Log(Log::Level::INFO, "ModelCommon Finalized");
+    System::Log(Logger::Level::INFO, "ModelCommon Finalized");
 }
 
 void ModelCommon::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
@@ -34,7 +34,7 @@ void ModelCommon::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
     pipeline_->Create(dxCommon_, GraphicsPipeline::Type::MODEL);
     pipeline_->SetBlendMode(BlendMode::ALPHA);
 
-    System::Log(Log::Level::INFO, "ModelCommon Initialized");
+    System::Log(Logger::Level::INFO, "ModelCommon Initialized");
 }
 
 void ModelCommon::PreDraw() const {

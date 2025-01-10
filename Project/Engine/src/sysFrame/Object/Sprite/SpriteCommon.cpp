@@ -29,7 +29,7 @@ void SpriteCommon::Create() {
 void SpriteCommon::Destroy() {
     delete instance_;
     instance_ = nullptr;
-    System::Log(Log::Level::INFO, "SpriteCommon Disabled");
+    System::Log(Logger::Level::INFO, "SpriteCommon Disabled");
 }
 
 void SpriteCommon::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
@@ -38,13 +38,13 @@ void SpriteCommon::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
     // Do something
     CreatePipeline();
 
-    System::Log(Log::Level::INFO, "SpriteCommon Enabled");
+    System::Log(Logger::Level::INFO, "SpriteCommon Enabled");
 }
 
 void SpriteCommon::PreDraw() const {
     auto dxc = dxCommon_.lock();
     if (!dxc){
-        System::Log(Log::Level::ERR, "SRVManager Initialize Failed");
+        System::Log(Logger::Level::ERR, "SRVManager Initialize Failed");
         return;
     }
 
