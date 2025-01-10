@@ -4,7 +4,7 @@
 
 
 void EngineDebug::Initialize() {
-    //Loader::Texture("uvChecker.png");
+    Loader::Texture("uvChecker.png");
     //Loader::Texture("MonsterBall.png");
     //Loader::Texture("circle.png");
 
