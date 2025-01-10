@@ -6,6 +6,7 @@
 #include "DirectX/Pipeline/GraphicsPipeline.h"
 #include "System/System.h"
 #include "System/SingletonFinalizer/SingletonFinalizer.h"
+#include "System/Thread/ThreadManager.h"
 
 SpriteCommon* SpriteCommon::instance_ = nullptr;
 std::once_flag SpriteCommon::onceFlag_;
@@ -36,7 +37,7 @@ void SpriteCommon::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
     dxCommon_ = dxCommon;
 
     // Do something
-    CreatePipeline();
+    ThreadManager::GetInstance()->AddTask([&]{CreatePipeline();});
 
     System::Log(Logger::Level::INFO, "SpriteCommon Enabled");
 }

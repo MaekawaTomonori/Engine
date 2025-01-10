@@ -2,23 +2,29 @@
 
 #include <cassert>
 #include <format>
+#include <future>
 
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/Heap.h"
 #include "System/System.h"
+#include "System/Thread/ThreadManager.h"
 
 void GraphicsPipeline::Create(const std::weak_ptr<DirectXCommon>& dxCommon, Type type) {
     dxCommon_ = dxCommon;
     type_ = type;
+    System::Log("Create GraphicsPipeline:Begin");
+    {
+        (void)std::async(std::launch::async, [&]{CreateRootSignature();});
+        (void)std::async(std::launch::async, [&]{CreateInputLayout();});
+        (void)std::async(std::launch::async, [&]{CreateBlendState();});
+        (void)std::async(std::launch::async, [&]{CreateShader(); });
+        (void)std::async(std::launch::async, [&]{CreateRasterizerState();});
+        (void)std::async(std::launch::async, [&]{CreateDepthStencil();});
+    }
 
-    CreateRootSignature();
-    CreateInputLayout();
-    CreateBlendState();
-    CreateShader();
-    CreateRasterizerState();
-    CreateDepthStencil();
+    ThreadManager::GetInstance()->AddTask([&]{CreatePSO(); });
 
-    CreatePSO();
+    System::Log("Create GraphicsPipeline:Finish");
 }
 
 void GraphicsPipeline::DrawCall(const ComPtr<ID3D12GraphicsCommandList>& commandList) const {

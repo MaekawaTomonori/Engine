@@ -2,7 +2,6 @@
 
 #include <cassert>
 #include <format>
-#include <future>
 
 #include "Application/WinApp.h"
 #include "Heap/Heap.h"
@@ -17,13 +16,14 @@ bool DirectXCommon::Initialize(const WinApp* winApp) {
     CreateDebugLayer();
     CreateFactory();
     CreateDevice();
-    ThreadManager::GetInstance()->AddTask([&] {
-	    CreateCommand();
-	    CreateSwapChain(winApp->GetWindowHandle(), WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT);
+    ThreadManager::GetInstance()->AddTask([&]{
+        CreateCommand();
+        CreateSwapChain(winApp->GetWindowHandle(), WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT);
     });
-    CreateFence();
-    SettingGraphicsInfo();
-    CreateDepthStencilView();
+    ThreadManager::GetInstance()->AddTask([&]{CreateFence(); });
+    ThreadManager::GetInstance()->AddTask([&]{SettingGraphicsInfo(); });
+
+	CreateDepthStencilView();
     InitializeFixFPS();
 
     backColor_ = {0.1f, 0.25f, 0.5f, 1.0f};
@@ -34,7 +34,7 @@ bool DirectXCommon::Initialize(const WinApp* winApp) {
 
 void DirectXCommon::Finalize() {
     CoUninitialize();
-    //System::Logger(Logger::Level::INFO, "DirectXCommon Disabled");
+    System::Log(Logger::Level::INFO, "DirectXCommon Disabled");
 }
 
 void DirectXCommon::PreDraw() {
@@ -164,11 +164,14 @@ void DirectXCommon::CreateDebugLayer() {
 }
 
 void DirectXCommon::CreateFactory() {
+    System::Log("Create Factory:Begin");
     HRESULT hr = CreateDXGIFactory(IID_PPV_ARGS(&factory_));
     assert(SUCCEEDED(hr));
+    System::Log("Create Factory:Finish");
 }
 
 void DirectXCommon::CreateDevice() {
+    System::Log("Create Device:Begin");
     HRESULT hr = S_OK;
 
     ComPtr<IDXGIAdapter4> useAdapter = nullptr;
@@ -228,9 +231,11 @@ void DirectXCommon::CreateDevice() {
     filter.DenyList.pSeverityList = severities;
     infoQueue->PushStorageFilter(&filter);
     #endif
+    System::Log("Create Device:Finish");
 }
 
 void DirectXCommon::CreateCommand() {
+    System::Log("Create Command:Begin");
     HRESULT hr = S_OK;
     hr = device_->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocator_));
     assert(SUCCEEDED(hr));
@@ -252,9 +257,12 @@ void DirectXCommon::CreateCommand() {
     assert(SUCCEEDED(hr));
 
     System::Log(/*Logger::Level::INFO, */"CommandQueue Created");
+
+    System::Log("Create Command:Finish");
 }
 
 void DirectXCommon::CreateSwapChain(HWND hwnd, int width, int height) {
+    System::Log("Create SwapChain:Begin");
     DXGI_SWAP_CHAIN_DESC1 swapChainDesc {};
     swapChainDesc.Width = width;
     swapChainDesc.Height = height;
@@ -289,6 +297,7 @@ void DirectXCommon::CreateSwapChain(HWND hwnd, int width, int height) {
     
     device_->CreateRenderTargetView(swapChainBuffers_[0].Get(), &rtvDesc, rtvHandles_[0]);
     device_->CreateRenderTargetView(swapChainBuffers_[1].Get(), &rtvDesc, rtvHandles_[1]);
+    System::Log("Create SwapChain:Finish");
 }
 
 void DirectXCommon::CreateFence() {
@@ -314,6 +323,7 @@ void DirectXCommon::SettingGraphicsInfo() {
 }
 
 void DirectXCommon::CreateDepthStencilView() {
+    System::Log(/*Logger::Level::INFO, */"Create DepthStencilView:Begin");
     depthStencilResource_.Attach(CreateDepthStencilTextureResource(device_, WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT).Get());
 
     dsvHeap_ = std::make_shared<Heap>();
@@ -324,7 +334,7 @@ void DirectXCommon::CreateDepthStencilView() {
 
     device_->CreateDepthStencilView(depthStencilResource_.Get(), &dsvDesc_, dsvHeap_->GetCPUHandle(0));
 
-    System::Log(/*Logger::Level::INFO, */"DepthStencilView Created");
+    System::Log(/*Logger::Level::INFO, */"Create DepthStencilView:Finish");
 }
 
 //void DirectXCommon::CreateShaderResourceView() {
