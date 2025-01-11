@@ -14,7 +14,7 @@ void EngineDebug::Initialize() {
 
     //sprite_ = std::make_unique<Sprite>();
     //sprite_->SetTexture("uvChecker.png");
-    //sprite_->Initialize();
+    //sprite_->Initialize();　
 
     //model_ = std::make_unique<Model>();
     //model_->Initialize();
