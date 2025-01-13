@@ -25,7 +25,10 @@ void Input::Initialize(const WinApp* winApp) {
     assert(SUCCEEDED(hr));
 
     hr = keyboard->SetCooperativeLevel(winApp->GetWindowHandle(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
-    assert(SUCCEEDED(hr));
+    if (FAILED(hr)){
+        System::Log(Logger::Level::ERR, "Failed to SetCooperativeLevel");
+        assert(false);
+    }
 }
 
 void Input::Update() {

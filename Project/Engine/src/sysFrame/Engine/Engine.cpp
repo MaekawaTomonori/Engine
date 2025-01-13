@@ -1,6 +1,5 @@
 #include "Engine.h"
 
-#include <future>
 #include <memory>
 
 #include "Application/WinApp.h"

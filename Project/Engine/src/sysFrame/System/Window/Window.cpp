@@ -18,9 +18,9 @@ LRESULT CALLBACK Window::WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 	switch (msg){
 	case WM_DESTROY:
 		PostQuitMessage(0);
-	case WM_PAINT:
+	/*case WM_PAINT:
 		DisplayLogo(hWnd);
-		return 0;
+		return 0;*/
 	}
 
 	return DefWindowProc(hWnd, msg, wParam, lParam);
