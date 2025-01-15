@@ -65,7 +65,7 @@ void Engine::Update() const {
 }
 
 void Engine::Draw() const {
-    winApp_->SetTitlebar(true);
+    //winApp_->SetTitlebar(true);
     //Draw
 	imguiManager_->End();
     srvManager_->PreDraw();
