@@ -44,3 +44,12 @@ HINSTANCE WinApp::GetInstanceHandle() const {
 HWND WinApp::GetWindowHandle() const {
 	return window_->GetWindowHandle();
 }
+
+void WinApp::SetTitlebar(bool state) {
+    if (titlebar_ == state)return;
+
+    titlebar_ = state;
+    titlebar_ ? window_->EnableTitlebar() : window_->DisableTitlebar();
+}
+
+

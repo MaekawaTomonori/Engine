@@ -1,6 +1,5 @@
 #include "Engine.h"
 
-#include <future>
 #include <memory>
 
 #include "Application/WinApp.h"
@@ -49,6 +48,9 @@ void Engine::Initialize() {
     light_->Initialize(dxCommon_);
 
     defaultCamera_->Initialize();
+
+
+    System::Log(Logger::Level::INFO, "Engine Enabled");
 }
 
 void Engine::Update() const {
@@ -63,6 +65,7 @@ void Engine::Update() const {
 }
 
 void Engine::Draw() const {
+    winApp_->SetTitlebar(true);
     //Draw
 	imguiManager_->End();
     srvManager_->PreDraw();

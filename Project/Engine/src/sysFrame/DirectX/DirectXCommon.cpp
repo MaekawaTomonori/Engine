@@ -208,7 +208,7 @@ void DirectXCommon::CreateDevice() {
     }
 
     assert(device_ != nullptr);
-    System::Log(/*Logger::Level::INFO,*/"Complete creation!");
+    System::Log(Logger::Level::INFO,"Complete creation!");
 
     #ifdef _DEBUG
     ComPtr<ID3D12InfoQueue> infoQueue;
