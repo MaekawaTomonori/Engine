@@ -1,6 +1,9 @@
 #include "GameScene.h"
 
+#include "System/Loader.h"
+
 void GameScene::Initialize() {
+	Loader::Texture("circle.png");
 	player_ = std::make_unique<Player>();
 	player_->Initialize();
 
@@ -11,7 +14,7 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 	ICommand* command = inputHandler_->Handle();
 	if (command != nullptr) {
-		command->Execute(*player_.get());
+		command->Execute(*player_);
 	}
 
 	player_->Update();

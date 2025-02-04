@@ -2,9 +2,10 @@
 
 void Player::Initialize() {
 	sprite_ = std::make_unique<Sprite>();
-	sprite_->SetTexture("player.png");
+	sprite_->SetTexture("circle.png");
 	sprite_->Initialize();
 	sprite_->SetPosition({640, 360});
+	sprite_->SetSize({ 64.f, 64.f });
 }
 
 void Player::Update() {
