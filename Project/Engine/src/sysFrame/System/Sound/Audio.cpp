@@ -2,7 +2,6 @@
 
 #include <cassert>
 #include <fstream>
-#include <threads.h>
 
 #include "System/System.h"
 #include "System/SingletonFinalizer/SingletonFinalizer.h"

@@ -11,6 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game\Player.cpp" />
+    <ClCompile Include="Game\ICommand.cpp" />
+    <ClCompile Include="Game\InputHandler.cpp" />
     <ClCompile Include="src\sysFrame\System\Console\Console.cpp" />
     <ClCompile Include="Game\GameScene.cpp" />
     <ClCompile Include="Game\SceneFactory.cpp" />
@@ -60,6 +63,9 @@
     <ClCompile Include="src\sysFrame\System\Thread\ThreadManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\Player.h" />
+    <ClInclude Include="Game\ICommand.h" />
+    <ClInclude Include="Game\InputHandler.h" />
     <ClInclude Include="src\sysFrame\System\Console\Console.h" />
     <ClInclude Include="Game\GameScene.h" />
     <ClInclude Include="Game\SceneFactory.h" />

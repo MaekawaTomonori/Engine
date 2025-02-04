@@ -16,7 +16,7 @@ void Framework::Run() {
      * デバッグモード有効時、ゲームの処理が呼び出されません
      * 有効になっている場合はコメントアウトもしくは削除してください
      */
-	engine->EnableDebug();
+	//engine->EnableDebug();
     //engine->SetBackColor({0,0,0,1});
 
 	Initialize();
