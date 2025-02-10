@@ -17,6 +17,7 @@ public: //Functions
 
     HINSTANCE GetInstanceHandle() const;
     HWND GetWindowHandle() const;
-	void ToggleFullscreen();
+	void ToggleFullscreen() const;
+	void SetTitle(const std::string& title) const;
 };
 

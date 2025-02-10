@@ -16,6 +16,8 @@ inline void Game::Initialize() {
 	System::Log("Game Init");
 	scene_->SetFactory(std::make_unique<SceneFactory>());
 	scene_->ChangeScene("play");
+	engine_->SetTitle("Title");
+	engine_->SetFPSLimit(120);
 }
 
 inline void Game::Update() {

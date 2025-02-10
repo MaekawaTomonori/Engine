@@ -15,7 +15,7 @@ void Model::Initialize() {
     worldTransform_ = std::make_unique<WorldTransform>(dxCommon_);
     worldTransform_->Initialize(WorldTransform::Type::MODEL);
 
-    camera_ = Engine::GetDefaultCamera();
+    camera_ = CameraManager::GetInstance()->GetCamera();
     worldTransform_->SetCamera(camera_);
 
 	cameraResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_.lock()->GetDevice(), sizeof(CameraForGPU)).Get());

@@ -14,8 +14,6 @@
 #include "Object/Sprite/SpriteCommon.h"
 #include "System/SingletonFinalizer/SingletonFinalizer.h"
 
-std::shared_ptr<Camera> Engine::defaultCamera_ = nullptr;
-
 void Engine::Initialize() {
     logger_ = Log::GetLogger();
 
@@ -27,6 +25,7 @@ void Engine::Initialize() {
     audio_ = AudioAnther::GetInstance();
 
 	imguiManager_ = ImGuiManager::GetInstance();
+    cameraManager_ = CameraManager::GetInstance();
     textureManager_ = TextureManager::GetInstance();
     modelManager_ = ModelManager::GetInstance();
     spriteCommon_ = SpriteCommon::GetInstance();
@@ -34,8 +33,6 @@ void Engine::Initialize() {
     light_ = LightManager::GetInstance();
 
     particleManager_ = ParticleManager::GetInstance();
-
-	defaultCamera_ = std::make_shared<Camera>();
 
 	winApp_->Initialize(title_);
     dxCommon_->Initialize(winApp_.get());
@@ -48,19 +45,19 @@ void Engine::Initialize() {
 
     input_->Initialize(winApp_.get());
     textureManager_->Initialize(dxCommon_, srvManager_.get());
+    cameraManager_->Initialize();
     particleManager_->Initialize(dxCommon_.get(), srvManager_.get());
     modelManager_->Initialize(dxCommon_);
     spriteCommon_->Initialize(dxCommon_);
     modelCommon_->Initialize(dxCommon_);
     light_->Initialize(dxCommon_);
-
-    defaultCamera_->Initialize();
 }
 
 void Engine::Update() const {
     input_->Update();
     imguiManager_->Begin();
     light_->Update();
+    cameraManager_->GetCamera()->Update();
 
     particleManager_->Update();
 
@@ -69,7 +66,6 @@ void Engine::Update() const {
     }
 
     if (engineDebug_){
-	    defaultCamera_->Update();
         debugScene_->Update();
     }
 }
@@ -97,7 +93,6 @@ void Engine::Finalize() const {
     if (engineDebug_){
         debugScene_->Finalize();
     }
-    defaultCamera_.reset();
 
     SingletonFinalizer::Finalize();
     srvManager_->Finalize();
@@ -132,4 +127,9 @@ void Engine::SetBackColor(const Vector4& color) const {
 
 void Engine::SetTitle(const std::string& title) {
     title_ = title;
+    winApp_->SetTitle(title_);
+}
+
+void Engine::SetFPSLimit(const int fps) const {
+	dxCommon_->SetFPSLimit(fps);
 }

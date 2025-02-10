@@ -29,5 +29,7 @@ public:
 	HWND GetWindowHandle() const {
 		return hWnd_;
 	}
+
+    void SetTitle(const std::string& title) const;
 };
 

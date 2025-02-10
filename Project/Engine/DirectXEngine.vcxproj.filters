@@ -65,6 +65,8 @@
     <ClCompile Include="src\sysFrame\Scene\Effect\ISceneEffect.cpp" />
     <ClCompile Include="src\sysFrame\Scene\Effect\Fade.cpp" />
     <ClCompile Include="src\sysFrame\Scene\Effect\SceneChanger.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Camera\CameraManager.cpp" />
+    <ClCompile Include="src\sysFrame\Framework\Adapter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sysFrame\Object\ColorEditor.h" />
@@ -177,6 +179,8 @@
     <ClInclude Include="src\sysFrame\Scene\Effect\ISceneEffect.h" />
     <ClInclude Include="src\sysFrame\Scene\Effect\Fade.h" />
     <ClInclude Include="src\sysFrame\Scene\Effect\SceneChanger.h" />
+    <ClInclude Include="src\sysFrame\Object\Camera\CameraManager.h" />
+    <ClInclude Include="src\sysFrame\Framework\Adapter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\Sprite.hlsli" />

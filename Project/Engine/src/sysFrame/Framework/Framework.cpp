@@ -1,43 +1,32 @@
 #include "Framework.h"
 
-#include "System/System.h"
-
 void Framework::Run() {
-	engine = std::make_unique<Engine>();
-    engine->Initialize();
+	engine_ = std::make_unique<Adapter>();
+    engine_->Initialize();
 
     scene_ = std::make_unique<SceneManager>();
 
-    /*
-     * Enable EngineDebugMode
-     * エンジンの動作を確認するためのデバッグモードを有効にします
-     * デバッグモード有効時、ゲームの処理が呼び出されません
-     * 有効になっている場合はコメントアウトもしくは削除してください
-     */
-	engine->EnableDebug();
-
 	Initialize();
 
-
     //MainLoop
-    while (engine->IsActive()){
+    while (engine_->IsActive()){
         //Update
-        engine->Update();
+        engine_->Update();
 
-        if (!engine->IsDebug()){
+        if (!engine_->IsDebug()){
             Update();
             scene_->Update();
         }
 
-        engine->Draw();
-        if (!engine->IsDebug()){
+        engine_->Draw();
+        if (!engine_->IsDebug()){
             Draw();
             scene_->Draw();
         }
 
-        engine->EndFrame();
+        engine_->EndFrame();
     }
 
     Finalize();
-	engine->Finalize();
+	engine_->Finalize();
 }

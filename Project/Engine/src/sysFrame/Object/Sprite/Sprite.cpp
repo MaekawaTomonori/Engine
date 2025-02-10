@@ -156,7 +156,7 @@ void Sprite::Initialize() {
 
 	size = { 100, 100 };
 
-	camera_ = Engine::GetDefaultCamera();
+	camera_ = CameraManager::GetInstance()->GetCamera();
 
 	AdjustTextureSize();
 

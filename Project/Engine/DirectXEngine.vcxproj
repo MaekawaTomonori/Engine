@@ -11,7 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sysFrame\Framework\Adapter.cpp" />
     <ClCompile Include="AudioAnther.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Camera\CameraManager.cpp" />
     <ClCompile Include="src\sysFrame\Scene\Effect\SceneChanger.cpp" />
     <ClCompile Include="src\sysFrame\Scene\Effect\Fade.cpp" />
     <ClCompile Include="Game\GameScene\GameScene.cpp" />
@@ -64,7 +66,9 @@
     <ClCompile Include="src\sysFrame\System\Thread\ThreadManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sysFrame\Framework\Adapter.h" />
     <ClInclude Include="AudioAnther.h" />
+    <ClInclude Include="src\sysFrame\Object\Camera\CameraManager.h" />
     <ClInclude Include="src\sysFrame\Scene\Effect\SceneChanger.h" />
     <ClInclude Include="src\sysFrame\Scene\Effect\Fade.h" />
     <ClInclude Include="src\sysFrame\Scene\Effect\ISceneEffect.h" />

@@ -6,7 +6,7 @@ struct Transform{
     Vector3 rotate;
     Vector3 translate;
 
-    Transform operator+(const Transform& other) {
+    Transform operator+(const Transform& other) const {
         return {
             scale + other.scale,
             rotate + other.rotate,
