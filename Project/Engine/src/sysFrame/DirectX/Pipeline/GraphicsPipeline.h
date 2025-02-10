@@ -10,12 +10,13 @@ class Heap;
 class DirectXCommon;
 
 enum class BlendMode{
-	NONE,
 	ALPHA,
 	ADD,
 	SUB,
 	MULTI,
 	SCREEN,
+
+	NONE
 };
 
 class GraphicsPipeline{

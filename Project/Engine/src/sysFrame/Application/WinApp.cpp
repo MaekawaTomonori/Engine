@@ -35,6 +35,10 @@ HWND WinApp::GetWindowHandle() const {
 	return window_->GetWindowHandle();
 }
 
-void WinApp::ToggleFullscreen() {
+void WinApp::ToggleFullscreen() const {
     window_->ToggleFullscreen();
+}
+
+void WinApp::SetTitle(const std::string& title) const {
+    window_->SetTitle(title);
 }

@@ -150,3 +150,7 @@ void Window::ToggleFullscreen() {
 		Lock();
     }
 }
+
+void Window::SetTitle(const std::string& title) const {
+	SetWindowText(hWnd_, System::ConvertString(title).c_str());
+}

@@ -10,8 +10,6 @@
 #include "Heap/SRVManager.h"
 #include "Shader/Shader.h"
 #include "System/System.h"
-#include "System/Math/Vector2.h"
-#include "System/Math/Vector3.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -293,10 +291,8 @@ void DirectXCommon::CreatePostProcessResource() {
 
     D3D12_HEAP_PROPERTIES heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
 
-    D3D12_CLEAR_VALUE clearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, &backColor_.x);
-    float black[4] = {0, 0, 0, 1};
-    D3D12_CLEAR_VALUE clearValueBlack = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, black);
 
+    D3D12_CLEAR_VALUE clearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, &backColor_.x);
     auto result = device_->CreateCommittedResource(
         &heapProp,
         D3D12_HEAP_FLAG_NONE,
@@ -307,6 +303,8 @@ void DirectXCommon::CreatePostProcessResource() {
     );
     assert(SUCCEEDED(result));
 
+    float black[4] = {0, 0, 0, 1};
+    D3D12_CLEAR_VALUE clearValueBlack = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, black);
 	result = device_->CreateCommittedResource(
         &heapProp,
         D3D12_HEAP_FLAG_NONE,
@@ -539,7 +537,7 @@ void DirectXCommon::PreDraw() {
         rtvPointer.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
     }
 
-    D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap_->GetCPUHandle(0);
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap_->GetCPUHandle(0);
 
     commandList_->OMSetRenderTargets(SRV_INDEX_COUNT, handles, false, &dsvHandle);
     float black[4] = {0, 0, 0, 1};

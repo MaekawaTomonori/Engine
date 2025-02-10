@@ -2,11 +2,11 @@
 #include <memory>
 
 #include "DirectX/Util/D3DResourceLeakChecker.h"
-#include "Object/Camera/Camera.h"
 #include "System/ImGui/ImGuiManager.h"
 #include "System/Log/Log.h"
 
 #include "EngineDebug.h"
+#include "Object/Camera/CameraManager.h"
 #include "Object/Particle/ParticleManager.h"
 #include "System/Input/Input.h"
 
@@ -34,6 +34,7 @@ class Engine{
     Input* input_ = nullptr;
 
     ImGuiManager* imguiManager_ = nullptr;
+    CameraManager* cameraManager_ = nullptr;
     TextureManager* textureManager_ = nullptr;
     ModelManager* modelManager_ = nullptr;
     SpriteCommon* spriteCommon_ = nullptr;
@@ -41,8 +42,6 @@ class Engine{
     LightManager* light_ = nullptr;
 
     ParticleManager* particleManager_ = nullptr;
-
-    static std::shared_ptr<Camera> defaultCamera_;
 
     bool engineDebug_ = false;
     std::shared_ptr<EngineDebug> debugScene_;
@@ -64,12 +63,6 @@ public:
 
     void SetTitle(const std::string& title);
 
-    void SetFPSLimit(const int fps) const {
-        dxCommon_->SetFPSLimit(fps);
-    }
-
-	static Camera* GetDefaultCamera() {
-        return defaultCamera_.get();
-    }
+    void SetFPSLimit(const int fps) const;
 };
 

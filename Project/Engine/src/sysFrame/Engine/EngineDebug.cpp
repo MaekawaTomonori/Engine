@@ -32,6 +32,11 @@ void EngineDebug::Initialize() {
     model_ = std::make_unique < Model >();
     model_->Initialize();
     model_->SetMesh("plane");
+    model_->SetTransform({
+        {1, 1, 1},
+        {0, 3.14f, 0 },
+        {}
+    });
 }
 
 void EngineDebug::Update() {

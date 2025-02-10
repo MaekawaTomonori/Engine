@@ -32,7 +32,7 @@ void WorldTransform::Initialize(Type type) {
         matrixForModel_->world = MathUtils::Matrix::MakeIdentity();
         break;
     }
-    camera_ = Engine::GetDefaultCamera();
+    camera_ = CameraManager::GetInstance()->GetCamera();
 }
 
 void WorldTransform::Update() const {

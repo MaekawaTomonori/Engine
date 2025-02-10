@@ -22,81 +22,55 @@ class Sprite : public Object{
     Vector2 leftTop {};
     Vector2 texSize {100, 100};
 
+    BlendMode blendMode_;
+
 private:
 	void AdjustTextureSize();
 
 public:
-	Sprite() :Object(SpriteCommon::GetInstance()->GetDXCommon()), spriteCommon_(SpriteCommon::GetInstance()) {}
+	Sprite();
 
     void Initialize() override;
-    void Initialize(const std::string& texture) override {
-        texturePath = texture;
-        Initialize();
-    }
+    void Initialize(const std::string& texture) override;
     void Update() override;
     void Draw() override;
 
-    const Vector2& GetPosition() const {
-        return position;
-    }
-    void SetPosition(const Vector2& p) {
-        position = p;
-    }
+    const Vector2& GetPosition() const;
 
-    const Vector2& GetSize() const {
-        return size;
-    }
-    void SetSize(const Vector2& s) {
-        size = s;
-    }
+    void SetPosition(const Vector2& p);
 
-	float GetRotation() const {
-        return rotation;
-    }
-    void SetRotation(float r) {
-        rotation = r;
-    }
+    const Vector2& GetSize() const;
 
-    const Vector4& GetColor() const {
-        return material_->color;
-    }
-    void SetColor(const Vector4& color) const {
-        material_->color = color;
-    }
+    void SetSize(const Vector2& s);
 
-    const Vector2& GetAnchorPoint() const {
-        return anchorPoint;
-    }
-    void SetAnchorPoint(const Vector2& a) {
-        anchorPoint = a;
-    }
+    float GetRotation() const;
 
-    bool IsFlipX() const {
-        return flipX;
-    }
-    void SetFlipX(bool f) {
-        flipX = f;
-    }
+    void SetRotation(float r);
 
-    bool IsFlipY() const {
-        return flipY;
-    }
-    void SetFlipY(bool f) {
-        flipY = f;
-    }
+    const Vector4& GetColor() const;
 
-    const Vector2& GetTextureLeftTop() const {
-        return leftTop;
-    }
-    void SetTextureLeftTop(const Vector2& textureLeftTop) {
-        leftTop = textureLeftTop;
-    }
+    void SetColor(const Vector4& color) const;
 
-    const Vector2& GetTextureSize() const {
-        return texSize;
-    }
-    void SetTextureSize(const Vector2& textureSize) {
-        texSize = textureSize;
-    }
+    const Vector2& GetAnchorPoint() const;
+
+    void SetAnchorPoint(const Vector2& a);
+
+    bool IsFlipX() const;
+
+    void SetFlipX(bool f);
+
+    bool IsFlipY() const;
+
+    void SetFlipY(bool f);
+
+    const Vector2& GetTextureLeftTop() const;
+
+    void SetTextureLeftTop(const Vector2& textureLeftTop);
+
+    const Vector2& GetTextureSize() const;
+
+    void SetTextureSize(const Vector2& textureSize);
+
+    void SetBlendMode(const BlendMode mode);
 };
 

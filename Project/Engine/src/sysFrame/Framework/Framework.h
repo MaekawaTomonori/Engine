@@ -1,13 +1,11 @@
 #pragma once
-#include "Engine/Engine.h"
+#include "Adapter.h"
 #include "Scene/SceneManager.h"
 
 class Framework{
-private:
-	std::unique_ptr<Engine> engine;
 protected:
+	std::unique_ptr<Adapter> engine_;
 	std::unique_ptr<SceneManager> scene_;
-
 
 protected:
 	virtual void Initialize() = 0;

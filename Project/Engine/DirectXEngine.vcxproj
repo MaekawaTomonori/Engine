@@ -11,7 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sysFrame\Framework\Adapter.cpp" />
     <ClCompile Include="AudioAnther.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Camera\CameraManager.cpp" />
     <ClCompile Include="src\sysFrame\Scene\Effect\SceneChanger.cpp" />
     <ClCompile Include="src\sysFrame\Scene\Effect\Fade.cpp" />
     <ClCompile Include="Game\GameScene\GameScene.cpp" />
@@ -64,7 +66,9 @@
     <ClCompile Include="src\sysFrame\System\Thread\ThreadManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sysFrame\Framework\Adapter.h" />
     <ClInclude Include="AudioAnther.h" />
+    <ClInclude Include="src\sysFrame\Object\Camera\CameraManager.h" />
     <ClInclude Include="src\sysFrame\Scene\Effect\SceneChanger.h" />
     <ClInclude Include="src\sysFrame\Scene\Effect\Fade.h" />
     <ClInclude Include="src\sysFrame\Scene\Effect\ISceneEffect.h" />
@@ -274,7 +278,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <EnableASAN>false</EnableASAN>
+    <EnableASAN>true</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -282,7 +286,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <EnableASAN>false</EnableASAN>
+    <EnableASAN>true</EnableASAN>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -300,13 +304,13 @@
     <OutDir>$(SolutionDir)..\Generated\outputs\$(ProjectName)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\obj\$(ProjectName)\$(Configuration)\</IntDir>
     <IncludePath>$(SolutionDir)src\externals\DirectXTex;$(IncludePath)</IncludePath>
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)..\Generated\outputs\$(ProjectName)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\obj\$(ProjectName)\$(Configuration)\</IntDir>
     <IncludePath>$(SolutionDir)src\externals\DirectXTex;$(IncludePath)</IncludePath>
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

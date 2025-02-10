@@ -1,7 +1,9 @@
 ﻿#pragma once
 #include <memory>
 #include <mutex>
+#include <vector>
 
+enum class BlendMode;
 class DirectXCommon;
 class GraphicsPipeline;
 
@@ -11,7 +13,9 @@ class SpriteCommon{
 
 	std::weak_ptr<DirectXCommon> dxCommon_;
 
-    std::shared_ptr<GraphicsPipeline> pipeline_;
+    std::vector<std::unique_ptr<GraphicsPipeline>> pipelines_;
+
+    BlendMode mode_{};
 
 private://Methods
 	SpriteCommon() = default;
@@ -29,6 +33,8 @@ public:
 
 	void Initialize(const std::weak_ptr<DirectXCommon>& dxCommon);
     void PreDraw() const;
+
+    void SetBlendMode(BlendMode mode);
 
     std::weak_ptr<DirectXCommon> GetDXCommon() const {
         return dxCommon_;
