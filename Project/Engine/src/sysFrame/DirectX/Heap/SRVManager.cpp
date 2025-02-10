@@ -14,7 +14,7 @@ void SRVManager::Initialize(DirectXCommon* dxCommon) {
 
 	auto dxc = dxCommon_;
     if (!dxc){
-        System::Log(Logger::Level::ERR, "SRVManager Initialize Failed");
+        System::Log(Log::Level::ERR, "SRVManager Initialize Failed");
         return;
     }
 
@@ -24,11 +24,11 @@ void SRVManager::Initialize(DirectXCommon* dxCommon) {
 
     useIndex_ = 0;
 
-    System::Log(Logger::Level::INFO, "SRVManager Enabled");
+    System::Log(Log::Level::INFO, "SRVManager Enabled");
 }
 
 void SRVManager::Finalize() {
-    //System::Logger(Logger::Level::INFO, "SRVManager Disabled");
+    //System::Log(Log::Level::INFO, "SRVManager Disabled");
 }
 
 uint32_t SRVManager::Allocate() {

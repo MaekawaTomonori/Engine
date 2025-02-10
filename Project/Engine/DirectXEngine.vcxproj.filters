@@ -1,369 +1,186 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ソース ファイル">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="リソース ファイル">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\DirectX\DirectXCommon.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\Application\WinApp.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\System\System.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\System\Window\Window.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\DirectX\Heap\Heap.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\DirectX\Shader\Shader.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\DirectX\Pipeline\GraphicsPipeline.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\System\Math\MathUtils.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\DirectX\Util\D3DResourceLeakChecker.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\System\ImGui\ImGuiManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\externals\imgui\imgui.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\externals\imgui\imgui_demo.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\externals\imgui\imgui_draw.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\externals\imgui\imgui_impl_dx12.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\externals\imgui\imgui_impl_win32.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\externals\imgui\imgui_tables.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\externals\imgui\imgui_widgets.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\Object\Camera\Camera.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\System\Math\WorldTransform.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\System\Input\Input.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\Engine\Engine.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\DirectX\Texture\TextureManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\System\Log\Logger.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\DirectX\Heap\SRVManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\Engine\EngineDebug.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\System\Loader.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\Object\Sprite\Sprite.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\Object\Sprite\SpriteCommon.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\Object\Model\Mesh\Mesh.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\Object\Model\Mesh\MeshCommon.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\Object\Model\Model.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\Object\Model\ModelCommon.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\DirectX\Lighting\LightManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\DirectX\Model\ModelManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\System\Math\Vector3.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\System\Sound\Audio.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\Framework\Framework.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\System\File\File.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\Scene\BaseScene.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\Scene\SceneManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\Scene\AbstractSceneFactory.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\SceneFactory.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameScene.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\System\Console\Console.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sysFrame\System\Thread\ThreadManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Player.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\ICommand.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\InputHandler.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\sysFrame\DirectX\DirectXCommon.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\Application\WinApp.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\System.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Window\Window.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\DirectX\Heap\Heap.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\DirectX\Shader\Shader.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\DirectX\Pipeline\GraphicsPipeline.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\Object\Object.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\MathUtils.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\Matrix.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\Transform.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\Vector2.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\Vector3.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\Vector4.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\VertexData.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\Material.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\DirectX\Util\D3DResourceLeakChecker.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\ImGui\ImGuiManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\externals\imgui\imconfig.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\externals\imgui\imgui.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\externals\imgui\imgui_impl_dx12.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\externals\imgui\imgui_impl_win32.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\externals\imgui\imgui_internal.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\externals\imgui\imstb_rectpack.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\externals\imgui\imstb_textedit.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\externals\imgui\imstb_truetype.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\Object\Camera\Camera.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\ModelTransformation.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Math\WorldTransform.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Input\Input.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\Engine\Engine.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\DirectX\Texture\TextureManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Log\Logger.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\DirectX\Heap\SRVManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\Engine\EngineDebug.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Loader.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\Object\Sprite\Sprite.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\Object\Sprite\SpriteCommon.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\Object\Model\Mesh\Mesh.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\Object\Model\ModelCommon.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\Object\Model\Mesh\MeshCommon.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\Object\Model\Model.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\DirectX\Lighting\LightManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\DirectX\Model\ModelManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\Object\Light\DirectionalLight\DirectionalLight.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\Object\Light\PointLight\PointLight.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\Object\Light\SpotLight\SpotLight.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Sound\Audio.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\Framework\Framework.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Game.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\File\File.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\Scene\BaseScene.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\Scene\SceneManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\Scene\AbstractSceneFactory.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\SceneFactory.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameScene.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Console\Console.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sysFrame\System\Thread\ThreadManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Player.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\ICommand.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\InputHandler.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="assets\Shaders\Model.VS.hlsl" />
     <FxCompile Include="assets\Shaders\Model.PS.hlsl" />
-    <FxCompile Include="Assets\Shaders\Sprite.VS.hlsl" />
+    <FxCompile Include="assets\Shaders\Model.VS.hlsl" />
+    <FxCompile Include="Assets\Shaders\Particle2d.PS.hlsl" />
+    <FxCompile Include="Assets\Shaders\Particle2d.VS.hlsl" />
     <FxCompile Include="Assets\Shaders\Sprite.PS.hlsl" />
+    <FxCompile Include="Assets\Shaders\Sprite.VS.hlsl" />
+    <FxCompile Include="Assets\Shaders\Particle2d.hlsli" />
+    <FxCompile Include="Assets\Shaders\Screen.VS.hlsl" />
+    <FxCompile Include="Assets\Shaders\Screen.PS.hlsl" />
+    <FxCompile Include="Assets\Shaders\Blur.hlsl" />
+    <FxCompile Include="Assets\Shaders\Bloom.hlsl" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="src\externals\imgui\LICENSE.txt" />
+    <ClCompile Include="src\sysFrame\Object\ColorEditor.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Particle\Particle2d.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Particle\Emitter2d.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Particle\ParticleCommon.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Particle\ParticleManager.cpp" />
+    <ClCompile Include="Game\GameScene\GameScene.cpp" />
+    <ClCompile Include="Game\SceneFactory.cpp" />
+    <ClCompile Include="src\sysFrame\System\ImGui\ImGuiCommand.cpp" />
+    <ClCompile Include="src\sysFrame\Scene\AbstractSceneFactory.cpp" />
+    <ClCompile Include="src\sysFrame\Scene\SceneManager.cpp" />
+    <ClCompile Include="src\sysFrame\Scene\BaseScene.cpp" />
+    <ClCompile Include="src\sysFrame\System\File\File.cpp" />
+    <ClCompile Include="src\sysFrame\Framework\Framework.cpp" />
+    <ClCompile Include="src\sysFrame\DirectX\Lighting\LightManager.cpp" />
+    <ClCompile Include="src\sysFrame\DirectX\Model\ModelManager.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Model\Mesh\Mesh.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Model\Mesh\MeshCommon.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Model\Model.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Model\ModelCommon.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Sprite\Sprite.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Sprite\SpriteCommon.cpp" />
+    <ClCompile Include="src\sysFrame\System\Loader.cpp" />
+    <ClCompile Include="src\sysFrame\DirectX\Heap\SRVManager.cpp" />
+    <ClCompile Include="src\sysFrame\DirectX\Texture\TextureManager.cpp" />
+    <ClCompile Include="src\sysFrame\Engine\Engine.cpp" />
+    <ClCompile Include="src\sysFrame\DirectX\Util\D3DResourceLeakChecker.cpp" />
+    <ClCompile Include="src\sysFrame\Engine\EngineDebug.cpp" />
+    <ClCompile Include="src\sysFrame\System\ImGui\ImGuiManager.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Camera\Camera.cpp" />
+    <ClCompile Include="src\sysFrame\DirectX\Heap\Heap.cpp" />
+    <ClCompile Include="src\sysFrame\DirectX\DirectXCommon.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\sysFrame\Application\WinApp.cpp" />
+    <ClCompile Include="src\sysFrame\DirectX\Pipeline\GraphicsPipeline.cpp" />
+    <ClCompile Include="src\sysFrame\DirectX\Shader\Shader.cpp" />
+    <ClCompile Include="src\sysFrame\System\Input\Input.cpp" />
+    <ClCompile Include="src\sysFrame\System\Log\Log.cpp" />
+    <ClCompile Include="src\sysFrame\System\Math\MathUtils.cpp" />
+    <ClCompile Include="src\sysFrame\System\Math\Vector2.cpp" />
+    <ClCompile Include="src\sysFrame\System\Math\Vector3.cpp" />
+    <ClCompile Include="src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.cpp" />
+    <ClCompile Include="src\sysFrame\System\Sound\Audio.cpp" />
+    <ClCompile Include="src\sysFrame\System\System.cpp" />
+    <ClCompile Include="src\sysFrame\System\Window\Window.cpp" />
+    <ClCompile Include="src\sysFrame\System\Math\WorldTransform.cpp" />
+    <ClCompile Include="src\sysFrame\System\Thread\ThreadManager.cpp" />
+    <ClCompile Include="src\sysFrame\System\Math\Easing.cpp" />
+    <ClCompile Include="AudioAnther.cpp" />
+    <ClCompile Include="src\sysFrame\Scene\Effect\ISceneEffect.cpp" />
+    <ClCompile Include="src\sysFrame\Scene\Effect\Fade.cpp" />
+    <ClCompile Include="src\sysFrame\Scene\Effect\SceneChanger.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\sysFrame\Object\ColorEditor.h" />
+    <ClInclude Include="Game\Element\ElementStatus.h" />
+    <ClInclude Include="Game\GameScene\GameScene.h" />
+    <ClInclude Include="Game\SceneFactory.h" />
+    <ClInclude Include="src\sysFrame\Object\Particle\Particle2d.h" />
+    <ClInclude Include="src\sysFrame\Object\Particle\Emitter2d.h" />
+    <ClInclude Include="src\sysFrame\Object\Particle\ParticleCommon.h" />
+    <ClInclude Include="src\sysFrame\Object\Particle\ParticleManager.h" />
+    <ClInclude Include="src\sysFrame\System\ImGui\ImGuiCommand.h" />
+    <ClInclude Include="src\externals\json\include\nlohmann\adl_serializer.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\byte_container_with_subtype.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\abi_macros.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\conversions\from_json.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\conversions\to_chars.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\conversions\to_json.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\exceptions.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\hash.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\input\binary_reader.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\input\input_adapters.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\input\json_sax.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\input\lexer.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\input\parser.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\input\position_t.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\iterators\internal_iterator.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\iterators\iteration_proxy.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\iterators\iterator_traits.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\iterators\iter_impl.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\iterators\json_reverse_iterator.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\iterators\primitive_iterator.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\json_custom_base_class.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\json_pointer.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\json_ref.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\macro_scope.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\macro_unscope.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\meta\call_std\begin.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\meta\call_std\end.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\meta\cpp_future.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\meta\detected.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\meta\identity_tag.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\meta\is_sax.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\meta\std_fs.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\meta\type_traits.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\meta\void_t.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\output\binary_writer.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\output\output_adapters.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\output\serializer.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\string_concat.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\string_escape.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\detail\value_t.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\json.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\json_fwd.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\ordered_map.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\thirdparty\hedley\hedley.hpp" />
+    <ClInclude Include="src\externals\json\include\nlohmann\thirdparty\hedley\hedley_undef.hpp" />
+    <ClInclude Include="src\externals\json\single_include\nlohmann\json.hpp" />
+    <ClInclude Include="src\externals\json\single_include\nlohmann\json_fwd.hpp" />
+    <ClInclude Include="src\sysFrame\Object\ICollider.h" />
+    <ClInclude Include="src\sysFrame\Scene\AbstractSceneFactory.h" />
+    <ClInclude Include="src\sysFrame\Scene\SceneManager.h" />
+    <ClInclude Include="src\sysFrame\Scene\BaseScene.h" />
+    <ClInclude Include="src\sysFrame\System\File\File.h" />
+    <ClInclude Include="Game\Game.h" />
+    <ClInclude Include="src\sysFrame\Framework\Framework.h" />
+    <ClInclude Include="src\sysFrame\DirectX\Lighting\LightManager.h" />
+    <ClInclude Include="src\sysFrame\DirectX\Model\ModelManager.h" />
+    <ClInclude Include="src\sysFrame\Object\Light\DirectionalLight\DirectionalLight.h" />
+    <ClInclude Include="src\sysFrame\Object\Light\PointLight\PointLight.h" />
+    <ClInclude Include="src\sysFrame\Object\Light\SpotLight\SpotLight.h" />
+    <ClInclude Include="src\sysFrame\Object\Model\Mesh\MeshCommon.h" />
+    <ClInclude Include="src\sysFrame\Object\Model\Mesh\Mesh.h" />
+    <ClInclude Include="src\sysFrame\Object\Model\ModelCommon.h" />
+    <ClInclude Include="src\sysFrame\Object\Model\Model.h" />
+    <ClInclude Include="src\sysFrame\Object\Sprite\Sprite.h" />
+    <ClInclude Include="src\sysFrame\Object\Sprite\SpriteCommon.h" />
+    <ClInclude Include="src\sysFrame\System\Loader.h" />
+    <ClInclude Include="src\sysFrame\Engine\EngineDebug.h" />
+    <ClInclude Include="src\sysFrame\DirectX\Heap\SRVManager.h" />
+    <ClInclude Include="src\sysFrame\DirectX\Texture\TextureManager.h" />
+    <ClInclude Include="src\sysFrame\Engine\Engine.h" />
+    <ClInclude Include="src\sysFrame\DirectX\Util\D3DResourceLeakChecker.h" />
+    <ClInclude Include="src\sysFrame\System\ImGui\ImGuiManager.h" />
+    <ClInclude Include="src\sysFrame\Object\Camera\Camera.h" />
+    <ClInclude Include="src\sysFrame\DirectX\Heap\Heap.h" />
+    <ClInclude Include="src\sysFrame\DirectX\DirectXCommon.h" />
+    <ClInclude Include="src\sysFrame\Application\WinApp.h" />
+    <ClInclude Include="src\sysFrame\DirectX\Pipeline\GraphicsPipeline.h" />
+    <ClInclude Include="src\sysFrame\DirectX\Shader\Shader.h" />
+    <ClInclude Include="src\sysFrame\Object\Object.h" />
+    <ClInclude Include="src\sysFrame\System\Input\Input.h" />
+    <ClInclude Include="src\sysFrame\System\Log\Log.h" />
+    <ClInclude Include="src\sysFrame\System\Math\Material.h" />
+    <ClInclude Include="src\sysFrame\System\Math\MathUtils.h" />
+    <ClInclude Include="src\sysFrame\System\Math\Matrix.h" />
+    <ClInclude Include="src\sysFrame\System\Math\Transform.h" />
+    <ClInclude Include="src\sysFrame\System\Math\ModelTransformation.h" />
+    <ClInclude Include="src\sysFrame\System\Math\Vector2.h" />
+    <ClInclude Include="src\sysFrame\System\Math\Vector3.h" />
+    <ClInclude Include="src\sysFrame\System\Math\Vector4.h" />
+    <ClInclude Include="src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.h" />
+    <ClInclude Include="src\sysFrame\System\Sound\Audio.h" />
+    <ClInclude Include="src\sysFrame\System\System.h" />
+    <ClInclude Include="src\sysFrame\System\Window\Window.h" />
+    <ClInclude Include="src\sysFrame\System\Math\VertexData.h" />
+    <ClInclude Include="src\sysFrame\System\Math\WorldTransform.h" />
+    <ClInclude Include="src\sysFrame\System\Thread\ThreadManager.h" />
+    <ClInclude Include="src\sysFrame\System\Math\Easing.h" />
+    <ClInclude Include="AudioAnther.h" />
+    <ClInclude Include="src\sysFrame\Scene\Effect\ISceneEffect.h" />
+    <ClInclude Include="src\sysFrame\Scene\Effect\Fade.h" />
+    <ClInclude Include="src\sysFrame\Scene\Effect\SceneChanger.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\Sprite.hlsli" />
+    <None Include="Assets\Shaders\Screen.hlsli" />
+    <None Include=".editorconfig" />
   </ItemGroup>
 </Project>

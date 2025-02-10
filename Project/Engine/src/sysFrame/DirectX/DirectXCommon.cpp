@@ -1,12 +1,17 @@
 #include "DirectXCommon.h"
 
 #include <cassert>
+#include <d3dcompiler.h>
 #include <format>
 
+#include "d3dx12.h"
 #include "Application/WinApp.h"
 #include "Heap/Heap.h"
+#include "Heap/SRVManager.h"
+#include "Shader/Shader.h"
 #include "System/System.h"
-#include "System/Thread/ThreadManager.h"
+#include "System/Math/Vector2.h"
+#include "System/Math/Vector3.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -16,76 +21,29 @@ bool DirectXCommon::Initialize(const WinApp* winApp) {
     CreateDebugLayer();
     CreateFactory();
     CreateDevice();
-    ThreadManager::GetInstance()->AddTask([&]{
-        CreateCommand();
-        CreateSwapChain(winApp->GetWindowHandle(), WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT);
-    });
-    ThreadManager::GetInstance()->AddTask([&]{CreateFence(); });
-    ThreadManager::GetInstance()->AddTask([&]{SettingGraphicsInfo(); });
-
-	CreateDepthStencilView();
+    CreateCommand();
+    CreateSwapChain(winApp->GetWindowHandle(), WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT);
+    CreateFence();
+    SettingGraphicsInfo();
+    CreateDepthStencilView();
     InitializeFixFPS();
 
+
     backColor_ = {0.1f, 0.25f, 0.5f, 1.0f};
-    System::Log(Logger::Level::INFO, "DirectXCommon Enabled");
+    System::Log(Log::Level::INFO, "DirectXCommon Enabled");
 
     return true;
 }
 
+void DirectXCommon::EnablePP(SRVManager* srv) {
+    srvManager_ = srv;
+    CreatePostProcessResource();
+    CreateScreenPipeline();
+}
+
 void DirectXCommon::Finalize() {
     CoUninitialize();
-    System::Log(Logger::Level::INFO, "DirectXCommon Disabled");
-}
-
-void DirectXCommon::PreDraw() {
-    UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
-
-    barrier_.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-    barrier_.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-    barrier_.Transition.pResource = swapChainBuffers_[backBufferIndex].Get();
-    barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
-    barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
-
-    commandList_->ResourceBarrier(1, &barrier_);
-
-    D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap_->GetCPUHandle(0);
-    commandList_->OMSetRenderTargets(1, &rtvHandles_[backBufferIndex], false, &dsvHandle);
-
-    commandList_->ClearRenderTargetView(rtvHandles_[backBufferIndex], &backColor_.x, 0, nullptr);
-    commandList_->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.f, 0, 0, nullptr);
-
-    commandList_->RSSetViewports(1, &viewport_);
-    commandList_->RSSetScissorRects(1, &scissorRect_);
-}
-
-void DirectXCommon::PostDraw() {
-    EndFrame();
-}
-
-void DirectXCommon::EndFrame() {
-    HRESULT hr = S_OK;
-    
-    barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
-    barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
-    
-    commandList_->ResourceBarrier(1, &barrier_);
-
-    hr = commandList_->Close();
-    assert(SUCCEEDED(hr));
-
-    ComPtr<ID3D12CommandList> cLists[] = {commandList_.Get()};
-    commandQueue_->ExecuteCommandLists(1, cLists->GetAddressOf());
-    
-    swapChain_->Present(1, 0);
-    
-    WaitForCommandQueue();
-    UpdateFixFPS();
-
-    hr = commandAllocator_.Get()->Reset();
-    assert(SUCCEEDED(hr));
-    
-    hr = commandList_.Get()->Reset(commandAllocator_.Get(), nullptr);
-    assert(SUCCEEDED(hr));
+    //System::Log(Log::Level::INFO, "DirectXCommon Disabled");
 }
 
 ComPtr<ID3D12Resource> DirectXCommon::CreateBufferResource(const ComPtr<ID3D12Device>& device, size_t sizeInBytes) {
@@ -164,14 +122,11 @@ void DirectXCommon::CreateDebugLayer() {
 }
 
 void DirectXCommon::CreateFactory() {
-    System::Log("Create Factory:Begin");
     HRESULT hr = CreateDXGIFactory(IID_PPV_ARGS(&factory_));
     assert(SUCCEEDED(hr));
-    System::Log("Create Factory:Finish");
 }
 
 void DirectXCommon::CreateDevice() {
-    System::Log("Create Device:Begin");
     HRESULT hr = S_OK;
 
     ComPtr<IDXGIAdapter4> useAdapter = nullptr;
@@ -181,7 +136,7 @@ void DirectXCommon::CreateDevice() {
         assert(SUCCEEDED(hr));
 
         if (!(adapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE)){
-            System::Log(/*Logger::Level::INFO,*/std::format(L"Use Adapter:{}", adapterDesc.Description));
+            System::Log(/*Log::Level::INFO,*/std::format(L"Use Adapter:{}", adapterDesc.Description));
             break;
         }
         useAdapter = nullptr;
@@ -202,13 +157,13 @@ void DirectXCommon::CreateDevice() {
     for (size_t i = 0; i < _countof(featureLevels); ++i){
         hr = D3D12CreateDevice(useAdapter.Get(), featureLevels[i], IID_PPV_ARGS(device_.GetAddressOf()));
         if (SUCCEEDED(hr)){
-            System::Log(/*Logger::Level::INFO, */std::format("FeatureLevel : {}", featureLevelStrings[i]));
+            System::Log(/*Log::Level::INFO, */std::format("FeatureLevel : {}", featureLevelStrings[i]));
             break;
         }
     }
 
     assert(device_ != nullptr);
-    System::Log(Logger::Level::INFO,"Complete creation!");
+    System::Log(/*Log::Level::INFO,*/"Complete creation!");
 
     #ifdef _DEBUG
     ComPtr<ID3D12InfoQueue> infoQueue;
@@ -231,21 +186,19 @@ void DirectXCommon::CreateDevice() {
     filter.DenyList.pSeverityList = severities;
     infoQueue->PushStorageFilter(&filter);
     #endif
-    System::Log("Create Device:Finish");
 }
 
 void DirectXCommon::CreateCommand() {
-    System::Log("Create Command:Begin");
     HRESULT hr = S_OK;
     hr = device_->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocator_));
     assert(SUCCEEDED(hr));
 
-    System::Log(/*Logger::Level::INFO, */"CommandAllocator Created");
+    System::Log(/*Log::Level::INFO, */"CommandAllocator Created");
 
     hr = device_->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator_.Get(), nullptr, IID_PPV_ARGS(&commandList_));
     assert(SUCCEEDED(hr));
 
-    System::Log(/*Logger::Level::INFO,*/ "CommandList Created");
+    System::Log(/*Log::Level::INFO,*/ "CommandList Created");
 
     D3D12_COMMAND_QUEUE_DESC cQueueDesc {};
     cQueueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
@@ -256,13 +209,10 @@ void DirectXCommon::CreateCommand() {
     hr = device_->CreateCommandQueue(&cQueueDesc, IID_PPV_ARGS(&commandQueue_));
     assert(SUCCEEDED(hr));
 
-    System::Log(/*Logger::Level::INFO, */"CommandQueue Created");
-
-    System::Log("Create Command:Finish");
+    System::Log(/*Log::Level::INFO, */"CommandQueue Created");
 }
 
 void DirectXCommon::CreateSwapChain(HWND hwnd, int width, int height) {
-    System::Log("Create SwapChain:Begin");
     DXGI_SWAP_CHAIN_DESC1 swapChainDesc {};
     swapChainDesc.Width = width;
     swapChainDesc.Height = height;
@@ -276,7 +226,7 @@ void DirectXCommon::CreateSwapChain(HWND hwnd, int width, int height) {
     HRESULT hr = factory_->CreateSwapChainForHwnd(commandQueue_.Get(), hwnd, &swapChainDesc, nullptr, nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain_.ReleaseAndGetAddressOf()));
     assert(SUCCEEDED(hr));
 
-    System::Log(/*Logger::Level::INFO, */"SwapChain Created");
+    System::Log(/*Log::Level::INFO, */"SwapChain Created");
     
     hr = swapChain_->GetBuffer(0, IID_PPV_ARGS(&swapChainBuffers_[0]));
     assert(SUCCEEDED(hr));
@@ -297,7 +247,6 @@ void DirectXCommon::CreateSwapChain(HWND hwnd, int width, int height) {
     
     device_->CreateRenderTargetView(swapChainBuffers_[0].Get(), &rtvDesc, rtvHandles_[0]);
     device_->CreateRenderTargetView(swapChainBuffers_[1].Get(), &rtvDesc, rtvHandles_[1]);
-    System::Log("Create SwapChain:Finish");
 }
 
 void DirectXCommon::CreateFence() {
@@ -323,7 +272,6 @@ void DirectXCommon::SettingGraphicsInfo() {
 }
 
 void DirectXCommon::CreateDepthStencilView() {
-    System::Log(/*Logger::Level::INFO, */"Create DepthStencilView:Begin");
     depthStencilResource_.Attach(CreateDepthStencilTextureResource(device_, WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT).Get());
 
     dsvHeap_ = std::make_shared<Heap>();
@@ -334,8 +282,193 @@ void DirectXCommon::CreateDepthStencilView() {
 
     device_->CreateDepthStencilView(depthStencilResource_.Get(), &dsvDesc_, dsvHeap_->GetCPUHandle(0));
 
-    System::Log(/*Logger::Level::INFO, */"Create DepthStencilView:Finish");
+    System::Log(/*Log::Level::INFO, */"DepthStencilView Created");
 }
+
+void DirectXCommon::CreatePostProcessResource() {
+	const auto& bbf = swapChainBuffers_[0];
+    auto resDesc = bbf->GetDesc();
+
+    resDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+
+    D3D12_HEAP_PROPERTIES heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+
+    D3D12_CLEAR_VALUE clearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, &backColor_.x);
+    float black[4] = {0, 0, 0, 1};
+    D3D12_CLEAR_VALUE clearValueBlack = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, black);
+
+    auto result = device_->CreateCommittedResource(
+        &heapProp,
+        D3D12_HEAP_FLAG_NONE,
+        &resDesc,
+        D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+        &clearValue,
+        IID_PPV_ARGS(canvasResource_.ReleaseAndGetAddressOf())
+    );
+    assert(SUCCEEDED(result));
+
+	result = device_->CreateCommittedResource(
+        &heapProp,
+        D3D12_HEAP_FLAG_NONE,
+        &resDesc,
+        D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+        &clearValueBlack,
+        IID_PPV_ARGS(rootColorResource_.ReleaseAndGetAddressOf())
+    );
+    assert(SUCCEEDED(result));
+
+	result = device_->CreateCommittedResource(
+        &heapProp,
+        D3D12_HEAP_FLAG_NONE,
+        &resDesc,
+        D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+        &clearValueBlack,
+        IID_PPV_ARGS(bloomResource_.ReleaseAndGetAddressOf())
+    );
+    assert(SUCCEEDED(result));
+
+	result = device_->CreateCommittedResource(
+        &heapProp,
+        D3D12_HEAP_FLAG_NONE,
+        &resDesc,
+        D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+        &clearValueBlack,
+        IID_PPV_ARGS(blurResource_.ReleaseAndGetAddressOf())
+    );
+    resDesc.Width >>= 1;
+	assert(SUCCEEDED(result));
+
+
+	auto rtvHeapDesc = rtvHeap_->GetDescriptorHeap()->GetDesc();
+    rtvHeapDesc.NumDescriptors = 4;
+    result = device_->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(rtvForPP_.ReleaseAndGetAddressOf()));
+    assert(SUCCEEDED(result));
+
+    D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = {};
+    rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+    rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+
+    auto handle = rtvForPP_->GetCPUDescriptorHandleForHeapStart();
+    device_->CreateRenderTargetView(canvasResource_.Get(), &rtvDesc, handle);
+
+    handle.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+    device_->CreateRenderTargetView(rootColorResource_.Get(), &rtvDesc, handle);
+
+    handle.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+    device_->CreateRenderTargetView(blurResource_.Get(), &rtvDesc, handle);
+
+	handle.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+    device_->CreateRenderTargetView(bloomResource_.Get(), &rtvDesc, handle);
+
+    indexes_[0] = srvManager_->Allocate();
+    srvManager_->CreateSRVforTexture2D(indexes_[0], canvasResource_.Get(), DXGI_FORMAT_R8G8B8A8_UNORM, 1);
+
+    indexes_[1] = srvManager_->Allocate();
+    srvManager_->CreateSRVforTexture2D(indexes_[1], rootColorResource_.Get(), DXGI_FORMAT_R8G8B8A8_UNORM, 1);
+
+    indexes_[2] = srvManager_->Allocate();
+    srvManager_->CreateSRVforTexture2D(indexes_[2], blurResource_.Get(), DXGI_FORMAT_R8G8B8A8_UNORM, 1);
+
+    indexes_[3] = srvManager_->Allocate();
+    srvManager_->CreateSRVforTexture2D(indexes_[3], bloomResource_.Get(), DXGI_FORMAT_R8G8B8A8_UNORM, 1);
+}
+
+void DirectXCommon::CreateScreenPipeline() {
+    D3D12_DESCRIPTOR_RANGE range[1] {};
+    range[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+    range[0].BaseShaderRegister = 0;
+    range[0].NumDescriptors = 4;
+
+    D3D12_ROOT_PARAMETER rp[1] {};
+    rp[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+    rp[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+    rp[0].DescriptorTable.pDescriptorRanges = &range[0];
+    rp[0].DescriptorTable.NumDescriptorRanges = 1;
+
+    D3D12_ROOT_SIGNATURE_DESC rsDesc {};
+    rsDesc.NumParameters = 1;
+    rsDesc.pParameters = rp;
+
+    D3D12_STATIC_SAMPLER_DESC sampler = CD3DX12_STATIC_SAMPLER_DESC(0);
+    sampler.AddressU = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+    sampler.AddressV = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+    sampler.AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+    rsDesc.pStaticSamplers = &sampler;
+    rsDesc.NumStaticSamplers = 1;
+    rsDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+
+    ComPtr<ID3DBlob> rsBlob;
+    ComPtr<ID3DBlob> errBlob;
+
+    auto result = D3D12SerializeRootSignature(&rsDesc, D3D_ROOT_SIGNATURE_VERSION_1, rsBlob.ReleaseAndGetAddressOf(), errBlob.ReleaseAndGetAddressOf());
+    assert(SUCCEEDED(result));
+
+    result = device_->CreateRootSignature(0, rsBlob->GetBufferPointer(), rsBlob->GetBufferSize(), IID_PPV_ARGS(screenRSig_.ReleaseAndGetAddressOf()));
+    assert(SUCCEEDED(result));
+
+    std::unique_ptr<Shader> shader = std::make_unique<Shader>();
+    shader->Create(L"Screen");
+
+    D3D12_GRAPHICS_PIPELINE_STATE_DESC gpsDesc = {};
+    gpsDesc.VS = {shader->GetVertexShader()->GetBufferPointer(), shader->GetVertexShader()->GetBufferSize()};
+    gpsDesc.DepthStencilState.DepthEnable = false;
+    gpsDesc.DepthStencilState.StencilEnable = false;
+
+    gpsDesc.InputLayout.NumElements = 0;
+    gpsDesc.InputLayout.pInputElementDescs = nullptr;
+    gpsDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+    gpsDesc.NumRenderTargets = 4;
+    gpsDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+    gpsDesc.RTVFormats[1] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+    gpsDesc.RTVFormats[2] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+    gpsDesc.RTVFormats[3] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+    gpsDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+
+    gpsDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+    gpsDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
+    gpsDesc.SampleDesc.Count = 1;
+    gpsDesc.SampleDesc.Quality = 0;
+    gpsDesc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
+    gpsDesc.pRootSignature = screenRSig_.Get();
+
+    assert(SUCCEEDED(result));
+
+    gpsDesc.PS = {shader->GetPixelShader()->GetBufferPointer(), shader->GetPixelShader()->GetBufferSize()};
+    result = device_->CreateGraphicsPipelineState(&gpsDesc, IID_PPV_ARGS(screenPipeline_.ReleaseAndGetAddressOf()));
+    assert(SUCCEEDED(result));
+
+    shader->PSLoad(L"Blur");
+    gpsDesc.PS = {shader->GetPixelShader()->GetBufferPointer(), shader->GetPixelShader()->GetBufferSize()};
+    result = device_->CreateGraphicsPipelineState(&gpsDesc, IID_PPV_ARGS(blurPipeline_.ReleaseAndGetAddressOf()));
+    assert(SUCCEEDED(result));
+
+    D3D12_GRAPHICS_PIPELINE_STATE_DESC blurResultDesc = {};
+    blurResultDesc.VS = {shader->GetVertexShader()->GetBufferPointer(), shader->GetVertexShader()->GetBufferSize()};
+    blurResultDesc.DepthStencilState.DepthEnable = false;
+    blurResultDesc.DepthStencilState.StencilEnable = false;
+    blurResultDesc.InputLayout.NumElements = 0;
+    blurResultDesc.InputLayout.pInputElementDescs = nullptr;
+    blurResultDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+    blurResultDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+    blurResultDesc.NumRenderTargets = 4;
+    blurResultDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+    blurResultDesc.RTVFormats[1] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+    blurResultDesc.RTVFormats[2] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+    blurResultDesc.RTVFormats[3] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+    blurResultDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+    blurResultDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
+    blurResultDesc.SampleDesc.Count = 1;
+    blurResultDesc.SampleDesc.Quality = 0;
+    blurResultDesc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
+    blurResultDesc.pRootSignature = screenRSig_.Get();
+
+    shader->PSLoad(L"Bloom");
+    blurResultDesc.PS = {shader->GetPixelShader()->GetBufferPointer(), shader->GetPixelShader()->GetBufferSize()};
+    
+	result = device_->CreateGraphicsPipelineState(&blurResultDesc, IID_PPV_ARGS(bloomPipeline_.ReleaseAndGetAddressOf()));
+    assert(SUCCEEDED(result));
+}
+
 
 //void DirectXCommon::CreateShaderResourceView() {
 //    srv_ = std::make_shared<Heap>();
@@ -375,4 +508,212 @@ void DirectXCommon::UpdateFixFPS() {
     }
 
     reference_ = std::chrono::steady_clock::now();
+}
+
+void DirectXCommon::PreDraw() {
+    //UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
+
+    barrier_.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+    barrier_.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+    barrier_.Transition.pResource = canvasResource_.Get();
+    barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+    barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+    commandList_->ResourceBarrier(1, &barrier_);
+
+    barrier_.Transition.pResource = rootColorResource_.Get();
+    barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+    barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+    commandList_->ResourceBarrier(1, &barrier_);
+
+
+
+    /*barrier_.Transition.pResource = swapChainBuffers_[backBufferIndex].Get();
+    barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
+    barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;*/
+
+
+    D3D12_CPU_DESCRIPTOR_HANDLE* handles = new D3D12_CPU_DESCRIPTOR_HANDLE[SRV_INDEX_COUNT];
+    auto rtvPointer = rtvForPP_->GetCPUDescriptorHandleForHeapStart();
+    for (uint16_t i = 0; i < SRV_INDEX_COUNT; ++i){
+        handles[i] = rtvPointer;
+        rtvPointer.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+    }
+
+    D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap_->GetCPUHandle(0);
+
+    commandList_->OMSetRenderTargets(SRV_INDEX_COUNT, handles, false, &dsvHandle);
+    float black[4] = {0, 0, 0, 1};
+    commandList_->ClearRenderTargetView(handles[1], black, 0, nullptr);
+
+    commandList_->ClearRenderTargetView(rtvForPP_->GetCPUDescriptorHandleForHeapStart(), &backColor_.x, 0, nullptr);
+    commandList_->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.f, 0, 0, nullptr);
+
+    commandList_->RSSetViewports(1, &viewport_);
+    commandList_->RSSetScissorRects(1, &scissorRect_);
+}
+
+void DirectXCommon::PostDraw() {
+    SwitchToSwapChain();
+
+    EndFrame();
+}
+
+void DirectXCommon::SwitchToSwapChain()  {
+    D3D12_CPU_DESCRIPTOR_HANDLE* handles = new D3D12_CPU_DESCRIPTOR_HANDLE[SRV_INDEX_COUNT];
+    auto rtvPointer = rtvForPP_->GetCPUDescriptorHandleForHeapStart();
+    for (uint16_t i = 0; i < SRV_INDEX_COUNT; ++i){
+        handles[i] = rtvPointer;
+        rtvPointer.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+    }
+
+    D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap_->GetCPUHandle(0);
+
+
+    ///Blur
+    commandList_->SetPipelineState(blurPipeline_.Get());
+    commandList_->SetGraphicsRootSignature(screenRSig_.Get());
+    commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    commandList_->IASetVertexBuffers(0, 1, &screenVBView_);
+
+    barrier_.Transition.pResource = rootColorResource_.Get();
+    barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+    barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+    commandList_->ResourceBarrier(1, &barrier_);
+
+    barrier_.Transition.pResource = blurResource_.Get();
+    barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+    barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+    commandList_->ResourceBarrier(1, &barrier_);
+
+    commandList_->OMSetRenderTargets(SRV_INDEX_COUNT, handles, false, &dsvHandle);
+    float black[4] = {0, 0, 0, 1};
+    commandList_->ClearRenderTargetView(handles[2], black, 0, nullptr);
+
+    srvManager_->PreDraw();
+    auto handle = srvManager_->GetGPUHandle(indexes_[0]);
+	commandList_->SetGraphicsRootDescriptorTable(0, handle);
+
+
+    auto desc = rootColorResource_->GetDesc();
+    D3D12_VIEWPORT vp = {};
+    D3D12_RECT sc = {};
+
+    vp.MaxDepth = 1.f;
+    vp.MinDepth = 0.f;
+    vp.Height = static_cast<float>(desc.Height) /2.f;
+    vp.Width = static_cast<float>(desc.Width) / 2.f;
+    sc.top = 0;
+    sc.left = 0;
+    sc.right = static_cast<LONG>(vp.Width);
+    sc.bottom = static_cast<LONG>(vp.Height);
+
+    for (int i = 0; i < 8; ++i){
+        commandList_->RSSetViewports(1, &vp);
+        commandList_->RSSetScissorRects(1, &sc);
+        commandList_->DrawInstanced(3, 1, 0, 0);
+
+        sc.top += static_cast<LONG>(vp.Height);
+        vp.TopLeftX = 0;
+        vp.TopLeftY = static_cast<float>(sc.top);
+
+        vp.Width /= 2.f;
+        vp.Height /= 2.f;
+        sc.bottom = sc.top + static_cast<LONG>(vp.Height);
+    }
+
+
+    barrier_.Transition.pResource = blurResource_.Get();
+    barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+    barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+    commandList_->ResourceBarrier(1, &barrier_);
+
+    ///Bloom
+	barrier_.Transition.pResource = bloomResource_.Get();
+    barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+    barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+    commandList_->ResourceBarrier(1, &barrier_);
+
+    commandList_->RSSetViewports(1, &viewport_);
+    commandList_->RSSetScissorRects(1, &scissorRect_);
+
+	commandList_->SetPipelineState(bloomPipeline_.Get());
+    commandList_->SetGraphicsRootSignature(screenRSig_.Get());
+    commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    commandList_->IASetVertexBuffers(0, 1, &screenVBView_);
+    commandList_->OMSetRenderTargets(SRV_INDEX_COUNT, handles, false, nullptr);
+
+    commandList_->ClearRenderTargetView(handles[3], black, 0, nullptr);
+
+	srvManager_->PreDraw();
+    handle = srvManager_->GetGPUHandle(indexes_[0]);
+	commandList_->SetGraphicsRootDescriptorTable(0, handle);
+
+	commandList_->DrawInstanced(3, 1, 0, 0);
+
+    barrier_.Transition.pResource = bloomResource_.Get();
+    barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+    barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+    commandList_->ResourceBarrier(1, &barrier_);
+
+    barrier_.Transition.pResource = canvasResource_.Get();
+    barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+    barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+    commandList_->ResourceBarrier(1, &barrier_);
+
+    barrier_.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+    barrier_.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+    barrier_.Transition.pResource = swapChainBuffers_[swapChain_->GetCurrentBackBufferIndex()].Get();
+    barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
+    barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+    commandList_->ResourceBarrier(1, &barrier_);
+
+    auto bbIndex = swapChain_->GetCurrentBackBufferIndex();
+
+    rtvPointer = rtvHandles_[bbIndex];
+
+    auto dxcHandle = dsvHeap_->GetCPUHandle(0);
+
+    commandList_->OMSetRenderTargets(1, &rtvPointer, false, &dxcHandle);
+
+    srvManager_->PreDraw();
+    handle = srvManager_->GetGPUHandle(indexes_[0]);
+	commandList_->SetGraphicsRootDescriptorTable(0, handle);
+
+    commandList_->ClearRenderTargetView(rtvPointer, &backColor_.x, 0, nullptr);
+
+    commandList_->SetPipelineState(screenPipeline_.Get());
+
+    commandList_->SetGraphicsRootDescriptorTable(0, handle);
+
+    commandList_->DrawInstanced(3, 1, 0, 0);
+
+}
+
+void DirectXCommon::EndFrame() {
+    HRESULT hr = S_OK;
+
+    auto bbi = swapChain_->GetCurrentBackBufferIndex();
+
+    barrier_.Transition.pResource = swapChainBuffers_[bbi].Get();
+    barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+    barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
+
+    commandList_->ResourceBarrier(1, &barrier_);
+
+    hr = commandList_->Close();
+    assert(SUCCEEDED(hr));
+
+    ComPtr<ID3D12CommandList> cLists[] = {commandList_.Get()};
+    commandQueue_->ExecuteCommandLists(1, cLists->GetAddressOf());
+
+    swapChain_->Present(1, 0);
+
+    WaitForCommandQueue();
+    UpdateFixFPS();
+
+    hr = commandAllocator_.Get()->Reset();
+    assert(SUCCEEDED(hr));
+
+    hr = commandList_.Get()->Reset(commandAllocator_.Get(), nullptr);
+    assert(SUCCEEDED(hr));
 }

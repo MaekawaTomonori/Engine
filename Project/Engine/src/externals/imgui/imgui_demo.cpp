@@ -4678,7 +4678,7 @@ static void ShowDemoWindowTables()
         ImGui::CheckboxFlags("ImGuiTableFlags_NoHostExtendX", &flags, ImGuiTableFlags_NoHostExtendX);
         ImGui::SameLine(); HelpMarker("Make outer width auto-fit to columns, overriding outer_size.x value.\n\nOnly available when ScrollX/ScrollY are disabled and Stretch columns are not used.");
         ImGui::CheckboxFlags("ImGuiTableFlags_NoHostExtendY", &flags, ImGuiTableFlags_NoHostExtendY);
-        ImGui::SameLine(); HelpMarker("Make outer height stop exactly at outer_size.y (prevent auto-extending table past the limit).\n\nOnly available when ScrollX/ScrollY are disabled. Data below the limit will be clipped and not visible.");
+        ImGui::SameLine(); HelpMarker("Make outer height Stop exactly at outer_size.y (prevent auto-extending table past the limit).\n\nOnly available when ScrollX/ScrollY are disabled. Data below the limit will be clipped and not visible.");
         PopStyleCompact();
 
         ImVec2 outer_size = ImVec2(0.0f, TEXT_BASE_HEIGHT * 5.5f);
@@ -5256,7 +5256,7 @@ static void ShowDemoWindowTables()
                 ImGui::CheckboxFlags("ImGuiTableFlags_NoHostExtendX", &flags, ImGuiTableFlags_NoHostExtendX);
                 ImGui::SameLine(); HelpMarker("Make outer width auto-fit to columns, overriding outer_size.x value.\n\nOnly available when ScrollX/ScrollY are disabled and Stretch columns are not used.");
                 ImGui::CheckboxFlags("ImGuiTableFlags_NoHostExtendY", &flags, ImGuiTableFlags_NoHostExtendY);
-                ImGui::SameLine(); HelpMarker("Make outer height stop exactly at outer_size.y (prevent auto-extending table past the limit).\n\nOnly available when ScrollX/ScrollY are disabled. Data below the limit will be clipped and not visible.");
+                ImGui::SameLine(); HelpMarker("Make outer height Stop exactly at outer_size.y (prevent auto-extending table past the limit).\n\nOnly available when ScrollX/ScrollY are disabled. Data below the limit will be clipped and not visible.");
                 ImGui::CheckboxFlags("ImGuiTableFlags_NoKeepColumnsVisible", &flags, ImGuiTableFlags_NoKeepColumnsVisible);
                 ImGui::SameLine(); HelpMarker("Only available if ScrollX is disabled.");
                 ImGui::CheckboxFlags("ImGuiTableFlags_PreciseWidths", &flags, ImGuiTableFlags_PreciseWidths);
@@ -7904,7 +7904,7 @@ void ShowExampleAppDocuments(bool* p_open)
     // They have multiple effects:
     // - Display a dot next to the title.
     // - Tab is selected when clicking the X close button.
-    // - Closure is not assumed (will wait for user to stop submitting the tab).
+    // - Closure is not assumed (will wait for user to Stop submitting the tab).
     //   Otherwise closure is assumed when pressing the X, so if you keep submitting the tab may reappear at end of tab bar.
     //   We need to assume closure by default otherwise waiting for "lack of submission" on the next frame would leave an empty
     //   hole for one-frame, both in the tab-bar and in tab-contents when closing a tab/window.

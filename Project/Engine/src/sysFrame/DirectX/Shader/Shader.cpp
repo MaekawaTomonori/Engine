@@ -36,9 +36,14 @@ bool Shader::Create(const std::wstring& name) {
     return true;
 }
 
+Shader* Shader::PSLoad(const std::wstring& name) {
+    pixelShader_.Attach(Compile(L"Assets/Shaders/", name + L".hlsl", L"ps_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get()));
+    return this;
+}
+
 IDxcBlob* Shader::Compile(const std::wstring& directoryPath, const std::wstring& filePath, const wchar_t* profile,
                           IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHandler) {
-    System::Log(Logger::Level::INFO, System::ConvertString(std::format(L"Begin CompileShader, Path : {}, Profile : {}", filePath, profile)));
+    System::Log(Log::Level::INFO, System::ConvertString(std::format(L"Begin CompileShader, Path : {}, Profile : {}", filePath, profile)));
     IDxcBlobEncoding* shaderSource = nullptr;
     std::wstring fullPath = directoryPath + filePath;
     HRESULT hResult = dxcUtils->LoadFile(fullPath.c_str(), nullptr, &shaderSource);
@@ -73,7 +78,7 @@ IDxcBlob* Shader::Compile(const std::wstring& directoryPath, const std::wstring&
     IDxcBlobUtf8* shaderError = nullptr;
     shaderResult->GetOutput(DXC_OUT_ERRORS, IID_PPV_ARGS(&shaderError), nullptr);
     if (shaderError != nullptr && shaderError->GetStringLength() != 0){
-        System::Log(Logger::Level::ERR, shaderError->GetStringPointer());
+        System::Log(Log::Level::ERR, shaderError->GetStringPointer());
 
         assert(false);
     }
@@ -82,7 +87,7 @@ IDxcBlob* Shader::Compile(const std::wstring& directoryPath, const std::wstring&
     hResult = shaderResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(&shaderBlob), nullptr);
     assert(SUCCEEDED(hResult));
 
-    System::Log(Logger::Level::INFO, System::ConvertString(std::format(L"Compile Succeed, Path : {}, Profile : {}", filePath, profile)));
+    System::Log(Log::Level::INFO, System::ConvertString(std::format(L"Compile Succeed, Path : {}, Profile : {}", filePath, profile)));
     shaderSource->Release();
     shaderResult->Release();
 

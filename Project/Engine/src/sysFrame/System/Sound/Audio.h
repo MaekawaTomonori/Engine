@@ -1,74 +1,59 @@
 ﻿#pragma once
-#include <cstdint>
+#include <memory>
+#include <unordered_map>
 #include <mutex>
 #include <string>
-#include <unordered_map>
-#include <xaudio2.h>
-#include <wrl/client.h>
 
-struct SoundData{
-	WAVEFORMATEX wfex;
-	BYTE* pBuffer;
-    unsigned int size;
-};
+#include "miniaudio/miniaudio.h"
 
-class Audio{
-	struct ChunkHeader{
-		char id[4];
-		int32_t size;
-	};
+class AudioManager{
+    AudioManager() = default;
+    ~AudioManager();
+    AudioManager(const AudioManager&) = delete;
+    AudioManager& operator=(const AudioManager&) = delete;
 
-	struct RiffHeader{
-		ChunkHeader chunk;
-		char type[4];
-	};
+    static AudioManager* instance_;
+    static std::once_flag onceFlag_;
 
-	struct FormatChunk{
-		ChunkHeader chunk;
-        WAVEFORMATEX format;
-	};
+    static void Create();
+    static void Finalize();
 
-    Microsoft::WRL::ComPtr<IXAudio2> xAudio2_;
-    IXAudio2MasteringVoice* masteringVoice_ = nullptr;
-
-    std::unordered_map<std::string, SoundData> loaded_;
-
-	uint32_t playingAudioCount_ = 0;
-	std::unordered_map<uint32_t, IXAudio2SourceVoice*> playing_;
+    std::unique_ptr<ma_engine> engine_;
+    std::unordered_map<uint32_t, std::string> soundFilePaths;
+    std::unordered_map<uint32_t, std::unique_ptr<ma_sound>> soundInstances;
+    uint32_t nextHandle = 1;
+    std::mutex mutex;
 
     std::string folderPath_ = "Assets/Sound/";
-private:
-	static Audio* instance_;
-	static std::once_flag onceFlag_;
 
-	Audio() = default;
-	~Audio();
+    void Play(uint32_t handle);
+    void Stop(uint32_t handle);
+    void Pause(uint32_t handle);
+    void Resume(uint32_t handle);
+    void SetVolume(uint32_t handle, float volume);
+    void SetPitch(uint32_t handle, float pitch);
+	void SetLoop(uint32_t handle, bool loop);
 
-private:
-	void LoadWave(const std::string& fileName);
+    public:
+    class SoundHandle{
+        public:
+        SoundHandle(uint32_t handle, AudioManager* manager);
 
-	uint32_t Play(const SoundData& soundData);
-public:
-	Audio(const Audio&) = delete;
-    Audio& operator=(const Audio&) = delete;
+        SoundHandle& SetVolume(float volume);
+        SoundHandle& SetPitch(float pitch);
+        SoundHandle& Loop(bool loop);
+        void Play() const;
+        void Stop() const;
+        void Pause() const;
+        void Resume() const;
 
-	static Audio* GetInstance();
-	static void Create();
-	static void Finalize();
-public:
-	void Initialize();
+        private:
+        uint32_t handle; 
+        AudioManager* manager;
+    };
 
-	void Load(const std::string& fileName);
-    void Unload(const std::string& name);
+    void Initialize();
+    SoundHandle Load(const std::string& filePath);
 
-    uint32_t Play(const std::string& name);
-	void Stop(uint32_t handle);
-
-	//TODO
-	//Volume
-	//Loopable
-	//Pause
-	//Resume
-	//Effects
+    static AudioManager* GetInstance();
 };
-

@@ -9,6 +9,7 @@
 
 #include "System/Math/Vector4.h"
 
+class SRVManager;
 class WinApp;
 class GraphicsPipeline;
 class Heap;
@@ -67,11 +68,33 @@ private://Variables
     std::chrono::steady_clock::time_point reference_;
 
 	double maxFPS = 60;
+	
+	ComPtr<ID3D12Resource> canvasResource_;
+	ComPtr<ID3D12Resource> rootColorResource_;
+	ComPtr<ID3D12Resource> blurResource_;
+	ComPtr<ID3D12Resource> bloomResource_;
+
+	ComPtr<ID3D12DescriptorHeap> rtvForPP_;
+
+	static constexpr uint32_t SRV_INDEX_COUNT = 4;
+	uint32_t indexes_[SRV_INDEX_COUNT]{};
+
+	ComPtr<ID3D12Resource> screenVB_;
+	D3D12_VERTEX_BUFFER_VIEW screenVBView_{};
+
+    SRVManager* srvManager_ = nullptr;
+
+	ComPtr<ID3D12RootSignature> screenRSig_;
+
+	ComPtr<ID3D12PipelineState> blurPipeline_;
+	ComPtr<ID3D12PipelineState> bloomPipeline_;
+	ComPtr<ID3D12PipelineState> screenPipeline_;
 
 
 public://Methods
 	~DirectXCommon() = default;
 	bool Initialize(const WinApp* winApp);
+	void EnablePP(SRVManager* srv);
 	void Finalize();
 
 	void PreDraw();
@@ -111,12 +134,17 @@ private://Methods
 	void SettingGraphicsInfo();
 	//void CreateShaderResourceView();
 	void CreateDepthStencilView();
-	
+
+	//SwitchToSwapChain
+	void CreatePostProcessResource();
+	void CreateScreenPipeline();
+
 	void WaitForCommandQueue();
 
 	void InitializeFixFPS();
 	void UpdateFixFPS();
 
+	void SwitchToSwapChain();
 	void EndFrame();
 };
 

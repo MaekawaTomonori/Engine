@@ -2030,7 +2030,7 @@ int ImTextCharFromUtf8(unsigned int* out_char, const char* in_text, const char* 
     if (in_text_end == NULL)
         in_text_end = in_text + wanted; // Max length, nulls will be taken into account.
 
-    // Copy at most 'len' bytes, stop copying at 0 or past in_text_end. Branch predictor does a good job here,
+    // Copy at most 'len' bytes, Stop copying at 0 or past in_text_end. Branch predictor does a good job here,
     // so it is fast even with excessive branching.
     unsigned char s[4];
     s[0] = in_text + 0 < in_text_end ? in_text[0] : 0;
@@ -10818,10 +10818,10 @@ static void ImGui::NavProcessItem()
 
 // Handle "scoring" of an item for a tabbing/focusing request initiated by NavUpdateCreateTabbingRequest().
 // Note that SetKeyboardFocusHere() API calls are considered tabbing requests!
-// - Case 1: no nav/active id:    set result to first eligible item, stop storing.
+// - Case 1: no nav/active id:    set result to first eligible item, Stop storing.
 // - Case 2: tab forward:         on ref id set counter, on counter elapse store result
 // - Case 3: tab forward wrap:    set result to first eligible item (preemptively), on ref id set counter, on next frame if counter hasn't elapsed store result. // FIXME-TABBING: Could be done as a next-frame forwarded request
-// - Case 4: tab backward:        store all results, on ref id pick prev, stop storing
+// - Case 4: tab backward:        store all results, on ref id pick prev, Stop storing
 // - Case 5: tab backward wrap:   store all results, on ref id if no result keep storing until last // FIXME-TABBING: Could be done as next-frame forwarded requested
 void ImGui::NavProcessItemForTabbingRequest(ImGuiID id, ImGuiItemFlags item_flags, ImGuiNavMoveFlags move_flags)
 {

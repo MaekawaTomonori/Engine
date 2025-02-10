@@ -4,32 +4,22 @@
 #include <memory>
 
 #include "System/System.h"
-#include "System/Console/Console.h"
 
 #pragma comment(lib, "winmm.lib")
 
 void WinApp::Initialize(const std::string& title) {
     timeBeginPeriod(1);
-    window_ = std::make_unique<Window>();
+    window_ = std::make_shared<Window>();
     if(!window_->Create(CLIENT_WIDTH, CLIENT_HEIGHT, System::ConvertString(title), L"Window")){
-        System::Log(Logger::Level::ERR, "Window Creation Failed");
+        System::Log(Log::Level::ERR, "Window Creation Failed");
         assert(false);
         return;
     }
-#ifdef _DEBUG
-	if (!Console::Create(title)){
-        System::Log(Logger::Level::ERR, "Console Creation Failed");
-        assert(false);
-        return;
-    }
-    window_->SetForeground();
-#endif
-
-    System::Log(Logger::Level::INFO, "WinApp Enabled");
+    System::Log(Log::Level::INFO, "WinApp Enabled");
 }
 
 void WinApp::Finalize() {
-    //System::Logger(Logger::Level::INFO, "WinApp Disabled");
+    //System::Log(Log::Level::INFO, "WinApp Disabled");
 }
 
 [[nodiscard]]
@@ -45,11 +35,6 @@ HWND WinApp::GetWindowHandle() const {
 	return window_->GetWindowHandle();
 }
 
-void WinApp::SetTitlebar(bool state) {
-    if (titlebar_ == state)return;
-
-    titlebar_ = state;
-    titlebar_ ? window_->EnableTitlebar() : window_->DisableTitlebar();
+void WinApp::ToggleFullscreen() {
+    window_->ToggleFullscreen();
 }
-
-

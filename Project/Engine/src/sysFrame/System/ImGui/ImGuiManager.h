@@ -1,7 +1,8 @@
 ﻿#pragma once
-#include <Windows.h>
 #include <memory>
+#include <Windows.h>
 
+#include "ImGuiCommand.h"
 #include "imgui/imgui.h"
 
 class WinApp;
@@ -17,14 +18,29 @@ class ImGuiManager{
     DirectXCommon* dxCommon_ = nullptr;
     SRVManager* srv_ = nullptr;
 
+    std::unique_ptr<ImGuiCommand> command_;
+
+    static ImGuiManager* instance_;
+    static std::once_flag onceFlag_;
+
 public:
-	ImGuiManager(WinApp* winApp, DirectXCommon* dxCommon) :winApp_(winApp), dxCommon_(dxCommon) {}
-    ~ImGuiManager();
-	void Initialize(SRVManager* srv);
+    static ImGuiManager* GetInstance();
+
+	void Initialize(WinApp* winApp, DirectXCommon* dxCommon, SRVManager* srv);
+
+    void AddCommand(void* ptr, const std::function<void()>& command) const;
 
     void Begin();
-    void End();
+    void End() const;
 
     void Draw();
+
+private:
+	ImGuiManager() = default;
+    ~ImGuiManager();
+    ImGuiManager(const ImGuiManager&) = delete;
+    ImGuiManager& operator=(const ImGuiManager&) = delete;
+	static void Create();
+    static void Destroy();
 };
 

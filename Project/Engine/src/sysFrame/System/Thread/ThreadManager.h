@@ -1,36 +1,49 @@
 #pragma once
-#include <functional>
-#include <mutex>
-#include <queue>
-#include <thread>
-#include <vector>
 
-class ThreadManager{
-    std::vector<std::thread> worker_;
-    std::queue<std::function<void()>> tasks_;
-    std::mutex mutex_;
-    std::condition_variable condition_;
-    std::atomic<bool> exit;
-private:
-    void  Work();
+#include "thread"
+#include "vector"
+#include "queue"
+#include "mutex"
+#include "functional"
+#include "condition_variable"
+#include "atomic"
+
+class ThreadManager {
 
 public:
-    //Like Async?idk
+
+	ThreadManager(size_t threadCount);
+
+	~ThreadManager();
+
 	void AddTask(std::function<void()> task);
 
-    void Exit();
+	void Stop();
 
+	bool StandByAllThread();
+
+	int GetWorkingThread() { return workingThread_; }
 
 private:
-    ThreadManager(size_t workers);
-    ~ThreadManager();
 
-    static ThreadManager* instance;
-    static std::once_flag flag;
+	void WorkerThread();
 
-    static void Create();
-    static void Destroy();
+private:
 
-public:
-	static ThreadManager* GetInstance();
+	//スレッドリスト
+	std::vector<std::thread> threads_;
+
+	//タスクキュー
+	std::queue<std::function<void()>> taskQueue;
+
+	//ロック
+	std::mutex queueMutex;
+
+	//スレッドの待機、実行状態を管理
+	std::condition_variable condition;
+
+	//終了フラグ
+	std::atomic<bool> stopFlag;
+
+	std::atomic<int> workingThread_;
 };

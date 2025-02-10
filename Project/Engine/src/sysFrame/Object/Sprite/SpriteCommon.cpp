@@ -6,13 +6,13 @@
 #include "DirectX/Pipeline/GraphicsPipeline.h"
 #include "System/System.h"
 #include "System/SingletonFinalizer/SingletonFinalizer.h"
-#include "System/Thread/ThreadManager.h"
 
 SpriteCommon* SpriteCommon::instance_ = nullptr;
 std::once_flag SpriteCommon::onceFlag_;
 
 void SpriteCommon::CreatePipeline() {
     pipeline_ = std::make_shared<GraphicsPipeline>();
+    pipeline_->SetBlendMode(BlendMode::ALPHA);
     pipeline_->Create(dxCommon_.lock(), GraphicsPipeline::Type::SPRITE);
 }
 
@@ -30,22 +30,22 @@ void SpriteCommon::Create() {
 void SpriteCommon::Destroy() {
     delete instance_;
     instance_ = nullptr;
-    System::Log(Logger::Level::INFO, "SpriteCommon Disabled");
+    System::Log(Log::Level::INFO, "SpriteCommon Disabled");
 }
 
 void SpriteCommon::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
     dxCommon_ = dxCommon;
 
     // Do something
-    ThreadManager::GetInstance()->AddTask([&]{CreatePipeline();});
+    CreatePipeline();
 
-    System::Log(Logger::Level::INFO, "SpriteCommon Enabled");
+    System::Log(Log::Level::INFO, "SpriteCommon Enabled");
 }
 
 void SpriteCommon::PreDraw() const {
     auto dxc = dxCommon_.lock();
     if (!dxc){
-        System::Log(Logger::Level::ERR, "SpriteCommon DirectXCommon is not Available");
+        System::Log(Log::Level::ERR, "SRVManager Initialize Failed");
         return;
     }
 
