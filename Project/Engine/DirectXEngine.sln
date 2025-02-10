@@ -12,6 +12,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTex", "src\externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj", "{371B9FA9-4C90-4AC6-A123-ACED756D6C77}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imgui", "src\externals\imgui\imgui.vcxproj", "{05A9737C-E682-451F-A307-4B01DEB9D44B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "miniaudio", "src\externals\miniaudio\miniaudio.vcxproj", "{BA18FC4F-46E5-417D-BB5B-372EAB3B4C87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -26,6 +30,14 @@ Global
 		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Debug|x64.Build.0 = Debug|x64
 		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Release|x64.ActiveCfg = Release|x64
 		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Release|x64.Build.0 = Release|x64
+		{05A9737C-E682-451F-A307-4B01DEB9D44B}.Debug|x64.ActiveCfg = Debug|x64
+		{05A9737C-E682-451F-A307-4B01DEB9D44B}.Debug|x64.Build.0 = Debug|x64
+		{05A9737C-E682-451F-A307-4B01DEB9D44B}.Release|x64.ActiveCfg = Release|x64
+		{05A9737C-E682-451F-A307-4B01DEB9D44B}.Release|x64.Build.0 = Release|x64
+		{BA18FC4F-46E5-417D-BB5B-372EAB3B4C87}.Debug|x64.ActiveCfg = Debug|x64
+		{BA18FC4F-46E5-417D-BB5B-372EAB3B4C87}.Debug|x64.Build.0 = Debug|x64
+		{BA18FC4F-46E5-417D-BB5B-372EAB3B4C87}.Release|x64.ActiveCfg = Release|x64
+		{BA18FC4F-46E5-417D-BB5B-372EAB3B4C87}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -24,8 +24,10 @@ public:
 		MODEL,
 		SPRITE,
 		PARTICLE,
+		PARTICLE2D,
 	};
 
+    void Set(DirectXCommon* dxC);
 	void Create(const std::weak_ptr<DirectXCommon>& dxCommon, Type type);
 
 	void DrawCall(const Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& commandList) const;
@@ -33,6 +35,7 @@ public:
     void SetBlendMode(BlendMode mode);
 
 private://Methods
+	void Create();
 	void CreateRootSignature();
 	void DescriptorRange();
 	void CreateInputLayout();
@@ -47,6 +50,7 @@ private://Methods
 private://Variables
 	//借りポ
 	std::weak_ptr<DirectXCommon> dxCommon_;
+    DirectXCommon* dxCommon = nullptr;
 
 	Type type_ = Type::MODEL;
 
@@ -54,7 +58,7 @@ private://Variables
 	std::vector<D3D12_ROOT_PARAMETER> rootParameters_;
     D3D12_DESCRIPTOR_RANGE descriptorRange_[1] {};
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc_ {};
-	D3D12_INPUT_ELEMENT_DESC inputElementDescs_[3]{};
+	std::vector<D3D12_INPUT_ELEMENT_DESC> inputElementDescs_{};
     BlendMode blendMode_ = BlendMode::NONE;
 	D3D12_BLEND_DESC blendDesc_ {};
 	D3D12_RASTERIZER_DESC rasterizerDesc_ {};

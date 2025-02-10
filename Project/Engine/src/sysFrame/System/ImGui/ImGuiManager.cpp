@@ -5,6 +5,10 @@
 
 #include "imgui/imgui_impl_dx12.h"
 #include "imgui/imgui_impl_win32.h"
+#include "System/SingletonFinalizer/SingletonFinalizer.h"
+
+ImGuiManager* ImGuiManager::instance_ = nullptr;
+std::once_flag ImGuiManager::onceFlag_;
 
 ImGuiManager::~ImGuiManager() {
     ImGui_ImplDX12_Shutdown();
@@ -12,7 +16,25 @@ ImGuiManager::~ImGuiManager() {
     ImGui::DestroyContext();
 }
 
-void ImGuiManager::Initialize(SRVManager* srv) {
+ImGuiManager* ImGuiManager::GetInstance() {
+    std::call_once(onceFlag_, Create);
+    assert(instance_);
+    return instance_;
+}
+
+void ImGuiManager::Create() {
+    instance_ = new ImGuiManager();
+    SingletonFinalizer::AddFinalizer(&Destroy);
+}
+
+void ImGuiManager::Destroy() {
+    delete instance_;
+    instance_ = nullptr;
+}
+
+void ImGuiManager::Initialize(WinApp* winApp, DirectXCommon* dxCommon, SRVManager* srv) {
+    winApp_ = winApp;
+    dxCommon_ = dxCommon;
     srv_ = srv;
 	uint32_t index = srv_->Allocate();
 
@@ -30,6 +52,11 @@ void ImGuiManager::Initialize(SRVManager* srv) {
         srv_->GetGPUHandle(index)
     );
 
+    command_ = std::make_unique<ImGuiCommand>();
+}
+
+void ImGuiManager::AddCommand(void* ptr, const std::function<void()>& command) const {
+    command_->AddCommand(ptr, command);
 }
 
 void ImGuiManager::Begin() {
@@ -38,7 +65,8 @@ void ImGuiManager::Begin() {
     ImGui::NewFrame();
 }
 
-void ImGuiManager::End() {
+void ImGuiManager::End() const {
+    command_->Update();
     ImGui::Render();
 }
 

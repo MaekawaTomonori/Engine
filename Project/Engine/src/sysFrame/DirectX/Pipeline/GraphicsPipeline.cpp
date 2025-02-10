@@ -2,29 +2,22 @@
 
 #include <cassert>
 #include <format>
-#include <future>
 
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/Heap.h"
 #include "System/System.h"
-#include "System/Thread/ThreadManager.h"
 
-void GraphicsPipeline::Create(const std::weak_ptr<DirectXCommon>& dxCommon, Type type) {
-    dxCommon_ = dxCommon;
+void GraphicsPipeline::Set(DirectXCommon* dxC) {
+    dxCommon = dxC;
+    type_ = Type::PARTICLE2D;
+    Create();
+}
+
+void GraphicsPipeline::Create(const std::weak_ptr<DirectXCommon>& dxCommo, Type type) {
+    dxCommon_ = dxCommo;
     type_ = type;
-    System::Log("Create GraphicsPipeline:Begin");
-    {
-        auto f0 = std::async(std::launch::async, [&]{CreateRootSignature();});
-        auto f1 = std::async(std::launch::async, [&]{CreateInputLayout();});
-        auto f2 = std::async(std::launch::async, [&]{CreateBlendState();});
-        auto f3 = std::async(std::launch::async, [&]{CreateShader(); });
-        auto f4 = std::async(std::launch::async, [&]{CreateRasterizerState();});
-        auto f5 = std::async(std::launch::async, [&]{CreateDepthStencil();});
-    }
 
-    ThreadManager::GetInstance()->AddTask([this]{CreatePSO(); });
-
-    System::Log("Create GraphicsPipeline:Finish");
+    Create();
 }
 
 void GraphicsPipeline::DrawCall(const ComPtr<ID3D12GraphicsCommandList>& commandList) const {
@@ -73,6 +66,17 @@ void GraphicsPipeline::SetBlendMode(BlendMode mode) {
     //graphicsPipelineStateDesc.BlendState = blendDesc_;
 }
 
+void GraphicsPipeline::Create() {
+    CreateRootSignature();
+    CreateInputLayout();
+    CreateBlendState();
+    CreateShader();
+    CreateRasterizerState();
+    CreateDepthStencil();
+
+    CreatePSO();
+}
+
 void GraphicsPipeline::DescriptorRange() {
     descriptorRange_[0].BaseShaderRegister = 0;
     descriptorRange_[0].NumDescriptors = 1;
@@ -88,61 +92,60 @@ void GraphicsPipeline::CreateRootSignature() {
 
     DescriptorRange();
 
-    switch(type_){
-	case Type::MODEL:
-        rootParameters_.resize(7);
-        break;
-	case Type::SPRITE:
-        rootParameters_.resize(3);
-		break;
-	case Type::PARTICLE:
-        rootParameters_.resize(3);
-		break;
+    D3D12_ROOT_PARAMETER rp{};
+    if (type_ != Type::PARTICLE2D){
+        //PixelShader Material
+        rp.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        rp.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+        rp.Descriptor.ShaderRegister = 0;
+        rootParameters_.push_back(rp);
     }
-
-    //PixelShader Material
-    rootParameters_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-    rootParameters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-    rootParameters_[0].Descriptor.ShaderRegister = 0;
 
     //VertexShader WVP
-    if (type_ == Type::PARTICLE){
-        rootParameters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-        rootParameters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
-        rootParameters_[1].DescriptorTable.pDescriptorRanges = descriptorRange_;
-        rootParameters_[1].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_);
+    if (type_ == Type::PARTICLE || type_ == Type::PARTICLE2D){
+        rp.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+        rp.ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+        rp.DescriptorTable.pDescriptorRanges = descriptorRange_;
+        rp.DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_);
     } else{
-        rootParameters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-        rootParameters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
-        rootParameters_[1].Descriptor.ShaderRegister = 0;
+        rp.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        rp.ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+        rp.Descriptor.ShaderRegister = 0;
     }
+    rootParameters_.push_back(rp);
 
     //DescriptorTable Texture
-    rootParameters_[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-    rootParameters_[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-    rootParameters_[2].DescriptorTable.pDescriptorRanges = descriptorRange_;
-    rootParameters_[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_);
+    rp.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+    rp.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+    rp.DescriptorTable.pDescriptorRanges = descriptorRange_;
+    rp.DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_);
+    rootParameters_.push_back(rp);
 
     if (type_ == Type::MODEL){
         //DirectionalLight
-        rootParameters_[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-        rootParameters_[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-        rootParameters_[3].Descriptor.ShaderRegister = 1;
+        rp.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        rp.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+        rp.Descriptor.ShaderRegister = 1;
+        rootParameters_.push_back(rp);
 
         //Camera For GPU
-        rootParameters_[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-        rootParameters_[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-        rootParameters_[4].Descriptor.ShaderRegister = 2;
+        rp.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        rp.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+        rp.Descriptor.ShaderRegister = 2;
+        rootParameters_.push_back(rp);
+
 
         //PointLight
-        rootParameters_[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-        rootParameters_[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-        rootParameters_[5].Descriptor.ShaderRegister = 3;
+        rp.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        rp.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+        rp.Descriptor.ShaderRegister = 3;
+        rootParameters_.push_back(rp);
 
         //SpotLight
-        rootParameters_[6].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-        rootParameters_[6].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-        rootParameters_[6].Descriptor.ShaderRegister = 4;
+        rp.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        rp.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+        rp.Descriptor.ShaderRegister = 4;
+        rootParameters_.push_back(rp);
     }
 
 
@@ -162,15 +165,20 @@ void GraphicsPipeline::CreateRootSignature() {
     hr = D3D12SerializeRootSignature(&descriptionRootSignature, D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
 
     if(FAILED(hr)){
-        System::Log(Logger::Level::ERR, static_cast<char*>(errorBlob->GetBufferPointer()));
+        System::Log(Log::Level::ERR, static_cast<char*>(errorBlob->GetBufferPointer()));
         assert(false);
     }
-
-    hr = dxCommon_.lock()->GetDevice()->CreateRootSignature(0, signatureBlob->GetBufferPointer(), signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature_));
+    if (dxCommon){
+        hr = dxCommon->GetDevice()->CreateRootSignature(0, signatureBlob->GetBufferPointer(), signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature_));
+    } else{
+        hr = dxCommon_.lock()->GetDevice()->CreateRootSignature(0, signatureBlob->GetBufferPointer(), signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature_));
+    }
     assert(SUCCEEDED(hr));
 }
 
 void GraphicsPipeline::CreateInputLayout() {
+    inputElementDescs_.resize(3);
+
     inputElementDescs_[0].SemanticName = "POSITION";
     inputElementDescs_[0].SemanticIndex = 0;
     inputElementDescs_[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -182,22 +190,47 @@ void GraphicsPipeline::CreateInputLayout() {
     inputElementDescs_[1].Format = DXGI_FORMAT_R32G32_FLOAT;
     inputElementDescs_[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
-    inputElementDescs_[2].SemanticName = "NORMAL";
-    inputElementDescs_[2].SemanticIndex = 0;
-    inputElementDescs_[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-    inputElementDescs_[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+    if (type_ != Type::PARTICLE2D){
+        inputElementDescs_[2].SemanticName = "NORMAL";
+        inputElementDescs_[2].SemanticIndex = 0;
+        inputElementDescs_[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+        inputElementDescs_[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+    } else{
+        inputElementDescs_.resize(2);
+    }
 
-    //System::Debug::Logger(std::format(L"InputElementSlot : {}\n", inputElementDescs_[0].InputSlot));
+    //System::Debug::Log(std::format(L"InputElementSlot : {}\n", inputElementDescs_[0].InputSlot));
 
-	inputLayoutDesc_.pInputElementDescs = inputElementDescs_;
-    inputLayoutDesc_.NumElements = _countof(inputElementDescs_);
+	inputLayoutDesc_.pInputElementDescs = inputElementDescs_.data();
+    inputLayoutDesc_.NumElements = static_cast<UINT>(inputElementDescs_.size());
 }
 
 void GraphicsPipeline::CreateBlendState() {
     blendDesc_.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
-    if(type_ == Type::PARTICLE){
-        SetBlendMode(BlendMode::ADD);
+	//SetBlendMode(blendMode_);
+
+    if (type_ == Type::PARTICLE2D){
+        D3D12_RENDER_TARGET_BLEND_DESC defaultDesc{};
+        defaultDesc.BlendEnable = false;
+        defaultDesc.LogicOpEnable = false;
+        defaultDesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+
+        //D3D12_RENDER_TARGET_BLEND_DESC transparency{};
+        //transparency.BlendEnable = true;
+        //transparency.LogicOpEnable = false;
+        //transparency.SrcBlend = D3D12_BLEND_SRC_ALPHA;
+        //transparency.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+        //transparency.BlendOp = D3D12_BLEND_OP_ADD;
+        //transparency.SrcBlendAlpha = D3D12_BLEND_ONE;
+        //transparency.DestBlendAlpha = D3D12_BLEND_ZERO;
+        //transparency.BlendOpAlpha = D3D12_BLEND_OP_ADD;
+        //transparency.LogicOp = D3D12_LOGIC_OP_NOOP;
+        //transparency.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+        //
+        //blendDesc_.RenderTarget[0] = transparency;
+        blendDesc_.RenderTarget[1] = defaultDesc;
+        blendDesc_.RenderTarget[2] = defaultDesc;
     }
 }
 
@@ -215,6 +248,9 @@ void GraphicsPipeline::CreateShader() {
     case Type::PARTICLE:
         name = L"Particle";
 	    break;
+    case Type::PARTICLE2D:
+        name = L"Particle2d";
+        break;
     }
 
     shader_->Create(name);
@@ -231,6 +267,7 @@ void GraphicsPipeline::CreateRasterizerState() {
         rasterizerDesc_.FillMode = D3D12_FILL_MODE_SOLID;
 		break;
 	case Type::PARTICLE:
+	case Type::PARTICLE2D:
         rasterizerDesc_.CullMode = D3D12_CULL_MODE_NONE;
         rasterizerDesc_.FillMode = D3D12_FILL_MODE_SOLID;
 		break;
@@ -269,13 +306,25 @@ void GraphicsPipeline::CreatePSO() {
     graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc_;
     graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
-    graphicsPipelineStateDesc.NumRenderTargets = 1;
-    graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+    if (type_ == Type::PARTICLE2D){
+        graphicsPipelineStateDesc.NumRenderTargets = 3;
+	    graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	    graphicsPipelineStateDesc.RTVFormats[1] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	    graphicsPipelineStateDesc.RTVFormats[2] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+    } else{
+        graphicsPipelineStateDesc.NumRenderTargets = 1;
+	    graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+    }
     graphicsPipelineStateDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
     graphicsPipelineStateDesc.SampleDesc.Count = 1;
     graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
 
-    HRESULT hr = dxCommon_.lock()->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(&graphicsPipelineState_));
+    HRESULT hr = S_OK;
+    if (dxCommon){
+        hr = dxCommon->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(graphicsPipelineState_.ReleaseAndGetAddressOf()));
+    } else{
+        hr = dxCommon_.lock()->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(&graphicsPipelineState_));
+    }
     assert(SUCCEEDED(hr));
 }

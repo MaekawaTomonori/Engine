@@ -1,69 +1,99 @@
 #include "ThreadManager.h"
 
-#include <cassert>
+std::atomic<int> workingThread_(0);
 
-#include "System/SingletonFinalizer/SingletonFinalizer.h"
+ThreadManager::ThreadManager(size_t threadCount) : stopFlag(false) {
 
-ThreadManager* ThreadManager::instance = nullptr;
-std::once_flag ThreadManager::flag;
+	for (size_t i = 0; i < threadCount; i++) {
 
-ThreadManager::ThreadManager(size_t workers):exit(false) {
-	for (size_t i = 0; i < workers; ++i){
-		worker_.emplace_back(&ThreadManager::Work, this);
+		//スレッドを起動
+		threads_.emplace_back(&ThreadManager::WorkerThread, this);
 	}
 }
 
 ThreadManager::~ThreadManager() {
-	Exit();
+
+	//スレッドの停止
+	Stop();
 }
 
 void ThreadManager::AddTask(std::function<void()> task) {
-	std::lock_guard<std::mutex> lock(mutex_);
-	tasks_.push(std::move(task));
-	condition_.notify_all();
-}
-
-void ThreadManager::Exit() {
 	{
-		std::lock_guard<std::mutex> lock(mutex_);
-		exit = true;
+		//スコープ内の処理が終わるまでmutexを占有
+		std::lock_guard<std::mutex> lock(queueMutex);
+
+		//キューにタスクを登録する
+		taskQueue.push(std::move(task));
 	}
 
-	condition_.notify_all();
-
-	for (auto& thread : worker_){
-		if (!thread.joinable()) continue;
-		thread.join();
-	}
+	//待機中のスレッドをひとつだけ動かす
+	condition.notify_one();
 }
 
-void ThreadManager::Work() {
-	while (true){
-		std::function<void()> task;
-		{
-			std::unique_lock<std::mutex> lock(mutex_);
-			condition_.wait(lock, [this](){ return !tasks_.empty() || exit; });
-			if (exit && tasks_.empty()) return;
+void ThreadManager::Stop() {
+	{
+		//スコープ内の処理が終わるまでmutexを占有
+		std::lock_guard<std::mutex> lock(queueMutex);
 
-			task = std::move(tasks_.front());
-			tasks_.pop();
+		//終了フラグをtrueにする
+		stopFlag = true;
+	}
+
+	//待機中のスレッドをすべて動かす
+	condition.notify_all();
+
+	for (std::thread& worker : threads_) {
+
+		//スレッドの解放
+		if (worker.joinable()) {
+			worker.join();
 		}
-		task();
 	}
 }
 
-void ThreadManager::Create() {
-	instance = new ThreadManager(4);
-	SingletonFinalizer::AddFinalizer(&Destroy);
+bool ThreadManager::StandByAllThread() {
+
+	if (workingThread_ > 0 || !taskQueue.empty()) {
+		return false;
+	}
+
+	return true;
 }
 
-void ThreadManager::Destroy() {
-	delete instance;
-	instance = nullptr;
-}
+void ThreadManager::WorkerThread() {
 
-ThreadManager* ThreadManager::GetInstance() {
-	std::call_once(flag, Create);
-	assert(instance);
-	return instance;
+	//無限ループ
+	while (true) {
+
+		//実行するタスク
+		std::function<void()> task;
+
+		{
+			//スコープ内の処理が終わるまでmutexを占有
+			std::unique_lock<std::mutex> lock(queueMutex);
+
+			//ストップフラグがたつか、キューに何かが入ってくるまで処理を止める
+			condition.wait(lock, [this]() {return stopFlag || !taskQueue.empty(); });
+
+			//終了フラグがたち、キューが空であったら
+			if (stopFlag && taskQueue.empty()) {
+
+				//ループを抜ける
+				return;
+			}
+
+			workingThread_++;
+
+			//タスクキューから実行するタスクを取り出す
+			task = std::move(taskQueue.front());
+
+			//取り出したタスクをキューから削除する
+			taskQueue.pop();
+		}
+
+		//タスクを実行
+		task();
+
+		workingThread_--;
+	}
 }

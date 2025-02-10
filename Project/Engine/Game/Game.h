@@ -15,15 +15,13 @@ protected:
 inline void Game::Initialize() {
 	System::Log("Game Init");
 	scene_->SetFactory(std::make_unique<SceneFactory>());
-	scene_->ChangeScene("Play");
+	scene_->ChangeScene("play");
 }
 
 inline void Game::Update() {
-	System::Log("Game Update");
 }
 
 inline void Game::Draw() {
-	System::Log("Game Draw");
 }
 
 inline void Game::Finalize() {

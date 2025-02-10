@@ -1,5 +1,4 @@
 #include "Game/Game.h"
-
 #include "DirectX/Util/D3DResourceLeakChecker.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {

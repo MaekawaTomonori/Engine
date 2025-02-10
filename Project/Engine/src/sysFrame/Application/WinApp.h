@@ -6,8 +6,7 @@
 
 class WinApp{
 private: //Variables
-	std::unique_ptr<Window> window_;
-	bool  titlebar_ = false;
+	std::shared_ptr<Window> window_;
 public:
 	static const int32_t CLIENT_WIDTH = 1280;
     static const int32_t CLIENT_HEIGHT = 720;
@@ -18,6 +17,6 @@ public: //Functions
 
     HINSTANCE GetInstanceHandle() const;
     HWND GetWindowHandle() const;
-    void SetTitlebar(bool state);
+	void ToggleFullscreen();
 };
 

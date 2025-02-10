@@ -24,6 +24,8 @@ class Shader{
 public:
 	bool Create(const std::wstring& name);
 
+    Shader* PSLoad(const std::wstring& name);
+
     IDxcBlob* GetVertexShader() const {
         return vertexShader_.Get();
     }

@@ -1,6 +1,8 @@
 #include "System.h"
 
 #include <windows.h>
+#include <string>
+#include <algorithm>
 
 std::wstring System::ConvertString(const std::string& str) {
     if (str.empty()){
@@ -30,31 +32,37 @@ std::string System::ConvertString(const std::wstring& str) {
     return result;
 }
 
-void System::Log(Logger::Level level, const std::string& message) {
-	class Logger* logging = Logger::GetLogger();
-    if (level == Logger::Level::INFO){logging->Info(message); return;}
-    if (level == Logger::Level::DEBUG){logging->Debug(message); return;}
-    if (level == Logger::Level::WARN){logging->Warning(message); return;}
-    if (level == Logger::Level::ERR){logging->Error(message); return;}
+bool System::EqualsIgnoreCase(const std::string& str1, const std::string& str2) {
+    return std::ranges::equal(str1, str2, [](const char c1, const char c2){
+        return std::tolower(c1) == std::tolower(c2);
+    });
+}
+
+void System::Log(Log::Level level, const std::string& message) {
+	class Log* logging = Log::GetLogger();
+    if (level == Log::Level::INFO){logging->Info(message); return;}
+    if (level == Log::Level::DEBUG){logging->Debug(message); return;}
+    if (level == Log::Level::WARN){logging->Warning(message); return;}
+    if (level == Log::Level::ERR){logging->Error(message); return;}
     //OutputDebugStringA(message.c_str());
     
 }
 
-void System::Log(Logger::Level level, const std::wstring& message) {
+void System::Log(Log::Level level, const std::wstring& message) {
     std::string msg = ConvertString(message);
-    class Logger* logging = Logger::GetLogger();
-    if (level == Logger::Level::INFO){logging->Info(msg); return;}
-    if (level == Logger::Level::DEBUG){logging->Debug(msg); return;}
-    if (level == Logger::Level::WARN){logging->Warning(msg); return;}
-    if (level == Logger::Level::ERR){logging->Error(msg); return;}
+    class Log* logging = Log::GetLogger();
+    if (level == Log::Level::INFO){logging->Info(msg); return;}
+    if (level == Log::Level::DEBUG){logging->Debug(msg); return;}
+    if (level == Log::Level::WARN){logging->Warning(msg); return;}
+    if (level == Log::Level::ERR){logging->Error(msg); return;}
     //OutputDebugStringA(ConvertString(message).c_str());
 	
 }
 
 void System::Log(const std::string& message) {
-    Log(Logger::Level::DEBUG, message);
+    Log(Log::Level::DEBUG, message);
 }
 
 void System::Log(const std::wstring& message) {
-    Log(Logger::Level::DEBUG, message);
+    Log(Log::Level::DEBUG, message);
 }

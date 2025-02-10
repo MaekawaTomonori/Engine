@@ -14,6 +14,6 @@ struct PixelShaderOutput{
 
 PixelShaderOutput main(VertexShaderOutput input) {
     PixelShaderOutput output;
-    output.color = gTexture.Sample(gSampler, input.texcoord) * gMaterial.color;
+    output.color = pow(gTexture.Sample(gSampler, input.texcoord) * gMaterial.color, 2.2);
     return output;
 };

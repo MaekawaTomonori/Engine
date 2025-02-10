@@ -4,10 +4,13 @@
 #include "DirectX/Util/D3DResourceLeakChecker.h"
 #include "Object/Camera/Camera.h"
 #include "System/ImGui/ImGuiManager.h"
+#include "System/Log/Log.h"
 
 #include "EngineDebug.h"
+#include "Object/Particle/ParticleManager.h"
 #include "System/Input/Input.h"
-#include "System/Sound/Audio.h"
+
+#include "../AudioAnther.h"
 
 class LightManager;
 class SRVManager;
@@ -25,16 +28,19 @@ class Engine{
 
     std::shared_ptr<SRVManager> srvManager_;
 
-	std::shared_ptr<ImGuiManager> imguiManager_;
 
-    Audio* audio_ = nullptr;
+    Log* logger_ = nullptr;
+    AudioAnther* audio_ = nullptr;
     Input* input_ = nullptr;
 
+    ImGuiManager* imguiManager_ = nullptr;
     TextureManager* textureManager_ = nullptr;
     ModelManager* modelManager_ = nullptr;
     SpriteCommon* spriteCommon_ = nullptr;
     ModelCommon* modelCommon_ = nullptr;
     LightManager* light_ = nullptr;
+
+    ParticleManager* particleManager_ = nullptr;
 
     static std::shared_ptr<Camera> defaultCamera_;
 
@@ -57,6 +63,10 @@ public:
     void SetBackColor(const Vector4& color) const;
 
     void SetTitle(const std::string& title);
+
+    void SetFPSLimit(const int fps) const {
+        dxCommon_->SetFPSLimit(fps);
+    }
 
 	static Camera* GetDefaultCamera() {
         return defaultCamera_.get();

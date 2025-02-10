@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include <cmath>
 
+#include "Vector2.h"
+
 struct Vector3{
     float x, y, z;
 
@@ -13,6 +15,11 @@ struct Vector3{
 		y += v.y;
 		z += v.z;
 	}
+	void operator+=(const Vector2& v) {
+		x += v.x;
+		y += v.y;
+		z += 0;
+	}
 
     Vector3 operator-(const Vector3& v) const {
         return {x - v.x, y - v.y, z - v.z};
@@ -20,6 +27,10 @@ struct Vector3{
 
     Vector3 operator*(const float f) const {
         return {x * f, y * f, z * f};
+    }
+
+	Vector3 operator/(const float& f) const {
+        return {x / f, y / f, z / f};
     }
 
 	float length() const {

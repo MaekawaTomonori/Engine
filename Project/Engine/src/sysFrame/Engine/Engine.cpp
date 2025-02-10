@@ -2,6 +2,8 @@
 
 #include <memory>
 
+#include "System/System.h"
+
 #include "Application/WinApp.h"
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/SRVManager.h"
@@ -10,53 +12,61 @@
 #include "DirectX/Texture/TextureManager.h"
 #include "Object/Model/ModelCommon.h"
 #include "Object/Sprite/SpriteCommon.h"
-#include "System/System.h"
 #include "System/SingletonFinalizer/SingletonFinalizer.h"
-#include "System/Thread/ThreadManager.h"
 
 std::shared_ptr<Camera> Engine::defaultCamera_ = nullptr;
 
 void Engine::Initialize() {
+    logger_ = Log::GetLogger();
+
 	winApp_ = std::make_shared<WinApp>();
     dxCommon_ = std::make_shared<DirectXCommon>();
     srvManager_ = std::make_shared<SRVManager>();
-	imguiManager_ = std::make_shared<ImGuiManager>(winApp_.get(), dxCommon_.get());
 
     input_ = Input::GetInstance();
-    audio_ = Audio::GetInstance();
+    audio_ = AudioAnther::GetInstance();
 
+	imguiManager_ = ImGuiManager::GetInstance();
     textureManager_ = TextureManager::GetInstance();
     modelManager_ = ModelManager::GetInstance();
     spriteCommon_ = SpriteCommon::GetInstance();
     modelCommon_ = ModelCommon::GetInstance();
     light_ = LightManager::GetInstance();
 
+    particleManager_ = ParticleManager::GetInstance();
+
 	defaultCamera_ = std::make_shared<Camera>();
 
 	winApp_->Initialize(title_);
     dxCommon_->Initialize(winApp_.get());
     srvManager_->Initialize(dxCommon_.get());
-    imguiManager_->Initialize(srvManager_.get());
+    imguiManager_->Initialize(winApp_.get(), dxCommon_.get(), srvManager_.get());
 
-    ThreadManager::GetInstance()->AddTask([&]{audio_->Initialize(); });
+    dxCommon_->EnablePP(srvManager_.get());
+
+    audio_->Initialize();
 
     input_->Initialize(winApp_.get());
     textureManager_->Initialize(dxCommon_, srvManager_.get());
+    particleManager_->Initialize(dxCommon_.get(), srvManager_.get());
     modelManager_->Initialize(dxCommon_);
     spriteCommon_->Initialize(dxCommon_);
     modelCommon_->Initialize(dxCommon_);
     light_->Initialize(dxCommon_);
 
     defaultCamera_->Initialize();
-
-
-    System::Log(Logger::Level::INFO, "Engine Enabled");
 }
 
 void Engine::Update() const {
     input_->Update();
     imguiManager_->Begin();
     light_->Update();
+
+    particleManager_->Update();
+
+    if(input_->TriggerKey(DIK_RETURN)){
+        winApp_->ToggleFullscreen();
+    }
 
     if (engineDebug_){
 	    defaultCamera_->Update();
@@ -65,7 +75,6 @@ void Engine::Update() const {
 }
 
 void Engine::Draw() const {
-    //winApp_->SetTitlebar(true);
     //Draw
 	imguiManager_->End();
     srvManager_->PreDraw();
@@ -75,9 +84,11 @@ void Engine::Draw() const {
     if(engineDebug_){
         debugScene_->Draw();
     }
+    particleManager_->Draw();
 }
 
 void Engine::EndFrame() const {
+	//particleManager_->Draw();
     imguiManager_->Draw();
     dxCommon_->PostDraw();
 }
@@ -105,10 +116,10 @@ void Engine::EnableDebug() {
     debugScene_ = std::make_shared<EngineDebug>();
     debugScene_->Initialize();
 
-	System::Log(Logger::Level::INFO, "DebugMode Enabled");
+	System::Log(Log::Level::INFO, "DebugMode Enabled");
     return;
 #endif
-    //System::Logger(Logger::Level::ERR, "Request Cancelled!\nDebugMode is not available in Release Build.");
+    //System::Log(Log::Level::ERR, "Request Cancelled!\nDebugMode is not available in Release Build.");
 }
 
 bool Engine::IsDebug() const {

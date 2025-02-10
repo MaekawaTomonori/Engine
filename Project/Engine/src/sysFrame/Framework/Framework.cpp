@@ -3,9 +3,7 @@
 #include "System/System.h"
 
 void Framework::Run() {
-    System::Log(Logger::Level::INFO, "Framework Run");
 	engine = std::make_unique<Engine>();
-    //engine->SetTitle("LE2C_22_マエカワ_トモノリ_ぼっくすしょっと");
     engine->Initialize();
 
     scene_ = std::make_unique<SceneManager>();

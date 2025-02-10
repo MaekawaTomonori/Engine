@@ -2,8 +2,9 @@
 #include <memory>
 #include <string>
 
-#include "AbstractSceneFactory.h"
 #include "BaseScene.h"
+#include "AbstractSceneFactory.h"
+#include "Effect/SceneChanger.h"
 
 class SceneManager{
     std::unique_ptr<AbstractSceneFactory> factory_;
@@ -11,12 +12,14 @@ class SceneManager{
     std::unique_ptr<BaseScene> scene_;
     std::unique_ptr<BaseScene> next_;
 
+    std::unique_ptr<SceneChanger> changer_;
+
 public:
+    SceneManager();
 	~SceneManager();
 	void Update();
     void Draw() const;
 
-	//void SetNext(std::unique_ptr<BaseScene> next);
     void SetFactory(std::unique_ptr<AbstractSceneFactory> factory);
 
     void ChangeScene(const std::string& name);

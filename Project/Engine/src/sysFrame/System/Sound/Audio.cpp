@@ -1,3 +1,4 @@
+#define MINIAUDIO_IMPLEMENTATION
 #include "Audio.h"
 
 #include <cassert>
@@ -7,157 +8,150 @@
 #include "System/System.h"
 #include "System/SingletonFinalizer/SingletonFinalizer.h"
 
-#pragma comment(lib, "xaudio2.lib")
 
-Audio* Audio::instance_ = nullptr;
-std::once_flag Audio::onceFlag_;
+AudioManager* AudioManager::instance_ = nullptr;
+std::once_flag AudioManager::onceFlag_;
 
-Audio* Audio::GetInstance() {
+AudioManager* AudioManager::GetInstance() {
     call_once(onceFlag_, Create);
     assert(instance_);
     return instance_;
 }
 
-void Audio::Create() {
-    instance_ = new Audio;
+void AudioManager::Create() {
+    instance_ = new AudioManager;
     SingletonFinalizer::AddFinalizer(&Finalize);
 }
 
-void Audio::Initialize() {
-    System::Log(Logger::Level::INFO, "Audio Enable");
-    HRESULT hr = XAudio2Create(&xAudio2_, 0, XAUDIO2_DEFAULT_PROCESSOR);
-    assert(SUCCEEDED(hr));
+void AudioManager::Initialize() {
+	auto* engine = new ma_engine;
+    if (ma_engine_init(nullptr, engine) != MA_SUCCESS){
+        System::Log(Log::Level::ERR, "Failed to initialize audio engine");
+        return;
+    }
 
-    hr = xAudio2_->CreateMasteringVoice(&masteringVoice_);
-    assert(SUCCEEDED(hr));
+    engine_.reset(engine);
+
+    System::Log(Log::Level::INFO, "Audio Enable");   
 }
 
-void Audio::Finalize() {
+void AudioManager::Finalize() {
     delete instance_;
     instance_ = nullptr;
-    System::Log(Logger::Level::INFO, "Audio Disable");
-}
-
-Audio::~Audio() {
-    loaded_.clear();
-    playing_.clear();
-	xAudio2_.Reset();
-}
-
-void Audio::Load(const std::string& fileName) {
-    std::string name;
-    size_t pos = fileName.find_last_of('/');
-    if (pos != std::string::npos){
-        name = fileName.substr(pos + 1);
-    } else{
-        name = fileName;
-    }
-
-    if (loaded_.contains(name))return;
-
-    LoadWave(name);
+    System::Log(Log::Level::INFO, "Audio Disable");
 }
 
 
-void Audio::LoadWave(const std::string& fileName) {
-    std::string name = folderPath_ + fileName;
-
-    std::ifstream file;
-    file.open(name.c_str(), std::ios_base::binary);
-	assert(file.is_open());
-
-    RiffHeader riff;
-    file.read(reinterpret_cast<char*>(&riff), sizeof(riff));
-
-    if(strncmp(riff.chunk.id, "RIFF", 4) != 0){
-        assert(false);
-    }
-    if (strncmp(riff.type, "WAVE", 4) != 0){
-        assert(false);
-    }
-
-    FormatChunk format = {};
-    file.read(reinterpret_cast<char*>(&format), sizeof(ChunkHeader));
-    if (strncmp(format.chunk.id, "fmt ", 4) != 0){
-        assert(false);
-    }
-
-    assert(format.chunk.size <= sizeof(format.format));
-    file.read(reinterpret_cast<char*>(&format.format), format.chunk.size);
-
-    ChunkHeader data{};
-    file.read(reinterpret_cast<char*>(&data), sizeof(data));
-    if (strncmp(data.id, "JUNK", 4) == 0){
-        file.seekg(data.size, std::ios_base::cur);
-        file.read(reinterpret_cast<char*>(&data), sizeof(data));
-    }
-
-	if (strncmp(data.id, "data", 4) != 0){
-        assert(false);
-    }
-
-    char* pBuffer = new char[data.size];
-    file.read(pBuffer, data.size);
-
-    file.close();
-
-    SoundData soundData = {};
-    soundData.wfex = format.format;
-    soundData.pBuffer = reinterpret_cast<BYTE*>(pBuffer);
-    soundData.size = data.size;
-
-    loaded_.emplace(name, soundData);
+AudioManager::SoundHandle::SoundHandle(uint32_t handle, AudioManager* manager): handle(handle), manager(manager) {
 }
 
-void Audio::Unload(const std::string& name) {
-    if (!loaded_.contains(name))return;
-
-    SoundData& soundData = loaded_.at(name);
-
-    delete[] soundData.pBuffer;
-
-    soundData.pBuffer = nullptr;
-    soundData.size = 0;
-    soundData.wfex = {};
-
-    loaded_.erase(name);
+AudioManager::SoundHandle& AudioManager::SoundHandle::SetVolume(float volume) {
+    manager->SetVolume(handle, volume);
+    return *this;
 }
 
-uint32_t Audio::Play(const std::string& name) {
-    if (!loaded_.contains(name)){
-        assert(false);
-    	return 0;
+AudioManager::SoundHandle& AudioManager::SoundHandle::SetPitch(float pitch) {
+    manager->SetPitch(handle, pitch);
+    return *this;
+}
+
+void AudioManager::SoundHandle::Play() const {
+    manager->Play(handle);
+}
+
+void AudioManager::SoundHandle::Stop() const {
+    manager->Stop(handle);
+}
+
+void AudioManager::SoundHandle::Pause() const {
+    manager->Pause(handle);
+}
+
+void AudioManager::SoundHandle::Resume() const {
+    manager->Resume(handle);
+}
+
+AudioManager::SoundHandle& AudioManager::SoundHandle::Loop(bool loop) {
+	manager->SetLoop(handle, loop);
+	return *this;
+}
+
+AudioManager::SoundHandle AudioManager::Load(const std::string& filePath) {
+    std::lock_guard<std::mutex> lock(mutex);
+    const std::string path = folderPath_ + filePath;
+
+    // default
+    folderPath_ = "Assets/Sound/";
+
+    uint32_t soundDataHandle = nextHandle++;
+    soundFilePaths[soundDataHandle] = path;
+
+    auto soundInstance = std::make_unique<ma_sound>();
+    if (ma_sound_init_from_file(engine_.get(), path.c_str(), 0, nullptr, nullptr, soundInstance.get()) != MA_SUCCESS){
+        return {0, this};
     }
+    uint32_t soundInstanceHandle = nextHandle++;
+    soundInstances[soundInstanceHandle] = std::move(soundInstance);
 
-    return Play(loaded_.at(name));
+    return {soundInstanceHandle, this};
 }
 
-uint32_t Audio::Play(const SoundData& soundData) {
-    HRESULT hr = S_OK;
-
-    IXAudio2SourceVoice* pSourceVoice = nullptr;
-    hr = xAudio2_->CreateSourceVoice(&pSourceVoice, &soundData.wfex);
-    assert(SUCCEEDED(hr));
-
-    XAUDIO2_BUFFER buffer = {};
-    buffer.pAudioData = soundData.pBuffer;
-    buffer.AudioBytes = soundData.size;
-    buffer.Flags = XAUDIO2_END_OF_STREAM;
-
-    hr = pSourceVoice->SubmitSourceBuffer(&buffer);
-    assert(SUCCEEDED(hr));
-
-    hr = pSourceVoice->Start();
-    assert(SUCCEEDED(hr));
-
-    playing_.emplace(playingAudioCount_, pSourceVoice);
-    return playingAudioCount_++;
+AudioManager::~AudioManager() {
+    ma_engine_uninit(engine_.get());
 }
 
-void Audio::Stop(const uint32_t handle) {
-    if (!playing_.contains(handle))return;
+void AudioManager::Play(uint32_t handle) {
+    std::lock_guard<std::mutex> lock(mutex);
+    const auto itr = soundInstances.find(handle);
+    if (itr != soundInstances.end()){
+        ma_sound_start(itr->second.get());
+    }
+}
 
-    playing_.at(handle)->Stop();
-    playing_.at(handle)->DestroyVoice();
-    playing_.erase(handle);
+void AudioManager::Stop(uint32_t handle) {
+    std::lock_guard<std::mutex> lock(mutex);
+    const auto itr = soundInstances.find(handle);
+    if (itr != soundInstances.end()){
+        ma_sound_stop(itr->second.get());
+    }
+}
+
+void AudioManager::Pause(uint32_t handle) {
+    std::lock_guard<std::mutex> lock(mutex);
+    const auto itr = soundInstances.find(handle);
+    if (itr != soundInstances.end()){
+        ma_sound_stop(itr->second.get());
+    }
+}
+
+void AudioManager::Resume(uint32_t handle) {
+    std::lock_guard<std::mutex> lock(mutex);
+    const auto itr = soundInstances.find(handle);
+    if (itr != soundInstances.end()){
+        ma_sound_start(itr->second.get());
+    }
+}
+
+void AudioManager::SetVolume(uint32_t handle, float volume) {
+    std::lock_guard<std::mutex> lock(mutex);
+    const auto itr = soundInstances.find(handle);
+    if (itr != soundInstances.end()){
+        ma_sound_set_volume(itr->second.get(), volume);
+    }
+}
+
+void AudioManager::SetPitch(uint32_t handle, float pitch) {
+    std::lock_guard<std::mutex> lock(mutex);
+    const auto itr = soundInstances.find(handle);
+    if (itr != soundInstances.end()){
+        ma_sound_set_pitch(itr->second.get(), pitch);
+    }
+}
+
+void AudioManager::SetLoop(uint32_t handle, bool loop) {
+	std::lock_guard<std::mutex> lock(mutex);
+	const auto itr = soundInstances.find(handle);
+	if (itr != soundInstances.end()) {
+		ma_sound_set_looping(itr->second.get(), loop);
+	}
 }

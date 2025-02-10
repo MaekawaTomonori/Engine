@@ -3744,7 +3744,7 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, const ImVec2& pos, Im
 //-----------------------------------------------------------------------------
 // [SECTION] ImGui Internal Render Helpers
 //-----------------------------------------------------------------------------
-// Vaguely redesigned to stop accessing ImGui global state:
+// Vaguely redesigned to Stop accessing ImGui global state:
 // - RenderArrow()
 // - RenderBullet()
 // - RenderCheckMark()
