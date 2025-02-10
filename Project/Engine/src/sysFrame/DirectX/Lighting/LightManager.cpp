@@ -39,7 +39,7 @@ void LightManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
     }
 
     //Directional
-    directionalResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(DirectionalLight)).Get());
+    directionalResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(DirectionalLight) * MAX_COUNT.dlCount).Get());
 
 
     directionalResource_->Map(0, nullptr, reinterpret_cast<void**>(&directionalLight_));
@@ -48,7 +48,7 @@ void LightManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
     directionalLight_->direction = {0, -1, 0};
     directionalLight_->intensity = 1.f;
 
-    pointResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(PointLight)).Get());
+    pointResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(PointLight) * MAX_COUNT.plCount).Get());
     pointResource_->Map(0, nullptr, reinterpret_cast<void**>(&pointLight_));
 
     pointLight_->color = {1,1,1,1};
@@ -57,7 +57,7 @@ void LightManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
     pointLight_->radius = 10;
     pointLight_->decay = 1;
 
-    spotResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(SpotLight)).Get());
+    spotResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(SpotLight) * MAX_COUNT.slCount).Get());
     spotResource_->Map(0, nullptr, reinterpret_cast<void**>(&spotLight_));
 
     spotLight_->color = {1,1,1,1};

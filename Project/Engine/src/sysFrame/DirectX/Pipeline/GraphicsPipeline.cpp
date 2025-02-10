@@ -144,6 +144,11 @@ void GraphicsPipeline::CreateRootSignature() {
         rp.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
         rp.Descriptor.ShaderRegister = 4;
         rootParameters_.push_back(rp);
+
+        rp.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        rp.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+        rp.Descriptor.ShaderRegister = 5;
+        rootParameters_.push_back(rp);
     }
 
 
