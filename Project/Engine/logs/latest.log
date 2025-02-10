@@ -1,54 +1,70 @@
-[02/10/25-16:06][Thread:33788][info]:LogSystem Enabled
-[02/10/25-16:06][Thread:33788][info]:Logger Enabled
-[02/10/25-16:06][Thread:33788][info]:TextureManager Enabled
-[02/10/25-16:06][Thread:33788][info]:Window Created
-[02/10/25-16:06][Thread:33788][info]:WinApp Enabled
-[02/10/25-16:06][Thread:33788][debug]:Use Adapter:NVIDIA GeForce RTX 3060 Laptop GPU
-[02/10/25-16:06][Thread:33788][debug]:FeatureLevel : 12.2
-[02/10/25-16:06][Thread:33788][debug]:Complete creation!
-[02/10/25-16:06][Thread:33788][debug]:CommandAllocator Created
-[02/10/25-16:06][Thread:33788][debug]:CommandList Created
-[02/10/25-16:06][Thread:33788][debug]:CommandQueue Created
-[02/10/25-16:06][Thread:33788][debug]:SwapChain Created
-[02/10/25-16:06][Thread:33788][debug]:DepthStencilView Created
-[02/10/25-16:06][Thread:33788][info]:DirectXCommon Enabled
-[02/10/25-16:06][Thread:33788][info]:SRVManager Enabled
-[02/10/25-16:06][Thread:33788][info]:Begin CompileShader, Path : Screen.VS.hlsl, Profile : vs_6_0
-[02/10/25-16:06][Thread:33788][info]:Compile Succeed, Path : Screen.VS.hlsl, Profile : vs_6_0
-[02/10/25-16:06][Thread:33788][info]:Begin CompileShader, Path : Screen.PS.hlsl, Profile : ps_6_0
-[02/10/25-16:06][Thread:33788][info]:Compile Succeed, Path : Screen.PS.hlsl, Profile : ps_6_0
-[02/10/25-16:06][Thread:33788][info]:Begin CompileShader, Path : Blur.hlsl, Profile : ps_6_0
-[02/10/25-16:06][Thread:33788][info]:Compile Succeed, Path : Blur.hlsl, Profile : ps_6_0
-[02/10/25-16:06][Thread:33788][info]:Begin CompileShader, Path : Bloom.hlsl, Profile : ps_6_0
-[02/10/25-16:06][Thread:33788][info]:Compile Succeed, Path : Bloom.hlsl, Profile : ps_6_0
-[02/10/25-16:06][Thread:33788][info]:Input Enabled
-[02/10/25-16:06][Thread:33788][info]:TextureManager Initialized
-[02/10/25-16:06][Thread:33788][info]:Begin CompileShader, Path : Particle2d.VS.hlsl, Profile : vs_6_0
-[02/10/25-16:06][Thread:33788][info]:Compile Succeed, Path : Particle2d.VS.hlsl, Profile : vs_6_0
-[02/10/25-16:06][Thread:33788][info]:Begin CompileShader, Path : Particle2d.PS.hlsl, Profile : ps_6_0
-[02/10/25-16:06][Thread:33788][info]:Compile Succeed, Path : Particle2d.PS.hlsl, Profile : ps_6_0
-[02/10/25-16:06][Thread:33788][info]:ModelManager Enabled
-[02/10/25-16:06][Thread:33788][info]:Begin CompileShader, Path : Sprite.VS.hlsl, Profile : vs_6_0
-[02/10/25-16:06][Thread:33788][info]:Compile Succeed, Path : Sprite.VS.hlsl, Profile : vs_6_0
-[02/10/25-16:06][Thread:33788][info]:Begin CompileShader, Path : Sprite.PS.hlsl, Profile : ps_6_0
-[02/10/25-16:06][Thread:33788][info]:Compile Succeed, Path : Sprite.PS.hlsl, Profile : ps_6_0
-[02/10/25-16:06][Thread:33788][info]:SpriteCommon Enabled
-[02/10/25-16:06][Thread:33788][info]:Begin CompileShader, Path : Model.VS.hlsl, Profile : vs_6_0
-[02/10/25-16:06][Thread:33788][info]:Compile Succeed, Path : Model.VS.hlsl, Profile : vs_6_0
-[02/10/25-16:06][Thread:33788][info]:Begin CompileShader, Path : Model.PS.hlsl, Profile : ps_6_0
-[02/10/25-16:06][Thread:33788][info]:Compile Succeed, Path : Model.PS.hlsl, Profile : ps_6_0
-[02/10/25-16:06][Thread:33788][info]:ModelCommon Initialized
-[02/10/25-16:06][Thread:33788][info]:Light Enabled
-[02/10/25-16:06][Thread:33788][info]:TextureManager::Load: c.png
-[02/10/25-16:06][Thread:33788][info]:TextureManager::Load: plane/uvChecker.png
-[02/10/25-16:06][Thread:33788][info]:Model Loaded:plane
-[02/10/25-16:06][Thread:33788][info]:DebugMode Enabled
-[02/10/25-16:06][Thread:33788][debug]:Game Init
-[02/10/25-16:06][Thread:33788][debug]:Game Finalize
-[02/10/25-16:06][Thread:33788][info]:ParticleManager Disabled
-[02/10/25-16:06][Thread:33788][info]:Light Disabled
-[02/10/25-16:06][Thread:33788][info]:ModelCommon Finalized
-[02/10/25-16:06][Thread:33788][info]:SpriteCommon Disabled
-[02/10/25-16:06][Thread:33788][info]:ModelManager Disabled
-[02/10/25-16:06][Thread:33788][info]:TextureManager Disabled
-[02/10/25-16:06][Thread:33788][info]:Input Disabled
+[02/10/25-16:26][Thread:11732][info]:LogSystem Enabled
+[02/10/25-16:26][Thread:11732][info]:Logger Enabled
+[02/10/25-16:26][Thread:11732][info]:TextureManager Enabled
+[02/10/25-16:26][Thread:11732][info]:Window Created
+[02/10/25-16:26][Thread:11732][info]:WinApp Enabled
+[02/10/25-16:26][Thread:11732][debug]:Use Adapter:NVIDIA GeForce RTX 3060 Laptop GPU
+[02/10/25-16:26][Thread:11732][debug]:FeatureLevel : 12.2
+[02/10/25-16:26][Thread:11732][debug]:Complete creation!
+[02/10/25-16:26][Thread:11732][debug]:CommandAllocator Created
+[02/10/25-16:26][Thread:11732][debug]:CommandList Created
+[02/10/25-16:26][Thread:11732][debug]:CommandQueue Created
+[02/10/25-16:26][Thread:11732][debug]:SwapChain Created
+[02/10/25-16:26][Thread:11732][debug]:DepthStencilView Created
+[02/10/25-16:26][Thread:11732][info]:DirectXCommon Enabled
+[02/10/25-16:26][Thread:11732][info]:SRVManager Enabled
+[02/10/25-16:26][Thread:11732][info]:Begin CompileShader, Path : Screen.VS.hlsl, Profile : vs_6_0
+[02/10/25-16:26][Thread:11732][info]:Compile Succeed, Path : Screen.VS.hlsl, Profile : vs_6_0
+[02/10/25-16:26][Thread:11732][info]:Begin CompileShader, Path : Screen.PS.hlsl, Profile : ps_6_0
+[02/10/25-16:26][Thread:11732][info]:Compile Succeed, Path : Screen.PS.hlsl, Profile : ps_6_0
+[02/10/25-16:26][Thread:11732][info]:Begin CompileShader, Path : Blur.hlsl, Profile : ps_6_0
+[02/10/25-16:26][Thread:11732][info]:Compile Succeed, Path : Blur.hlsl, Profile : ps_6_0
+[02/10/25-16:26][Thread:11732][info]:Begin CompileShader, Path : Bloom.hlsl, Profile : ps_6_0
+[02/10/25-16:26][Thread:11732][info]:Compile Succeed, Path : Bloom.hlsl, Profile : ps_6_0
+[02/10/25-16:26][Thread:11732][info]:Input Enabled
+[02/10/25-16:26][Thread:11732][info]:TextureManager Initialized
+[02/10/25-16:26][Thread:11732][info]:Begin CompileShader, Path : Particle2d.VS.hlsl, Profile : vs_6_0
+[02/10/25-16:26][Thread:11732][info]:Compile Succeed, Path : Particle2d.VS.hlsl, Profile : vs_6_0
+[02/10/25-16:26][Thread:11732][info]:Begin CompileShader, Path : Particle2d.PS.hlsl, Profile : ps_6_0
+[02/10/25-16:26][Thread:11732][info]:Compile Succeed, Path : Particle2d.PS.hlsl, Profile : ps_6_0
+[02/10/25-16:26][Thread:11732][info]:ModelManager Enabled
+[02/10/25-16:26][Thread:11732][info]:Begin CompileShader, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[02/10/25-16:26][Thread:11732][info]:Compile Succeed, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[02/10/25-16:26][Thread:11732][info]:Begin CompileShader, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[02/10/25-16:26][Thread:11732][info]:Compile Succeed, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[02/10/25-16:26][Thread:11732][info]:Begin CompileShader, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[02/10/25-16:26][Thread:11732][info]:Compile Succeed, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[02/10/25-16:26][Thread:11732][info]:Begin CompileShader, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[02/10/25-16:26][Thread:11732][info]:Compile Succeed, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[02/10/25-16:26][Thread:11732][info]:Begin CompileShader, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[02/10/25-16:26][Thread:11732][info]:Compile Succeed, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[02/10/25-16:26][Thread:11732][info]:Begin CompileShader, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[02/10/25-16:26][Thread:11732][info]:Compile Succeed, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[02/10/25-16:26][Thread:11732][info]:Begin CompileShader, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[02/10/25-16:26][Thread:11732][info]:Compile Succeed, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[02/10/25-16:26][Thread:11732][info]:Begin CompileShader, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[02/10/25-16:26][Thread:11732][info]:Compile Succeed, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[02/10/25-16:26][Thread:11732][info]:Begin CompileShader, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[02/10/25-16:26][Thread:11732][info]:Compile Succeed, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[02/10/25-16:26][Thread:11732][info]:Begin CompileShader, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[02/10/25-16:26][Thread:11732][info]:Compile Succeed, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[02/10/25-16:26][Thread:11732][info]:SpriteCommon Enabled
+[02/10/25-16:26][Thread:11732][info]:Begin CompileShader, Path : Model.VS.hlsl, Profile : vs_6_0
+[02/10/25-16:26][Thread:11732][info]:Compile Succeed, Path : Model.VS.hlsl, Profile : vs_6_0
+[02/10/25-16:26][Thread:11732][info]:Begin CompileShader, Path : Model.PS.hlsl, Profile : ps_6_0
+[02/10/25-16:26][Thread:11732][info]:Compile Succeed, Path : Model.PS.hlsl, Profile : ps_6_0
+[02/10/25-16:26][Thread:11732][info]:ModelCommon Initialized
+[02/10/25-16:26][Thread:11732][info]:Light Enabled
+[02/10/25-16:26][Thread:11732][info]:TextureManager::Load: c.png
+[02/10/25-16:26][Thread:11732][info]:TextureManager::Load: plane/uvChecker.png
+[02/10/25-16:26][Thread:11732][info]:Model Loaded:plane
+[02/10/25-16:26][Thread:11732][info]:DebugMode Enabled
+[02/10/25-16:26][Thread:11732][debug]:Game Init
+[02/10/25-16:26][Thread:11732][debug]:Game Finalize
+[02/10/25-16:26][Thread:11732][info]:ParticleManager Disabled
+[02/10/25-16:26][Thread:11732][info]:Light Disabled
+[02/10/25-16:26][Thread:11732][info]:ModelCommon Finalized
+[02/10/25-16:26][Thread:11732][info]:SpriteCommon Disabled
+[02/10/25-16:26][Thread:11732][info]:ModelManager Disabled
+[02/10/25-16:26][Thread:11732][info]:TextureManager Disabled
+[02/10/25-16:26][Thread:11732][info]:Input Disabled

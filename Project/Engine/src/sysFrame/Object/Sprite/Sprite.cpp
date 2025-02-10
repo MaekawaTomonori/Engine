@@ -3,6 +3,7 @@
 #include <memory>
 #include "Application/WinApp.h"
 #include "DirectX/DirectXCommon.h"
+#include "DirectX/Pipeline/GraphicsPipeline.h"
 #include "DirectX/Texture/TextureManager.h"
 #include "Engine/Engine.h"
 #include "System/Math/Material.h"
@@ -13,6 +14,89 @@ void Sprite::AdjustTextureSize() {
 	const DirectX::TexMetadata& metadata = TextureManager::GetInstance()->GetTextureMetadata(texturePath);
 	texSize = { static_cast<float>(metadata.width), static_cast<float>(metadata.height) };
 	size = texSize;
+}
+
+Sprite::Sprite():Object(SpriteCommon::GetInstance()->GetDXCommon()), spriteCommon_(SpriteCommon::GetInstance()) {}
+
+void Sprite::Initialize(const std::string& texture) {
+	texturePath = texture;
+	Initialize();
+}
+
+const Vector2& Sprite::GetPosition() const {
+	return position;
+}
+
+void Sprite::SetPosition(const Vector2& p) {
+	position = p;
+}
+
+const Vector2& Sprite::GetSize() const {
+	return size;
+}
+
+void Sprite::SetSize(const Vector2& s) {
+	size = s;
+}
+
+float Sprite::GetRotation() const {
+	return rotation;
+}
+
+void Sprite::SetRotation(float r) {
+	rotation = r;
+}
+
+const Vector4& Sprite::GetColor() const {
+	return material_->color;
+}
+
+void Sprite::SetColor(const Vector4& color) const {
+	material_->color = color;
+}
+
+const Vector2& Sprite::GetAnchorPoint() const {
+	return anchorPoint;
+}
+
+void Sprite::SetAnchorPoint(const Vector2& a) {
+	anchorPoint = a;
+}
+
+bool Sprite::IsFlipX() const {
+	return flipX;
+}
+
+void Sprite::SetFlipX(bool f) {
+	flipX = f;
+}
+
+bool Sprite::IsFlipY() const {
+	return flipY;
+}
+
+void Sprite::SetFlipY(bool f) {
+	flipY = f;
+}
+
+const Vector2& Sprite::GetTextureLeftTop() const {
+	return leftTop;
+}
+
+void Sprite::SetTextureLeftTop(const Vector2& textureLeftTop) {
+	leftTop = textureLeftTop;
+}
+
+const Vector2& Sprite::GetTextureSize() const {
+	return texSize;
+}
+
+void Sprite::SetTextureSize(const Vector2& textureSize) {
+	texSize = textureSize;
+}
+
+void Sprite::SetBlendMode(const BlendMode mode) {
+	blendMode_ = mode;
 }
 
 void Sprite::Initialize() {
@@ -75,6 +159,8 @@ void Sprite::Initialize() {
 	camera_ = Engine::GetDefaultCamera();
 
 	AdjustTextureSize();
+
+	blendMode_ = BlendMode::NONE;
 }
 
 void Sprite::Update() {
@@ -144,6 +230,7 @@ void Sprite::Update() {
 }
 
 void Sprite::Draw() {
+    spriteCommon_->SetBlendMode(blendMode_);
 	spriteCommon_->PreDraw();
 
 	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);

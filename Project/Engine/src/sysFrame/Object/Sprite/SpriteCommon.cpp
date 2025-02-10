@@ -11,9 +11,12 @@ SpriteCommon* SpriteCommon::instance_ = nullptr;
 std::once_flag SpriteCommon::onceFlag_;
 
 void SpriteCommon::CreatePipeline() {
-    pipeline_ = std::make_shared<GraphicsPipeline>();
-    pipeline_->SetBlendMode(BlendMode::ALPHA);
-    pipeline_->Create(dxCommon_.lock(), GraphicsPipeline::Type::SPRITE);
+    for (uint16_t i = 0; i < static_cast<uint16_t>(BlendMode::NONE); ++i){
+        std::unique_ptr<GraphicsPipeline> pipeline = std::make_unique<GraphicsPipeline>();
+        pipeline->SetBlendMode(static_cast<BlendMode>(i));
+        pipeline->Create(dxCommon_.lock(), GraphicsPipeline::Type::SPRITE);
+        pipelines_.push_back(std::move(pipeline));
+    }
 }
 
 SpriteCommon* SpriteCommon::GetInstance() {
@@ -35,6 +38,7 @@ void SpriteCommon::Destroy() {
 
 void SpriteCommon::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
     dxCommon_ = dxCommon;
+    mode_ = BlendMode::NONE;
 
     // Do something
     CreatePipeline();
@@ -49,6 +53,10 @@ void SpriteCommon::PreDraw() const {
         return;
     }
 
-    pipeline_->DrawCall(dxc->GetCommandList());
+    pipelines_[static_cast<uint16_t>(mode_)]->DrawCall(dxc->GetCommandList());
     dxc->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+}
+
+void SpriteCommon::SetBlendMode(const BlendMode mode) {
+    mode_ = mode;
 }
