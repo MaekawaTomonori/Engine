@@ -9,8 +9,13 @@ Camera::Camera() {
     UuidCreate(&uuid);
     RPC_CSTR szUuid = nullptr;
     UuidToStringA(&uuid, &szUuid);
+    struct UUIDCleaner{
+        RPC_CSTR& ptr;
+        ~UUIDCleaner() {
+            if (ptr)RpcStringFreeA(&ptr);
+        }
+    } cleaner {szUuid};
     uuid_ = reinterpret_cast<char*>(szUuid);
-    RpcStringFreeA(&szUuid);
 }
 
 void Camera::Initialize() {
