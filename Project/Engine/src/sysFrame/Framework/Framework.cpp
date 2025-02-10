@@ -15,7 +15,6 @@ void Framework::Run() {
      * 有効になっている場合はコメントアウトもしくは削除してください
      */
 	engine->EnableDebug();
-    //engine->SetBackColor({0,0,0,1});
 
 	Initialize();
 
