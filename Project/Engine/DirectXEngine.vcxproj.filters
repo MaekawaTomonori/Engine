@@ -186,6 +186,7 @@
     <ClInclude Include="src\sysFrame\Framework\Adapter.h" />
     <ClInclude Include="src\sysFrame\Object\Light\RawLight.h" />
     <ClInclude Include="src\externals\MagicEnum\magic_enum.hpp" />
+    <ClInclude Include="src\externals\miniaudio\miniaudio.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\Sprite.hlsli" />

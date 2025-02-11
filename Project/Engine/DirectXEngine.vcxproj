@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\externals\MagicEnum\magic_enum.hpp" />
+    <ClInclude Include="src\externals\miniaudio\miniaudio.h" />
     <ClInclude Include="src\sysFrame\Object\Light\RawLight.h" />
     <ClInclude Include="src\sysFrame\Framework\Adapter.h" />
     <ClInclude Include="AudioAnther.h" />
@@ -329,6 +330,7 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(ProjectDir)Game;$(ProjectDir)src\sysFrame;$(ProjectDir)src;$(ProjectDir)src\externals\json\include;$(ProjectDir)src\externals</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -340,7 +342,7 @@
       <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
 copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"
 copy "$(VCToolsInstallDir)bin\Hostx64\x64\clang_rt.asan_dbg_dynamic-x86_64.dll" "$(TargetDir)clang_rt.asan_dbg_dynamic-x86_64.dll"
-copy "$(VCToolsInstallDir)bin\Hostx64\x64\clang_rt.asan_dynamic-x86_64.dll" "$(TargetDir)clang_rt.asan_dynamic-x86_64.dll.dll"
+copy "$(VCToolsInstallDir)bin\Hostx64\x64\clang_rt.asan_dynamic-x86_64.dll" "$(TargetDir)clang_rt.asan_dynamic-x86_64.dll"
 
 </Command>
     </PostBuildEvent>
@@ -369,7 +371,7 @@ copy "$(VCToolsInstallDir)bin\Hostx64\x64\clang_rt.asan_dynamic-x86_64.dll" "$(T
       <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
 copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"
 copy "$(VCToolsInstallDir)bin\Hostx64\x64\clang_rt.asan_dbg_dynamic-x86_64.dll" "$(TargetDir)clang_rt.asan_dbg_dynamic-x86_64.dll"
-copy "$(VCToolsInstallDir)bin\Hostx64\x64\clang_rt.asan_dynamic-x86_64.dll" "$(TargetDir)clang_rt.asan_dynamic-x86_64.dll.dll"
+copy "$(VCToolsInstallDir)bin\Hostx64\x64\clang_rt.asan_dynamic-x86_64.dll" "$(TargetDir)clang_rt.asan_dynamic-x86_64.dll"
 
 </Command>
     </PostBuildEvent>

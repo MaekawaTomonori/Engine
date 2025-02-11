@@ -68,9 +68,8 @@ PixelShaderOutput main(VertexShaderOutput input)
     float32_t3 finalRGB = rgb;
     float32_t a = gMaterial.color.a * texColor.a;
 
-    //Lambertian Reflectance
-    if (gMaterial.enableLighting == 0)
-    {
+    //if disable lighting
+    if (gMaterial.enableLighting == 0) {
         output.color = float32_t4(rgb, a);
         return output;
     }
@@ -78,6 +77,7 @@ PixelShaderOutput main(VertexShaderOutput input)
     float32_t3 toEye = normalize(gCamera.worldPosition - input.worldPosition);
     float3 halfVector = normalize(toEye + input.normal);
 
+    float3 col = float3(0,0,0);
     for (uint i = 0; i < gLightCount.dlCount; ++i) {
 	//directional
         float nDotL = dot(normalize(input.normal), -gDirectionalLight[i].direction);
@@ -91,7 +91,7 @@ PixelShaderOutput main(VertexShaderOutput input)
 
         float32_t3 diffuse = rgb * gDirectionalLight[i].color.rgb * cos * gDirectionalLight[i].intensity;
         float32_t3 specular = gDirectionalLight[i].color.rgb * gDirectionalLight[i].intensity * specularPow * float32_t3(1.f, 1.f, 1.f);
-        finalRGB = diffuse + specular;
+        col += diffuse + specular;
     }
 
     for (uint j = 0; j < gLightCount.plCount; ++j) {
@@ -109,7 +109,7 @@ PixelShaderOutput main(VertexShaderOutput input)
         float32_t3 pointDiffuse = rgb * gPointLight[j].color.rgb * cosP * gPointLight[j].intensity * factor;
         float32_t3 pointSpecular = gPointLight[j].color.rgb * gPointLight[j].intensity * factor * specularPowP * float32_t3(1.f, 1.f, 1.f);
 
-        finalRGB += pointDiffuse + pointSpecular;
+        col += pointDiffuse + pointSpecular;
     }
 
     for (uint k = 0; k < gLightCount.slCount; ++k) {
@@ -121,8 +121,10 @@ PixelShaderOutput main(VertexShaderOutput input)
 
         float32_t attenuationFactor = 1.f / (1.f + gSpotLight[k].decay * pow(distance / gSpotLight[k].distance, 2.f));
 
-        finalRGB += rgb * gSpotLight[k].color.rgb * gSpotLight[k].intensity * attenuationFactor * falloffFactor;
+        col += rgb * gSpotLight[k].color.rgb * gSpotLight[k].intensity * attenuationFactor * falloffFactor;
     }
+
+    finalRGB = col;
 
     //final set
     output.color = float32_t4(finalRGB, a);
