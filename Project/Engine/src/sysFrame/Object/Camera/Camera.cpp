@@ -2,20 +2,11 @@
 
 #include "Application/WinApp.h"
 #include "imgui/imgui.h"
+#include "System/System.h"
 #include "System/Math/MathUtils.h"
 
 Camera::Camera() {
-    UUID uuid;
-    UuidCreate(&uuid);
-    RPC_CSTR szUuid = nullptr;
-    UuidToStringA(&uuid, &szUuid);
-    struct UUIDCleaner{
-        RPC_CSTR& ptr;
-        ~UUIDCleaner() {
-            if (ptr)RpcStringFreeA(&ptr);
-        }
-    } cleaner {szUuid};
-    uuid_ = reinterpret_cast<char*>(szUuid);
+    uuid_ = System::CreateUuid();
 }
 
 void Camera::Initialize() {

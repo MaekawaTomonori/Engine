@@ -10,7 +10,7 @@ void EngineDebug::Initialize() {
     //Loader::LoadTexture("MonsterBall.png");
     //Loader::LoadTexture("circle.png");
 
-    Loader::Model("plane");
+    Loader::Model("terrain");
 
     //Loader::Audio("Alarm01.wav");
 
@@ -31,7 +31,7 @@ void EngineDebug::Initialize() {
 
     model_ = std::make_unique < Model >();
     model_->Initialize();
-    model_->SetMesh("plane");
+    model_->SetMesh("terrain");
     model_->SetTransform({
         {1, 1, 1},
         {0, 3.14f, 0 },

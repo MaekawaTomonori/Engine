@@ -67,6 +67,9 @@
     <ClCompile Include="src\sysFrame\Scene\Effect\SceneChanger.cpp" />
     <ClCompile Include="src\sysFrame\Object\Camera\CameraManager.cpp" />
     <ClCompile Include="src\sysFrame\Framework\Adapter.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Light\SpotLight\SpotLight.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Light\PointLight\PointLight.cpp" />
+    <ClCompile Include="src\sysFrame\Object\Light\DirectionalLight\DirectionalLight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sysFrame\Object\ColorEditor.h" />
@@ -181,6 +184,8 @@
     <ClInclude Include="src\sysFrame\Scene\Effect\SceneChanger.h" />
     <ClInclude Include="src\sysFrame\Object\Camera\CameraManager.h" />
     <ClInclude Include="src\sysFrame\Framework\Adapter.h" />
+    <ClInclude Include="src\sysFrame\Object\Light\RawLight.h" />
+    <ClInclude Include="src\externals\MagicEnum\magic_enum.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\Sprite.hlsli" />

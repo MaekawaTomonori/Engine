@@ -1,4 +1,5 @@
 #pragma once
+#include "Object/Light/RawLight.h"
 #include "System/Math/Vector3.h"
 #include "System/Math/Vector4.h"
 
@@ -10,3 +11,17 @@ struct PointLight{
 	float decay;
 	float pad[2];
 };
+
+class RawPointLight final : public RawLight{
+	PointLight light_ {};
+public:
+    PointLight& GetLight() {
+        return light_;
+    }
+
+	void DefaultSetting() override;
+
+protected:
+	void ImGuiSetting() override;
+};
+
