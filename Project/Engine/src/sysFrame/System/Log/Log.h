@@ -17,6 +17,8 @@ private:
 	std::vector<spdlog::sink_ptr> sinks_;
 	std::shared_ptr<spdlog::logger> combined_logger;
 
+    std::string path_;
+
 	Log() = default;
 	~Log() = default;
 
@@ -33,5 +35,11 @@ public:
 	void Debug(const std::string& msg) const;
 	void Warning(const std::string& msg) const;
     void Error(const std::string& msg) const;
+
+    std::string GetPath() const;
 };
+
+inline std::string Log::GetPath() const {
+    return path_;
+}
 

@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <deque>
 #include <memory>
 #include <Windows.h>
 
@@ -20,6 +21,9 @@ class ImGuiManager{
 
     std::unique_ptr<ImGuiCommand> command_;
 
+    std::string logPath_;
+    std::deque<std::string> logs_;
+
     static ImGuiManager* instance_;
     static std::once_flag onceFlag_;
 
@@ -31,7 +35,7 @@ public:
     void AddCommand(void* ptr, const std::function<void()>& command) const;
 
     void Begin();
-    void End() const;
+    void End();
 
     void Draw();
 
@@ -42,5 +46,8 @@ private:
     ImGuiManager& operator=(const ImGuiManager&) = delete;
 	static void Create();
     static void Destroy();
+
+    void DockingSpace();
+    void DisplayLog();
 };
 

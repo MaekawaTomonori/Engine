@@ -25,16 +25,18 @@ void Model::Initialize() {
 
 void Model::Update() {
 #ifdef _DEBUG
-    ImGui::Begin("Model");
-    if(ImGui::TreeNode(uuid_.c_str())){
-        ImGui::DragFloat3("Pos", &worldTransform_->translate.x, 0.1f);
-        ImGui::DragFloat3("Rotate", &worldTransform_->rotate.x, 0.1f);
-        ImGui::DragFloat3("Scale", &worldTransform_->scale.x, 0.1f);
-        ImGui::ColorEdit4("Color", &mesh_->GetColor().x);
-        mesh_->ImGuiAccess();
-        ImGui::TreePop();
-    }
-    ImGui::End();
+    ImGuiManager::GetInstance()->AddCommand(this, [&]{
+        ImGui::Begin("Model");
+        if (ImGui::TreeNode(uuid_.c_str())){
+            ImGui::DragFloat3("Pos", &worldTransform_->translate.x, 0.1f);
+            ImGui::DragFloat3("Rotate", &worldTransform_->rotate.x, 0.1f);
+            ImGui::DragFloat3("Scale", &worldTransform_->scale.x, 0.1f);
+            ImGui::ColorEdit4("Color", &mesh_->GetColor().x);
+            mesh_->ImGuiAccess();
+            ImGui::TreePop();
+        }
+        ImGui::End();
+    });
 #endif
     camera_ = CameraManager::GetInstance()->GetCamera();
     worldTransform_->SetCamera(camera_);

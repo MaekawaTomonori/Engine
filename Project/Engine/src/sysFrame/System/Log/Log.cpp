@@ -29,9 +29,11 @@ void Log::Destroy() {
 void Log::Initialize() {
     auto now = std::chrono::system_clock::now();
     auto now_time = std::chrono::floor<std::chrono::seconds>(now);
-    std::string fName = std::format("{:%Y%m%d-%H%M%S}", now_time);
+    std::string date = std::format("{:%Y.%m.%d_%H.%M.%S}", now_time);
 
-    auto file = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/" + fName +".log", true);
+    path_ = "logs/" + date + ".log";
+
+    auto file = std::make_shared<spdlog::sinks::basic_file_sink_mt>(path_, true);
     auto console = std::make_shared<spdlog::sinks::msvc_sink_mt>();
 
     sinks_ = {file, console};

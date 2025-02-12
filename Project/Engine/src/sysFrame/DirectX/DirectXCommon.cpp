@@ -373,15 +373,15 @@ void DirectXCommon::CreatePostProcessResource() {
 }
 
 void DirectXCommon::CreateScreenPipeline() {
-    D3D12_DESCRIPTOR_RANGE range[1] {};
-    range[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-    range[0].BaseShaderRegister = 0;
-    range[0].NumDescriptors = 4;
+    D3D12_DESCRIPTOR_RANGE range {};
+    range.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+    range.BaseShaderRegister = 0;
+    range.NumDescriptors = 4;
 
     D3D12_ROOT_PARAMETER rp[1] {};
     rp[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
     rp[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-    rp[0].DescriptorTable.pDescriptorRanges = &range[0];
+    rp[0].DescriptorTable.pDescriptorRanges = &range;
     rp[0].DescriptorTable.NumDescriptorRanges = 1;
 
     D3D12_ROOT_SIGNATURE_DESC rsDesc {};
@@ -509,6 +509,53 @@ void DirectXCommon::UpdateFixFPS() {
     reference_ = std::chrono::steady_clock::now();
 }
 
+#include <Psapi.h>
+void DirectXCommon::DisplayInfo() {
+    static ULONGLONG lastTime = 0, lastSysCPU = 0, lastUserCPU = 0;
+    static int processors = 0;
+    static HANDLE self = GetCurrentProcess();
+
+    if (processors == 0){
+        SYSTEM_INFO sysInfo;
+        GetSystemInfo(&sysInfo);
+        processors = sysInfo.dwNumberOfProcessors;
+        FILETIME ftime, fsys, fuser;
+	    GetProcessTimes(self, &ftime, &ftime, &fsys, &fuser);
+	    lastSysCPU = (static_cast<ULONGLONG>(fsys.dwHighDateTime) << 32) | fsys.dwLowDateTime;
+	    lastUserCPU = (static_cast<ULONGLONG>(fuser.dwHighDateTime) << 32) | fuser.dwLowDateTime;
+	    lastTime = GetTickCount64();
+    }
+
+    FILETIME ftime, fsys, fuser;
+    ULONGLONG now, sysCpu, userCpu;
+
+    GetProcessTimes(self, &ftime, &ftime, &fsys, &fuser);
+    sysCpu = static_cast<ULONGLONG>(fsys.dwLowDateTime) | (static_cast<ULONGLONG>(fsys.dwHighDateTime) << 32);
+    userCpu = static_cast<ULONGLONG>(fuser.dwLowDateTime) | (static_cast<ULONGLONG>(fuser.dwHighDateTime) << 32);
+    now = GetTickCount64();
+
+    float percent = ((sysCpu - lastSysCPU) + (userCpu - lastUserCPU)) / static_cast<float>(now - lastTime);
+    lastSysCPU = sysCpu;
+    lastUserCPU = userCpu;
+    lastTime = now;
+
+    //Memory
+    size_t memory = 0;
+    PROCESS_MEMORY_COUNTERS_EX pmc;
+    if (GetProcessMemoryInfo(GetCurrentProcess(), reinterpret_cast<PPROCESS_MEMORY_COUNTERS>(&pmc), sizeof(pmc))){
+        memory = pmc.PrivateUsage / (1024 * 1024);
+    }
+
+    ImGuiManager::GetInstance()->AddCommand(this, [&]{
+        ImGui::Begin("Info");
+        ImGui::Text("FPS : %.2f", 1.0 / ImGui::GetIO().DeltaTime);
+        ImGui::Text("Max FPS : %.2f", maxFPS);
+        ImGui::Text("CPU : %.2f", (percent / processors) * 100.f);
+        ImGui::Text("Memory : %d MB", memory);
+        ImGui::End();
+    });
+}
+
 void DirectXCommon::PreDraw() {
     //UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
 
@@ -552,6 +599,7 @@ void DirectXCommon::PreDraw() {
 }
 
 void DirectXCommon::PostDraw() {
+    //DisplayInfo();
     SwitchToSwapChain();
 }
 
@@ -666,21 +714,23 @@ void DirectXCommon::SwitchToSwapChain()  {
 
     rtvPointer = rtvHandles_[bbIndex];
 
-    auto dxcHandle = dsvHeap_->GetCPUHandle(0);
+    commandList_->OMSetRenderTargets(1, &rtvPointer, false, nullptr);
+    commandList_->ClearRenderTargetView(rtvPointer, &backColor_.x, 0, nullptr);
 
-    commandList_->OMSetRenderTargets(1, &rtvPointer, false, &dxcHandle);
+    commandList_->RSSetViewports(1, &viewport_);
+    commandList_->RSSetScissorRects(1, &scissorRect_);
+
+    commandList_->SetPipelineState(screenPipeline_.Get());
 
     srvManager_->PreDraw();
     handle = srvManager_->GetGPUHandle(indexes_[0]);
-	commandList_->SetGraphicsRootDescriptorTable(0, handle);
-    commandList_->ClearRenderTargetView(rtvPointer, &backColor_.x, 0, nullptr);
-    commandList_->SetPipelineState(screenPipeline_.Get());
-    commandList_->SetGraphicsRootDescriptorTable(0, handle);
 
-    ImGuiManager::GetInstance()->AddCommand(this, [&]{
-        ImGui::Image(ImTextureID(handle.ptr), ImVec2 {WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT});
-    });
-    //commandList_->DrawInstanced(3, 1, 0, 0);
+	//ImGuiManager::GetInstance()->AddCommand(this, [&]{
+    //    ImGui::Image(ImTextureID(handle.ptr), ImVec2 {WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT});
+    //});
+
+    commandList_->SetGraphicsRootDescriptorTable(0, handle);
+    commandList_->DrawInstanced(3, 1, 0, 0);
 }
 
 void DirectXCommon::EndFrame() {
