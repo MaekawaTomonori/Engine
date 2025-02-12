@@ -677,9 +677,10 @@ void DirectXCommon::SwitchToSwapChain()  {
     commandList_->SetPipelineState(screenPipeline_.Get());
     commandList_->SetGraphicsRootDescriptorTable(0, handle);
 
-    //ImGui::Image(ImTextureID(handle.ptr), ImVec2 {WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT});
-
-    commandList_->DrawInstanced(3, 1, 0, 0);
+    ImGuiManager::GetInstance()->AddCommand(this, [&]{
+        ImGui::Image(ImTextureID(handle.ptr), ImVec2 {WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT});
+    });
+    //commandList_->DrawInstanced(3, 1, 0, 0);
 }
 
 void DirectXCommon::EndFrame() {

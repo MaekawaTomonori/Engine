@@ -41,8 +41,6 @@ void ImGuiManager::Initialize(WinApp* winApp, DirectXCommon* dxCommon, SRVManage
     ImGui::CreateContext();
     ImGui::StyleColorsDark();
 
-    ImGui_ImplWin32_Init(winApp_->GetWindowHandle());
-
     ImGui_ImplDX12_Init(
         dxCommon_->GetDevice().Get(),
         static_cast<int>(dxCommon_->GetBackBufferCount()),
@@ -51,6 +49,10 @@ void ImGuiManager::Initialize(WinApp* winApp, DirectXCommon* dxCommon, SRVManage
         srv_->GetCPUHandle(index),
         srv_->GetGPUHandle(index)
     );
+    ImGui_ImplWin32_Init(winApp_->GetWindowHandle());
+
+    auto& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
     command_ = std::make_unique<ImGuiCommand>();
 }
