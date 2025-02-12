@@ -1,0 +1,70 @@
+[02/12/25-15:14][Thread:39708][info]:LogSystem Enabled
+[02/12/25-15:14][Thread:39708][info]:Logger Enabled
+[02/12/25-15:14][Thread:39708][info]:TextureManager Enabled
+[02/12/25-15:14][Thread:39708][info]:Window Created
+[02/12/25-15:14][Thread:39708][info]:WinApp Enabled
+[02/12/25-15:14][Thread:39708][debug]:Use Adapter:NVIDIA GeForce RTX 3060 Laptop GPU
+[02/12/25-15:14][Thread:39708][debug]:FeatureLevel : 12.2
+[02/12/25-15:14][Thread:39708][debug]:Complete creation!
+[02/12/25-15:14][Thread:39708][debug]:CommandAllocator Created
+[02/12/25-15:14][Thread:39708][debug]:CommandList Created
+[02/12/25-15:14][Thread:39708][debug]:CommandQueue Created
+[02/12/25-15:14][Thread:39708][debug]:SwapChain Created
+[02/12/25-15:14][Thread:39708][debug]:DepthStencilView Created
+[02/12/25-15:14][Thread:39708][info]:DirectXCommon Enabled
+[02/12/25-15:14][Thread:39708][info]:SRVManager Enabled
+[02/12/25-15:14][Thread:39708][info]:Begin CompileShader, Path : Screen.VS.hlsl, Profile : vs_6_0
+[02/12/25-15:14][Thread:39708][info]:Compile Succeed, Path : Screen.VS.hlsl, Profile : vs_6_0
+[02/12/25-15:14][Thread:39708][info]:Begin CompileShader, Path : Screen.PS.hlsl, Profile : ps_6_0
+[02/12/25-15:14][Thread:39708][info]:Compile Succeed, Path : Screen.PS.hlsl, Profile : ps_6_0
+[02/12/25-15:14][Thread:39708][info]:Begin CompileShader, Path : Blur.hlsl, Profile : ps_6_0
+[02/12/25-15:14][Thread:39708][info]:Compile Succeed, Path : Blur.hlsl, Profile : ps_6_0
+[02/12/25-15:14][Thread:39708][info]:Begin CompileShader, Path : Bloom.hlsl, Profile : ps_6_0
+[02/12/25-15:14][Thread:39708][info]:Compile Succeed, Path : Bloom.hlsl, Profile : ps_6_0
+[02/12/25-15:14][Thread:39708][info]:Input Enabled
+[02/12/25-15:14][Thread:39708][info]:TextureManager Initialized
+[02/12/25-15:14][Thread:39708][info]:Begin CompileShader, Path : Particle2d.VS.hlsl, Profile : vs_6_0
+[02/12/25-15:14][Thread:39708][info]:Compile Succeed, Path : Particle2d.VS.hlsl, Profile : vs_6_0
+[02/12/25-15:14][Thread:39708][info]:Begin CompileShader, Path : Particle2d.PS.hlsl, Profile : ps_6_0
+[02/12/25-15:14][Thread:39708][info]:Compile Succeed, Path : Particle2d.PS.hlsl, Profile : ps_6_0
+[02/12/25-15:14][Thread:39708][info]:ModelManager Enabled
+[02/12/25-15:14][Thread:39708][info]:Begin CompileShader, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[02/12/25-15:14][Thread:39708][info]:Compile Succeed, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[02/12/25-15:14][Thread:39708][info]:Begin CompileShader, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[02/12/25-15:14][Thread:39708][info]:Compile Succeed, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[02/12/25-15:14][Thread:39708][info]:Begin CompileShader, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[02/12/25-15:14][Thread:39708][info]:Compile Succeed, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[02/12/25-15:14][Thread:39708][info]:Begin CompileShader, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[02/12/25-15:14][Thread:39708][info]:Compile Succeed, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[02/12/25-15:14][Thread:39708][info]:Begin CompileShader, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[02/12/25-15:14][Thread:39708][info]:Compile Succeed, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[02/12/25-15:14][Thread:39708][info]:Begin CompileShader, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[02/12/25-15:14][Thread:39708][info]:Compile Succeed, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[02/12/25-15:14][Thread:39708][info]:Begin CompileShader, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[02/12/25-15:14][Thread:39708][info]:Compile Succeed, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[02/12/25-15:14][Thread:39708][info]:Begin CompileShader, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[02/12/25-15:14][Thread:39708][info]:Compile Succeed, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[02/12/25-15:14][Thread:39708][info]:Begin CompileShader, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[02/12/25-15:14][Thread:39708][info]:Compile Succeed, Path : Sprite.VS.hlsl, Profile : vs_6_0
+[02/12/25-15:14][Thread:39708][info]:Begin CompileShader, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[02/12/25-15:14][Thread:39708][info]:Compile Succeed, Path : Sprite.PS.hlsl, Profile : ps_6_0
+[02/12/25-15:14][Thread:39708][info]:SpriteCommon Enabled
+[02/12/25-15:14][Thread:39708][info]:Begin CompileShader, Path : Model.VS.hlsl, Profile : vs_6_0
+[02/12/25-15:14][Thread:39708][info]:Compile Succeed, Path : Model.VS.hlsl, Profile : vs_6_0
+[02/12/25-15:14][Thread:39708][info]:Begin CompileShader, Path : Model.PS.hlsl, Profile : ps_6_0
+[02/12/25-15:14][Thread:39708][info]:Compile Succeed, Path : Model.PS.hlsl, Profile : ps_6_0
+[02/12/25-15:14][Thread:39708][info]:ModelCommon Initialized
+[02/12/25-15:14][Thread:39708][info]:Light Enabled
+[02/12/25-15:14][Thread:39708][info]:TextureManager::Load: c.png
+[02/12/25-15:14][Thread:6120][info]:TextureManager::Load: terrain/grass.png
+[02/12/25-15:14][Thread:6120][info]:Model Loaded:terrain
+[02/12/25-15:14][Thread:39708][info]:DebugMode Enabled
+[02/12/25-15:14][Thread:39708][debug]:Game Init
+[02/12/25-15:15][Thread:39708][debug]:Game Finalize
+[02/12/25-15:15][Thread:39708][info]:ParticleManager Disabled
+[02/12/25-15:15][Thread:39708][info]:Light Disabled
+[02/12/25-15:15][Thread:39708][info]:ModelCommon Finalized
+[02/12/25-15:15][Thread:39708][info]:SpriteCommon Disabled
+[02/12/25-15:15][Thread:39708][info]:ModelManager Disabled
+[02/12/25-15:15][Thread:39708][info]:TextureManager Disabled
+[02/12/25-15:15][Thread:39708][info]:Input Disabled

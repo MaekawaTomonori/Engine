@@ -4,6 +4,8 @@
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     //念のためのリークチェッカー
     D3DResourceLeakChecker lc;
+
+    // ゲームの実行
     std::unique_ptr<Framework> fw = std::make_unique<Game>();
 
     fw->Run();

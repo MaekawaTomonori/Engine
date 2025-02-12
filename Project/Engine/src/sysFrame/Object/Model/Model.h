@@ -44,7 +44,7 @@ public:
     ~Model();
 
     void Initialize();
-    void Update() const;
+    void Update();
     void Draw() const;
     void Draw(const std::string& texture) const;
 

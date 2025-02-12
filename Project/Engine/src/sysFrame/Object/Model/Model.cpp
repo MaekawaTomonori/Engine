@@ -21,11 +21,9 @@ void Model::Initialize() {
 	cameraResource_.Attach(DirectXCommon::CreateBufferResource(dxCommon_.lock()->GetDevice(), sizeof(CameraForGPU)).Get());
     cameraResource_->Map(0, nullptr, reinterpret_cast<void**>(&cameraForGPU_));
 
-    *cameraForGPU_ = camera_->GetCameraForGPU();
-
 }
 
-void Model::Update() const {
+void Model::Update() {
 #ifdef _DEBUG
     ImGui::Begin("Model");
     if(ImGui::TreeNode(uuid_.c_str())){
@@ -38,8 +36,11 @@ void Model::Update() const {
     }
     ImGui::End();
 #endif
+    camera_ = CameraManager::GetInstance()->GetCamera();
+    worldTransform_->SetCamera(camera_);
 
     worldTransform_->Update();
+    *cameraForGPU_ = camera_->GetCameraForGPU();
 }
 
 void Model::Draw() const {

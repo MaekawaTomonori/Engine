@@ -20,13 +20,11 @@ void Camera::Initialize() {
 
 void Camera::Update() {
 #ifdef _DEBUG
-    ImGui::Begin("Camera");
     if(ImGui::TreeNode(uuid_.c_str())) {
         ImGui::DragFloat3("Pos", &transform_.translate.x, 0.01f);
         ImGui::DragFloat3("Rotate", &transform_.rotate.x, 0.01f);
         ImGui::TreePop();
     }
-    ImGui::End();
 #endif
 
     cameraMatrix = MathUtils::Matrix::MakeAffineMatrix(transform_);

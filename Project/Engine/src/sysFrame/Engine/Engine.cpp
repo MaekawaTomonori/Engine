@@ -57,7 +57,7 @@ void Engine::Update() const {
     input_->Update();
     imguiManager_->Begin();
     light_->Update();
-    cameraManager_->GetCamera()->Update();
+    cameraManager_->Update();
 
     particleManager_->Update();
 

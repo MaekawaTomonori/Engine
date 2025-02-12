@@ -1,5 +1,7 @@
 #include "Loader.h"
 
+#include <future>
+
 #include "DirectX/Model/ModelManager.h"
 #include "DirectX/Texture/TextureManager.h"
 #include "Sound/Audio.h"
@@ -9,7 +11,11 @@ void Loader::Texture(const std::string& path) {
 }
 
 void Loader::Model(const std::string& path) {
-    ModelManager::GetInstance()->Load(path);
+    auto future = std::async(std::launch::async, [&](){
+        ModelManager::GetInstance()->Load(path);
+    });
+
+    future.get();
 }
 
 AudioManager::SoundHandle Loader::Audio(const std::string& path) {

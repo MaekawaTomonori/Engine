@@ -15,6 +15,7 @@ public:
 	static CameraManager* GetInstance();
 
     void Initialize();
+    void Update();
 
     Camera* GetCamera() const;
 
