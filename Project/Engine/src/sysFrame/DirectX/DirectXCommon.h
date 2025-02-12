@@ -99,6 +99,7 @@ public://Methods
 
 	void PreDraw();
 	void PostDraw();
+	void EndFrame();
 
 	static ComPtr<ID3D12Resource> CreateBufferResource(const ComPtr<ID3D12Device>& device, size_t sizeInBytes);
     static ComPtr<ID3D12Resource> CreateDepthStencilTextureResource(const ComPtr<ID3D12Device>& device, int32_t width, int32_t height);
@@ -145,6 +146,5 @@ private://Methods
 	void UpdateFixFPS();
 
 	void SwitchToSwapChain();
-	void EndFrame();
 };
 

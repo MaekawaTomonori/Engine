@@ -10,6 +10,7 @@
 #include "Heap/SRVManager.h"
 #include "Shader/Shader.h"
 #include "System/System.h"
+#include "System/ImGui/ImGuiManager.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -552,8 +553,6 @@ void DirectXCommon::PreDraw() {
 
 void DirectXCommon::PostDraw() {
     SwitchToSwapChain();
-
-    EndFrame();
 }
 
 void DirectXCommon::SwitchToSwapChain()  {
@@ -565,7 +564,6 @@ void DirectXCommon::SwitchToSwapChain()  {
     }
 
     D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap_->GetCPUHandle(0);
-
 
     ///Blur
     commandList_->SetPipelineState(blurPipeline_.Get());
@@ -647,7 +645,6 @@ void DirectXCommon::SwitchToSwapChain()  {
 	commandList_->SetGraphicsRootDescriptorTable(0, handle);
 
 	commandList_->DrawInstanced(3, 1, 0, 0);
-
     barrier_.Transition.pResource = bloomResource_.Get();
     barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
     barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
@@ -676,15 +673,13 @@ void DirectXCommon::SwitchToSwapChain()  {
     srvManager_->PreDraw();
     handle = srvManager_->GetGPUHandle(indexes_[0]);
 	commandList_->SetGraphicsRootDescriptorTable(0, handle);
-
     commandList_->ClearRenderTargetView(rtvPointer, &backColor_.x, 0, nullptr);
-
     commandList_->SetPipelineState(screenPipeline_.Get());
-
     commandList_->SetGraphicsRootDescriptorTable(0, handle);
 
-    commandList_->DrawInstanced(3, 1, 0, 0);
+    //ImGui::Image(ImTextureID(handle.ptr), ImVec2 {WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT});
 
+    commandList_->DrawInstanced(3, 1, 0, 0);
 }
 
 void DirectXCommon::EndFrame() {

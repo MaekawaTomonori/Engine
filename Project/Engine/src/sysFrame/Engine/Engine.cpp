@@ -85,8 +85,9 @@ void Engine::Draw() const {
 
 void Engine::EndFrame() const {
 	//particleManager_->Draw();
-    imguiManager_->Draw();
     dxCommon_->PostDraw();
+    imguiManager_->Draw();
+    dxCommon_->EndFrame();
 }
 
 void Engine::Finalize() const {
