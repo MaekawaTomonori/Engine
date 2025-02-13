@@ -36,9 +36,12 @@ void ImGuiManager::Destroy() {
 }
 
 void ImGuiManager::DockingSpace() {
-    ImGui::Begin("DockSpace Window", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoResize );
+    ImGui::SetNextWindowPos({0,0});
+    ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+
+    ImGui::Begin("DockSpace Window", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoResize);
     ImGuiID dockSpaceID = ImGui::GetID("DockSpace");
-    ImGui::DockSpace(dockSpaceID, ImVec2 {0,0}, ImGuiDockNodeFlags_PassthruCentralNode);
+    ImGui::DockSpace(dockSpaceID, ImGui::GetContentRegionAvail());
     ImGui::End();
 }
 
@@ -104,7 +107,7 @@ void ImGuiManager::Begin() {
 }
 
 void ImGuiManager::End() {
-	//DockingSpace();
+	DockingSpace();
     DisplayLog();
     command_->Update();
     ImGui::Render();

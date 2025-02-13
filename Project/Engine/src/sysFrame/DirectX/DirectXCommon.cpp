@@ -600,6 +600,14 @@ void DirectXCommon::PreDraw() {
 
 void DirectXCommon::PostDraw() {
     //DisplayInfo();
+	ImGuiManager::GetInstance()->AddCommand(this, [&]{
+        ImGui::Begin("Screen");
+        ImVec2 size = ImGui::GetContentRegionAvail();
+        float aspect = static_cast<float>(WinApp::CLIENT_WIDTH) / static_cast<float>(WinApp::CLIENT_HEIGHT);
+        size.y = size.x / aspect;
+		ImGui::Image(ImTextureID(srvManager_->GetGPUHandle(indexes_[0]).ptr), size);
+        ImGui::End();
+    });
     SwitchToSwapChain();
 }
 
@@ -725,12 +733,8 @@ void DirectXCommon::SwitchToSwapChain()  {
     srvManager_->PreDraw();
     handle = srvManager_->GetGPUHandle(indexes_[0]);
 
-	//ImGuiManager::GetInstance()->AddCommand(this, [&]{
-    //    ImGui::Image(ImTextureID(handle.ptr), ImVec2 {WinApp::CLIENT_WIDTH, WinApp::CLIENT_HEIGHT});
-    //});
-
     commandList_->SetGraphicsRootDescriptorTable(0, handle);
-    commandList_->DrawInstanced(3, 1, 0, 0);
+    //commandList_->DrawInstanced(3, 1, 0, 0);
 }
 
 void DirectXCommon::EndFrame() {

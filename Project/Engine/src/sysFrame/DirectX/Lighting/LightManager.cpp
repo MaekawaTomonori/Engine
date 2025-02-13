@@ -118,16 +118,16 @@ void LightManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
     directionalResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(DirectionalLight) * MAX_COUNT.dlCount).Get());
     directionalResource_->Map(0, nullptr, reinterpret_cast<void**>(&mdDirectional_));
 
-    Add(LightType::Directional);
-
+    //Point
     pointResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(PointLight) * MAX_COUNT.plCount).Get());
     pointResource_->Map(0, nullptr, reinterpret_cast<void**>(&mdPointLight_));
 
-    Add(LightType::Point);
-
+    //Spot
     spotResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(SpotLight) * MAX_COUNT.slCount).Get());
     spotResource_->Map(0, nullptr, reinterpret_cast<void**>(&mdSpotLight_));
 
+    Add(LightType::Directional);
+    Add(LightType::Point);
     Add(LightType::Spot);
 
     System::Log(Log::Level::INFO, "Light Enabled");
@@ -160,6 +160,7 @@ void LightManager::Draw() const {
     }
 
 	dxc->GetCommandList()->SetGraphicsRootShaderResourceView(3, directionalResource_->GetGPUVirtualAddress());
+
     dxc->GetCommandList()->SetGraphicsRootShaderResourceView(5, pointResource_->GetGPUVirtualAddress());
     dxc->GetCommandList()->SetGraphicsRootShaderResourceView(6, spotResource_->GetGPUVirtualAddress());
     dxc->GetCommandList()->SetGraphicsRootConstantBufferView(7, countResource_->GetGPUVirtualAddress());
