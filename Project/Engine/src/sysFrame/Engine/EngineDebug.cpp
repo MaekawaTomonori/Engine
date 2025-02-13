@@ -1,9 +1,13 @@
 #include "EngineDebug.h"
 
+#include "Engine.h"
 #include "Object/Particle/ParticleManager.h"
 #include "System/Loader.h"
 #include "System/Input/Input.h"
 #include "System/Sound/Audio.h"
+
+EngineDebug::EngineDebug(Engine* engine): engine_(engine) {
+}
 
 void EngineDebug::Initialize() {
     Loader::Texture("c.png");
@@ -40,7 +44,13 @@ void EngineDebug::Initialize() {
 }
 
 void EngineDebug::Update() {
-    
+    if (Input::GetInstance()->TriggerKey(DIK_F11)){
+        engine_->ToggleFullscreen();
+    }
+
+    if (Input::GetInstance()->TriggerKey(DIK_RETURN)){
+        System::Log("Log");
+    }
 
     model_->Update();
 }

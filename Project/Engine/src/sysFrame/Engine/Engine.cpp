@@ -61,10 +61,6 @@ void Engine::Update() const {
 
     particleManager_->Update();
 
-    if(input_->TriggerKey(DIK_RETURN)){
-        winApp_->ToggleFullscreen();
-    }
-
     if (engineDebug_){
         debugScene_->Update();
     }
@@ -109,7 +105,7 @@ void Engine::EnableDebug() {
 #ifdef _DEBUG
     engineDebug_ = true;
 
-    debugScene_ = std::make_shared<EngineDebug>();
+    debugScene_ = std::make_shared<EngineDebug>(this);
     debugScene_->Initialize();
 
 	System::Log(Log::Level::INFO, "DebugMode Enabled");
@@ -133,4 +129,8 @@ void Engine::SetTitle(const std::string& title) {
 
 void Engine::SetFPSLimit(const int fps) const {
 	dxCommon_->SetFPSLimit(fps);
+}
+
+void Engine::ToggleFullscreen() const {
+    winApp_->ToggleFullscreen();
 }

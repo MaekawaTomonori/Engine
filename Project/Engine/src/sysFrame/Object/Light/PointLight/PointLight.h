@@ -9,7 +9,7 @@ struct PointLight{
 	float intensity;
 	float radius;
 	float decay;
-	float pad[2];
+    float pad[2];
 };
 
 class RawPointLight final : public RawLight{

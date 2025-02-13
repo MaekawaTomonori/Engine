@@ -38,9 +38,12 @@ struct Vector3{
 	}
 
 	Vector3 normalize() {
-		this->x /= length();
-		this->y /= length();
-		this->z /= length();
+        const float len = length();
+        if (len <= 0.0000001f) return *this;
+
+		this->x /= len;
+		this->y /= len;
+		this->z /= len;
 
 		return *this;
 	}

@@ -64,5 +64,7 @@ public:
     void SetTitle(const std::string& title);
 
     void SetFPSLimit(const int fps) const;
+
+    void ToggleFullscreen() const;
 };
 
