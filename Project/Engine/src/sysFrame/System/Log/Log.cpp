@@ -39,6 +39,7 @@ void Log::Initialize() {
     sinks_ = {file, console};
     combined_logger = std::make_shared<spdlog::logger>("logger", sinks_.begin(), sinks_.end());
 	set_default_logger(combined_logger);
+    spdlog::flush_on(spdlog::level::debug);
     spdlog::set_level(spdlog::level::debug);
     spdlog::set_pattern("[%D-%R][Thread:%t][%l]:%v");
     spdlog::info("LogSystem Enabled");

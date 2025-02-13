@@ -51,10 +51,17 @@ void ImGuiManager::DisplayLog() {
         ImGui::TextWrapped(log.c_str());
     }
 
-    if (ImGui::GetScrollY() < ImGui::GetScrollMaxY()){
-        ImGui::SetScrollHereY(1.0f);
+    if (!logAutoScroll_ && !ImGui::IsWindowFocused() && ImGui::GetScrollY() < ImGui::GetScrollMaxY()){
+        logAutoScroll_ = true;
     }
 
+    if (ImGui::IsWindowHovered() || ImGui::GetIO().MouseWheel != 0){
+        logAutoScroll_ = false;
+    }
+
+    if (logAutoScroll_){
+        ImGui::SetScrollHereY(1.0f);
+    }
     ImGui::End();
 }
 

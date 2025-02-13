@@ -23,6 +23,7 @@ class ImGuiManager{
 
     std::string logPath_;
     std::deque<std::string> logs_;
+    bool logAutoScroll_ = true;
 
     static ImGuiManager* instance_;
     static std::once_flag onceFlag_;

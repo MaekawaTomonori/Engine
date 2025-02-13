@@ -334,7 +334,7 @@ void DirectXCommon::CreatePostProcessResource() {
         &clearValueBlack,
         IID_PPV_ARGS(blurResource_.ReleaseAndGetAddressOf())
     );
-    resDesc.Width >>= 1;
+    resDesc.Width = 720;
 	assert(SUCCEEDED(result));
 
 
