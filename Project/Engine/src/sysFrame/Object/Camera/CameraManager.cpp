@@ -38,7 +38,7 @@ void CameraManager::Update() {
             if (ImGui::CollapsingHeader("List")){
 #endif
                 for (auto& camera : cameras_ | std::views::values){
-                    camera->Update();
+                    camera->ImGui();
                 }
 #if _DEBUG
             }
@@ -47,6 +47,10 @@ void CameraManager::Update() {
         ImGui::End();
     });
 #endif
+
+    for (auto& camera : cameras_ | std::views::values){
+        camera->Update();
+    }
 }
 
 Camera* CameraManager::GetCamera() const {

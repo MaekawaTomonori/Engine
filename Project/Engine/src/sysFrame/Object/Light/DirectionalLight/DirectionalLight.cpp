@@ -22,5 +22,5 @@ void RawDirectionalLight::ImGuiSetting() {
         ImGui::TreePop();
     }
 
-    light_.direction.normalize();
+    light_.direction.Normalize();
 }

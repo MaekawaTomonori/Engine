@@ -8,7 +8,7 @@ void RawSpotLight::DefaultSetting() {
     light_.color = {1,1,1,1};
     light_.position = {2.f, 1.25f, 0.f};
     light_.distance = 7.f;
-    light_.direction = Vector3(-1.f, -1.f, 0).normalize();
+    light_.direction = Vector3(-1.f, -1.f, 0).Normalize();
     light_.intensity = 0.f;
     light_.decay = 2.f;
     light_.cosAngle = std::cos(MathUtils::F_PI / 3.f);
@@ -44,5 +44,5 @@ void RawSpotLight::ImGuiSetting() {
     if (light_.falloffStart < light_.cosAngle){
         light_.falloffStart = light_.cosAngle + std::cos(MathUtils::F_PI / 10.f);
     }
-    light_.direction.normalize();
+    light_.direction.Normalize();
 }

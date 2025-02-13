@@ -32,6 +32,7 @@ public:
 	~Camera() = default;
 	void Initialize();
     void Update();
+    void ImGui();
 
     Camera* SetRotate(Vector3 rotation);
     Camera* SetPosition(Vector3 position);

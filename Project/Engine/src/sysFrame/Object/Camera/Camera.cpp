@@ -19,6 +19,12 @@ void Camera::Initialize() {
 }
 
 void Camera::Update() {
+    cameraMatrix = MathUtils::Matrix::MakeAffineMatrix(transform_);
+	viewMatrix = cameraMatrix.Inverse();
+	projectionMatrix = MathUtils::Matrix::MakePerspectiveFovMatrix(fov_, aspectRatio_, near_, farZ_);
+}
+
+void Camera::ImGui() {
 #ifdef _DEBUG
     if(ImGui::TreeNode(uuid_.c_str())) {
         ImGui::DragFloat3("Pos", &transform_.translate.x, 0.01f);
@@ -26,10 +32,6 @@ void Camera::Update() {
         ImGui::TreePop();
     }
 #endif
-
-    cameraMatrix = MathUtils::Matrix::MakeAffineMatrix(transform_);
-	viewMatrix = cameraMatrix.Inverse();
-	projectionMatrix = MathUtils::Matrix::MakePerspectiveFovMatrix(fov_, aspectRatio_, near_, farZ_);
 }
 
 Camera* Camera::SetRotate(Vector3 rotation) {

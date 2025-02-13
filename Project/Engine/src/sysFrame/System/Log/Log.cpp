@@ -46,6 +46,8 @@ void Log::Initialize() {
 
 void Log::Info(const std::string& msg) const {
     combined_logger->info(msg);
+
+    assert(sinks_[0]);
 }
 
 void Log::Debug(const std::string& msg) const {

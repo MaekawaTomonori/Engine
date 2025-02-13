@@ -1,5 +1,6 @@
 #include "Loader.h"
 
+#include <filesystem>
 #include <fstream>
 #include <future>
 
@@ -24,15 +25,23 @@ AudioManager::SoundHandle Loader::Audio(const std::string& path) {
 }
 
 std::deque<std::string> Loader::LogFile(const std::string& path) {
-    std::ifstream file(path);
-    if (!file.is_open())return {};
+    std::string tmp = path + ".tmp";
+    copy_file(path, tmp, std::filesystem::copy_options::overwrite_existing);
+
+    std::ifstream file(tmp);
+    if (!file || !file.is_open()){
+        return {};
+    }
 
     std::deque<std::string> logs;
     std::string line;
     while (std::getline(file, line)){
         logs.push_back(line);
     }
+
     file.close();
+    remove(tmp.c_str());
+
     return logs;
 }
 
