@@ -11,6 +11,10 @@ void RawPointLight::DefaultSetting() {
 	light_.decay = 1;
 }
 
+void RawPointLight::Set(const PointLight& pl) {
+    light_ = pl;
+}
+
 void RawPointLight::ImGuiSetting() {
  
 	if (ImGui::TreeNode(uuid_.c_str())){

@@ -22,6 +22,7 @@ public:
     }
 
 	void DefaultSetting() override;
+	void Set(const PointLight& pl);
 
 protected:
 	void ImGuiSetting() override;

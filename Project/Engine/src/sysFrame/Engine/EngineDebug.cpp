@@ -44,7 +44,7 @@ void EngineDebug::Initialize() {
 }
 
 void EngineDebug::Update() {
-    if (Input::GetInstance()->TriggerKey(DIK_F11)){
+    if (Input::GetInstance()->TriggerKey(DIK_1)){
         engine_->ToggleFullscreen();
     }
 

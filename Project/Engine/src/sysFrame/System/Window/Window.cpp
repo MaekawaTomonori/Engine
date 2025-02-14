@@ -120,24 +120,27 @@ bool Window::ProcessMessage() {
 void Window::ToggleFullscreen() {
     fullscreen_ = !fullscreen_;
 	static RECT rect;
+
     DWORD style = GetWindowLong(hWnd_, GWL_STYLE);
     if (fullscreen_){
-        GetWindowRect(hWnd_, &rect);
-        style &= ~WS_OVERLAPPEDWINDOW;
-        style |= WS_POPUP;
-        SetWindowLong(hWnd_, GWL_STYLE, style & ~WS_OVERLAPPED);
-
+		GetWindowRect(hWnd_, &rect);
         HMONITOR hMonitor = MonitorFromWindow(hWnd_, MONITOR_DEFAULTTOPRIMARY);
         MONITORINFO monitorInfo = {sizeof(monitorInfo)};
-		GetMonitorInfo(hMonitor, &monitorInfo);
-    	SetWindowPos(hWnd_, HWND_TOP, 
-					 monitorInfo.rcMonitor.left, monitorInfo.rcMonitor.top, 
-					 monitorInfo.rcMonitor.right - monitorInfo.rcMonitor.left,
-					 monitorInfo.rcMonitor.bottom - monitorInfo.rcMonitor.top,
-					 SWP_FRAMECHANGED | SWP_NOZORDER | SWP_NOOWNERZORDER
-		);
+
+		if (GetMonitorInfo(hMonitor, &monitorInfo)){
+			style &= ~WS_OVERLAPPEDWINDOW;
+			SetWindowLong(hWnd_, GWL_STYLE, style);
+
+			AdjustWindowRect(&windowRect_, style, false);
+
+			SetWindowPos(hWnd_, HWND_TOP,
+						 monitorInfo.rcMonitor.left, monitorInfo.rcMonitor.top,
+                         monitorInfo.rcMonitor.right - monitorInfo.rcMonitor.left,
+                         monitorInfo.rcMonitor.bottom - monitorInfo.rcMonitor.top,
+						 SWP_FRAMECHANGED | SWP_NOZORDER
+			);
+		}
     } else{
-        style &= ~WS_POPUP;
         style |= WS_OVERLAPPEDWINDOW;
         SetWindowLong(hWnd_, GWL_STYLE, style);
 	    SetWindowPos(hWnd_, HWND_TOP,

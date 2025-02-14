@@ -1,0 +1,30 @@
+{
+    "directional" : [
+        {
+            "color" : [1.0, 1.0, 1.0, 1.0],
+            "direction" : [0.0, -1.0, 0.0],
+            "intensity" : 1.0
+        }
+    ],
+    "point" : [
+        {
+            "color" : [1.0, 1.0, 1.0, 1.0],
+            "position" : [0.0, 0.0, 0.0],
+            "intensity" : 1.0,
+            "radius" : 10.0,
+            "decay" : 1.0
+        }
+    ],
+    "Spot" : [
+        {
+            "color" : [1.0, 1.0, 1.0, 1.0],
+            "position" : [0.0, 0.0, 0.0],
+            "direction" : [0.0, -1.0, 0.0],
+            "distance" : 10.0,
+            "intensity" : 1.0,
+            "decay" : 2.0,
+            "cosAngle" : 1,
+            "falloffStart" : 1
+        }
+    ]
+}

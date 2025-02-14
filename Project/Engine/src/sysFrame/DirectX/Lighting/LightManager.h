@@ -69,5 +69,8 @@ private:
 
     void ImGui();
     void CheckState();
+
+    void Load();
+    void Save();
 };
 

@@ -31,7 +31,7 @@ public:
 
 private:
 	CameraManager() = default;
-	~CameraManager() = default;
+	~CameraManager();
     CameraManager(const CameraManager&) = delete;
     CameraManager& operator=(const CameraManager&) = delete;
 

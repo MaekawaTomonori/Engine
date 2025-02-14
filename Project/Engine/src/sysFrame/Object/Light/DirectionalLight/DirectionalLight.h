@@ -19,6 +19,10 @@ public:
 
 	void DefaultSetting() override;
 
+    void Set(const DirectionalLight& light) {
+        light_ = light;
+    }
+
 protected:
     void ImGuiSetting() override;
 };
