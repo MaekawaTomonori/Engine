@@ -1,13 +1,14 @@
 #include "LightManager.h"
 
+#include <algorithm>
+
 #include "DirectX/DirectXCommon.h"
 #include "imgui/imgui.h"
 #include "Object/Light/DirectionalLight/DirectionalLight.h"
 #include "Object/Light/PointLight/PointLight.h"
 #include "Object/Light/SpotLight/SpotLight.h"
 #include "System/System.h"
-#include "System/Math/MathUtils.h"
-#include "System/Math/Vector3.h"
+#include "System/ImGui/ImGuiManager.h"
 #include "System/SingletonFinalizer/SingletonFinalizer.h"
 
 LightManager* LightManager::instance = nullptr;
@@ -30,6 +31,73 @@ void LightManager::Finalize() {
     System::Log(Log::Level::INFO, "Light Disabled");
 }
 
+void LightManager::ImGui() {
+    ImGuiManager::GetInstance()->AddCommand(this, [&](){
+        if (ImGui::Begin("Light")){
+            if (ImGui::BeginTabBar("Light")){
+                if (ImGui::BeginTabItem("General")){
+                    ImGui::SeparatorText("Directional");
+                    ImGui::Text("Light Count: %d", static_cast<int>(lightCount_->dlCount));
+
+                    ImGui::SeparatorText("Point");
+                    ImGui::Text("Light Count: %d", static_cast<int>(lightCount_->plCount));
+
+                    ImGui::SeparatorText("Spot");
+                    ImGui::Text("Spot Light Count: %d", static_cast<int>(lightCount_->slCount));
+                    ImGui::EndTabItem();
+                }
+                if (ImGui::BeginTabItem("Directional")){
+                    if (ImGui::Button("Add")){Add(LightType::Directional);}
+                    for (auto& dl : rawDirectionalLights_){
+                        dl->Update();
+                    }
+                    ImGui::EndTabItem();
+                }
+                if (ImGui::BeginTabItem("Point")){
+                    if (ImGui::Button("Add")){Add(LightType::Point);}
+                    for (auto& pl : rawPointLights_){
+                        pl->Update();
+                    }
+                    ImGui::EndTabItem();
+                }
+                if (ImGui::BeginTabItem("Spot")){
+                    if (ImGui::Button("Add")){Add(LightType::Spot);}
+                    for (auto& sl : rawSpotLights_){
+                        sl->Update();
+                    }
+                    ImGui::EndTabItem();
+                }
+                ImGui::EndTabBar();
+            }
+            ImGui::End();
+        }
+    });
+}
+
+void LightManager::CheckState() {
+    std::erase_if(rawDirectionalLights_, [&](const std::unique_ptr<RawDirectionalLight>& dl){
+	    if (!dl->IsEnable()){
+            lightCount_->dlCount--;
+		    return true;
+	    }
+	    return false;
+    });
+    std::erase_if(rawPointLights_, [&](const std::unique_ptr<RawPointLight>& pl){
+        if (!pl->IsEnable()){
+            lightCount_->plCount--;
+            return true;
+        }
+        return false;
+    });
+    std::erase_if(rawSpotLights_, [&](const std::unique_ptr<RawSpotLight>& sl){
+        if (!sl->IsEnable()){
+            lightCount_->slCount--;
+            return true;
+        }
+        return false;
+    });
+}
+
 void LightManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
     dxCommon_ = dxCommon;
 
@@ -38,90 +106,49 @@ void LightManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
         return;
     }
 
+    // Light Counter
+	countResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(LightCount)).Get());
+    countResource_->Map(0, nullptr, reinterpret_cast<void**>(&lightCount_));
+
+    lightCount_->dlCount = 0;
+    lightCount_->plCount = 0;
+    lightCount_->slCount = 0;
+
     //Directional
-    directionalResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(DirectionalLight)).Get());
+    directionalResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(DirectionalLight) * MAX_COUNT.dlCount).Get());
+    directionalResource_->Map(0, nullptr, reinterpret_cast<void**>(&mdDirectional_));
 
+    //Point
+    pointResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(PointLight) * MAX_COUNT.plCount).Get());
+    pointResource_->Map(0, nullptr, reinterpret_cast<void**>(&mdPointLight_));
 
-    directionalResource_->Map(0, nullptr, reinterpret_cast<void**>(&directionalLight_));
+    //Spot
+    spotResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(SpotLight) * MAX_COUNT.slCount).Get());
+    spotResource_->Map(0, nullptr, reinterpret_cast<void**>(&mdSpotLight_));
 
-    directionalLight_->color = {1, 1, 1, 1};
-    directionalLight_->direction = {0, -1, 0};
-    directionalLight_->intensity = 1.f;
-
-    pointResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(PointLight)).Get());
-    pointResource_->Map(0, nullptr, reinterpret_cast<void**>(&pointLight_));
-
-    pointLight_->color = {1,1,1,1};
-    pointLight_->position = {0,2,0};
-    pointLight_->intensity = 0.f;
-    pointLight_->radius = 10;
-    pointLight_->decay = 1;
-
-    spotResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(SpotLight)).Get());
-    spotResource_->Map(0, nullptr, reinterpret_cast<void**>(&spotLight_));
-
-    spotLight_->color = {1,1,1,1};
-    spotLight_->position = {2.f, 1.25f, 0.f};
-    spotLight_->distance = 7.f;
-    spotLight_->direction = Vector3(-1.f, -1.f, 0).normalize();
-    spotLight_->intensity = 0.f;
-    spotLight_->decay = 2.f;
-    spotLight_->cosAngle = std::cos(MathUtils::F_PI / 3.f);
-    spotLight_->falloffStart = std::cos(MathUtils::F_PI / 4.f);
+    Add(LightType::Directional);
+    Add(LightType::Point);
+    Add(LightType::Spot);
 
     System::Log(Log::Level::INFO, "Light Enabled");
 }
 
-void LightManager::Update() const {
-#ifdef _DEBUG
-    ImGui::Begin("Light");
-    if (ImGui::TreeNode("Directional")){
-        ImGui::ColorEdit4("Color", &directionalLight_->color.x);
-        ImGui::DragFloat3("Direction", &directionalLight_->direction.x, 0.1f);
-        ImGui::DragFloat("Intensity", &directionalLight_->intensity, 0.01f, 0, 1);
+void LightManager::Update() {
+    ImGui();
+    CheckState();
 
-        ImGui::TreePop();
+
+    // Apply to GPU (raw data -mapping-> gpu data)
+    uint32_t index = 0;
+    for (index = 0; index < lightCount_->dlCount; ++index){
+        mdDirectional_[index] = rawDirectionalLights_[index]->GetLight();
     }
-    if (ImGui::TreeNode("Point")){
-        ImGui::ColorEdit4("Color", &pointLight_->color.x);
-        ImGui::DragFloat3("Position", &pointLight_->position.x, 0.1f);
-        ImGui::DragFloat("Intensity", &pointLight_->intensity, 0.01f, 0, 1);
-        ImGui::DragFloat("radius", &pointLight_->radius, 0.01f);
-        ImGui::DragFloat("decay", &pointLight_->decay, 0.01f);
-
-        ImGui::TreePop();
+    for (index = 0; index < lightCount_->plCount; ++index){
+        mdPointLight_[index] = rawPointLights_[index]->GetLight();
     }
-
-    if (ImGui::TreeNode("Spot")){
-        ImGui::ColorEdit4("Color", &spotLight_->color.x);
-        ImGui::DragFloat3("Position", &spotLight_->position.x, 0.1f);
-        ImGui::DragFloat3("Direction", &spotLight_->direction.x, 0.1f);
-        ImGui::DragFloat("Distance", &spotLight_->distance, 0.1f, 0.f);
-    	ImGui::DragFloat("Intensity", &spotLight_->intensity, 0.01f, 0.f, 10.f);
-        ImGui::DragFloat("decay", &spotLight_->decay, 0.01f, 0.f);
-        ImGui::DragFloat("cosAngle", &spotLight_->cosAngle, 0.01f, spotLight_->falloffStart);
-        ImGui::DragFloat("falloffStart", &spotLight_->falloffStart, 0.01f, 0.f);
-
-        ImGui::TreePop();
+    for (index = 0; index < lightCount_->slCount; ++index){
+        mdSpotLight_[index] = rawSpotLights_[index]->GetLight();
     }
-    ImGui::End();
-#endif
-
-
-    directionalLight_->direction.normalize();
-
-    if ((MathUtils::F_PI * 2.f) <= spotLight_->cosAngle){
-        spotLight_->cosAngle -= MathUtils::F_PI * 2.f;
-    }
-	if ((MathUtils::F_PI * 2.f) <= spotLight_->falloffStart){
-        spotLight_->falloffStart -= MathUtils::F_PI * 2.f;
-    }
-
-    if (spotLight_->falloffStart < spotLight_->cosAngle){
-		spotLight_->falloffStart = spotLight_->cosAngle + std::cos(MathUtils::F_PI / 10.f);
-    }
-
-    spotLight_->direction.normalize();
 }
 
 void LightManager::Draw() const {
@@ -130,7 +157,42 @@ void LightManager::Draw() const {
         return;
     }
 
-	dxc->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalResource_->GetGPUVirtualAddress());
-    dxc->GetCommandList()->SetGraphicsRootConstantBufferView(5, pointResource_->GetGPUVirtualAddress());
-    dxc->GetCommandList()->SetGraphicsRootConstantBufferView(6, spotResource_->GetGPUVirtualAddress());
+	dxc->GetCommandList()->SetGraphicsRootShaderResourceView(3, directionalResource_->GetGPUVirtualAddress());
+
+    dxc->GetCommandList()->SetGraphicsRootShaderResourceView(5, pointResource_->GetGPUVirtualAddress());
+    dxc->GetCommandList()->SetGraphicsRootShaderResourceView(6, spotResource_->GetGPUVirtualAddress());
+    dxc->GetCommandList()->SetGraphicsRootConstantBufferView(7, countResource_->GetGPUVirtualAddress());
+}
+
+void LightManager::Add(LightType type) {
+    std::unique_ptr<RawDirectionalLight> directional;
+    std::unique_ptr<RawPointLight> point;
+    std::unique_ptr<RawSpotLight> spot;
+
+	switch (type){
+	case LightType::Directional:
+        if (MAX_COUNT.dlCount <= ++lightCount_->dlCount){
+            return;
+        }
+        directional = std::make_unique<RawDirectionalLight>();
+        directional->DefaultSetting();
+        rawDirectionalLights_.push_back(std::move(directional));
+		break;
+	case LightType::Point:
+        if (MAX_COUNT.plCount <= ++lightCount_->plCount){
+            return;
+        }
+        point = std::make_unique<RawPointLight>();
+        point->DefaultSetting();
+        rawPointLights_.push_back(std::move(point));
+		break;
+	case LightType::Spot:
+        if (MAX_COUNT.slCount <= ++lightCount_->slCount){
+            return;
+        }
+        spot = std::make_unique<RawSpotLight>();
+        spot->DefaultSetting();
+        rawSpotLights_.push_back(std::move(spot));
+		break;
+	}
 }

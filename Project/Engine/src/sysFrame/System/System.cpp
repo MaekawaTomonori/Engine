@@ -3,6 +3,23 @@
 #include <windows.h>
 #include <string>
 #include <algorithm>
+#include <rpc.h>
+
+#pragma comment(lib, "rpcrt4.lib")
+
+std::string System::CreateUuid() {
+    UUID uuid;
+    UuidCreate(&uuid);
+    RPC_CSTR szUuid = nullptr;
+    UuidToStringA(&uuid, &szUuid);
+    struct UUIDCleaner{
+        RPC_CSTR& ptr;
+        ~UUIDCleaner() {
+            if (ptr)RpcStringFreeA(&ptr);
+        }
+    } cleaner {szUuid};
+    return reinterpret_cast<char*>(szUuid);
+}
 
 std::wstring System::ConvertString(const std::string& str) {
     if (str.empty()){

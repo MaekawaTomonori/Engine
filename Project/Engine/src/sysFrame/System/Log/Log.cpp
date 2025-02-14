@@ -27,22 +27,28 @@ void Log::Destroy() {
 }
 
 void Log::Initialize() {
-    auto file = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/latest.log", true);
+    auto now = std::chrono::system_clock::now();
+    auto now_time = std::chrono::floor<std::chrono::seconds>(now);
+    std::string date = std::format("{:%Y.%m.%d_%H.%M.%S}", now_time);
+
+    path_ = "logs/" + date + ".log";
+
+    auto file = std::make_shared<spdlog::sinks::basic_file_sink_mt>(path_, true);
     auto console = std::make_shared<spdlog::sinks::msvc_sink_mt>();
 
     sinks_ = {file, console};
     combined_logger = std::make_shared<spdlog::logger>("logger", sinks_.begin(), sinks_.end());
 	set_default_logger(combined_logger);
-
+    spdlog::flush_on(spdlog::level::debug);
     spdlog::set_level(spdlog::level::debug);
-
     spdlog::set_pattern("[%D-%R][Thread:%t][%l]:%v");
-
     spdlog::info("LogSystem Enabled");
 }
 
 void Log::Info(const std::string& msg) const {
     combined_logger->info(msg);
+
+    assert(sinks_[0]);
 }
 
 void Log::Debug(const std::string& msg) const {

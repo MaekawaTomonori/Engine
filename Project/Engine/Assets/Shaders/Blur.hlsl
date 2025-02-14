@@ -4,7 +4,6 @@ struct BlurOutput{
     float4 color : SV_TARGET2;
 };
 
-
 BlurOutput main(VertexShaderOutput input) {
     BlurOutput output;
 

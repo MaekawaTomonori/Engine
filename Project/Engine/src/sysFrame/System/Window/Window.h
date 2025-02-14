@@ -14,7 +14,7 @@ private:
 
     static void Fullscreen(int width, int height);
 
-	void Lock();
+	void Lock() const;
 public:
 	~Window();
 	bool Create(int clientWidth, int clientHeight, const std::wstring& titleName, const std::wstring& windowClassName);

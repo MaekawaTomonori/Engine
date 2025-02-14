@@ -68,8 +68,10 @@ private://Variables
     std::chrono::steady_clock::time_point reference_;
 
 	double maxFPS = 60;
-	
+
+	//最初に全てを受け取る
 	ComPtr<ID3D12Resource> canvasResource_;
+    //ポストプロセス用に抜かれた色のみが入る
 	ComPtr<ID3D12Resource> rootColorResource_;
 	ComPtr<ID3D12Resource> blurResource_;
 	ComPtr<ID3D12Resource> bloomResource_;
@@ -99,6 +101,7 @@ public://Methods
 
 	void PreDraw();
 	void PostDraw();
+	void EndFrame();
 
 	static ComPtr<ID3D12Resource> CreateBufferResource(const ComPtr<ID3D12Device>& device, size_t sizeInBytes);
     static ComPtr<ID3D12Resource> CreateDepthStencilTextureResource(const ComPtr<ID3D12Device>& device, int32_t width, int32_t height);
@@ -144,7 +147,8 @@ private://Methods
 	void InitializeFixFPS();
 	void UpdateFixFPS();
 
+	void DisplayInfo();
+
 	void SwitchToSwapChain();
-	void EndFrame();
 };
 

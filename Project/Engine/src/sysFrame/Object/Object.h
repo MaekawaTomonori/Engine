@@ -3,10 +3,10 @@
 #include <d3d12.h>
 
 #include "DirectX/DirectXCommon.h"
+#include "System/System.h"
 #include "System/Math/Material.h"
 #include "System/Math/WorldTransform.h"
 
-#pragma comment(lib, "rpcrt4.lib")
 #pragma comment(lib, "d3d12.lib")
 
 class Camera;
@@ -18,12 +18,7 @@ public:
 		dxCommon_ = dxCommon;
 		commandList_ = dxCommon_.lock()->GetCommandList();
 
-		UUID uuid;
-		UuidCreate(&uuid);
-		RPC_CSTR szUuid = nullptr;
-		UuidToStringA(&uuid, &szUuid);
-		uuid_ = reinterpret_cast<char*>(szUuid);
-		RpcStringFreeA(&szUuid);
+        uuid_ = System::CreateUuid();
 	}
 	virtual ~Object()=default;
 

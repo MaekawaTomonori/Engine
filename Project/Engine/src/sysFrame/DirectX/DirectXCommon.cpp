@@ -10,6 +10,7 @@
 #include "Heap/SRVManager.h"
 #include "Shader/Shader.h"
 #include "System/System.h"
+#include "System/ImGui/ImGuiManager.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -333,7 +334,7 @@ void DirectXCommon::CreatePostProcessResource() {
         &clearValueBlack,
         IID_PPV_ARGS(blurResource_.ReleaseAndGetAddressOf())
     );
-    resDesc.Width >>= 1;
+    resDesc.Width = 720;
 	assert(SUCCEEDED(result));
 
 
@@ -372,15 +373,15 @@ void DirectXCommon::CreatePostProcessResource() {
 }
 
 void DirectXCommon::CreateScreenPipeline() {
-    D3D12_DESCRIPTOR_RANGE range[1] {};
-    range[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-    range[0].BaseShaderRegister = 0;
-    range[0].NumDescriptors = 4;
+    D3D12_DESCRIPTOR_RANGE range {};
+    range.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+    range.BaseShaderRegister = 0;
+    range.NumDescriptors = 4;
 
     D3D12_ROOT_PARAMETER rp[1] {};
     rp[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
     rp[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-    rp[0].DescriptorTable.pDescriptorRanges = &range[0];
+    rp[0].DescriptorTable.pDescriptorRanges = &range;
     rp[0].DescriptorTable.NumDescriptorRanges = 1;
 
     D3D12_ROOT_SIGNATURE_DESC rsDesc {};
@@ -472,7 +473,7 @@ void DirectXCommon::CreateScreenPipeline() {
 //    srv_ = std::make_shared<Heap>();
 //    srv_->Create(device_.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 128, true);
 //}
-//
+
 void DirectXCommon::WaitForCommandQueue() {
     commandQueue_->Signal(fence_.Get(), ++fenceValue_);
 
@@ -506,6 +507,25 @@ void DirectXCommon::UpdateFixFPS() {
     }
 
     reference_ = std::chrono::steady_clock::now();
+}
+
+#include <Psapi.h>
+void DirectXCommon::DisplayInfo() {
+    //FPS
+    ImGuiManager::GetInstance()->AddCommand(this, [&]{
+        ImGui::Begin("FPS", nullptr, ImGuiWindowFlags_NoTitleBar);
+        ImGui::Text("FPS: %.2f / MaxFPS : %.2f", 1.0 / ImGui::GetIO().DeltaTime, maxFPS);
+        ImGui::SameLine();
+        ImGui::ProgressBar(1.0f / ImGui::GetIO().DeltaTime / static_cast<float>(maxFPS), ImVec2(0.0f, 0.0f));
+    	ImGui::End();
+
+    	ImGui::Begin("Screen");
+        ImVec2 size = ImGui::GetContentRegionAvail();
+        float aspect = static_cast<float>(WinApp::CLIENT_WIDTH) / static_cast<float>(WinApp::CLIENT_HEIGHT);
+        size.y = size.x / aspect;
+		ImGui::Image(ImTextureID(srvManager_->GetGPUHandle(indexes_[0]).ptr), size);
+        ImGui::End();
+    });
 }
 
 void DirectXCommon::PreDraw() {
@@ -551,9 +571,8 @@ void DirectXCommon::PreDraw() {
 }
 
 void DirectXCommon::PostDraw() {
+    DisplayInfo();
     SwitchToSwapChain();
-
-    EndFrame();
 }
 
 void DirectXCommon::SwitchToSwapChain()  {
@@ -565,7 +584,6 @@ void DirectXCommon::SwitchToSwapChain()  {
     }
 
     D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap_->GetCPUHandle(0);
-
 
     ///Blur
     commandList_->SetPipelineState(blurPipeline_.Get());
@@ -647,7 +665,6 @@ void DirectXCommon::SwitchToSwapChain()  {
 	commandList_->SetGraphicsRootDescriptorTable(0, handle);
 
 	commandList_->DrawInstanced(3, 1, 0, 0);
-
     barrier_.Transition.pResource = bloomResource_.Get();
     barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
     barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
@@ -669,22 +686,19 @@ void DirectXCommon::SwitchToSwapChain()  {
 
     rtvPointer = rtvHandles_[bbIndex];
 
-    auto dxcHandle = dsvHeap_->GetCPUHandle(0);
-
-    commandList_->OMSetRenderTargets(1, &rtvPointer, false, &dxcHandle);
-
-    srvManager_->PreDraw();
-    handle = srvManager_->GetGPUHandle(indexes_[0]);
-	commandList_->SetGraphicsRootDescriptorTable(0, handle);
-
+    commandList_->OMSetRenderTargets(1, &rtvPointer, false, nullptr);
     commandList_->ClearRenderTargetView(rtvPointer, &backColor_.x, 0, nullptr);
+
+    commandList_->RSSetViewports(1, &viewport_);
+    commandList_->RSSetScissorRects(1, &scissorRect_);
 
     commandList_->SetPipelineState(screenPipeline_.Get());
 
+    srvManager_->PreDraw();
+    handle = srvManager_->GetGPUHandle(indexes_[0]);
+
     commandList_->SetGraphicsRootDescriptorTable(0, handle);
-
-    commandList_->DrawInstanced(3, 1, 0, 0);
-
+    //commandList_->DrawInstanced(3, 1, 0, 0);
 }
 
 void DirectXCommon::EndFrame() {

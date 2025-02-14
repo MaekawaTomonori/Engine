@@ -2,20 +2,11 @@
 
 #include "Application/WinApp.h"
 #include "imgui/imgui.h"
+#include "System/System.h"
 #include "System/Math/MathUtils.h"
 
 Camera::Camera() {
-    UUID uuid;
-    UuidCreate(&uuid);
-    RPC_CSTR szUuid = nullptr;
-    UuidToStringA(&uuid, &szUuid);
-    struct UUIDCleaner{
-        RPC_CSTR& ptr;
-        ~UUIDCleaner() {
-            if (ptr)RpcStringFreeA(&ptr);
-        }
-    } cleaner {szUuid};
-    uuid_ = reinterpret_cast<char*>(szUuid);
+    uuid_ = System::CreateUuid();
 }
 
 void Camera::Initialize() {
@@ -28,19 +19,19 @@ void Camera::Initialize() {
 }
 
 void Camera::Update() {
+    cameraMatrix = MathUtils::Matrix::MakeAffineMatrix(transform_);
+	viewMatrix = cameraMatrix.Inverse();
+	projectionMatrix = MathUtils::Matrix::MakePerspectiveFovMatrix(fov_, aspectRatio_, near_, farZ_);
+}
+
+void Camera::ImGui() {
 #ifdef _DEBUG
-    ImGui::Begin("Camera");
     if(ImGui::TreeNode(uuid_.c_str())) {
         ImGui::DragFloat3("Pos", &transform_.translate.x, 0.01f);
         ImGui::DragFloat3("Rotate", &transform_.rotate.x, 0.01f);
         ImGui::TreePop();
     }
-    ImGui::End();
 #endif
-
-    cameraMatrix = MathUtils::Matrix::MakeAffineMatrix(transform_);
-	viewMatrix = cameraMatrix.Inverse();
-	projectionMatrix = MathUtils::Matrix::MakePerspectiveFovMatrix(fov_, aspectRatio_, near_, farZ_);
 }
 
 Camera* Camera::SetRotate(Vector3 rotation) {

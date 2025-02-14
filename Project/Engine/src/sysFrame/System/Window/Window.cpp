@@ -1,6 +1,5 @@
 #include "Window.h"
 
-//#include "imgui.h"
 #include "imgui/imgui.h"
 #include "System/System.h"
 
@@ -39,23 +38,23 @@ void Window::Fullscreen(int width, int height) {
     }
 }
 
-void Window::Lock() {
+void Window::Lock() const {
     LONG style = GetWindowLong(hWnd_, GWL_STYLE);
     style &= ~WS_SIZEBOX;
     style &= ~WS_MAXIMIZEBOX;
 	SetWindowLong(hWnd_, GWL_STYLE, style);
 
 	SetWindowPos(hWnd_, nullptr, 0, 0, 0, 0,
-				 SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED)
-	;
+				 SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED
+	);
 }
 
 Window::~Window() {
 	CloseWindow(hWnd_);
 }
 
-bool Window::Create(int clientWidth, int clientHeight, const std::wstring& titleName, const std::wstring& windowClassName) {
-	hInstance_ = GetModuleHandle(0);
+bool Window::Create(const int clientWidth, const int clientHeight, const std::wstring& titleName, const std::wstring& windowClassName) {
+	hInstance_ = GetModuleHandle(nullptr);
 
 	//window class. 
 	WNDCLASS wc {};

@@ -121,7 +121,7 @@ void GraphicsPipeline::CreateRootSignature() {
 
     if (type_ == Type::MODEL){
         //DirectionalLight
-        rp.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        rp.ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
         rp.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
         rp.Descriptor.ShaderRegister = 1;
         rootParameters_.push_back(rp);
@@ -134,15 +134,20 @@ void GraphicsPipeline::CreateRootSignature() {
 
 
         //PointLight
-        rp.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        rp.ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
         rp.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
         rp.Descriptor.ShaderRegister = 3;
         rootParameters_.push_back(rp);
 
         //SpotLight
-        rp.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        rp.ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
         rp.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
         rp.Descriptor.ShaderRegister = 4;
+        rootParameters_.push_back(rp);
+
+        rp.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        rp.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+        rp.Descriptor.ShaderRegister = 5;
         rootParameters_.push_back(rp);
     }
 

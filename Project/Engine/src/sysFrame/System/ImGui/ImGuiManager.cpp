@@ -1,10 +1,13 @@
 #include "ImGuiManager.h"
+
 #include "Application/WinApp.h"
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/SRVManager.h"
 
 #include "imgui/imgui_impl_dx12.h"
 #include "imgui/imgui_impl_win32.h"
+#include "System/Loader.h"
+#include "System/Log/Log.h"
 #include "System/SingletonFinalizer/SingletonFinalizer.h"
 
 ImGuiManager* ImGuiManager::instance_ = nullptr;
@@ -32,6 +35,40 @@ void ImGuiManager::Destroy() {
     instance_ = nullptr;
 }
 
+void ImGuiManager::DockingSpace() {
+    ImGui::SetNextWindowPos({0,0});
+    ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+    ImGui::DockSpaceOverViewport(ImGui::GetID(""), ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
+
+    ImGui::Begin("DockSpace Window", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoResize);
+    ImGuiID dockSpaceID = ImGui::GetID("DockSpace");
+    ImGui::DockSpace(dockSpaceID, ImGui::GetContentRegionAvail());
+    ImGui::End();
+}
+
+void ImGuiManager::DisplayLog() {
+    logs_.clear();
+	logs_ = Loader::LogFile(logPath_);
+
+    ImGui::Begin("Log");
+    for (const auto& log : logs_){
+        ImGui::TextWrapped(log.c_str());
+    }
+
+    if (!logAutoScroll_ && !ImGui::IsWindowFocused() && ImGui::GetScrollY() < ImGui::GetScrollMaxY()){
+        logAutoScroll_ = true;
+    }
+
+    if (ImGui::IsWindowHovered() || ImGui::GetIO().MouseWheel != 0){
+        logAutoScroll_ = false;
+    }
+
+    if (logAutoScroll_){
+        ImGui::SetScrollHereY(1.0f);
+    }
+    ImGui::End();
+}
+
 void ImGuiManager::Initialize(WinApp* winApp, DirectXCommon* dxCommon, SRVManager* srv) {
     winApp_ = winApp;
     dxCommon_ = dxCommon;
@@ -41,8 +78,6 @@ void ImGuiManager::Initialize(WinApp* winApp, DirectXCommon* dxCommon, SRVManage
     ImGui::CreateContext();
     ImGui::StyleColorsDark();
 
-    ImGui_ImplWin32_Init(winApp_->GetWindowHandle());
-
     ImGui_ImplDX12_Init(
         dxCommon_->GetDevice().Get(),
         static_cast<int>(dxCommon_->GetBackBufferCount()),
@@ -51,8 +86,14 @@ void ImGuiManager::Initialize(WinApp* winApp, DirectXCommon* dxCommon, SRVManage
         srv_->GetCPUHandle(index),
         srv_->GetGPUHandle(index)
     );
+    ImGui_ImplWin32_Init(winApp_->GetWindowHandle());
+
+    auto& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
     command_ = std::make_unique<ImGuiCommand>();
+
+    logPath_ = Log::GetLogger()->GetPath();
 }
 
 void ImGuiManager::AddCommand(void* ptr, const std::function<void()>& command) const {
@@ -65,7 +106,9 @@ void ImGuiManager::Begin() {
     ImGui::NewFrame();
 }
 
-void ImGuiManager::End() const {
+void ImGuiManager::End() {
+	DockingSpace();
+    DisplayLog();
     command_->Update();
     ImGui::Render();
 }
@@ -77,4 +120,6 @@ void ImGuiManager::Draw() {
     commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps->GetAddressOf());
 
     ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList.Get());
+
+    ImGui::EndFrame();
 }

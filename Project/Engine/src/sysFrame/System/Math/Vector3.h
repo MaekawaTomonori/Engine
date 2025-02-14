@@ -33,14 +33,17 @@ struct Vector3{
         return {x / f, y / f, z / f};
     }
 
-	float length() const {
+	float Length() const {
 		return sqrtf(x * x + y * y + z * z);
 	}
 
-	Vector3 normalize() {
-		this->x /= length();
-		this->y /= length();
-		this->z /= length();
+	Vector3 Normalize() {
+        const float len = Length();
+        if (len <= 0.0000001f) return *this;
+
+		this->x /= len;
+		this->y /= len;
+		this->z /= len;
 
 		return *this;
 	}

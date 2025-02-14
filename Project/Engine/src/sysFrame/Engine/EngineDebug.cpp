@@ -1,16 +1,20 @@
 #include "EngineDebug.h"
 
+#include "Engine.h"
 #include "Object/Particle/ParticleManager.h"
 #include "System/Loader.h"
 #include "System/Input/Input.h"
 #include "System/Sound/Audio.h"
+
+EngineDebug::EngineDebug(Engine* engine): engine_(engine) {
+}
 
 void EngineDebug::Initialize() {
     Loader::Texture("c.png");
     //Loader::LoadTexture("MonsterBall.png");
     //Loader::LoadTexture("circle.png");
 
-    Loader::Model("plane");
+    Loader::Model("terrain");
 
     //Loader::Audio("Alarm01.wav");
 
@@ -31,7 +35,7 @@ void EngineDebug::Initialize() {
 
     model_ = std::make_unique < Model >();
     model_->Initialize();
-    model_->SetMesh("plane");
+    model_->SetMesh("terrain");
     model_->SetTransform({
         {1, 1, 1},
         {0, 3.14f, 0 },
@@ -40,7 +44,13 @@ void EngineDebug::Initialize() {
 }
 
 void EngineDebug::Update() {
-    
+    if (Input::GetInstance()->TriggerKey(DIK_F11)){
+        engine_->ToggleFullscreen();
+    }
+
+    if (Input::GetInstance()->TriggerKey(DIK_RETURN)){
+        System::Log("Log");
+    }
 
     model_->Update();
 }
