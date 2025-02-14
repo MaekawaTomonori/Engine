@@ -11,6 +11,9 @@ class CameraManager{
 
     std::unordered_map<std::string, std::unique_ptr<Camera>> cameras_;
     Camera* active_ = nullptr;
+
+    uint16_t noname = 0;
+
 public:
 	static CameraManager* GetInstance();
 

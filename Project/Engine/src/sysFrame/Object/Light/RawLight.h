@@ -1,7 +1,6 @@
 #pragma once
 #include "DirectX/Lighting/LightManager.h"
 #include "System/System.h"
-#include "magic_enum.hpp"
 
 class RawLight{
 

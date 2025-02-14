@@ -140,16 +140,14 @@ void LightManager::Update() {
 
     // Apply to GPU (raw data -mapping-> gpu data)
     uint32_t index = 0;
-    for (auto& dl : rawDirectionalLights_){
-        mdDirectional_[index++] = dl->GetLight();
+    for (index = 0; index < lightCount_->dlCount; ++index){
+        mdDirectional_[index] = rawDirectionalLights_[index]->GetLight();
     }
-    index = 0;
-    for (auto& pl : rawPointLights_){
-        mdPointLight_[index++] = pl->GetLight();
+    for (index = 0; index < lightCount_->plCount; ++index){
+        mdPointLight_[index] = rawPointLights_[index]->GetLight();
     }
-    index = 0;
-    for (auto& sl : rawSpotLights_){
-        mdSpotLight_[index++] = sl->GetLight();
+    for (index = 0; index < lightCount_->slCount; ++index){
+        mdSpotLight_[index] = rawSpotLights_[index]->GetLight();
     }
 }
 
@@ -178,7 +176,7 @@ void LightManager::Add(LightType type) {
         }
         directional = std::make_unique<RawDirectionalLight>();
         directional->DefaultSetting();
-        rawDirectionalLights_.emplace_back(std::move(directional));
+        rawDirectionalLights_.push_back(std::move(directional));
 		break;
 	case LightType::Point:
         if (MAX_COUNT.plCount <= ++lightCount_->plCount){
@@ -186,7 +184,7 @@ void LightManager::Add(LightType type) {
         }
         point = std::make_unique<RawPointLight>();
         point->DefaultSetting();
-        rawPointLights_.emplace_back(std::move(point));
+        rawPointLights_.push_back(std::move(point));
 		break;
 	case LightType::Spot:
         if (MAX_COUNT.slCount <= ++lightCount_->slCount){
@@ -194,7 +192,7 @@ void LightManager::Add(LightType type) {
         }
         spot = std::make_unique<RawSpotLight>();
         spot->DefaultSetting();
-        rawSpotLights_.emplace_back(std::move(spot));
+        rawSpotLights_.push_back(std::move(spot));
 		break;
 	}
 }
