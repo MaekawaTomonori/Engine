@@ -473,7 +473,7 @@ void DirectXCommon::CreateScreenPipeline() {
 //    srv_ = std::make_shared<Heap>();
 //    srv_->Create(device_.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 128, true);
 //}
-//
+
 void DirectXCommon::WaitForCommandQueue() {
     commandQueue_->Signal(fence_.Get(), ++fenceValue_);
 
@@ -511,47 +511,19 @@ void DirectXCommon::UpdateFixFPS() {
 
 #include <Psapi.h>
 void DirectXCommon::DisplayInfo() {
-    static ULONGLONG lastTime = 0, lastSysCPU = 0, lastUserCPU = 0;
-    static int processors = 0;
-    static HANDLE self = GetCurrentProcess();
-
-    if (processors == 0){
-        SYSTEM_INFO sysInfo;
-        GetSystemInfo(&sysInfo);
-        processors = sysInfo.dwNumberOfProcessors;
-        FILETIME ftime, fsys, fuser;
-	    GetProcessTimes(self, &ftime, &ftime, &fsys, &fuser);
-	    lastSysCPU = (static_cast<ULONGLONG>(fsys.dwHighDateTime) << 32) | fsys.dwLowDateTime;
-	    lastUserCPU = (static_cast<ULONGLONG>(fuser.dwHighDateTime) << 32) | fuser.dwLowDateTime;
-	    lastTime = GetTickCount64();
-    }
-
-    FILETIME ftime, fsys, fuser;
-    ULONGLONG now, sysCpu, userCpu;
-
-    GetProcessTimes(self, &ftime, &ftime, &fsys, &fuser);
-    sysCpu = static_cast<ULONGLONG>(fsys.dwLowDateTime) | (static_cast<ULONGLONG>(fsys.dwHighDateTime) << 32);
-    userCpu = static_cast<ULONGLONG>(fuser.dwLowDateTime) | (static_cast<ULONGLONG>(fuser.dwHighDateTime) << 32);
-    now = GetTickCount64();
-
-    float percent = ((sysCpu - lastSysCPU) + (userCpu - lastUserCPU)) / static_cast<float>(now - lastTime);
-    lastSysCPU = sysCpu;
-    lastUserCPU = userCpu;
-    lastTime = now;
-
-    //Memory
-    size_t memory = 0;
-    PROCESS_MEMORY_COUNTERS_EX pmc;
-    if (GetProcessMemoryInfo(GetCurrentProcess(), reinterpret_cast<PPROCESS_MEMORY_COUNTERS>(&pmc), sizeof(pmc))){
-        memory = pmc.PrivateUsage / (1024 * 1024);
-    }
-
+    //FPS
     ImGuiManager::GetInstance()->AddCommand(this, [&]{
-        ImGui::Begin("Info");
-        ImGui::Text("FPS : %.2f", 1.0 / ImGui::GetIO().DeltaTime);
-        ImGui::Text("Max FPS : %.2f", maxFPS);
-        ImGui::Text("CPU : %.2f", (percent / processors) * 100.f);
-        ImGui::Text("Memory : %d MB", memory);
+        ImGui::Begin("FPS", nullptr, ImGuiWindowFlags_NoTitleBar);
+        ImGui::Text("FPS: %.2f / MaxFPS : %.2f", 1.0 / ImGui::GetIO().DeltaTime, maxFPS);
+        ImGui::SameLine();
+        ImGui::ProgressBar(1.0f / ImGui::GetIO().DeltaTime / static_cast<float>(maxFPS), ImVec2(0.0f, 0.0f));
+    	ImGui::End();
+
+    	ImGui::Begin("Screen");
+        ImVec2 size = ImGui::GetContentRegionAvail();
+        float aspect = static_cast<float>(WinApp::CLIENT_WIDTH) / static_cast<float>(WinApp::CLIENT_HEIGHT);
+        size.y = size.x / aspect;
+		ImGui::Image(ImTextureID(srvManager_->GetGPUHandle(indexes_[0]).ptr), size);
         ImGui::End();
     });
 }
@@ -599,15 +571,7 @@ void DirectXCommon::PreDraw() {
 }
 
 void DirectXCommon::PostDraw() {
-    //DisplayInfo();
-	ImGuiManager::GetInstance()->AddCommand(this, [&]{
-        ImGui::Begin("Screen");
-        ImVec2 size = ImGui::GetContentRegionAvail();
-        float aspect = static_cast<float>(WinApp::CLIENT_WIDTH) / static_cast<float>(WinApp::CLIENT_HEIGHT);
-        size.y = size.x / aspect;
-		ImGui::Image(ImTextureID(srvManager_->GetGPUHandle(indexes_[0]).ptr), size);
-        ImGui::End();
-    });
+    DisplayInfo();
     SwitchToSwapChain();
 }
 

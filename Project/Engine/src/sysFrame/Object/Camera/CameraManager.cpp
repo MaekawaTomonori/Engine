@@ -28,14 +28,29 @@ void CameraManager::Update() {
                 char nameBuffer[256] = "";
                 if (ImGui::InputText("Name", nameBuffer, IM_ARRAYSIZE(nameBuffer), ImGuiInputTextFlags_EnterReturnsTrue) || ImGui::Button("Add")){
                     Add(nameBuffer);
+                    initialize = false;
                 }
-            	for (auto& [name, camera] : cameras_){
-                    if (ImGui::Selectable(name.c_str(), active_ == camera.get())){
-                        Active(name);
+
+                // ActiveCamera
+                if (!initialize){
+                    for (const auto& name : cameras_ | std::views::keys){
+                        names.push_back(name);
                     }
+                    initialize = true;
+                }
+
+                if (ImGui::BeginCombo("ActiveCameras", names[currentIndex].c_str())){
+                    for (auto& [name, camera]: cameras_){
+	                    if(ImGui::Selectable(name.c_str(), active_ == camera.get())){
+                            Active(name);
+                            ImGui::SetItemDefaultFocus();
+	                    }
+                    }
+                    ImGui::EndCombo();
                 }
             }
 
+            ImGui::Spacing();
             if (ImGui::CollapsingHeader("List")){
                 for (auto& camera : cameras_ | std::views::values){
                     camera->ImGui();

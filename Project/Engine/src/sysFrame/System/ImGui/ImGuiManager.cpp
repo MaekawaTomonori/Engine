@@ -38,6 +38,7 @@ void ImGuiManager::Destroy() {
 void ImGuiManager::DockingSpace() {
     ImGui::SetNextWindowPos({0,0});
     ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+    ImGui::DockSpaceOverViewport(ImGui::GetID(""), ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
 
     ImGui::Begin("DockSpace Window", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoResize);
     ImGuiID dockSpaceID = ImGui::GetID("DockSpace");
@@ -89,7 +90,6 @@ void ImGuiManager::Initialize(WinApp* winApp, DirectXCommon* dxCommon, SRVManage
 
     auto& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
     command_ = std::make_unique<ImGuiCommand>();
 

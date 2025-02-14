@@ -17,7 +17,7 @@ private:
 	std::vector<spdlog::sink_ptr> sinks_;
 	std::shared_ptr<spdlog::logger> combined_logger;
 
-    std::string path_;
+    std::string path_{};
 
 	Log() = default;
 	~Log() = default;
