@@ -70,6 +70,7 @@
     <ClCompile Include="src\sysFrame\Object\Light\SpotLight\SpotLight.cpp" />
     <ClCompile Include="src\sysFrame\Object\Light\PointLight\PointLight.cpp" />
     <ClCompile Include="src\sysFrame\Object\Light\DirectionalLight\DirectionalLight.cpp" />
+    <ClCompile Include="src\sysFrame\System\Json\Json.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sysFrame\Object\ColorEditor.h" />
@@ -187,6 +188,7 @@
     <ClInclude Include="src\sysFrame\Object\Light\RawLight.h" />
     <ClInclude Include="src\externals\MagicEnum\magic_enum.hpp" />
     <ClInclude Include="src\externals\miniaudio\miniaudio.h" />
+    <ClInclude Include="src\sysFrame\System\Json\Json.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\Sprite.hlsli" />

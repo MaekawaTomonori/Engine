@@ -31,6 +31,7 @@ public:
     }
 
     void DefaultSetting() override;
+    void Set(const SpotLight& sl);
 
 protected:
     void ImGuiSetting() override;

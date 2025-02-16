@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sysFrame\System\Json\Json.cpp" />
     <ClCompile Include="src\sysFrame\Framework\Adapter.cpp" />
     <ClCompile Include="AudioAnther.cpp" />
     <ClCompile Include="src\sysFrame\Object\Camera\CameraManager.cpp" />
@@ -69,6 +70,7 @@
     <ClCompile Include="src\sysFrame\System\Thread\ThreadManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sysFrame\System\Json\Json.h" />
     <ClInclude Include="src\externals\MagicEnum\magic_enum.hpp" />
     <ClInclude Include="src\externals\miniaudio\miniaudio.h" />
     <ClInclude Include="src\sysFrame\Object\Light\RawLight.h" />

@@ -1,7 +1,9 @@
 #include "LightManager.h"
 
 #include <algorithm>
+#include <fstream>
 
+#include "magic_enum.hpp"
 #include "DirectX/DirectXCommon.h"
 #include "imgui/imgui.h"
 #include "Object/Light/DirectionalLight/DirectionalLight.h"
@@ -36,32 +38,44 @@ void LightManager::ImGui() {
         if (ImGui::Begin("Light")){
             if (ImGui::BeginTabBar("Light")){
                 if (ImGui::BeginTabItem("General")){
+                    if(ImGui::CollapsingHeader("Files")){
+                    	//if(ImGui::Button("Load")){Load();}
+                        ImGui::SameLine();
+                        //if(ImGui::Button("Save")){Save();}
+                    }
+
+                    ImGui::PushID("Directional");
                     ImGui::SeparatorText("Directional");
                     ImGui::Text("Light Count: %d", static_cast<int>(lightCount_->dlCount));
+                    if (ImGui::Button("Add")){Add(LightType::Directional);}
+                    ImGui::PopID();
 
+                    ImGui::PushID("Point");
                     ImGui::SeparatorText("Point");
                     ImGui::Text("Light Count: %d", static_cast<int>(lightCount_->plCount));
+                    if (ImGui::Button("Add")){Add(LightType::Point);}
+                    ImGui::PopID();
 
+                    ImGui::PushID("Spot");
                     ImGui::SeparatorText("Spot");
                     ImGui::Text("Spot Light Count: %d", static_cast<int>(lightCount_->slCount));
+                    if (ImGui::Button("Add")){Add(LightType::Spot);}
                     ImGui::EndTabItem();
+                    ImGui::PopID();
                 }
                 if (ImGui::BeginTabItem("Directional")){
-                    if (ImGui::Button("Add")){Add(LightType::Directional);}
                     for (auto& dl : rawDirectionalLights_){
                         dl->Update();
                     }
                     ImGui::EndTabItem();
                 }
                 if (ImGui::BeginTabItem("Point")){
-                    if (ImGui::Button("Add")){Add(LightType::Point);}
                     for (auto& pl : rawPointLights_){
                         pl->Update();
                     }
                     ImGui::EndTabItem();
                 }
                 if (ImGui::BeginTabItem("Spot")){
-                    if (ImGui::Button("Add")){Add(LightType::Spot);}
                     for (auto& sl : rawSpotLights_){
                         sl->Update();
                     }
@@ -126,9 +140,7 @@ void LightManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
     spotResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(SpotLight) * MAX_COUNT.slCount).Get());
     spotResource_->Map(0, nullptr, reinterpret_cast<void**>(&mdSpotLight_));
 
-    Add(LightType::Directional);
-    Add(LightType::Point);
-    Add(LightType::Spot);
+    //Load();
 
     System::Log(Log::Level::INFO, "Light Enabled");
 }

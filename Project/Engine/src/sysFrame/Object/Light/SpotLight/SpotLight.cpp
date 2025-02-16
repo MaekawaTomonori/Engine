@@ -15,6 +15,10 @@ void RawSpotLight::DefaultSetting() {
     light_.falloffStart = std::cos(MathUtils::F_PI / 4.f);
 }
 
+void RawSpotLight::Set(const SpotLight& sl) {
+    light_ = sl;
+}
+
 void RawSpotLight::ImGuiSetting() {
     if (ImGui::TreeNode(uuid_.c_str())){
 

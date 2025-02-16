@@ -98,3 +98,6 @@ Camera* CameraManager::Active(const std::string& name) {
 
     return active_;
 }
+
+CameraManager::~CameraManager() {
+}
