@@ -100,5 +100,4 @@ Camera* CameraManager::Active(const std::string& name) {
 }
 
 CameraManager::~CameraManager() {
-    Save();
 }

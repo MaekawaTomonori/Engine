@@ -6,7 +6,6 @@
 #include "magic_enum.hpp"
 #include "DirectX/DirectXCommon.h"
 #include "imgui/imgui.h"
-#include "json/single_include/nlohmann/json.hpp"
 #include "Object/Light/DirectionalLight/DirectionalLight.h"
 #include "Object/Light/PointLight/PointLight.h"
 #include "Object/Light/SpotLight/SpotLight.h"
@@ -40,23 +39,29 @@ void LightManager::ImGui() {
             if (ImGui::BeginTabBar("Light")){
                 if (ImGui::BeginTabItem("General")){
                     if(ImGui::CollapsingHeader("Files")){
-                    	if(ImGui::Button("Load")){Load();}
+                    	//if(ImGui::Button("Load")){Load();}
                         ImGui::SameLine();
-                        if(ImGui::Button("Save")){Save();}
+                        //if(ImGui::Button("Save")){Save();}
                     }
 
+                    ImGui::PushID("Directional");
                     ImGui::SeparatorText("Directional");
                     ImGui::Text("Light Count: %d", static_cast<int>(lightCount_->dlCount));
                     if (ImGui::Button("Add")){Add(LightType::Directional);}
+                    ImGui::PopID();
 
+                    ImGui::PushID("Point");
                     ImGui::SeparatorText("Point");
                     ImGui::Text("Light Count: %d", static_cast<int>(lightCount_->plCount));
                     if (ImGui::Button("Add")){Add(LightType::Point);}
+                    ImGui::PopID();
 
+                    ImGui::PushID("Spot");
                     ImGui::SeparatorText("Spot");
                     ImGui::Text("Spot Light Count: %d", static_cast<int>(lightCount_->slCount));
                     if (ImGui::Button("Add")){Add(LightType::Spot);}
                     ImGui::EndTabItem();
+                    ImGui::PopID();
                 }
                 if (ImGui::BeginTabItem("Directional")){
                     for (auto& dl : rawDirectionalLights_){
@@ -107,70 +112,6 @@ void LightManager::CheckState() {
     });
 }
 
-void LightManager::Load() {
-    std::ifstream file("Light.json");
-
-    // File not found
-    if (!file.good()){
-        return;
-    }
-
-    nlohmann::json json = nlohmann::json::parse(file);
-    auto lights = json.at("Light");
-    rawDirectionalLights_.clear();
-    rawPointLights_.clear();
-    rawSpotLights_.clear();
-
-    for(auto light : lights){
-	    const auto type = magic_enum::enum_cast<LightType>(light.at("Type").get<std::string>()).value();
-        Add(type);
-        switch (type){ 
-        case LightType::Directional:
-            DirectionalLight dl;
-            dl = {
-	            .color = light.at("Color").get<Vector4>,
-	            .direction = light.at("Direction").get<Vector3>,
-		        .intensity = light.at("Intensity").get<float>
-            };
-
-            rawDirectionalLights_.back()->Set(dl);
-            break;
-        case LightType::Point:
-            PointLight pl;
-            pl = {
-                .color = light.at("color").get<Vector4>,
-                .position = light.at("position").get<Vector3>,
-                .intensity = light.at("intensity").get<float>,
-                .radius = light.at("radius").get<float>,
-                .decay = light.at("decay").get<float>
-            };
-        	rawPointLights_.back()->Set(pl);
-            break;
-        case LightType::Spot:
-            SpotLight sl = {
-                .color = light.at("color").get<Vector4>,
-                .position = light.at("position").get<Vector3>,
-                .direction = light.at("direction").get<Vector3>,
-                .distance = light.at("distance").get<float>,
-                .intensity = light.at("intensity").get<float>,
-                .decay = light.at("decay").get<float>,
-                .cosAngle = light.at("cosAngle").get<float>,
-                .falloffStart = light.at("falloffStart").get<float>
-            };
-            rawSpotLights_.back()->Set(sl);
-        }
-    }
-}
-
-void LightManager::Save() {
-    nlohmann::json json;
-    nlohmann::json lights;
-    
-    json["Light"] = lights;
-    std::ofstream file("Light.json");
-    file << json.dump(4);
-}
-
 void LightManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
     dxCommon_ = dxCommon;
 
@@ -199,7 +140,7 @@ void LightManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
     spotResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(SpotLight) * MAX_COUNT.slCount).Get());
     spotResource_->Map(0, nullptr, reinterpret_cast<void**>(&mdSpotLight_));
 
-    Load();
+    //Load();
 
     System::Log(Log::Level::INFO, "Light Enabled");
 }

@@ -2,6 +2,7 @@
 #include "Object/Model/Model.h"
 #include "Object/Particle/ParticleManager.h"
 #include "Object/Sprite/Sprite.h"
+#include "System/Json/Json.h"
 #include "System/Sound/Audio.h"
 
 class Engine;
@@ -11,6 +12,8 @@ class EngineDebug{
 
 	ParticleKey key{};
 	std::unique_ptr<Model> model_;
+
+    Json json_;
 
 public:
 	EngineDebug(Engine* engine);

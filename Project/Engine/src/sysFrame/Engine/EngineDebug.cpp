@@ -41,6 +41,9 @@ void EngineDebug::Initialize() {
         {0, 3.14f, 0 },
         {}
     });
+
+    json_.SetValue("Test", "TestGroup", "TestValue", 1);
+
 }
 
 void EngineDebug::Update() {
@@ -52,6 +55,16 @@ void EngineDebug::Update() {
         System::Log("Log");
     }
 
+    if (Input::GetInstance()->TriggerKey(DIK_2)){
+        json_.Save("Test");
+    }
+
+    ImGuiManager::GetInstance()->AddCommand(this, [&]{
+        if (ImGui::Begin("EngineDebug")){
+            ImGui::Text("");
+        }
+        ImGui::End();
+    });
     model_->Update();
 }
 
