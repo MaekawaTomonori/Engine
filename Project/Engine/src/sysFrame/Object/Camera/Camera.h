@@ -29,6 +29,7 @@ private:
 
 public:
 	Camera();
+    Camera(const std::string& id);
 	~Camera() = default;
 	void Initialize();
     void Update();

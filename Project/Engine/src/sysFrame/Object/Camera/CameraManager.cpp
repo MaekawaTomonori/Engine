@@ -4,6 +4,8 @@
 #include <ranges>
 
 #include "System/ImGui/ImGuiManager.h"
+#include "System/Json/Json.h"
+#include "System/Singleton/Singleton.h"
 #include "System/SingletonFinalizer/SingletonFinalizer.h"
 
 CameraManager* CameraManager::instance_ = nullptr;
@@ -80,7 +82,12 @@ void CameraManager::Destroy() {
     instance_ = nullptr;
 }
 
+void CameraManager::Add(const std::string& id, Camera* camera) {
+    Json* json = Singleton<Json>::GetInstance();
+}
+
 void CameraManager::Load() {
+
 }
 
 void CameraManager::Save() {
