@@ -11,6 +11,8 @@
 #include "Object/Light/SpotLight/SpotLight.h"
 #include "System/System.h"
 #include "System/ImGui/ImGuiManager.h"
+#include "System/Json/Json.h"
+#include "System/Singleton/Singleton.h"
 #include "System/SingletonFinalizer/SingletonFinalizer.h"
 
 LightManager* LightManager::instance = nullptr;
@@ -39,44 +41,48 @@ void LightManager::ImGui() {
             if (ImGui::BeginTabBar("Light")){
                 if (ImGui::BeginTabItem("General")){
                     if(ImGui::CollapsingHeader("Files")){
-                    	//if(ImGui::Button("Load")){Load();}
+                    	if(ImGui::Button("Load / Reload")){Load();}
                         ImGui::SameLine();
-                        //if(ImGui::Button("Save")){Save();}
+                        if(ImGui::Button("Save")){Save();}
+                    }
+
+                    if (ImGui::CollapsingHeader("Count")){
+                        ImGui::Text("Directional: %d", lightCount_->dlCount);
+                        ImGui::Text("Point: %d", lightCount_->plCount);
+                        ImGui::Text("Spot: %d", lightCount_->slCount);
                     }
 
                     ImGui::PushID("Directional");
                     ImGui::SeparatorText("Directional");
-                    ImGui::Text("Light Count: %d", static_cast<int>(lightCount_->dlCount));
                     if (ImGui::Button("Add")){Add(LightType::Directional);}
                     ImGui::PopID();
 
                     ImGui::PushID("Point");
                     ImGui::SeparatorText("Point");
-                    ImGui::Text("Light Count: %d", static_cast<int>(lightCount_->plCount));
                     if (ImGui::Button("Add")){Add(LightType::Point);}
                     ImGui::PopID();
 
                     ImGui::PushID("Spot");
                     ImGui::SeparatorText("Spot");
-                    ImGui::Text("Spot Light Count: %d", static_cast<int>(lightCount_->slCount));
                     if (ImGui::Button("Add")){Add(LightType::Spot);}
-                    ImGui::EndTabItem();
                     ImGui::PopID();
+
+                    ImGui::EndTabItem();
                 }
                 if (ImGui::BeginTabItem("Directional")){
-                    for (auto& dl : rawDirectionalLights_){
+                    for (const auto& dl : rawDirectionalLights_){
                         dl->Update();
                     }
                     ImGui::EndTabItem();
                 }
                 if (ImGui::BeginTabItem("Point")){
-                    for (auto& pl : rawPointLights_){
+                    for (const auto& pl : rawPointLights_){
                         pl->Update();
                     }
                     ImGui::EndTabItem();
                 }
                 if (ImGui::BeginTabItem("Spot")){
-                    for (auto& sl : rawSpotLights_){
+                    for (const auto& sl : rawSpotLights_){
                         sl->Update();
                     }
                     ImGui::EndTabItem();
@@ -89,9 +95,11 @@ void LightManager::ImGui() {
 }
 
 void LightManager::CheckState() {
+    Json* json = Singleton<Json>::GetInstance();
     std::erase_if(rawDirectionalLights_, [&](const std::unique_ptr<RawDirectionalLight>& dl){
 	    if (!dl->IsEnable()){
             lightCount_->dlCount--;
+            json->RemoveGroup(path, dl->GetUUID());
 		    return true;
 	    }
 	    return false;
@@ -99,6 +107,7 @@ void LightManager::CheckState() {
     std::erase_if(rawPointLights_, [&](const std::unique_ptr<RawPointLight>& pl){
         if (!pl->IsEnable()){
             lightCount_->plCount--;
+            json->RemoveGroup(path, pl->GetUUID());
             return true;
         }
         return false;
@@ -106,10 +115,77 @@ void LightManager::CheckState() {
     std::erase_if(rawSpotLights_, [&](const std::unique_ptr<RawSpotLight>& sl){
         if (!sl->IsEnable()){
             lightCount_->slCount--;
+            json->RemoveGroup(path, sl->GetUUID());
             return true;
         }
         return false;
     });
+}
+
+void LightManager::Load() {
+    Json* json = Singleton<Json>::GetInstance();
+    json->Load(path);
+
+    rawDirectionalLights_.clear();
+    rawPointLights_.clear();
+    rawSpotLights_.clear();
+    *lightCount_ = {0,0,0};
+	auto data = json->GetValueArray(path);
+    for(auto itr = data.begin(); itr != data.end(); ++itr){
+        auto group = itr->second;
+        switch (magic_enum::enum_value<LightType>(std::get<int32_t>(group.at("type")))){
+            case LightType::Directional:
+                Add(LightType::Directional);
+                rawDirectionalLights_.back()->Set(itr->first, {
+                    std::get<Vector4>(group.at("color")),
+                    std::get<Vector3>(group.at("direction")),
+                    std::get<float>(group.at("intensity"))
+                });
+                break;
+            case LightType::Point:
+                Add(LightType::Point);
+                rawPointLights_.back()->Set(itr->first, {
+                    std::get<Vector4>(group.at("color")),
+                    std::get<Vector3>(group.at("position")),
+                    std::get<float>(group.at("intensity")),
+                    std::get<float>(group.at("radius")),
+                    std::get<float>(group.at("decay")),
+                    {0,0}
+                });
+                break;
+            case LightType::Spot:
+                Add(LightType::Spot);
+                rawSpotLights_.back()->Set(itr->first, {
+                    std::get<Vector4>(group.at("color")),
+                    std::get<Vector3>(group.at("position")),
+                    std::get<float>(group.at("intensity")),
+                    std::get<Vector3>(group.at("direction")).Normalize(),
+                    std::get<float>(group.at("distance")),
+                    std::get<float>(group.at("decay")),
+                    std::get<float>(group.at("cosAngle")),
+                    std::get<float>(group.at("falloffStart")),
+                    0
+                });
+                break;
+        }
+    }
+}
+
+void LightManager::Save() const {
+
+    for (const auto& dl : rawDirectionalLights_){
+        dl->Save(path);
+    }
+
+    for (const auto& pl : rawPointLights_){
+        pl->Save(path);
+    }
+
+    for (const auto& sl : rawSpotLights_){
+        sl->Save(path);
+    }
+
+    Singleton<Json>::GetInstance()->Save(path);
 }
 
 void LightManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
@@ -140,7 +216,7 @@ void LightManager::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
     spotResource_.Attach(DirectXCommon::CreateBufferResource(dxc->GetDevice(), sizeof(SpotLight) * MAX_COUNT.slCount).Get());
     spotResource_->Map(0, nullptr, reinterpret_cast<void**>(&mdSpotLight_));
 
-    //Load();
+    Load();
 
     System::Log(Log::Level::INFO, "Light Enabled");
 }

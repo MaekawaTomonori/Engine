@@ -80,6 +80,12 @@ void CameraManager::Destroy() {
     instance_ = nullptr;
 }
 
+void CameraManager::Load() {
+}
+
+void CameraManager::Save() {
+}
+
 Camera* CameraManager::Add(const std::string& name) {
     if (cameras_.contains(name))return cameras_[name].get();
 

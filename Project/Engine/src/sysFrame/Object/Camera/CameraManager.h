@@ -37,6 +37,9 @@ private:
 
 	static void Create();
     static void Destroy();
+
+    void Load();
+    void Save();
 };
 
 

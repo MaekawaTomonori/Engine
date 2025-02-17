@@ -15,12 +15,24 @@ public:
     RawLight(const RawLight&) = delete;
     RawLight& operator=(const RawLight&) = delete;
 
-	virtual void DefaultSetting() = 0;
 
     void Update();
 
     bool IsEnable() const;
 
+    RawLight& SetUUID(const std::string& uuid) {
+        uuid_ = uuid;
+        return *this;
+    }
+
+    std::string GetUUID() const {
+        return uuid_;
+    }
+
+    //DefaultAdd
+	virtual void DefaultSetting() = 0;
+    //ToJson
+    virtual void Save(std::string _path) = 0;
 protected:
     virtual void ImGuiSetting() = 0;
 };

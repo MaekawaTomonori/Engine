@@ -16,19 +16,15 @@ class Json{
 
 
     const std::string PATH = "Assets/Data/";
-    std::map<std::string, std::vector<Group>> datas_; // FileName, Data Groups
+    std::map<std::string, Group> datas_; // FileName, Data Groups
 
     //{
-    //  "Data Key": [
-    //      {
-	//          "Group" : {
+    //  "Data Key": {
+	//      "Group" : {
 	//              "Object Key" : "Value"
-	//          }
-    //      },
-    //      {
-    //          "Group" : {
+	//     },
+    //     "Group" : {
     //              "Object Key" : "Value"
-    //          }
     //      }
     //  }
     //}
@@ -44,7 +40,9 @@ public:
 
 
     void SetValue(const std::string& _path, const std::string& _group, const std::string& _key, const Value& _value);
-    Value GetValue(const std::string& _path, const std::string& group, const std::string& key) const;
+    Group GetValueArray(const std::string& _path);
+	Value GetValue(const std::string& _path, const std::string& group, const std::string& key) const;
+    void RemoveGroup(const std::string& _path, const std::string& _group);
 
     void Load(const std::string& _group);
 	void Save(const std::string& _path);

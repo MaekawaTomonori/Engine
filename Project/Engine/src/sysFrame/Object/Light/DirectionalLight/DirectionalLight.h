@@ -18,8 +18,10 @@ public:
     }
 
 	void DefaultSetting() override;
+    void Save(std::string _path) override;
 
-    void Set(const DirectionalLight& light) {
+    void Set(const std::string uuid, const DirectionalLight& light) {
+        uuid_ = uuid;
         light_ = light;
     }
 

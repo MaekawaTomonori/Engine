@@ -31,7 +31,8 @@ public:
     }
 
     void DefaultSetting() override;
-    void Set(const SpotLight& sl);
+    void Set(const std::string& uuid, const SpotLight& sl);
+    void Save(std::string _path) override;
 
 protected:
     void ImGuiSetting() override;
