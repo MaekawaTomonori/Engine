@@ -698,7 +698,9 @@ void DirectXCommon::SwitchToSwapChain()  {
     handle = srvManager_->GetGPUHandle(indexes_[0]);
 
     commandList_->SetGraphicsRootDescriptorTable(0, handle);
-    //commandList_->DrawInstanced(3, 1, 0, 0);
+#ifndef _DEBUG
+	commandList_->DrawInstanced(3, 1, 0, 0);
+#endif
 }
 
 void DirectXCommon::EndFrame() {

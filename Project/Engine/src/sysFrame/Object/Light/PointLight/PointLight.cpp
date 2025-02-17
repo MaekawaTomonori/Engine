@@ -1,6 +1,6 @@
 #include "PointLight.h"
 
-#include "imgui.h"
+#include "imgui/imgui.h"
 
 void RawPointLight::DefaultSetting() {
     type_ = LightType::Point;

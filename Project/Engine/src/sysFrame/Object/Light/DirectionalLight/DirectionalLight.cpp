@@ -1,6 +1,6 @@
 #include "DirectionalLight.h"
 
-#include "imgui.h"
+#include "imgui/imgui.h"
 
 void RawDirectionalLight::DefaultSetting() {
     type_ = LightType::Directional;

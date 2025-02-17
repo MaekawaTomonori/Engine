@@ -101,19 +101,24 @@ void ImGuiManager::AddCommand(void* ptr, const std::function<void()>& command) c
 }
 
 void ImGuiManager::Begin() {
+#ifdef _DEBUG
     ImGui_ImplDX12_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
+#endif
 }
 
 void ImGuiManager::End() {
+#ifdef _DEBUG
 	DockingSpace();
     DisplayLog();
     command_->Update();
     ImGui::Render();
+#endif
 }
 
 void ImGuiManager::Draw() {
+#ifdef _DEBUG
     ComPtr<ID3D12GraphicsCommandList> commandList = dxCommon_->GetCommandList();
 
     ComPtr<ID3D12DescriptorHeap> ppHeaps[] = {srv_->GetDescriptorHeap()};
@@ -122,4 +127,5 @@ void ImGuiManager::Draw() {
     ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList.Get());
 
     ImGui::EndFrame();
+#endif
 }

@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <fstream>
 
-#include "magic_enum.hpp"
+#include "MagicEnum/magic_enum.hpp"
 #include "DirectX/DirectXCommon.h"
 #include "imgui/imgui.h"
 #include "Object/Light/DirectionalLight/DirectionalLight.h"
