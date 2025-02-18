@@ -84,6 +84,9 @@ void CameraManager::Destroy() {
 
 void CameraManager::Add(const std::string& id, Camera* camera) {
     Json* json = Singleton<Json>::GetInstance();
+    (void)json;
+    (void)id;
+    (void)camera;
 }
 
 void CameraManager::Load() {
