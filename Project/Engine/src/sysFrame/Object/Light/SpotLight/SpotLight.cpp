@@ -1,7 +1,7 @@
 #include "SpotLight.h"
 
-#include "magic_enum.hpp"
 #include "imgui/imgui.h"
+#include "MagicEnum/magic_enum.hpp"
 #include "System/Json/Json.h"
 #include "System/Math/MathUtils.h"
 #include "System/Singleton/Singleton.h"

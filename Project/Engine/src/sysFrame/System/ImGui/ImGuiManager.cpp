@@ -1,6 +1,6 @@
 #include "ImGuiManager.h"
 
-#include "imgui_internal.h"
+#include "imgui/imgui_internal.h"
 #include "Application/WinApp.h"
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/SRVManager.h"
