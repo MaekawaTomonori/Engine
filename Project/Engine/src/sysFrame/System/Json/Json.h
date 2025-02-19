@@ -44,11 +44,12 @@ public:
 	Value GetValue(const std::string& _path, const std::string& group, const std::string& key) const;
     void RemoveGroup(const std::string& _path, const std::string& _group);
 
-    void Load(const std::string& _path);
+    bool Load(const std::string& _path);
 	void Save(const std::string& _path);
 
 
 private:
+
 	void Register(const std::string& _name);
 	void LoadJson(const std::string& _path);
 };

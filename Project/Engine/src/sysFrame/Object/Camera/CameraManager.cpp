@@ -18,8 +18,12 @@ CameraManager* CameraManager::GetInstance() {
 }
 
 void CameraManager::Initialize() {
-    Add("default");
-    Active("default");
+    Load();
+
+    if (cameras_.empty()){
+        Add("Default");
+        Active("Default");
+    }
 }
 
 void CameraManager::Update() {
@@ -98,7 +102,7 @@ void CameraManager::Load() {
     cameras_.clear();
 
     Json* json = Singleton<Json>::GetInstance();
-    json->Load("Camera");
+    if (!json->Load("Camera")) return;
 
     auto group = json->GetGroups("Camera");
     for (auto& [groupId, object] : group){
@@ -141,4 +145,5 @@ Camera* CameraManager::Active(const std::string& name) {
 }
 
 CameraManager::~CameraManager() {
+    Save();
 }

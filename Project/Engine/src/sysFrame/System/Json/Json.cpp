@@ -99,13 +99,13 @@ void Json::RemoveGroup(const std::string& _path, const std::string& _group) {
     data->second.erase(group);
 }
 
-void Json::Load(const std::string& _path) {
+bool Json::Load(const std::string& _path) {
     Register(_path);
 
     System::Log(Log::Level::INFO, _path + " loading");
     std::filesystem::path dir(PATH + _path + "/");
     if (!exists(dir)){
-        return;
+        return false;
     }
 
     std::filesystem::directory_iterator itr(dir);
@@ -119,6 +119,7 @@ void Json::Load(const std::string& _path) {
 
         LoadJson(path.stem().string());
     }
+    return true;
 }
 
 void Json::Save(const std::string& _path) {

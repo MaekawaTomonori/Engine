@@ -12,6 +12,7 @@
 #include "DirectX/Texture/TextureManager.h"
 #include "Object/Model/ModelCommon.h"
 #include "Object/Sprite/SpriteCommon.h"
+#include "System/Singleton/Singleton.h"
 #include "System/SingletonFinalizer/SingletonFinalizer.h"
 
 void Engine::Initialize() {
@@ -23,6 +24,7 @@ void Engine::Initialize() {
 
     input_ = Input::GetInstance();
     audio_ = AudioAnther::GetInstance();
+    Singleton<Json>::GetInstance();
 
 	imguiManager_ = ImGuiManager::GetInstance();
     cameraManager_ = CameraManager::GetInstance();
