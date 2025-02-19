@@ -27,8 +27,15 @@ void CameraManager::Update() {
     ImGuiManager::GetInstance()->AddCommand(this, [&](){
         if (ImGui::Begin("CameraManager")){
             if (ImGui::CollapsingHeader("General")){
+                //Load Save
+                if (ImGui::Button("Load / Reload")){Load();}
+                ImGui::SameLine();
+                if (ImGui::Button("Save")){Save();}
+
+                ImGui::Separator();
+
                 char nameBuffer[256] = "";
-                bool entry = ImGui::InputTextWithHint("##", "Name", nameBuffer, IM_ARRAYSIZE(nameBuffer), ImGuiInputTextFlags_EnterReturnsTrue);
+                bool entry = ImGui::InputTextWithHint("##NamePicker", "Name", nameBuffer, IM_ARRAYSIZE(nameBuffer), ImGuiInputTextFlags_EnterReturnsTrue);
                 ImGui::SameLine();
                 if (entry || ImGui::Button("Add")){
                     Add(nameBuffer);
@@ -43,7 +50,9 @@ void CameraManager::Update() {
                     initialize = true;
                 }
 
-                if (ImGui::BeginCombo("ActiveCameras", names[currentIndex].c_str())){
+                ImGui::Text("ActiveCamera");
+                ImGui::SameLine();
+                if (ImGui::BeginCombo("##combo", names[currentIndex].c_str())){
                     for (auto& [name, camera]: cameras_){
 	                    if(ImGui::Selectable(name.c_str(), active_ == camera.get())){
                             Active(name);
@@ -84,18 +93,32 @@ void CameraManager::Destroy() {
     instance_ = nullptr;
 }
 
-void CameraManager::Add(const std::string& id, Camera* camera) {
-    Json* json = Singleton<Json>::GetInstance();
-    (void)json;
-    (void)id;
-    (void)camera;
-}
-
 void CameraManager::Load() {
+    active_ = nullptr;
+    cameras_.clear();
 
+    Json* json = Singleton<Json>::GetInstance();
+    json->Load("Camera");
+
+    auto group = json->GetGroups("Camera");
+    for (auto& [groupId, object] : group){
+        Camera* camera = Add(groupId);
+        camera->transform_ = {
+            {1,1,1},
+        	std::get<Vector3>(object["Rotate"]),
+            std::get<Vector3>(object["Position"])
+        };
+    }
+    Active(cameras_.begin()->first);
 }
 
 void CameraManager::Save() {
+    Json* json = Singleton<Json>::GetInstance();
+    for (auto& [name, camera] : cameras_){
+        json->SetValue("Camera", name, "Position", camera->transform_.translate);
+        json->SetValue("Camera", name, "Rotate", camera->transform_.rotate);
+    }
+    json->Save("Camera");
 }
 
 Camera* CameraManager::Add(const std::string& name) {

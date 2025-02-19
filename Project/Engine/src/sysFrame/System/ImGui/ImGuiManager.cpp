@@ -65,13 +65,15 @@ void ImGuiManager::DisplayLog() {
     ImGui::Spacing();
     ImGui::Separator();
     bool flag = false;
-    if (ImGui::InputTextWithHint(" ", "Type Somethings...", buffer, IM_ARRAYSIZE(buffer), ImGuiInputTextFlags_EnterReturnsTrue)) {
+    if (ImGui::InputTextWithHint("##log", "Type Somethings...", buffer, IM_ARRAYSIZE(buffer), ImGuiInputTextFlags_EnterReturnsTrue)) {
         flag = true;
     }
     ImGui::SameLine();
     if (ImGui::Button("送る")){
         flag = true;
     }
+
+    if (buffer[0] == '\0')flag = false;
 
     if (flag){
         Log::GetLogger()->Info(buffer);

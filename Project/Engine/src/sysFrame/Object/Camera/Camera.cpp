@@ -9,10 +9,6 @@ Camera::Camera() {
     uuid_ = System::CreateUuid();
 }
 
-Camera::Camera(const std::string& id) {
-    uuid_ = id;
-}
-
 void Camera::Initialize() {
     transform_ = {
         {1,1,1},
@@ -36,16 +32,6 @@ void Camera::ImGui() {
         ImGui::TreePop();
     }
 #endif
-}
-
-Camera* Camera::SetRotate(Vector3 rotation) {
-    transform_.rotate = rotation;
-    return this;
-}
-
-Camera* Camera::SetPosition(Vector3 position) {
-    transform_.translate = position;
-    return this;
 }
 
 Matrix4x4 Camera::GetCameraMatrix() const {
