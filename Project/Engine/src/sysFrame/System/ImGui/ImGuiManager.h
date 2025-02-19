@@ -23,6 +23,7 @@ class ImGuiManager{
 
     std::string logPath_;
     std::deque<std::string> logs_;
+    char buffer[255];
     bool logAutoScroll_ = true;
 
     static ImGuiManager* instance_;

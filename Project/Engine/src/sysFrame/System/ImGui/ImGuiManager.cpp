@@ -1,5 +1,6 @@
 #include "ImGuiManager.h"
 
+#include "imgui_internal.h"
 #include "Application/WinApp.h"
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/SRVManager.h"
@@ -43,6 +44,9 @@ void ImGuiManager::DockingSpace() {
     ImGui::Begin("DockSpace Window", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoResize);
     ImGuiID dockSpaceID = ImGui::GetID("DockSpace");
     ImGui::DockSpace(dockSpaceID, ImGui::GetContentRegionAvail());
+
+    if (ImGuiDockNode* node = ImGui::DockBuilderGetNode(dockSpaceID))node->LocalFlags |= ImGuiDockNodeFlags_NoTabBar;
+
     ImGui::End();
 }
 
@@ -55,16 +59,29 @@ void ImGuiManager::DisplayLog() {
         ImGui::TextWrapped(log.c_str());
     }
 
-    if (!logAutoScroll_ && !ImGui::IsWindowFocused() && ImGui::GetScrollY() < ImGui::GetScrollMaxY()){
+	if (!logAutoScroll_ && ImGui::GetScrollY() < ImGui::GetScrollMaxY() && !(!ImGui::IsWindowHovered() && 0.f < ImGui::GetIO().MouseWheel)){
         logAutoScroll_ = true;
     }
+    ImGui::Spacing();
+    ImGui::Separator();
+    bool flag = false;
+    if (ImGui::InputTextWithHint(" ", "Type Somethings...", buffer, IM_ARRAYSIZE(buffer), ImGuiInputTextFlags_EnterReturnsTrue)) {
+        flag = true;
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("送る")){
+        flag = true;
+    }
 
-    if (ImGui::IsWindowHovered() || ImGui::GetIO().MouseWheel != 0){
-        logAutoScroll_ = false;
+    if (flag){
+        Log::GetLogger()->Info(buffer);
+        buffer[0] = '\0';
+        logAutoScroll_ = true;
     }
 
     if (logAutoScroll_){
         ImGui::SetScrollHereY(1.0f);
+        logAutoScroll_ = false;
     }
     ImGui::End();
 }
@@ -89,6 +106,7 @@ void ImGuiManager::Initialize(WinApp* winApp, DirectXCommon* dxCommon, SRVManage
     ImGui_ImplWin32_Init(winApp_->GetWindowHandle());
 
     auto& io = ImGui::GetIO();
+    io.Fonts->AddFontFromFileTTF("Assets/Font/MPLUS1p-Medium.ttf", 18.f, nullptr, io.Fonts->GetGlyphRangesJapanese());
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
     command_ = std::make_unique<ImGuiCommand>();

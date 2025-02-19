@@ -92,7 +92,6 @@ bool Window::Create(const int clientWidth, const int clientHeight, const std::ws
 		return false;
 	}
 
-
 	ShowWindow(hWnd_, SW_SHOW);
 	UpdateWindow(hWnd_);
 	SetWindowPos(hWnd_, HWND_TOP, 0, 0, clientWidth, clientHeight, SWP_NOMOVE | SWP_NOZORDER | SWP_NOSIZE);

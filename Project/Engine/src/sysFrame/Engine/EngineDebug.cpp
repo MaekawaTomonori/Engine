@@ -41,27 +41,12 @@ void EngineDebug::Initialize() {
         {0, 3.14f, 0 },
         {}
     });
-
-    json_.SetValue("Test", "TestGroup", "TestValue", 1);
-
 }
 
 void EngineDebug::Update() {
-    if (Input::GetInstance()->TriggerKey(DIK_1)){
-        engine_->ToggleFullscreen();
-    }
-
-    if (Input::GetInstance()->TriggerKey(DIK_RETURN)){
-        System::Log("Log");
-    }
-
-    if (Input::GetInstance()->TriggerKey(DIK_2)){
-        json_.Save("Test");
-    }
-
     ImGuiManager::GetInstance()->AddCommand(this, [&]{
         if (ImGui::Begin("EngineDebug")){
-            ImGui::Text("");
+            if(ImGui::Button("Fullscreen"))engine_->ToggleFullscreen();
         }
         ImGui::End();
     });

@@ -28,7 +28,9 @@ void CameraManager::Update() {
         if (ImGui::Begin("CameraManager")){
             if (ImGui::CollapsingHeader("General")){
                 char nameBuffer[256] = "";
-                if (ImGui::InputText("Name", nameBuffer, IM_ARRAYSIZE(nameBuffer), ImGuiInputTextFlags_EnterReturnsTrue) || ImGui::Button("Add")){
+                bool entry = ImGui::InputTextWithHint("##", "Name", nameBuffer, IM_ARRAYSIZE(nameBuffer), ImGuiInputTextFlags_EnterReturnsTrue);
+                ImGui::SameLine();
+                if (entry || ImGui::Button("Add")){
                     Add(nameBuffer);
                     initialize = false;
                 }
