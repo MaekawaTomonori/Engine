@@ -22,9 +22,12 @@ public:
     }
 
 	void DefaultSetting() override;
-	void Set(const PointLight& pl);
+	void Set(const std::string& uuid, const PointLight& pl);
+	void Save(std::string _path) override;
 
 protected:
 	void ImGuiSetting() override;
+
+public:
 };
 

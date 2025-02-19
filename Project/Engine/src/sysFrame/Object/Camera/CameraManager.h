@@ -37,6 +37,11 @@ private:
 
 	static void Create();
     static void Destroy();
+
+    void Add(const std::string& id, Camera* camera);
+
+    void Load();
+    void Save();
 };
 
 

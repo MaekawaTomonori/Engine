@@ -1,0 +1,14 @@
+{
+  "Test": [
+    {
+      "TestGroup": {
+        "TestValue": 1
+      }
+    },
+    {
+      "TestGroup": {
+        "TestValue": 2
+      }
+    }
+  ]
+}

@@ -50,6 +50,8 @@ class LightManager final{
     std::vector<std::unique_ptr<RawPointLight>> rawPointLights_;
     std::vector<std::unique_ptr<RawSpotLight>> rawSpotLights_;
 
+    std::string path = "Light";
+
 public:
 	LightManager(const LightManager&) = delete;
     void operator=(const LightManager&) = delete;
@@ -69,5 +71,8 @@ private:
 
     void ImGui();
     void CheckState();
+
+    void Load();
+    void Save() const;
 };
 

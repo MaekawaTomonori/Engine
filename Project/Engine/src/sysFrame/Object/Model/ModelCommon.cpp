@@ -31,8 +31,8 @@ void ModelCommon::Initialize(const std::weak_ptr<DirectXCommon>& dxCommon) {
 	dxCommon_ = dxCommon;
 
     pipeline_ = std::make_shared<GraphicsPipeline>();
-    pipeline_->Create(dxCommon_, GraphicsPipeline::Type::MODEL);
     pipeline_->SetBlendMode(BlendMode::ALPHA);
+    pipeline_->Create(dxCommon_, GraphicsPipeline::Type::MODEL);
 
     System::Log(Log::Level::INFO, "ModelCommon Initialized");
 }

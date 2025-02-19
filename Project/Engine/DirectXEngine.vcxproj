@@ -70,6 +70,7 @@
     <ClCompile Include="src\sysFrame\System\Thread\ThreadManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sysFrame\System\Singleton\Singleton.h" />
     <ClInclude Include="src\sysFrame\System\Json\Json.h" />
     <ClInclude Include="src\externals\MagicEnum\magic_enum.hpp" />
     <ClInclude Include="src\externals\miniaudio\miniaudio.h" />

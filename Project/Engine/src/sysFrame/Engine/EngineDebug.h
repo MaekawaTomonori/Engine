@@ -13,8 +13,6 @@ class EngineDebug{
 	ParticleKey key{};
 	std::unique_ptr<Model> model_;
 
-    Json json_;
-
 public:
 	EngineDebug(Engine* engine);
 

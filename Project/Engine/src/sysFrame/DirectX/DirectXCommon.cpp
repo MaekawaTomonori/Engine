@@ -468,7 +468,6 @@ void DirectXCommon::CreateScreenPipeline() {
     assert(SUCCEEDED(result));
 }
 
-
 //void DirectXCommon::CreateShaderResourceView() {
 //    srv_ = std::make_shared<Heap>();
 //    srv_->Create(device_.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 128, true);
@@ -509,14 +508,13 @@ void DirectXCommon::UpdateFixFPS() {
     reference_ = std::chrono::steady_clock::now();
 }
 
-#include <Psapi.h>
 void DirectXCommon::DisplayInfo() {
     //FPS
     ImGuiManager::GetInstance()->AddCommand(this, [&]{
         ImGui::Begin("FPS", nullptr, ImGuiWindowFlags_NoTitleBar);
         ImGui::Text("FPS: %.2f / MaxFPS : %.2f", 1.0 / ImGui::GetIO().DeltaTime, maxFPS);
         ImGui::SameLine();
-        ImGui::ProgressBar(1.0f / ImGui::GetIO().DeltaTime / static_cast<float>(maxFPS), ImVec2(0.0f, 0.0f));
+        ImGui::ProgressBar(1.0f / ImGui::GetIO().DeltaTime / static_cast<float>(maxFPS), ImVec2(0.0f, 0.0f), "##hidden");
     	ImGui::End();
 
     	ImGui::Begin("Screen");

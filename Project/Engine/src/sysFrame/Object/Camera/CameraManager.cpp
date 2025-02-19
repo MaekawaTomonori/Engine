@@ -4,6 +4,8 @@
 #include <ranges>
 
 #include "System/ImGui/ImGuiManager.h"
+#include "System/Json/Json.h"
+#include "System/Singleton/Singleton.h"
 #include "System/SingletonFinalizer/SingletonFinalizer.h"
 
 CameraManager* CameraManager::instance_ = nullptr;
@@ -26,7 +28,9 @@ void CameraManager::Update() {
         if (ImGui::Begin("CameraManager")){
             if (ImGui::CollapsingHeader("General")){
                 char nameBuffer[256] = "";
-                if (ImGui::InputText("Name", nameBuffer, IM_ARRAYSIZE(nameBuffer), ImGuiInputTextFlags_EnterReturnsTrue) || ImGui::Button("Add")){
+                bool entry = ImGui::InputTextWithHint("##", "Name", nameBuffer, IM_ARRAYSIZE(nameBuffer), ImGuiInputTextFlags_EnterReturnsTrue);
+                ImGui::SameLine();
+                if (entry || ImGui::Button("Add")){
                     Add(nameBuffer);
                     initialize = false;
                 }
@@ -78,6 +82,20 @@ void CameraManager::Create() {
 void CameraManager::Destroy() {
     delete instance_;
     instance_ = nullptr;
+}
+
+void CameraManager::Add(const std::string& id, Camera* camera) {
+    Json* json = Singleton<Json>::GetInstance();
+    (void)json;
+    (void)id;
+    (void)camera;
+}
+
+void CameraManager::Load() {
+
+}
+
+void CameraManager::Save() {
 }
 
 Camera* CameraManager::Add(const std::string& name) {

@@ -1,12 +1,24 @@
 #include "DirectionalLight.h"
 
+#include "magic_enum.hpp"
 #include "imgui/imgui.h"
+#include "System/Json/Json.h"
+#include "System/Singleton/Singleton.h"
 
 void RawDirectionalLight::DefaultSetting() {
     type_ = LightType::Directional;
     light_.color = {1, 1, 1, 1};
     light_.direction = {0, -1, 0};
     light_.intensity = 1.f;
+}
+
+void RawDirectionalLight::Save(std::string _path) {
+    Json* json = Singleton<Json>::GetInstance();
+
+    json->SetValue(_path, uuid_, "type", magic_enum::enum_integer(type_));
+    json->SetValue(_path, uuid_, "color", light_.color);
+    json->SetValue(_path, uuid_, "direction", light_.direction);
+    json->SetValue(_path, uuid_, "intensity", light_.intensity);
 }
 
 void RawDirectionalLight::ImGuiSetting() {

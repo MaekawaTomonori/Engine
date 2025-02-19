@@ -9,6 +9,10 @@ Camera::Camera() {
     uuid_ = System::CreateUuid();
 }
 
+Camera::Camera(const std::string& id) {
+    uuid_ = id;
+}
+
 void Camera::Initialize() {
     transform_ = {
         {1,1,1},
