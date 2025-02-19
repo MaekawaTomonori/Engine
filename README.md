@@ -1,7 +1,7 @@
 #  Engine
 
-[![Debug Build](https://github.com/<USERNAME>/<REPOSITORY>/actions/workflows/DebugBuild.yml/badge.svg)](https://github.com/<USERNAME>/<REPOSITORY>/actions/workflows/DebugBuild.yml)
-[![Release Build](https://github.com/<USERNAME>/<REPOSITORY>/actions/workflows/ReleaseBuild.yml/badge.svg)](https://github.com/<USERNAME>/<REPOSITORY>/actions/workflows/ReleaseBuild.yml)
+[![Debug Build](https://github.com/MaekawaTomonori/Engine/actions/workflows/DebugBuild.yml/badge.svg)](https://github.com/MaekawaTomonori/Engine/actions/workflows/DebugBuild.yml)
+[![Release Build](https://github.com/MaekawaTomonori/Engine/actions/workflows/ReleaseBuild.yml/badge.svg)](https://github.com/MaekawaTomonori/Engine/actions/workflows/ReleaseBuild.yml)
 
 ## NGNL
 
