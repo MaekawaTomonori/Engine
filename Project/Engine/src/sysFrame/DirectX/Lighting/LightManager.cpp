@@ -130,7 +130,7 @@ void LightManager::Load() {
     rawPointLights_.clear();
     rawSpotLights_.clear();
     *lightCount_ = {0,0,0};
-	auto data = json->GetValueArray(path);
+	auto data = json->GetGroups(path);
     for(auto itr = data.begin(); itr != data.end(); ++itr){
         auto group = itr->second;
         switch (magic_enum::enum_value<LightType>(std::get<int32_t>(group.at("type")))){

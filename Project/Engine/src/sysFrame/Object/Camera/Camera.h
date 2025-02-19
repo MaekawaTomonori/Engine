@@ -29,14 +29,10 @@ private:
 
 public:
 	Camera();
-    Camera(const std::string& id);
 	~Camera() = default;
 	void Initialize();
     void Update();
     void ImGui();
-
-    Camera* SetRotate(Vector3 rotation);
-    Camera* SetPosition(Vector3 position);
 
     Matrix4x4 GetCameraMatrix() const;
 	Matrix4x4 GetViewProjection() const;

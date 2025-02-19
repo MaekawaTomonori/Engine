@@ -57,7 +57,7 @@ void Json::LoadJson(const std::string& _path) {
             }
         }
     }
-    System::Log(Log::Level::INFO, _path + ".json Loaded");
+    System::Log(Log::Level::INFO, "Loaded " + _path + ".json");
 }
 
 void Json::SetValue(const std::string& _path, const std::string& _group, const std::string& _key, const Value& _value) {
@@ -69,7 +69,7 @@ void Json::SetValue(const std::string& _path, const std::string& _group, const s
     object[_key] = _value;
 }
 
-Json::Group Json::GetValueArray(const std::string& _path) {
+Json::Group Json::GetGroups(const std::string& _path) {
     auto data = datas_.find(_path);
     assert(data != datas_.end());
     return data->second;
@@ -102,7 +102,7 @@ void Json::RemoveGroup(const std::string& _path, const std::string& _group) {
 void Json::Load(const std::string& _path) {
     Register(_path);
 
-    System::Log(Log::Level::INFO, _path + "loading");
+    System::Log(Log::Level::INFO, _path + " loading");
     std::filesystem::path dir(PATH + _path + "/");
     if (!exists(dir)){
         return;
