@@ -54,7 +54,8 @@
     <ClCompile Include="src\sysFrame\DirectX\Heap\Heap.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\DirectXCommon.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\sysFrame\Application\WinApp.cpp" />
+    <ClCompile Include="src\sysFrame\Windows\Console\Console.cpp" />
+    <ClCompile Include="src\sysFrame\Windows\WinApp.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Pipeline\GraphicsPipeline.cpp" />
     <ClCompile Include="src\sysFrame\DirectX\Shader\Shader.cpp" />
     <ClCompile Include="src\sysFrame\System\Input\Input.cpp" />
@@ -65,7 +66,7 @@
     <ClCompile Include="src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.cpp" />
     <ClCompile Include="src\sysFrame\System\Sound\Audio.cpp" />
     <ClCompile Include="src\sysFrame\System\System.cpp" />
-    <ClCompile Include="src\sysFrame\System\Window\Window.cpp" />
+    <ClCompile Include="src\sysFrame\Windows\Window\Window.cpp" />
     <ClCompile Include="src\sysFrame\System\Math\WorldTransform.cpp" />
     <ClCompile Include="src\sysFrame\System\Thread\ThreadManager.cpp" />
   </ItemGroup>
@@ -166,7 +167,8 @@
     <ClInclude Include="src\sysFrame\Object\Camera\Camera.h" />
     <ClInclude Include="src\sysFrame\DirectX\Heap\Heap.h" />
     <ClInclude Include="src\sysFrame\DirectX\DirectXCommon.h" />
-    <ClInclude Include="src\sysFrame\Application\WinApp.h" />
+    <ClInclude Include="src\sysFrame\Windows\Console\Console.h" />
+    <ClInclude Include="src\sysFrame\Windows\WinApp.h" />
     <ClInclude Include="src\sysFrame\DirectX\Pipeline\GraphicsPipeline.h" />
     <ClInclude Include="src\sysFrame\DirectX\Shader\Shader.h" />
     <ClInclude Include="src\sysFrame\Object\Object.h" />
@@ -183,7 +185,7 @@
     <ClInclude Include="src\sysFrame\System\SingletonFinalizer\SingletonFinalizer.h" />
     <ClInclude Include="src\sysFrame\System\Sound\Audio.h" />
     <ClInclude Include="src\sysFrame\System\System.h" />
-    <ClInclude Include="src\sysFrame\System\Window\Window.h" />
+    <ClInclude Include="src\sysFrame\Windows\Window\Window.h" />
     <ClInclude Include="src\sysFrame\System\Math\VertexData.h" />
     <ClInclude Include="src\sysFrame\System\Math\WorldTransform.h" />
     <ClInclude Include="src\sysFrame\System\Thread\ThreadManager.h" />

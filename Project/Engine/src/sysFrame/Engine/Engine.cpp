@@ -4,7 +4,7 @@
 
 #include "System/System.h"
 
-#include "Application/WinApp.h"
+#include "Windows/WinApp.h"
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Heap/SRVManager.h"
 #include "DirectX/Lighting/LightManager.h"
@@ -17,6 +17,7 @@
 
 void Engine::Initialize() {
     logger_ = Log::GetLogger();
+    Singleton<Json>::GetInstance();
 
 	winApp_ = std::make_shared<WinApp>();
     dxCommon_ = std::make_shared<DirectXCommon>();
@@ -24,7 +25,6 @@ void Engine::Initialize() {
 
     input_ = Input::GetInstance();
     audio_ = AudioAnther::GetInstance();
-    Singleton<Json>::GetInstance();
 
 	imguiManager_ = ImGuiManager::GetInstance();
     cameraManager_ = CameraManager::GetInstance();

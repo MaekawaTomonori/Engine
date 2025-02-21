@@ -1,7 +1,7 @@
 #include "Sprite.h"
 
 #include <memory>
-#include "Application/WinApp.h"
+#include "Windows/WinApp.h"
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/Pipeline/GraphicsPipeline.h"
 #include "DirectX/Texture/TextureManager.h"

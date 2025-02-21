@@ -4,9 +4,9 @@
 #include <mutex>
 #include <wrl/client.h>
 #include <windows.h>
-#include "sysFrame/Application/WinApp.h"
-#include "System/Math/Vector2.h"
+
 #include "Object/Sprite/Sprite.h"
+#include "System/Math/Vector2.h"
 
 class WinApp;
 

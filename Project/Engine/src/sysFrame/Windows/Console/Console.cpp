@@ -18,7 +18,7 @@ bool Console::Create(const std::string& title) {
 
     SetConsoleTitle(System::ConvertString(title).c_str());
 
-    System::Log(Logger::Level::INFO, "Console Create");
+    System::Log(Log::Level::INFO, "Console Create");
 
     return true;
 }

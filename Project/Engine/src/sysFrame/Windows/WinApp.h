@@ -2,7 +2,7 @@
 #include <memory>
 #include <string>
 
-#include "System/Window/Window.h"
+#include "Window/Window.h"
 
 class WinApp{
 private: //Variables

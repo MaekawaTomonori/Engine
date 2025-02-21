@@ -3,7 +3,7 @@
 #include <cassert>
 
 #include "System/System.h"
-#include "Application/WinApp.h"
+#include "Windows/WinApp.h"
 #include "System/SingletonFinalizer/SingletonFinalizer.h"
 
 #pragma comment(lib, "dinput8.lib")
