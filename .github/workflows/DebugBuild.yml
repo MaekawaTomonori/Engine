@@ -4,7 +4,7 @@ on:
     branches:
       - dev
 env:
-  SOLUTION_FILE_PATH: Project/Engine/DirectXEngine.sln
+  SOLUTION_FILE_PATH: Project/DirectXEngine.sln
   CONFIGURATION: Debug
 jobs:
   build:
