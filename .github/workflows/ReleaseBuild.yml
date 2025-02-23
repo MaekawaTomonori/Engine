@@ -5,7 +5,7 @@ on:
       - dev
 
 env:
-  SOLUTION_FILE_PATH: Project/Engine/DirectXEngine.sln
+  SOLUTION_FILE_PATH: Project/DirectXEngine.sln
   CONFIGURATION: Release
 
 jobs:
