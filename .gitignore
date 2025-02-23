@@ -18,6 +18,9 @@
 # Build results
 Generated/
 
+# Clion 
+.idea/
+
 # Logs
 Logs/
 *.log
