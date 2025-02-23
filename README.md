@@ -1,7 +1,9 @@
 #  Engine
 
 [![Debug Build](https://github.com/MaekawaTomonori/Engine/actions/workflows/DebugBuild.yml/badge.svg)](https://github.com/MaekawaTomonori/Engine/actions/workflows/DebugBuild.yml)
-[![Release Build](https://github.com/MaekawaTomonori/Engine/actions/workflows/ReleaseBuild.yml/badge.svg)](https://github.com/MaekawaTomonori/Engine/actions/workflows/ReleaseBuild.yml)
+ [![Release Build](https://github.com/MaekawaTomonori/Engine/actions/workflows/ReleaseBuild.yml/badge.svg)](https://github.com/MaekawaTomonori/Engine/actions/workflows/ReleaseBuild.yml) 
+[![CodeFactor](https://www.codefactor.io/repository/github/maekawatomonori/engine/badge/dev)](https://www.codefactor.io/repository/github/maekawatomonori/engine/overview/dev)
+
 
 ## NGNL
 
