@@ -5,7 +5,10 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/maekawatomonori/engine/badge/dev)](https://www.codefactor.io/repository/github/maekawatomonori/engine/overview/dev)
 
 
-## NGNL
+## NoGameNoLife
+
+> [!CAUTION]
+> このプロジェクトはリライト中のため更新が停止されています
 
 ## 特徴
 - **高度なレンダリング機能**  
