@@ -9,6 +9,8 @@
 
 > [!CAUTION]
 > このプロジェクトはリライト中のため更新が停止されています
+> リライト後のプロジェクトは以下です。
+[![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=MaekawaTomonori&repo=GameEngine)](https://github.com/MaekawaTomonori/GameEngine/)
 
 ## 特徴
 - **高度なレンダリング機能**  
